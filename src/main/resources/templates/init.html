@@ -20,110 +20,114 @@
     </blockquote>
     <hr class="hr layui-bg-gray">
     <form class="layui-form" action="">
+        <div style=" display: none;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    站点标题
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" name="titleText" required lay-verify="required"
+                           placeholder="网站标题"
+                           autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    浏览器选项卡处的标题
+                    <span class="layui-danger-star">*</span>
+                </div>
+            </div>
 
-        <div class="layui-form-item">
-            <label class="layui-form-label">
-                站点标题
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" name="titleText" required lay-verify="required"
-                       placeholder="网站标题"
-                       autocomplete="off" class="layui-input">
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    LOGO文字
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" name="logoText" required lay-verify="required"
+                           placeholder="LOGO处文字"
+                           autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    LOGO处显示的文字
+                    <span class="layui-danger-star">*</span>
+                </div>
             </div>
-            <div class="layui-form-mid layui-word-aux">
-                浏览器选项卡处的标题
-                <span class="layui-danger-star">*</span>
-            </div>
-        </div>
 
-        <div class="layui-form-item">
-            <label class="layui-form-label">
-                LOGO文字
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" name="logoText" required lay-verify="required"
-                       placeholder="LOGO处文字"
-                       autocomplete="off" class="layui-input">
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    您的用户名
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" name="username" required lay-verify="required|username"
+                           placeholder="登录账号"
+                           autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    您的后台登录账号
+                    <span class="layui-danger-star">*</span><span class="layui-danger-attention">!</span>
+                </div>
             </div>
-            <div class="layui-form-mid layui-word-aux">
-                LOGO处显示的文字
-                <span class="layui-danger-star">*</span>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">
-                您的用户名
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" name="username" required lay-verify="required|username"
-                       placeholder="登录账号"
-                       autocomplete="off" class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                您的后台登录账号
-                <span class="layui-danger-star">*</span><span class="layui-danger-attention">!</span>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">
-                登录密码
-            </label>
-            <div class="layui-input-inline">
-                <input type="password" name="password" required lay-verify="required|pass"
-                       placeholder="登录密码"
-                       autocomplete="off" class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                您的后台登录账号的密码
-                <span class="layui-danger-star">*</span>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">
-                重录密码
-            </label>
-            <div class="layui-input-inline">
-                <input type="password" name="repeatPass" required lay-verify="required|repeatPass"
-                       placeholder="重复输入上面的密码"
-                       autocomplete="off" class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                重复上面输入的密码
-                <span class="layui-danger-star">*</span>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">
-                电子邮件
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" name="email" required lay-verify="required|mail"
-                       placeholder="输入您的电子邮件"
-                       autocomplete="email" class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                填写以便后续开启更多功能（接收消息等）
-                <span class="layui-danger-star">*</span>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">上传方式</label>
-            <div class="layui-input-inline">
-                <select name="uploadMethod" required lay-filter="required">
-                    <option value="">请选择上传方式</option>
-                    <option value="LOCAL">本地服务器</option>
-                    <option value="QINIU">七牛云方式</option>
-                </select>
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                选择上传文件/图片的模式
-                <span class="layui-danger-star">*</span>
-            </div>
-        </div>
 
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    登录密码
+                </label>
+                <div class="layui-input-inline">
+                    <input type="password" name="password" required lay-verify="required|pass"
+                           placeholder="登录密码"
+                           autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    您的后台登录账号的密码
+                    <span class="layui-danger-star">*</span>
+                </div>
+            </div>
 
-        <hr class="hr layui-bg-gray">
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    重录密码
+                </label>
+                <div class="layui-input-inline">
+                    <input type="password" name="repeatPass" required lay-verify="required|repeatPass"
+                           placeholder="重复输入上面的密码"
+                           autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    重复上面输入的密码
+                    <span class="layui-danger-star">*</span>
+                </div>
+            </div>
 
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    电子邮件
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" name="email" required lay-verify="required|mail"
+                           placeholder="输入您的电子邮件"
+                           autocomplete="email" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    填写以便后续开启更多功能（接收消息等）
+                    <span class="layui-danger-star">*</span>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">上传方式</label>
+                <div class="layui-input-inline">
+                    <select name="uploadMethod" required lay-verify="required">
+                        <option value="">请选择上传方式</option>
+                        <option value="LOCAL">本地服务器</option>
+                        <option value="QINIU">七牛云方式</option>
+                    </select>
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    选择上传文件/图片的模式
+                    <span class="layui-danger-star">*</span>
+                </div>
+            </div>
+
+            <hr class="hr layui-bg-gray">
+        </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit lay-filter="nbInit">立即提交

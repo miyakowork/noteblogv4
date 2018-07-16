@@ -4,7 +4,7 @@ layui.use('form', function () {
         $ = layui.$;
 
     form.verify({
-        username: function (value, item) { //value：表单的值、item：表单的DOM对象
+        username: function (value) { //value：表单的值、item：表单的DOM对象
             if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
                 return '用户名不能有特殊字符';
             }
@@ -38,7 +38,7 @@ layui.use('form', function () {
             if (obj.hasOwnProperty(o) && o !== 'repeatPass') {
                 var labelName = $("input[name=" + o + "], select[name=" + o + "]").parents("div.layui-form-item").find("label").text();
                 if (o === 'uploadMethod') {
-                    obj[o] = $("option[value=" + o + "]").text();
+                    obj[o] = $("option[value=" + obj[o] + "]").text();
                 }
                 html += '<p>' + labelName + '：' + obj[o] + '</p>';
             }
