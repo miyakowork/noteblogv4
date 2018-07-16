@@ -1,0 +1,24 @@
+#服务器配置
+server:
+  port: 80
+#项目配置
+spring:
+  profiles:
+    active: noteblogv4
+  application:
+    name: NoteBlogV4
+#资源配置
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5
+  resources:
+    static-locations: classpath:/static/
+#数据访问配置
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+
+

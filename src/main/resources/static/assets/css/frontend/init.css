@@ -1,0 +1,39 @@
+.layui-fluid {
+    background-color: #f8f8f8;
+}
+
+.layui-slogan {
+    font-size: 1rem;
+}
+
+.layui-slogan > span:first-child {
+    color: #2F4056;
+    font-style: italic;
+}
+
+.layui-danger-star, .layui-danger-attention {
+    color: #FF5722;
+}
+
+.layui-init-container {
+    margin: 5% auto 5% auto;
+}
+
+.hr {
+    margin-bottom: 20px;
+}
+
+@media screen and (min-width: 768px) {
+    .layui-init-container {
+        width: 600px;
+        background-color: #ffffff;
+        padding: 30px 80px;
+        box-shadow: 0 0 5px #a2a2a2;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .layui-init-container {
+        width: 300px;
+    }
+}
