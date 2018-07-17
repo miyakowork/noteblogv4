@@ -178,10 +178,6 @@ public interface NoteBlogV4 {
          */
         String INFO_PANEL_ORDER = "info_panel_order";
 
-        /**
-         * 网站文件上传路径
-         */
-        String UPLOAD_PATH = "upload_path";
 
         /**
          * 是否开启云服务器上传

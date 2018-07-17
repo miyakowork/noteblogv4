@@ -125,7 +125,6 @@ public class NoteBlogInitListener implements ApplicationListener<ApplicationRead
                 {IS_OPEN_MESSAGE, INIT_NOT, "是否开启留言功能"},
                 {IS_OPEN_MESSAGE, INIT_NOT, "是否开启留言功能"},
                 {INFO_PANEL_ORDER, INIT_SURE, "网站信息和会员中心显示顺序，1表示网站信息显示在首要位置"},
-                {UPLOAD_PATH, null, "网站文件的上传路径，如开启七牛云，阿里云上传等，则此配置无效"},
                 {UPLOAD_TYPE, INIT_UPLOAD_TYPE, "上传方式类型，默认local，本地上传"},
                 {IS_OPEN_OSS_UPLOAD, INIT_NOT, "是否开启云服务器上传，默认0不开启"},
                 {QINIU_ACCESS_KEY, null, "七牛云AccessKey"},
