@@ -290,7 +290,7 @@
 				//console.log(o.selectedList);
 				//抓取网络图片，并更新图片链接
 				if (o.searchList.length > 0) {
-					var $message = $('<span class="loading-message">正在抓取网络图片……</span>')
+					var $message = $('<span class="loading-msg">正在抓取网络图片……</span>')
 					G(".loading-icon").show().html($message); //显示加载图标
 					$.get(options.grap_url, {
 						act : "grapImage",

@@ -20,7 +20,7 @@
     </blockquote>
     <hr class="hr layui-bg-gray">
     <form class="layui-form" action="">
-        <div style=" display: none;">
+        <div id="base-form">
             <div class="layui-form-item">
                 <label class="layui-form-label">
                     站点标题
@@ -95,7 +95,9 @@
                     <span class="layui-danger-star">*</span>
                 </div>
             </div>
+        </div>
 
+        <div id="advance-form" style="display: none;">
             <div class="layui-form-item">
                 <label class="layui-form-label">
                     电子邮件
@@ -114,7 +116,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">上传方式</label>
                 <div class="layui-input-inline">
-                    <select name="uploadMethod" required lay-verify="required">
+                    <select name="uploadMethod" required lay-verify="required" lay-filter="uploadMethod">
                         <option value="">请选择上传方式</option>
                         <option value="LOCAL">本地服务器</option>
                         <option value="QINIU">七牛云方式</option>
@@ -126,11 +128,61 @@
                 </div>
             </div>
 
-            <hr class="hr layui-bg-gray">
+            <div id="qiniu" style="display: none;">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        AccessKey
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="accessKey" placeholder="accessKey" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">
+                        您的七牛云的AccessKey
+                        <span class="layui-danger-star">*</span>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        SecretKey
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="secretKey" placeholder="secretKey" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">
+                        您的七牛云的SecretKey
+                        <span class="layui-danger-star">*</span>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        Bucket
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="bucket"
+                               placeholder="bucket"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">
+                        您的七牛云Bucket
+                        <span class="layui-danger-star">*</span>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
+        <hr class="hr layui-bg-gray">
+
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button class="layui-btn" lay-submit lay-filter="nbInit">立即提交
+                <button class="layui-btn" type="button" id="next">下一步&nbsp;&gt;&gt;</button>
+                <button class="layui-btn" type="button" id="prev" style="display: none;">&lt;&lt;&nbsp;上一步</button>
+                <button class="layui-btn" id="submit" type="submit" lay-submit lay-filter="nbInit"
+                        style="display: none;">提交
                 </button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
@@ -142,5 +194,6 @@
 </div>
 <script src="/plugins/layui/layui.js"></script>
 <script src="/assets/js/frontend/init.js"></script>
+
 </body>
 </html>

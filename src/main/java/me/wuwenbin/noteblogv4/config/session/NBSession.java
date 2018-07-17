@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.wuwenbin.noteblogv4.model.entity.NBUser;
-import me.wuwenbin.noteblogv4.util.NoteBlogUtils;
+import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -56,10 +56,10 @@ public class NBSession implements Serializable {
      */
     public void update() {
         String info = "update session for id:[{}], at [{}] by url:[{}] with ip:[{}]";
-        log.info(StrUtil.format(info, this.getId(), LocalDateTime.now(), getRequest().getRequestURL()), NoteBlogUtils.getRemoteAddr(getRequest()));
+        log.info(StrUtil.format(info, this.getId(), LocalDateTime.now(), getRequest().getRequestURL()), NBUtils.getRemoteAddress(getRequest()));
         this.lastAccessTime = now();
         this.expireTimestamp = lastAccessTime.plusSeconds(getTimeout() / 1000);
-        if (!host.equals(NoteBlogUtils.getRemoteAddr(getRequest()))) {
+        if (!host.equals(NBUtils.getRemoteAddress(getRequest()))) {
             log.info("ip变动，存在非法访问情况");
             this.expired = true;
         }

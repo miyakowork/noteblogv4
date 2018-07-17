@@ -1,7 +1,6 @@
 package me.wuwenbin.noteblogv4.config.listener;
 
 import lombok.extern.slf4j.Slf4j;
-import me.wuwenbin.noteblogv4.model.constant.UploadMethod;
 import me.wuwenbin.noteblogv4.model.entity.NBParam;
 import me.wuwenbin.noteblogv4.model.entity.NBRole;
 import me.wuwenbin.noteblogv4.repository.ParamRepository;
@@ -14,9 +13,9 @@ import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 
-import static me.wuwenbin.noteblogv4.model.constant.Noteblogv4.Init.*;
-import static me.wuwenbin.noteblogv4.model.constant.Noteblogv4.Init.INIT_STATUS;
-import static me.wuwenbin.noteblogv4.model.constant.Noteblogv4.Param.*;
+import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Init.*;
+import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Init.INIT_STATUS;
+import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Param.*;
 
 /**
  * spring boot 容器启动完成之后
@@ -54,8 +53,8 @@ public class NoteBlogInitListener implements ApplicationListener<ApplicationRead
             log.info("「笔记博客」App 初始化完毕！");
         } else {
             log.info("「笔记博客」App 已经初始化，略过初始化步骤。");
-            log.info("「笔记博客」App 启动完毕。");
         }
+        log.info("「笔记博客」App 启动完毕。");
     }
 
     /**
@@ -128,7 +127,10 @@ public class NoteBlogInitListener implements ApplicationListener<ApplicationRead
                 {INFO_PANEL_ORDER, INIT_SURE, "网站信息和会员中心显示顺序，1表示网站信息显示在首要位置"},
                 {UPLOAD_PATH, null, "网站文件的上传路径，如开启七牛云，阿里云上传等，则此配置无效"},
                 {UPLOAD_TYPE, INIT_UPLOAD_TYPE, "上传方式类型，默认local，本地上传"},
-                {IS_OPEN_OSS_UPLOAD, INIT_NOT, "是否开启云服务器上传，默认0不开启"}
+                {IS_OPEN_OSS_UPLOAD, INIT_NOT, "是否开启云服务器上传，默认0不开启"},
+                {QINIU_ACCESS_KEY, null, "七牛云AccessKey"},
+                {QINIU_SECRET_KEY, null, "七牛云SecretKey"},
+                {QINIU_BUCKET, null, "七牛云bucket"}
         };
         saveParam(settings);
     }

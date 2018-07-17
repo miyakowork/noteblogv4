@@ -1,10 +1,9 @@
 package me.wuwenbin.noteblogv4.config.session;
 
-import me.wuwenbin.noteblogv4.config.session.NBSession;
-import me.wuwenbin.noteblogv4.model.constant.Noteblogv4;
+import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.entity.NBUser;
 import me.wuwenbin.noteblogv4.util.CookieUtils;
-import me.wuwenbin.noteblogv4.util.NoteBlogUtils;
+import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.Cookie;
@@ -28,13 +27,13 @@ public class NBContext extends ConcurrentHashMap<String, NBSession> {
         NBSession session = NBSession.builder()
                 .sessionUser(sessionUser)
                 .expired(false)
-                .host(NoteBlogUtils.getRemoteAddr(request))
+                .host(NBUtils.getRemoteAddress(request))
                 .build();
-        Cookie cookie = CookieUtils.getCookie(request, Noteblogv4.Session.SESSION_ID_COOKIE);
+        Cookie cookie = CookieUtils.getCookie(request, NoteBlogV4.Session.SESSION_ID_COOKIE);
         if (cookie != null) {
             session.setId(cookie.getValue());
         }
-        CookieUtils.setCookie(response, Noteblogv4.Session.SESSION_ID_COOKIE, session.getId(), -1);
+        CookieUtils.setCookie(response, NoteBlogV4.Session.SESSION_ID_COOKIE, session.getId(), -1);
         put(session.getId(), session);
     }
 

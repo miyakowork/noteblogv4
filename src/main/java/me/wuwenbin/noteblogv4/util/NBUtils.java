@@ -1,14 +1,18 @@
 package me.wuwenbin.noteblogv4.util;
 
+import cn.hutool.core.map.MapUtil;
+import me.wuwenbin.noteblogv4.model.entity.NBUser;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * created by Wuwenbin on 2018/7/14 at 10:33
+ *
  * @author wuwenbin
  */
-public class NoteBlogUtils {
+public class NBUtils {
 
     /**
      * 获取实际ip地址
@@ -16,7 +20,7 @@ public class NoteBlogUtils {
      * @param request
      * @return
      */
-    public static String getRemoteAddr(HttpServletRequest request) {
+    public static String getRemoteAddress(HttpServletRequest request) {
         String remoteAddress;
         try {
             remoteAddress = request.getHeader("x-forwarded-for");
@@ -39,5 +43,23 @@ public class NoteBlogUtils {
             remoteAddress = request.getRemoteAddr();
         }
         return remoteAddress;
+    }
+
+    /**
+     * 删除不必要的信息，避免暴露过多信息
+     *
+     * @param user
+     * @return
+     */
+    public static Map<Object, Object> user2Map(NBUser user) {
+        if (user == null) {
+            return null;
+        }
+        return MapUtil.of(new Object[][]{
+                {"id", user.getId()},
+                {"nickname", user.getNickname()},
+                {"avatar", user.getAvatar()},
+                {"dri", user.getDefaultRoleId()}
+        });
     }
 }

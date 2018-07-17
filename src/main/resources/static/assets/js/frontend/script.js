@@ -15,7 +15,7 @@ layui.use(['layer', 'laytpl', 'util', 'clock'], function () {
         , click: function (type) {
             console.log(type);
             if (type === 'bar1') {
-                location.href = "/message";
+                location.href = "/msg";
             }
         }
         , css: {right: 10, bottom: 25}

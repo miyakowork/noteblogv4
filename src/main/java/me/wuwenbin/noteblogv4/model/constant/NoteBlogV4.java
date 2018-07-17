@@ -6,7 +6,7 @@ package me.wuwenbin.noteblogv4.model.constant;
  *
  * @author wuwenbin
  */
-public interface Noteblogv4 {
+public interface NoteBlogV4 {
 
     /**
      * 初始化的时候的一些参数key
@@ -39,9 +39,9 @@ public interface Noteblogv4 {
         /**
          * 默认上传方式为本地服务器上传
          *
-         * @see UploadMethod
+         * @see Upload
          */
-        String INIT_UPLOAD_TYPE = UploadMethod.LOCAL.name();
+        String INIT_UPLOAD_TYPE = Upload.Method.LOCAL.name();
 
     }
 
@@ -193,6 +193,23 @@ public interface Noteblogv4 {
          * 分别有本地服务器上传、七牛云服务器上传
          */
         String UPLOAD_TYPE = "upload_type";
+
+        /**
+         * 七牛云AccessKey
+         */
+        String QINIU_ACCESS_KEY = "qiniu_accessKey";
+
+        /**
+         * 七牛云SecretKey
+         */
+        String QINIU_SECRET_KEY = "qiniu_secretKey";
+
+        /**
+         * 七牛云Bucket
+         */
+        String QINIU_BUCKET = "qiniu_bucket";
+
+
     }
 
     /**

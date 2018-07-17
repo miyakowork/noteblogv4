@@ -348,9 +348,9 @@ var template = {
     '   </ul>' +
     '</div>'
     , messagePage:
-    '<div id="message-body" class="layui-container">' +
+    '<div id="msg-body" class="layui-container">' +
     '   <div class="layui-row layui-col-space10">' +
-    '       <div id="message-info" class="layui-col-md9 animated fadeInUp">' +
+    '       <div id="msg-info" class="layui-col-md9 animated fadeInUp">' +
     '           <div class="layui-collapse layui-panel layui-article">' +
     '               <slot name="post"></slot>' +
     '           </div>' +
@@ -666,7 +666,7 @@ Vue.component('bmy-comment', {
     }
 });
 
-Vue.component('bmy-message-comment', {
+Vue.component('bmy-msg-comment', {
     template: template.messageComment
     , props: {
         su: {
@@ -682,14 +682,14 @@ Vue.component('bmy-message-comment', {
             if (comment === "<p></p>") {
                 layui.layer.msg("请填写评论内容");
             } else {
-                $.post("/token/message/sub", {
+                $.post("/token/msg/sub", {
                     userId: this.su.id,
                     comment: comment
                 }, function (resp) {
                     layer.msg(resp.message);
                     setTimeout(function () {
                         if (resp.code === BMY.status.ok) {
-                            location.href = "/message"
+                            location.href = "/msg"
                         }
                     }, 1000);
                 });
@@ -763,6 +763,6 @@ Vue.component('bmy-notes', {
     }
 });
 
-Vue.component('bmy-message-page', {
+Vue.component('bmy-msg-page', {
     template: template.messagePage
 });

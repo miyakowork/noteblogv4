@@ -6,8 +6,8 @@ layui.use(['form', 'layer', 'table', 'element'], function () {
     element.render();
 
     var commentTable = table.render({
-        elem: '#message-table'
-        , url: BMY.url.prefix + '/message/list'
+        elem: '#msg-table'
+        , url: BMY.url.prefix + '/msg/list'
         , page: true
         , limit: 10
         , height: 'full'
@@ -33,14 +33,14 @@ layui.use(['form', 'layer', 'table', 'element'], function () {
 
 
     form.on('switch(enable)', function (obj) {
-        BMY.ajax(BMY.url.prefix + "/message/edit/enable", {id: this.value, enable: obj.elem.checked}, function (json) {
+        BMY.ajax(BMY.url.prefix + "/msg/edit/enable", {id: this.value, enable: obj.elem.checked}, function (json) {
             BMY.okMsgHandle(json);
             layer.tips('状态：' + ((obj.elem.checked) ? "正常" : "隐藏"), obj.othis);
         });
     });
 
     //监听单元格事件
-    table.on('tool(message)', function (obj) {
+    table.on('tool(msg)', function (obj) {
         var data = obj.data;
         if (obj.event === 'detail') {
             layer.open({
@@ -54,7 +54,7 @@ layui.use(['form', 'layer', 'table', 'element'], function () {
         }
     });
 
-    table.on('sort(message)', function (obj) {
+    table.on('sort(msg)', function (obj) {
         commentTable.reload({
             initSort: obj
             , where: {
@@ -69,7 +69,7 @@ layui.use(['form', 'layer', 'table', 'element'], function () {
             var nickname = $("#nickname-search");
             var comment = $("#comment-search");
             //执行重载
-            table.reload('message-table', {
+            table.reload('msg-table', {
                 page: {
                     curr: 1 //重新从第 1 页开始
                 }
@@ -81,7 +81,7 @@ layui.use(['form', 'layer', 'table', 'element'], function () {
         }
     };
 
-    $('#message-table-search').find('.layui-btn').on('click', function () {
+    $('#msg-table-search').find('.layui-btn').on('click', function () {
         var type = $(this).data('type');
         active[type] ? active[type].call(this) : '';
     });

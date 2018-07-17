@@ -70,7 +70,7 @@ $(function () {
             },
             'message': {
                 templateUrl: url_prefix + 'message',
-                controller: static_prefix + '/message.js'
+                controller: static_prefix + '/msg.js'
             },
             'noteblog': {
                 templateUrl: url_prefix + 'noteblog',

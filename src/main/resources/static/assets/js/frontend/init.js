@@ -3,8 +3,12 @@ layui.use('form', function () {
         layer = layui.layer,
         $ = layui.$;
 
+    layer.config({
+        skin: 'layui-layer-lan'
+    });
+
     form.verify({
-        username: function (value) { //value：表单的值、item：表单的DOM对象
+        username: function (value) {
             if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
                 return '用户名不能有特殊字符';
             }
@@ -30,11 +34,41 @@ layui.use('form', function () {
             , '请输入正确的邮箱！'
         ]
     });
-    //监听提交
+
+    $("#next").on('click', function () {
+        $(this).hide();
+        $("#prev").show();
+        $("#base-form").hide();
+        $("#advance-form").show();
+        $("#submit").show();
+    });
+
+    $("#prev").on('click', function () {
+        $(this).hide();
+        $("#base-form").show();
+        $("#next").show();
+        $("#advance-form").hide();
+        $("#submit").hide();
+    });
+
+    form.on('select(uploadMethod)', function (data) {
+        if (data.value === 'QINIU') {
+            $("#qiniu").show();
+        } else {
+            $("#qiniu").hide();
+        }
+    });
+
     form.on('submit(nbInit)', function (data) {
         var html = '<p style="color: #FF5722;">请确认您所填的信息</p>';
         var obj = data.field;
+        var originUploadMethod = data.field.uploadMethod;
         for (var o in obj) {
+            if (obj.hasOwnProperty(o)
+                && originUploadMethod !== 'QINIU'
+                && (o === 'accessKey' || o === 'secretKey' || o === 'bucket')) {
+                continue;
+            }
             if (obj.hasOwnProperty(o) && o !== 'repeatPass') {
                 var labelName = $("input[name=" + o + "], select[name=" + o + "]").parents("div.layui-form-item").find("label").text();
                 if (o === 'uploadMethod') {
@@ -43,10 +77,17 @@ layui.use('form', function () {
                 html += '<p>' + labelName + '：' + obj[o] + '</p>';
             }
         }
+        obj.uploadMethod = originUploadMethod;
         var index = layer.confirm(html, {
             btn: ['确定', '重填']
             , title: '确认信息'
         }, function () {
+            if (obj.uploadMethod === 'QINIU') {
+                if (obj.accessKey === '' || obj.secretKey === '' || obj.bucket === '') {
+                    layer.alert('请正确填写七牛云的相关数据！');
+                    return false;
+                }
+            }
             $.post('http://127.0.0.1:8088/initApp'
                 , obj
                 , function (json) {
@@ -54,7 +95,6 @@ layui.use('form', function () {
                     layer.close(index);
                 });
         });
-
         return false;
     });
 
