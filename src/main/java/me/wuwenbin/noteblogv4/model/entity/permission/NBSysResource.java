@@ -1,4 +1,4 @@
-package me.wuwenbin.noteblogv4.model.entity;
+package me.wuwenbin.noteblogv4.model.entity.permission;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,18 +8,16 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 
-import static java.lang.Boolean.TRUE;
-
 /**
- * created by Wuwenbin on 2018/7/15 at 11:57
+ * created by Wuwenbin on 2018/7/18 at 14:01
  */
-@Data
 @Entity
-@Table(name = "nb_keyword")
-@Builder
+@Table(name = "sys_resource")
+@Data
 @AllArgsConstructor
+@Builder
 @NoArgsConstructor
-public class NBKeyword implements Serializable {
+public class NBSysResource implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,9 +25,11 @@ public class NBKeyword implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    private String words;
+    private String url;
 
-    @Column(nullable = false, length = 1, columnDefinition = "tinyint(1)")
-    @Builder.Default
-    private Boolean enable = TRUE;
+    @Column(nullable = false, length = 50)
+    private String name;
+
+    @Column(nullable = false, length = 50)
+    private String identifier;
 }

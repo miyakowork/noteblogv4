@@ -33,7 +33,6 @@ public class ErrorController extends BaseController implements org.springframewo
     private static final String ERROR_PAGE = "error/page";
     private static final String ERROR_ROUTER = "error/router";
 
-    private HttpServletRequest request;
     private ErrorAttributes errorAttributes;
     private ServerProperties serverProperties;
 
@@ -42,11 +41,10 @@ public class ErrorController extends BaseController implements org.springframewo
         return null;
     }
 
-    public ErrorController(HttpServletRequest request, ErrorAttributes errorAttributes, ServerProperties serverProperties) {
+    public ErrorController(ErrorAttributes errorAttributes, ServerProperties serverProperties) {
         Assert.notNull(errorAttributes, "ErrorAttributes must not be null");
         this.errorAttributes = errorAttributes;
         this.serverProperties = serverProperties;
-        this.request = request;
     }
 
 

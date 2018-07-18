@@ -1,9 +1,18 @@
 package me.wuwenbin.noteblogv4.util;
 
 import cn.hutool.core.map.MapUtil;
-import me.wuwenbin.noteblogv4.model.entity.NBUser;
+import me.wuwenbin.noteblogv4.config.application.NBContext;
+import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
+import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
@@ -12,7 +21,10 @@ import java.util.Map;
  *
  * @author wuwenbin
  */
-public class NBUtils {
+@Component
+public class NBUtils implements ApplicationContextAware {
+
+    private static ApplicationContext applicationContext = null;
 
     /**
      * 获取实际ip地址
@@ -51,7 +63,7 @@ public class NBUtils {
      * @param user
      * @return
      */
-    public static Map<Object, Object> user2Map(NBUser user) {
+    public static Map<Object, Object> user2Map(NBSysUser user) {
         if (user == null) {
             return null;
         }
@@ -61,5 +73,36 @@ public class NBUtils {
                 {"avatar", user.getAvatar()},
                 {"dri", user.getDefaultRoleId()}
         });
+    }
+
+    /**
+     * 根据当前请求获取用户对象
+     *
+     * @param request
+     * @return
+     */
+    public static NBSysUser getSessionUser() {
+        Cookie cookie = CookieUtils.getCookie(getCurrentRequest(), NoteBlogV4.Session.SESSION_ID_COOKIE);
+        if (cookie != null) {
+            String sessionId = cookie.getValue();
+            return applicationContext.getBean(NBContext.class).getSessionUser(sessionId);
+        }
+        return null;
+    }
+
+    /**
+     * 获取当前的request对象
+     *
+     * @return
+     */
+    public static HttpServletRequest getCurrentRequest() {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        return attributes.getRequest();
+    }
+
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        NBUtils.applicationContext = applicationContext;
     }
 }

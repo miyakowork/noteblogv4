@@ -1,7 +1,7 @@
-package me.wuwenbin.noteblogv4.config;
+package me.wuwenbin.noteblogv4.config.configuration;
 
-import me.wuwenbin.noteblogv4.config.interceptor.ValidateInterceptor;
-import me.wuwenbin.noteblogv4.config.session.NBContext;
+import me.wuwenbin.noteblogv4.config.interceptor.ApplicationInterceptor;
+import me.wuwenbin.noteblogv4.config.application.NBContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
@@ -53,7 +53,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new ValidateInterceptor(blogContext)).addPathPatterns("/**");
+        registry.addInterceptor(new ApplicationInterceptor(blogContext)).addPathPatterns("/**");
     }
 
     /**

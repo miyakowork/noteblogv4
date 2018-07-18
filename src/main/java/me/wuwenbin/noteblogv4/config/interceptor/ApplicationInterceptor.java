@@ -1,7 +1,7 @@
 package me.wuwenbin.noteblogv4.config.interceptor;
 
-import me.wuwenbin.noteblogv4.config.session.NBContext;
-import me.wuwenbin.noteblogv4.config.session.NBSession;
+import me.wuwenbin.noteblogv4.config.application.NBContext;
+import me.wuwenbin.noteblogv4.config.application.NBSession;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.util.CookieUtils;
 import me.wuwenbin.noteblogv4.util.NBUtils;
@@ -16,11 +16,13 @@ import javax.servlet.http.HttpServletResponse;
  * 每个访问路径都需要做的一些操作
  * 譬如user的信息放入session
  * created by Wuwenbin on 2018/1/23 at 13:41
+ * @author wuwenbin
  */
-public class ValidateInterceptor extends HandlerInterceptorAdapter {
+public class ApplicationInterceptor extends HandlerInterceptorAdapter {
+
     private NBContext blogContext;
 
-    public ValidateInterceptor(NBContext blogContext) {
+    public ApplicationInterceptor(NBContext blogContext) {
         this.blogContext = blogContext;
     }
 

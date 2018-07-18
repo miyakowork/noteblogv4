@@ -1,4 +1,4 @@
-package me.wuwenbin.noteblogv4.model.entity;
+package me.wuwenbin.noteblogv4.model.entity.permission;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,14 +15,16 @@ import static java.time.LocalDateTime.now;
 
 /**
  * created by Wuwenbin on 2018/7/14 at 10:37
+ *
+ * @author wuwenbin
  */
 @Data
 @Builder
 @Entity
 @AllArgsConstructor
-@Table(name = "nb_user")
+@Table(name = "sys_user")
 @NoArgsConstructor
-public class NBUser implements Serializable {
+public class NBSysUser implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,7 +56,7 @@ public class NBUser implements Serializable {
     @Builder.Default
     private Long defaultRoleId = 2L;
 
-    @Column(nullable = false, length = 1)
+    @Column(nullable = false, length = 1, columnDefinition = "tinyint(1)")
     @Builder.Default
     private Boolean enable = TRUE;
 
@@ -63,6 +65,6 @@ public class NBUser implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @Transient
-    private List<NBRole> roles;
+    private List<NBSysRole> roles;
 
 }

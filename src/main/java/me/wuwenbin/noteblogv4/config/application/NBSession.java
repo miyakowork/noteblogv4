@@ -1,4 +1,4 @@
-package me.wuwenbin.noteblogv4.config.session;
+package me.wuwenbin.noteblogv4.config.application;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.wuwenbin.noteblogv4.model.entity.NBUser;
+import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
 import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -21,6 +21,7 @@ import static java.time.LocalDateTime.now;
 
 /**
  * created by Wuwenbin on 2018/2/7 at 20:56
+ * @author wuwenbin
  */
 @Slf4j
 @Data
@@ -42,7 +43,7 @@ public class NBSession implements Serializable {
     private LocalDateTime expireTimestamp = now().plusSeconds(DEFAULT_TIMEOUT_MILLS / 1000);
     @Builder.Default
     private boolean expired = FALSE;
-    private NBUser sessionUser;
+    private NBSysUser sessionUser;
 
     public static final long DEFAULT_TIMEOUT_MILLS = 30 * 60 * 1000;
 

@@ -1,5 +1,6 @@
 package me.wuwenbin.noteblogv4.web;
 
+import me.wuwenbin.noteblogv4.config.permission.NBAuth;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.service.param.ParamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class InitController {
         this.paramService = paramService;
     }
 
+    @NBAuth("sss")
     @RequestMapping("/init")
     public String init() {
         boolean initialization =

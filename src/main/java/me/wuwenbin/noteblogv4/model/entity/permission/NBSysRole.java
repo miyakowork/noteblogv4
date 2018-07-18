@@ -1,4 +1,4 @@
-package me.wuwenbin.noteblogv4.model.entity;
+package me.wuwenbin.noteblogv4.model.entity.permission;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,14 +10,15 @@ import java.io.Serializable;
 
 /**
  * created by Wuwenbin on 2018/7/15 at 12:04
+ * @author wuwenbin
  */
 @Data
 @Entity
-@Table(name = "nb_role")
+@Table(name = "sys_role")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class NBRole implements Serializable {
+public class NBSysRole implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

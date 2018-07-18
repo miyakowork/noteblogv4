@@ -48,7 +48,7 @@ public class NBComment implements Serializable {
 
     private String userAgent;
 
-    @Column(nullable = false, length = 1)
+    @Column(nullable = false, length = 1, columnDefinition = "tinyint(1)")
     @Builder.Default
     private Boolean enable = TRUE;
 }

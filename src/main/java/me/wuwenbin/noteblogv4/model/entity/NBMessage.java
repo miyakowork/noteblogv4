@@ -14,6 +14,7 @@ import static java.time.LocalDateTime.now;
 
 /**
  * created by Wuwenbin on 2018/7/15 at 11:58
+ * @author wuwenbin
  */
 @Data
 @Entity
@@ -45,7 +46,7 @@ public class NBMessage implements Serializable {
 
     private String userAgent;
 
-    @Column(nullable = false, length = 1)
+    @Column(nullable = false, length = 1, columnDefinition = "tinyint(1)")
     @Builder.Default
     private Boolean enable = TRUE;
 }

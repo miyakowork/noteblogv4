@@ -29,7 +29,7 @@ public class NBTagRefer {
     @Column(nullable = false, length = 11)
     private Long tagId;
 
-    @Column(nullable = false, length = 1,name = "[show]")
+    @Column(nullable = false, length = 1, name = "[show]", columnDefinition = "tinyint(1)")
     private Boolean show;
 
     @Column(nullable = false, length = 50)

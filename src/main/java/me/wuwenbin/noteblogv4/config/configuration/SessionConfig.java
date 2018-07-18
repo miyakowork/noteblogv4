@@ -1,9 +1,9 @@
-package me.wuwenbin.noteblogv4.config;
+package me.wuwenbin.noteblogv4.config.configuration;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import me.wuwenbin.noteblogv4.config.session.NBContext;
-import me.wuwenbin.noteblogv4.config.session.NBSession;
+import me.wuwenbin.noteblogv4.config.application.NBContext;
+import me.wuwenbin.noteblogv4.config.application.NBSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;

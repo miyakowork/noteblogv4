@@ -74,15 +74,15 @@ public class NBArticle implements Serializable {
     @Builder.Default
     private Integer approveCnt = randomInt(6, 169);
 
-    @Column(nullable = false, length = 1)
+    @Column(nullable = false, length = 1, columnDefinition = "tinyint(1)")
     @Builder.Default
     private Boolean commented = FALSE;
 
-    @Column(nullable = false, length = 1)
+    @Column(nullable = false, length = 1, columnDefinition = "tinyint(1)")
     @Builder.Default
     private Boolean appreciable = FALSE;
 
-    @Column(nullable = false, length = 1)
+    @Column(nullable = false, length = 1, columnDefinition = "tinyint(1)")
     @Builder.Default
     private Boolean draft = TRUE;
 

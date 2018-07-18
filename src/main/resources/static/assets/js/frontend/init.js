@@ -54,7 +54,8 @@ layui.use('form', function () {
     form.on('select(uploadMethod)', function (data) {
         if (data.value === 'QINIU') {
             $("#qiniu").show();
-        } else {
+        } else if (data.value === 'LOCAL') {
+            layer.alert('请确保在「application-noteblogv4.properties」文件中配置了本地服务器上传路径！', {icon: 0});
             $("#qiniu").hide();
         }
     });

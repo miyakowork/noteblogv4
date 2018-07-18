@@ -2,9 +2,10 @@ package me.wuwenbin.noteblogv4.config.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import me.wuwenbin.noteblogv4.model.entity.NBParam;
-import me.wuwenbin.noteblogv4.model.entity.NBRole;
+import me.wuwenbin.noteblogv4.model.entity.permission.NBSysRole;
 import me.wuwenbin.noteblogv4.repository.ParamRepository;
 import me.wuwenbin.noteblogv4.repository.RoleRepository;
+import me.wuwenbin.noteblogv4.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -30,6 +31,8 @@ public class NoteBlogInitListener implements ApplicationListener<ApplicationRead
 
     private final ParamRepository paramRepository;
     private final RoleRepository roleRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     public NoteBlogInitListener(ParamRepository paramRepository, RoleRepository roleRepository) {
@@ -39,6 +42,7 @@ public class NoteBlogInitListener implements ApplicationListener<ApplicationRead
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
+        userRepository.findAll();
         log.info("「笔记博客」App 正在准备，请稍后...");
         NBParam nbParam = paramRepository.findByNameEquals(INIT_STATUS);
         long roleCnt = roleRepository.count();
@@ -55,6 +59,7 @@ public class NoteBlogInitListener implements ApplicationListener<ApplicationRead
             log.info("「笔记博客」App 已经初始化，略过初始化步骤。");
         }
         log.info("「笔记博客」App 启动完毕。");
+
     }
 
     /**
@@ -81,7 +86,7 @@ public class NoteBlogInitListener implements ApplicationListener<ApplicationRead
                 {"ROLE_USER", "网站访客"}
         };
         Arrays.stream(roles).forEach(role -> {
-            NBRole r = NBRole.builder().name(role[0]).cnName(role[1]).build();
+            NBSysRole r = NBSysRole.builder().name(role[0]).cnName(role[1]).build();
             roleRepository.saveAndFlush(r);
         });
     }

@@ -1,7 +1,7 @@
-package me.wuwenbin.noteblogv4.config.session;
+package me.wuwenbin.noteblogv4.config.application;
 
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
-import me.wuwenbin.noteblogv4.model.entity.NBUser;
+import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
 import me.wuwenbin.noteblogv4.util.CookieUtils;
 import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.stereotype.Component;
@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class NBContext extends ConcurrentHashMap<String, NBSession> {
 
 
-    public void setSessionUser(HttpServletRequest request, HttpServletResponse response, NBUser sessionUser) {
+    public void setSessionUser(HttpServletRequest request, HttpServletResponse response, NBSysUser sessionUser) {
         NBSession session = NBSession.builder()
                 .sessionUser(sessionUser)
                 .expired(false)
@@ -37,7 +37,7 @@ public class NBContext extends ConcurrentHashMap<String, NBSession> {
         put(session.getId(), session);
     }
 
-    public NBUser getSessionUser(String uuid) {
+    public NBSysUser getSessionUser(String uuid) {
         Optional<NBSession> user = Optional.ofNullable(getOrDefault(uuid, null));
         return user.map(NBSession::getSessionUser).orElse(null);
     }
@@ -49,4 +49,5 @@ public class NBContext extends ConcurrentHashMap<String, NBSession> {
     public void clearAll() {
         clear();
     }
+
 }

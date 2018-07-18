@@ -1,6 +1,6 @@
 package me.wuwenbin.noteblogv4.repository;
 
-import me.wuwenbin.noteblogv4.model.entity.NBRole;
+import me.wuwenbin.noteblogv4.model.entity.permission.NBSysRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author wuwenbin
  */
-public interface RoleRepository extends JpaRepository<NBRole, Long> {
+public interface RoleRepository extends JpaRepository<NBSysRole, Long> {
 }

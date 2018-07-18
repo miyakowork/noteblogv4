@@ -38,11 +38,11 @@ public class NBNote implements Serializable {
     @Column(length = 999, nullable = false)
     private String content;
 
-    @Column(nullable = false, length = 1)
+    @Column(nullable = false, length = 1, columnDefinition = "tinyint(1)")
     @Builder.Default
     private Boolean top = FALSE;
 
-    @Column(nullable = false, length = 1,name = "[note]")
+    @Column(nullable = false, length = 1, name = "[note]")
     @Builder.Default
     private Boolean show = TRUE;
 
