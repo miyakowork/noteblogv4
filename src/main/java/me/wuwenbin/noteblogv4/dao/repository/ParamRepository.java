@@ -1,4 +1,4 @@
-package me.wuwenbin.noteblogv4.repository;
+package me.wuwenbin.noteblogv4.dao.repository;
 
 import me.wuwenbin.noteblogv4.model.entity.NBParam;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -30,4 +30,5 @@ public class InitController {
                         .equals(NoteBlogV4.Init.INIT_NOT);
         return initialization ? "init" : "redirect:/";
     }
+
 }

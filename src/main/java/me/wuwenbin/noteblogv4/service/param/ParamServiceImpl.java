@@ -1,7 +1,7 @@
 package me.wuwenbin.noteblogv4.service.param;
 
 import me.wuwenbin.noteblogv4.model.entity.NBParam;
-import me.wuwenbin.noteblogv4.repository.ParamRepository;
+import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

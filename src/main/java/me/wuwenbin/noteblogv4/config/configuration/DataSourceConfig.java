@@ -18,12 +18,12 @@ import javax.sql.DataSource;
  */
 @Slf4j
 @Configuration
-public class DatasourceConfig {
+public class DataSourceConfig {
 
     private final Environment env;
 
     @Autowired
-    public DatasourceConfig(Environment env) {
+    public DataSourceConfig(Environment env) {
         this.env = env;
     }
 
