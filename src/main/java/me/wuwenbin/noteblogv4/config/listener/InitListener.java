@@ -1,12 +1,15 @@
 package me.wuwenbin.noteblogv4.config.listener;
 
 import lombok.extern.slf4j.Slf4j;
-import me.wuwenbin.noteblogv4.dao.repository.PanelRepository;
-import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
-import me.wuwenbin.noteblogv4.dao.repository.RoleRepository;
+import me.wuwenbin.noteblogv4.config.application.NBContext;
+import me.wuwenbin.noteblogv4.dao.repository.*;
+import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.entity.NBPanel;
 import me.wuwenbin.noteblogv4.model.entity.NBParam;
+import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysRole;
+import me.wuwenbin.noteblogv4.model.entity.permission.NBSysRoleResource;
+import me.wuwenbin.noteblogv4.model.entity.permission.pk.RoleResourceKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -14,6 +17,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Init.*;
 import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Init.INIT_STATUS;
@@ -28,72 +33,85 @@ import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Param.*;
  */
 @Slf4j
 @Component
-public class NoteBlogInitListener implements ApplicationListener<ApplicationReadyEvent> {
+public class InitListener implements ApplicationListener<ApplicationReadyEvent> {
 
     private final ParamRepository paramRepository;
     private final RoleRepository roleRepository;
     private final PanelRepository panelRepository;
+    private final NBContext context;
+    private final RoleResourceRepository roleResourceRepository;
+    private final ResourceRepository resourceRepository;
 
     @Autowired
-    public NoteBlogInitListener(ParamRepository paramRepository, RoleRepository roleRepository, PanelRepository panelRepository) {
+    public InitListener(ParamRepository paramRepository,
+                        RoleRepository roleRepository,
+                        PanelRepository panelRepository,
+                        NBContext context,
+                        RoleResourceRepository roleResourceRepository,
+                        ResourceRepository resourceRepository) {
         this.paramRepository = paramRepository;
         this.roleRepository = roleRepository;
         this.panelRepository = panelRepository;
+        this.context = context;
+        this.roleResourceRepository = roleResourceRepository;
+        this.resourceRepository = resourceRepository;
     }
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
         log.info("「笔记博客」App 正在准备，请稍后...");
-        NBParam nbParam = paramRepository.findByNameEquals(INIT_STATUS);
         long roleCnt = roleRepository.count();
         if (roleCnt == 0) {
-            setUpRoles();
+            log.info("「笔记博客」App 正在初始化权限系统，请稍后...");
+            setUpAuthority();
+            log.info("权限系统初始化完毕...");
         }
         long panelCnt = panelRepository.count();
         if (panelCnt != NBPanel.PanelDom.values().length) {
+            log.info("「笔记博客」App 正在初始化首页右侧面板设置，请稍后...");
             panelRepository.deleteAll();
             setUpPanel();
+            log.info("首页右侧面板初始化完毕...");
         }
-        if (nbParam == null || StringUtils.isEmpty(nbParam.getValue())) {
-            log.info("「笔记博客」App 正在初始化中，请稍后...");
-            setUpAppInitialState();
+        NBParam nbParam = paramRepository.findByName(INIT_STATUS);
+        if (nbParam == null || StringUtils.isEmpty(nbParam.getValue()) || paramRepository.count() == 1) {
             setUpAppInitialSettings();
             setUpAppInitialText();
             log.info("「笔记博客」App 初始化完毕！");
         } else {
-            log.info("「笔记博客」App 已经初始化，略过初始化步骤。");
+            log.info("「笔记博客」App 已经完成初始化，略过初始化步骤。");
         }
         log.info("「笔记博客」App 启动完毕。");
-
     }
 
-    /**
-     * 在参数表中插入一条记录
-     * 记录程序是否被初始化过（有没有在初始化界面设置过东西，设置过改为1）
-     * 当然，此处是程序第一次启动，当然插入值是未初始化过的：0
-     */
-    private void setUpAppInitialState() {
-        NBParam initStatus = NBParam.builder()
-                .name(INIT_STATUS)
-                .value(INIT_NOT)
-                .remark("标记用户是否在「笔记博客」App 的初始化设置页面设置过")
-                .build();
-        paramRepository.save(initStatus);
-    }
 
     /**
-     * 初始化网站角色信息
+     * 初始化网站角色信息以及把所有资源权限赋给网站管理员
      * 包含两中角色：管理员和访客
+     * 访客需要去后台管理配置权限之后才能访问
      */
-    private void setUpRoles() {
-        String[][] roles = new String[][]{
-                {"ROLE_MASTER", "网站管理员"},
-                {"ROLE_USER", "网站访客"}
-        };
-        Arrays.stream(roles).forEach(role -> {
-            NBSysRole r = NBSysRole.builder().name(role[0]).cnName(role[1]).build();
-            roleRepository.saveAndFlush(r);
+    private void setUpAuthority() {
+        //插入管理员角色信息
+        NBSysRole webmasterRole = NBSysRole.builder().name("ROLE_MASTER").cnName("网站管理员").build();
+        NBSysRole webmaster = roleRepository.saveAndFlush(webmasterRole);
+        //获取扫描到的所有需要验证权限的资源
+        List<Map<String, Object>> authResources = context.getApplicationObj(NoteBlogV4.Init.MASTER_RESOURCES);
+        authResources.forEach(res -> {
+            NBSysResource resourceInsert = NBSysResource.builder()
+                    .identifier(res.get("permission").toString())
+                    .name(res.get("remark").toString())
+                    .url(res.get("url").toString())
+                    .build();
+            NBSysResource newRes = resourceRepository.saveAndFlush(resourceInsert);
+            NBSysRoleResource rr = NBSysRoleResource.builder()
+                    .pk(new RoleResourceKey(webmaster.getId(), newRes.getId()))
+                    .build();
+            roleResourceRepository.saveAndFlush(rr);
         });
+
+        //插入网站普通用户角色信息
+        NBSysRole normalUser = NBSysRole.builder().name("ROLE_USER").cnName("网站访客").build();
+        roleRepository.saveAndFlush(normalUser);
     }
 
     /**

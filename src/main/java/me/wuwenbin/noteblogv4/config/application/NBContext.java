@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class NBContext extends ConcurrentHashMap<String, NBSession> {
 
+    private static ConcurrentHashMap<String, Object> applicationContext = new ConcurrentHashMap<>(100);
 
     public void setSessionUser(HttpServletRequest request, HttpServletResponse response, NBSysUser sessionUser) {
         NBSession session = NBSession.builder()
@@ -47,7 +48,20 @@ public class NBContext extends ConcurrentHashMap<String, NBSession> {
     }
 
     public void clearAll() {
-        clear();
+        super.clear();
+    }
+
+    public void setApplicationObj(String key, Object value) {
+        applicationContext.put(key, value);
+    }
+
+    public <T> T getApplicationObj(String key) {
+        //noinspection unchecked
+        return (T) applicationContext.get(key);
+    }
+
+    public void removeApplicationObj(String key) {
+        applicationContext.remove(key);
     }
 
 }

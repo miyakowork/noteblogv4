@@ -1,5 +1,7 @@
 package me.wuwenbin.noteblogv4.config.permission;
 
+import org.springframework.core.annotation.AliasFor;
+
 import java.lang.annotation.*;
 
 /**
@@ -18,6 +20,9 @@ public @interface NBAuth {
      * @return 该资源的权限标识，唯一
      */
     String value();
+
+    @AliasFor("value")
+    String permission() default "";
 
     /**
      * 该权限标识的意义

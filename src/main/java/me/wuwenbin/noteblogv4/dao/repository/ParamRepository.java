@@ -16,6 +16,6 @@ public interface ParamRepository extends JpaRepository<NBParam, Long> {
      * @param name
      * @return
      */
-    NBParam findByNameEquals(String name);
+    NBParam findByName(String name);
 
 }

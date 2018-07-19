@@ -15,6 +15,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * created by Wuwenbin on 2018/7/14 at 10:33
@@ -97,9 +98,31 @@ public class NBUtils implements ApplicationContextAware {
      */
     public static HttpServletRequest getCurrentRequest() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        assert attributes != null;
         return attributes.getRequest();
     }
 
+
+    /**
+     * 获取工程的发布路径根目录
+     * 即classes的绝对路径
+     * file:/E:/idea_workplace/target/classes/
+     *
+     * @return
+     */
+    public static String getClassesPath() {
+        return Objects.requireNonNull(NBUtils.class.getClassLoader().getResource("")).getPath();
+    }
+
+    /**
+     * 获取改文件在工程中所在的完整绝对路径
+     *
+     * @param filePath 相对classes的路径
+     * @return
+     */
+    public static String getFilePathInClassesPath(String filePath) {
+        return getClassesPath() + filePath;
+    }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

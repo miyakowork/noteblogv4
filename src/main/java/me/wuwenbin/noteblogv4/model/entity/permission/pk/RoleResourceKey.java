@@ -1,5 +1,6 @@
 package me.wuwenbin.noteblogv4.model.entity.permission.pk;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.io.Serializable;
 @Data
 @Embeddable
 @NoArgsConstructor
+@AllArgsConstructor
 public class RoleResourceKey implements Serializable {
 
     @Column(length = 11, nullable = false)

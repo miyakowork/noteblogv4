@@ -31,7 +31,7 @@ layui.use('form', function () {
                         location.href = BMY.url.manage_index;
                     }, 1000);
                 } else {
-                    layer.msg("登录失败！");
+                    layer.msg("登录失败，" + resp.message);
                 }
             }
         );

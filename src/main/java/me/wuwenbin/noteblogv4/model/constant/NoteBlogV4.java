@@ -57,6 +57,11 @@ public interface NoteBlogV4 {
          * @see ParamValue
          */
         String INIT_DEFAULT_PAGE_SIZE = ParamValue.DEFAULT_PAGE_SIZE;
+
+        /**
+         * 网站管理员所拥有的所有权限资源key
+         */
+        String MASTER_RESOURCES = "master_resources";
     }
 
     /**
@@ -245,6 +250,30 @@ public interface NoteBlogV4 {
          * sessionIdCookie的名称
          */
         String SESSION_ID_COOKIE = "noteblogv4sid";
+
+        /**
+         * cookie分隔符
+         */
+        String COOKIE_SPLIT = "__!!__";
+
+        /**
+         * name
+         */
+        String REMEMBER_COOKIE_NAME = "DA4DE6E44EEEC32C30C278A452C355B9";
+
+        /**
+         * 网站前台地址
+         */
+        String FRONTEND_INDEX = "/";
+        /**
+         * 后台首页地址
+         */
+        String MANAGEMENT_INDEX = "/management/index";
+
+        /**
+         * 网站管理员，当然是第一个用户（用户id为1），或者角色id为1
+         */
+        int WEBMASTER_ID = 1;
     }
 
     /**

@@ -48,7 +48,15 @@ public class FontAwesomeUtil {
                 //获取样式名称
                 if (rule instanceof CSSStyleRule) {
                     String selectorText = ((CSSStyleRule) rule).getSelectorText();
-                    if (selectorText.startsWith(".fa-") && selectorText.endsWith(":before")) {
+                    if (selectorText.contains(",")) {
+                        if (selectorText.startsWith(".fa-") && selectorText.endsWith(":before")) {
+                            String[] selectorTexts = selectorText.split(",");
+                            for (String s : selectorTexts) {
+                                s = s.replace(".fa-", "fa-").replace(":before", "");
+                                fonts.add(s);
+                            }
+                        }
+                    } else if (selectorText.startsWith(".fa-") && selectorText.endsWith(":before")) {
                         selectorText = selectorText.replace(":before", "");
                         selectorText = selectorText.substring(1);
                         fonts.add(selectorText);

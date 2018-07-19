@@ -25,7 +25,7 @@ public class ParamServiceImpl implements ParamService {
 
     @Override
     public <T> T getValueByName(String name) {
-        NBParam param = paramRepository.findByNameEquals(name);
+        NBParam param = paramRepository.findByName(name);
         return param != null ? param.getValue() : null;
     }
 

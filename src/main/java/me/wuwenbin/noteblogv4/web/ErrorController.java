@@ -1,6 +1,6 @@
 package me.wuwenbin.noteblogv4.web;
 
-import me.wuwenbin.noteblogv4.model.pojo.framework.R;
+import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
@@ -72,12 +72,12 @@ public class ErrorController extends BaseController implements org.springframewo
      */
     @RequestMapping(produces = {APPLICATION_JSON_VALUE, APPLICATION_FORM_URLENCODED_VALUE})
     @ResponseBody
-    public R error(HttpServletRequest request) {
+    public NBR error(HttpServletRequest request) {
         Map<String, Object> body = getErrorAttributes(request, isIncludeStackTrace(request));
         HttpStatus status = getStatus(request);
         String message = body.get("message").toString();
         body.remove("message");
-        return R.custom(status.value(), message, body);
+        return NBR.custom(status.value(), message, body);
     }
 
 

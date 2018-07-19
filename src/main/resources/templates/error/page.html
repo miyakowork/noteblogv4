@@ -2,20 +2,40 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link href="/static/plugins/layui/css/layui.css">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" type="text/css" href="/static/plugins/layui/css/layui.css">
     <!--/*@thymesVar id="status" type="java.lang.String"*/-->
-    <title th:text="${status}+'页面'"></title>
+    <title th:text="'出错了 - '+${status}+'页面'"></title>
 </head>
-<body>
-<!--/*@thymesVar id="status" type="java.lang.String"*/-->
-<blockquote class="layui-elem-quote">代码：<span th:text="${status}"></span></blockquote>
-<!--/*@thymesVar id="timestamp" type="java.time.LocalDateTime"*/-->
-<blockquote class="layui-elem-quote">时间：<span th:text="${timestamp}"></span></blockquote>
-<!--/*@thymesVar id="error" type="java.lang.String"*/-->
-<blockquote class="layui-elem-quote">错误：<span th:text="${error}"></span></blockquote>
-<!--/*@thymesVar id="message" type="java.lang.String"*/-->
-<blockquote class="layui-elem-quote">信息：<span th:text="${message}"></span></blockquote>
-<!--/*@thymesVar id="path" type="java.lang.String"*/-->
-<blockquote class="layui-elem-quote">路径：<span th:text="${path}"></span></blockquote>
+<body style="background: #e8e8e8;padding-top: 2rem;">
+<div class="layui-fluid">
+    <div class="layadmin-tips" style="text-align: center;">
+        <i class="layui-icon layui-icon-face-surprised" style="font-size: 10rem;"></i>
+        <div class="layui-text" style="font-size: 20px;margin-bottom: 2rem;">
+            好像出错了呢，<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=3782d0f3115c78efaa5dcf912566e2ac556f67a8014e0b68559ad10596654b51">点我反馈错误</a>
+        </div>
+        <div class="layui-container">
+            <!--/*@thymesVar id="status" type="java.lang.String"*/-->
+            <blockquote class="layui-elem-quote"><b>代码</b>：<span th:text="${status}"></span></blockquote>
+            <!--/*@thymesVar id="timestamp" type="java.time.LocalDateTime"*/-->
+            <blockquote class="layui-elem-quote"><b>时间</b>：<span th:text="${timestamp}"></span></blockquote>
+            <!--/*@thymesVar id="error" type="java.lang.String"*/-->
+            <blockquote class="layui-elem-quote"><b>错误</b>：<span th:text="${error}"></span></blockquote>
+            <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+            <blockquote class="layui-elem-quote"><b>信息</b>：<span th:text="${message}"></span></blockquote>
+            <!--/*@thymesVar id="path" type="java.lang.String"*/-->
+            <blockquote class="layui-elem-quote"><b>路径</b>：<span th:text="${path}"></span></blockquote>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
+
+
+
+
+

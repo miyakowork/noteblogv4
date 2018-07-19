@@ -1,10 +1,14 @@
 package me.wuwenbin.noteblogv4.config.interceptor;
 
 import me.wuwenbin.noteblogv4.config.application.NBContext;
-import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
+import me.wuwenbin.noteblogv4.config.application.NBSession;
+import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
+import me.wuwenbin.noteblogv4.util.CookieUtils;
+import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,21 +30,21 @@ public class ApplicationInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
-//        Cookie cookie = CookieUtils.getCookie(request, NoteBlogV4.Session.SESSION_ID_COOKIE);
-//        if (cookie != null) {
-//            String sessionId = cookie.getValue();
-//            NBSession blogSession = blogContext.get(sessionId);
-//            if (blogSession != null) {
-//                blogSession.update();
-//                if (modelAndView != null) {
-//                    modelAndView.getModelMap().addAttribute("su", NBUtils.user2Map(blogSession.getSessionUser()));
-//                }
-//            }
-//        }
+        Cookie cookie = CookieUtils.getCookie(request, NoteBlogV4.Session.SESSION_ID_COOKIE);
+        if (cookie != null) {
+            String sessionId = cookie.getValue();
+            NBSession blogSession = blogContext.get(sessionId);
+            if (blogSession != null) {
+                blogSession.update();
+                if (modelAndView != null) {
+                    modelAndView.getModelMap().addAttribute("su", NBUtils.user2Map(blogSession.getSessionUser()));
+                }
+            }
+        }
 
         //FIXME
-        System.out.println(request.getRequestURL());
-        NBSysUser user = NBSysUser.builder().id(1L).defaultRoleId(1L).enable(true).build();
-        blogContext.setSessionUser(request, response, user);
+//        System.out.println(request.getRequestURL());
+//        NBSysUser user = NBSysUser.builder().id(1L).defaultRoleId(1L).enable(true).build();
+//        blogContext.setSessionUser(request, response, user);
     }
 }

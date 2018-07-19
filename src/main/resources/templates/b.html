@@ -6,9 +6,8 @@
     <title>Title</title>
 </head>
 <body>
-<h1><i class="fa fa-viacoin"></i> </h1>
-<div th:each="font:${fonts}">
-    <p><i th:class="'fa '+${font}"></i></p>
+<div >
+   <i th:class="'fa '+${font}"th:each="font:${fonts}" style="margin-right: 10px;"></i>
 </div>
 </body>
 </html>
