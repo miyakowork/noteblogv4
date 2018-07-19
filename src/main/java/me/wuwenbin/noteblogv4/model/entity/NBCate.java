@@ -31,4 +31,6 @@ public class NBCate implements Serializable {
     @Column(length = 50)
     private String cnName;
 
+    private String fontIcon;
+
 }

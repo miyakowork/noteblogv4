@@ -78,7 +78,7 @@ public class NBUtils implements ApplicationContextAware {
     /**
      * 根据当前请求获取用户对象
      *
-     * @param request
+     * @param
      * @return
      */
     public static NBSysUser getSessionUser() {

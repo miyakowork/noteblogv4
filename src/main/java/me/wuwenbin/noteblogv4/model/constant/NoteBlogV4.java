@@ -95,6 +95,7 @@ public interface NoteBlogV4 {
          * 导航菜单_笔记
          */
         String MENU_NOTE = "menu_note";
+        String MENU_NOTE_SHOW = "menu_note_show";
 
         /**
          * 导航菜单_额外的链接
@@ -115,11 +116,13 @@ public interface NoteBlogV4 {
          * 导航菜单_关于我
          */
         String MENU_MINE = "menu_mine";
+        String MENU_MINE_SHOW = "menu_mine_show";
 
         /**
          * 导航菜单_搜索
          */
         String MENU_SEARCH = "menu_search";
+        String MENU_SEARCH_SHOW = "menu_search_show";
 
         /**
          * 信息板内容
@@ -148,7 +151,7 @@ public interface NoteBlogV4 {
         String ALL_COMMENT_OPEN = "all_comment_open";
 
         /**
-         * 支付宝付款码
+         * 是否展示额外连接
          */
         String MENU_LINK_SHOW = "menu_link_show";
 
