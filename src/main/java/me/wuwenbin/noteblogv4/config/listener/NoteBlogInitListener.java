@@ -1,11 +1,12 @@
 package me.wuwenbin.noteblogv4.config.listener;
 
 import lombok.extern.slf4j.Slf4j;
-import me.wuwenbin.noteblogv4.model.entity.NBParam;
-import me.wuwenbin.noteblogv4.model.entity.permission.NBSysRole;
+import me.wuwenbin.noteblogv4.dao.repository.PanelRepository;
 import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
 import me.wuwenbin.noteblogv4.dao.repository.RoleRepository;
-import me.wuwenbin.noteblogv4.dao.repository.UserRepository;
+import me.wuwenbin.noteblogv4.model.entity.NBPanel;
+import me.wuwenbin.noteblogv4.model.entity.NBParam;
+import me.wuwenbin.noteblogv4.model.entity.permission.NBSysRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -31,23 +32,27 @@ public class NoteBlogInitListener implements ApplicationListener<ApplicationRead
 
     private final ParamRepository paramRepository;
     private final RoleRepository roleRepository;
-    @Autowired
-    private UserRepository userRepository;
+    private final PanelRepository panelRepository;
 
     @Autowired
-    public NoteBlogInitListener(ParamRepository paramRepository, RoleRepository roleRepository) {
+    public NoteBlogInitListener(ParamRepository paramRepository, RoleRepository roleRepository, PanelRepository panelRepository) {
         this.paramRepository = paramRepository;
         this.roleRepository = roleRepository;
+        this.panelRepository = panelRepository;
     }
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-        userRepository.findAll();
         log.info("「笔记博客」App 正在准备，请稍后...");
         NBParam nbParam = paramRepository.findByNameEquals(INIT_STATUS);
         long roleCnt = roleRepository.count();
         if (roleCnt == 0) {
             setUpRoles();
+        }
+        long panelCnt = panelRepository.count();
+        if (panelCnt != NBPanel.PanelDom.values().length) {
+            panelRepository.deleteAll();
+            setUpPanel();
         }
         if (nbParam == null || StringUtils.isEmpty(nbParam.getValue())) {
             log.info("「笔记博客」App 正在初始化中，请稍后...");
@@ -134,9 +139,25 @@ public class NoteBlogInitListener implements ApplicationListener<ApplicationRead
                 {IS_OPEN_OSS_UPLOAD, INIT_NOT, "是否开启云服务器上传，默认0不开启"},
                 {QINIU_ACCESS_KEY, null, "七牛云AccessKey"},
                 {QINIU_SECRET_KEY, null, "七牛云SecretKey"},
-                {QINIU_BUCKET, null, "七牛云bucket"}
+                {QINIU_BUCKET, null, "七牛云bucket"},
+                {PAGE_MODERN, INIT_DEFAULT_PAGE_MODERN, "首页博文分页模式0：流式，1：按钮加载"},
+                {BLOG_INDEX_PAGE_SIZE, INIT_DEFAULT_PAGE_SIZE, "首页博文分页模式0：流式，1：按钮加载"}
         };
         saveParam(settings);
+    }
+
+    /**
+     * 设置初始化面板
+     */
+    private void setUpPanel() {
+        for (NBPanel.PanelDom panelDom : NBPanel.PanelDom.values()) {
+            NBPanel panel = NBPanel.builder()
+                    .panelDom(panelDom)
+                    .orderIndex(panelDom.getOrder())
+                    .titleName(panelDom.getTitleName())
+                    .build();
+            panelRepository.saveAndFlush(panel);
+        }
     }
 
     /**

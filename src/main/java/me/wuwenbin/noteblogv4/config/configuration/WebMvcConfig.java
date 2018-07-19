@@ -53,7 +53,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new ApplicationInterceptor(blogContext)).addPathPatterns("/**");
+        registry.addInterceptor(new ApplicationInterceptor(blogContext)).addPathPatterns("/**").excludePathPatterns("/static/**");
     }
 
     /**

@@ -31,7 +31,7 @@ public class SessionConfig {
 
     @Scheduled(cron = "0 0/10 * * * ?")
     public void sessionValidate() {
-        log.info("validate session for task...");
+        log.info("validate session of application task...");
         Enumeration<String> keys = nbContext.keys();
         while (keys.hasMoreElements()) {
             String uuid = keys.nextElement();

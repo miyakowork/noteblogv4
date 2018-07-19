@@ -43,6 +43,20 @@ public interface NoteBlogV4 {
          */
         String INIT_UPLOAD_TYPE = Upload.Method.LOCAL.name();
 
+        /**
+         * 分页模式
+         * 0：默认，流式，1：分页按钮，点击加载下一页（单页）
+         *
+         * @see ParamValue
+         */
+        String INIT_DEFAULT_PAGE_MODERN = ParamValue.PAGE_MODERN_DEFAULT;
+
+        /**
+         * 默认分页的大小
+         *
+         * @see ParamValue
+         */
+        String INIT_DEFAULT_PAGE_SIZE = ParamValue.DEFAULT_PAGE_SIZE;
     }
 
     /**
@@ -205,6 +219,17 @@ public interface NoteBlogV4 {
          */
         String QINIU_BUCKET = "qiniu_bucket";
 
+        /**
+         * 设置博客的分页形式
+         * 0：默认模式（流式下拉加载），1：显示分页按钮类型的加载（采用单页模式）
+         */
+        String PAGE_MODERN = "page_modern";
+
+        /**
+         * 博文首页分页的pageSize大小
+         */
+        String BLOG_INDEX_PAGE_SIZE = "blog_index_page_size";
+
 
     }
 
@@ -217,6 +242,20 @@ public interface NoteBlogV4 {
          * sessionIdCookie的名称
          */
         String SESSION_ID_COOKIE = "noteblogv4sid";
+    }
+
+    /**
+     * 参数值
+     */
+    interface ParamValue {
+        /**
+         * 分页模式
+         * 0，默认流式，1：分页按钮点击单页模式加载
+         */
+        String PAGE_MODERN_DEFAULT = "0";
+        String PAGE_MODERN_BUTTON = "1";
+
+        String DEFAULT_PAGE_SIZE = "10";
     }
 
 }
