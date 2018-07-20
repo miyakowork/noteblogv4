@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * created by Wuwenbin on 2018/7/19 at 22:50
+ * @author wuwenbin
  */
 public interface RoleResourceRepository extends JpaRepository<NBSysRoleResource, RoleResourceKey> {
 

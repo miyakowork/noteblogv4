@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.Enumeration;
 
 /**
+ * 定时任务验证用户登录有效期
  * created by Wuwenbin on 2018/2/7 at 22:40
  *
  * @author wuwenbin
@@ -40,7 +41,7 @@ public class SessionConfig {
                 if (session.isExpired()) {
                     String info = "delete session for id:[{}], at [{}]";
                     log.info(StrUtil.format(info, session.getId(), LocalDateTime.now()));
-                    nbContext.remove(uuid);
+                    nbContext.removeSessionUser(uuid);
                 }
             }
         }

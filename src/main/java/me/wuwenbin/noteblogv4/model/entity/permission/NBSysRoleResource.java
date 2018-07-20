@@ -14,6 +14,7 @@ import java.io.Serializable;
 
 /**
  * created by Wuwenbin on 2018/7/18 at 14:09
+ * @author wuwenbin
  */
 @Entity
 @Table(name = "sys_role_resource")

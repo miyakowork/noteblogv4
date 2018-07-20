@@ -41,10 +41,5 @@ public class ApplicationInterceptor extends HandlerInterceptorAdapter {
                 }
             }
         }
-
-        //FIXME
-//        System.out.println(request.getRequestURL());
-//        NBSysUser user = NBSysUser.builder().id(1L).defaultRoleId(1L).enable(true).build();
-//        blogContext.setSessionUser(request, response, user);
     }
 }

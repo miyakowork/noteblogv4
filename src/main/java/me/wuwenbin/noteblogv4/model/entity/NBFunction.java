@@ -11,6 +11,7 @@ import java.io.Serializable;
 /**
  * 功能中心面板
  * created by Wuwenbin on 2018/7/19 at 15:54
+ * @author wuwenbin
  */
 @Data
 @Entity

@@ -44,7 +44,7 @@ public class NBContext extends ConcurrentHashMap<String, NBSession> {
     }
 
     public void removeSessionUser(String uuid) {
-        remove(uuid);
+        super.remove(uuid);
     }
 
     public void clearAll() {

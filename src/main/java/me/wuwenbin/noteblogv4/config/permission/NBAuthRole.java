@@ -12,23 +12,15 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface NBAuth {
+public @interface NBAuthRole {
 
     /**
-     * 权限标识
+     * 角色名
+     * 只要满足该角色即可访问，不需要匹配权限
      *
-     * @return 该资源的权限标识，唯一
+     * @return
      */
-    String value();
+    String[] value();
 
-    @AliasFor("value")
-    String permission() default "";
-
-    /**
-     * 该权限标识的意义
-     *
-     * @return 说明
-     */
-    String remark() default "";
 
 }

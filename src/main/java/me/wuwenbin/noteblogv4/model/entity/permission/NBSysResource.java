@@ -10,6 +10,7 @@ import java.io.Serializable;
 
 /**
  * created by Wuwenbin on 2018/7/18 at 14:01
+ * @author wuwenbin
  */
 @Entity
 @Table(name = "sys_resource")
@@ -31,5 +32,5 @@ public class NBSysResource implements Serializable {
     private String name;
 
     @Column(nullable = false, length = 50)
-    private String identifier;
+    private String permission;
 }

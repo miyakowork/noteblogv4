@@ -24,6 +24,8 @@ import static me.wuwenbin.noteblogv4.model.pojo.framework.NBR.ok;
 
 /**
  * created by Wuwenbin on 2018/7/19 at 20:54
+ *
+ * @author wuwenbin
  */
 @Controller
 public class LoginController {
@@ -49,7 +51,8 @@ public class LoginController {
             return "login";
         }
         NBSysUser u = blogContext.getSessionUser(uuid);
-        if (u != null && u.getDefaultRoleId() == NoteBlogV4.Session.WEBMASTER_ID) {
+        int masterRoleId = blogContext.getApplicationObj(NoteBlogV4.Session.WEBMASTER_ROLE_ID);
+        if (u != null && u.getDefaultRoleId() == masterRoleId) {
             return "management/index";
         }
         return "login";
@@ -85,8 +88,10 @@ public class LoginController {
             }
 
             blogContext.setSessionUser(request, response, findUser);
+
+            int masterRoleId = blogContext.getApplicationObj(NoteBlogV4.Session.WEBMASTER_ROLE_ID);
             String redirectUrl =
-                    findUser.getId() == NoteBlogV4.Session.WEBMASTER_ID
+                    findUser.getDefaultRoleId() == masterRoleId
                             ? NoteBlogV4.Session.MANAGEMENT_INDEX
                             : NoteBlogV4.Session.FRONTEND_INDEX;
             return ok("登陆成功！", redirectUrl);

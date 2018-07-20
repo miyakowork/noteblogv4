@@ -9,6 +9,7 @@ import java.util.Map;
 
 /**
  * created by Wuwenbin on 2018/7/16 at 12:38
+ * @author wuwenbin
  */
 public class CookieUtils {
 
@@ -52,7 +53,7 @@ public class CookieUtils {
 
     private static Map<String, Cookie> readCurrentRequestCookieMap(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
-        Map<String, Cookie> cookieMap = new HashMap<>();
+        Map<String, Cookie> cookieMap = new HashMap<>(20);
         if (null != cookies) {
             Arrays.stream(cookies).forEach(c -> cookieMap.put(c.getName(), c));
         }

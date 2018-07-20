@@ -12,6 +12,7 @@ import java.io.Serializable;
 /**
  * 关于我/网站的的数据库实体类
  * created by Wuwenbin on 2018/1/20 at 16:53
+ * @author wuwenbin
  */
 @Data
 @NoArgsConstructor

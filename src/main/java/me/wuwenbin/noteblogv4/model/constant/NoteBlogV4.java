@@ -11,7 +11,7 @@ public interface NoteBlogV4 {
     /**
      * 初始化的时候的一些参数key
      */
-    interface Init {
+    interface  Init {
 
         /**
          * @see Param
@@ -271,9 +271,14 @@ public interface NoteBlogV4 {
         String MANAGEMENT_INDEX = "/management/index";
 
         /**
-         * 网站管理员，当然是第一个用户（用户id为1），或者角色id为1
+         * 登录地址
          */
-        int WEBMASTER_ID = 1;
+        String LOGIN_URL = "/login";
+
+        /**
+         * 网站管理员的角色id，通过initListener初始化之后，会全局设置到NBContext对象中
+         */
+        String WEBMASTER_ROLE_ID = "webmaster_role_id";
     }
 
     /**

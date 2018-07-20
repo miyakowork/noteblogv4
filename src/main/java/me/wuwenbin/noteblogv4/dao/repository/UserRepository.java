@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UserRepository extends JpaRepository<NBSysUser, Long> {
 
     /**
+     * 根据用户名和密码查询可用的用户
+     *
      * @param username
      * @param password
      * @return

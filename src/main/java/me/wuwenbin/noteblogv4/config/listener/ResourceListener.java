@@ -32,6 +32,8 @@ import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Init.INIT_STATUS;
  * 资源监听器
  * 检测{@code @NBAuth}注解的资源存入数据库（默认给网站管理员全部权限，否则无法访问应用）
  * created by Wuwenbin on 2018/7/19 at 22:03
+ *
+ * @author wuwenbin
  */
 @Slf4j
 @Component
@@ -64,50 +66,48 @@ public class ResourceListener implements ApplicationListener<ContextRefreshedEve
             List<Map<String, Object>> resources = new ArrayList<>(50);
             //以防万一，先移除以前的资源
             context.removeApplicationObj(NoteBlogV4.Init.MASTER_RESOURCES);
-            if (event.getApplicationContext().getParent() == null) {
-                Map<String, Object> beans = event.getApplicationContext().getBeansWithAnnotation(Controller.class);
-                beans.putAll(event.getApplicationContext().getBeansWithAnnotation(RestController.class));
-                int cnt = 0;
+            Map<String, Object> beans = event.getApplicationContext().getBeansWithAnnotation(Controller.class);
+            beans.putAll(event.getApplicationContext().getBeansWithAnnotation(RestController.class));
+            int cnt = 0;
 
-                for (Object bean : beans.values()) {
-                    if (isControllerPresent(bean)) {
-                        String[] prefixes = getPrefixUrl(bean);
-                        RequestMethod[] requestMethods = getRequestMethod(bean);
-                        String[] produces = getRequestProduces(bean);
+            for (Object bean : beans.values()) {
+                if (isControllerPresent(bean)) {
+                    String[] prefixes = getPrefixUrl(bean);
+                    RequestMethod[] requestMethods = getRequestMethod(bean);
+                    String[] produces = getRequestProduces(bean);
 
-                        for (String prefix : prefixes) {
-                            Method[] methods = AopProxyUtils.ultimateTargetClass(bean).getDeclaredMethods();
+                    for (String prefix : prefixes) {
+                        Method[] methods = AopProxyUtils.ultimateTargetClass(bean).getDeclaredMethods();
 
-                            for (Method method : methods) {
-                                String[] lasts = getLastUrl(method);
+                        for (Method method : methods) {
+                            String[] lasts = getLastUrl(method);
 
-                                for (String last : lasts) {
-                                    String url = getCompleteUrl(prefix, last);
-                                    if (method.isAnnotationPresent(NBAuth.class)) {
-                                        log.info("资源 ：[url = '{}'，请求方式：'{}'，媒体类型：'{}'] 扫描到@NBAuth，准备处理...", url, Arrays.toString(requestMethods), produces);
-                                        NBAuth nbAuth = method.getAnnotation(NBAuth.class);
-                                        String permission = isNotEmpty(nbAuth.permission()) ? nbAuth.permission() : nbAuth.value();
-                                        Map<String, Object> tempMap = MapUtil.of("permission", permission);
-                                        tempMap.put("remark", nbAuth.remark());
-                                        tempMap.put("url", url);
-                                        resources.add(tempMap);
-                                        cnt++;
-                                        log.info("处理完毕，等待下一步插入数据库赋给网站管理员角色...");
-                                    } else {
-                                        log.info("资源 url：[{}] 未扫描到@NBAuth，略过处理步骤", url);
-                                    }
+                            for (String last : lasts) {
+                                String url = getCompleteUrl(prefix, last);
+                                if (method.isAnnotationPresent(NBAuth.class)) {
+                                    log.info("资源：[url = '{}'，请求方式：'{}'，媒体类型：'{}'] 扫描到@NBAuth，准备处理...", url, Arrays.toString(requestMethods), produces);
+                                    NBAuth nbAuth = method.getAnnotation(NBAuth.class);
+                                    String permission = isNotEmpty(nbAuth.permission()) ? nbAuth.permission() : nbAuth.value();
+                                    Map<String, Object> tempMap = MapUtil.of("permission", permission);
+                                    tempMap.put("remark", nbAuth.remark());
+                                    tempMap.put("url", url);
+                                    resources.add(tempMap);
+                                    cnt++;
+                                    log.info("处理完毕，等待下一步插入数据库赋给网站管理员角色...");
+                                } else {
+                                    log.info("资源：[{}] 未扫描到@NBAuth，略过处理步骤", url);
                                 }
-
                             }
 
                         }
 
                     }
-                }
-                log.info("扫描资源完毕，共计处理资源数目：[{}]", cnt);
-                context.setApplicationObj(NoteBlogV4.Init.MASTER_RESOURCES, resources);
 
+                }
             }
+            log.info("扫描资源完毕，共计处理资源数目：[{}]", cnt);
+            context.setApplicationObj(NoteBlogV4.Init.MASTER_RESOURCES, resources);
+
         }
     }
 

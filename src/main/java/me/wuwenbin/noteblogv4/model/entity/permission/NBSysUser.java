@@ -51,6 +51,7 @@ public class NBSysUser implements Serializable {
 
     /**
      * 默认为普通访客用户
+     * 一个用户可能有多个角色，此字段为默认角色
      */
     @Column(nullable = false, length = 11)
     @Builder.Default

@@ -1,6 +1,7 @@
 package me.wuwenbin.noteblogv4.util;
 
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.StrUtil;
 import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
@@ -26,6 +27,7 @@ import java.util.Objects;
 public class NBUtils implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext = null;
+    private static final String UNKNOWN = "unknown";
 
     /**
      * 获取实际ip地址
@@ -37,19 +39,19 @@ public class NBUtils implements ApplicationContextAware {
         String remoteAddress;
         try {
             remoteAddress = request.getHeader("x-forwarded-for");
-            if (StringUtils.isEmpty(remoteAddress) || "unknown".equalsIgnoreCase(remoteAddress)) {
+            if (StringUtils.isEmpty(remoteAddress) || UNKNOWN.equalsIgnoreCase(remoteAddress)) {
                 remoteAddress = request.getHeader("Proxy-Client-IP");
             }
-            if (StringUtils.isEmpty(remoteAddress) || remoteAddress.length() == 0 || "unknown".equalsIgnoreCase(remoteAddress)) {
+            if (StringUtils.isEmpty(remoteAddress) || remoteAddress.length() == 0 || UNKNOWN.equalsIgnoreCase(remoteAddress)) {
                 remoteAddress = request.getHeader("WL-Proxy-Client-IP");
             }
-            if (StringUtils.isEmpty(remoteAddress) || "unknown".equalsIgnoreCase(remoteAddress)) {
+            if (StringUtils.isEmpty(remoteAddress) || UNKNOWN.equalsIgnoreCase(remoteAddress)) {
                 remoteAddress = request.getHeader("HTTP_CLIENT_IP");
             }
-            if (StringUtils.isEmpty(remoteAddress) || "unknown".equalsIgnoreCase(remoteAddress)) {
+            if (StringUtils.isEmpty(remoteAddress) || UNKNOWN.equalsIgnoreCase(remoteAddress)) {
                 remoteAddress = request.getHeader("HTTP_X_FORWARDED_FOR");
             }
-            if (StringUtils.isEmpty(remoteAddress) || "unknown".equalsIgnoreCase(remoteAddress)) {
+            if (StringUtils.isEmpty(remoteAddress) || UNKNOWN.equalsIgnoreCase(remoteAddress)) {
                 remoteAddress = request.getRemoteAddr();
             }
         } catch (Exception var3) {
@@ -98,7 +100,6 @@ public class NBUtils implements ApplicationContextAware {
      */
     public static HttpServletRequest getCurrentRequest() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        assert attributes != null;
         return attributes.getRequest();
     }
 
@@ -124,8 +125,31 @@ public class NBUtils implements ApplicationContextAware {
         return getClassesPath() + filePath;
     }
 
+    /**
+     * 判断是否为ajax请求
+     *
+     * @param request
+     * @return
+     */
+    public static boolean isAjaxRequest(HttpServletRequest request) {
+        return StrUtil.isNotBlank(request.getHeader("x-requested-with")) && "XMLHttpRequest".equals(request.getHeader("x-requested-with"));
+    }
+
+    /**
+     * 获取Bean
+     *
+     * @param tClass
+     * @param <T>
+     * @return
+     */
+    public static <T> T getBean(Class<T> tClass) {
+        return applicationContext.getBean(tClass);
+    }
+
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         NBUtils.applicationContext = applicationContext;
     }
+
+
 }
