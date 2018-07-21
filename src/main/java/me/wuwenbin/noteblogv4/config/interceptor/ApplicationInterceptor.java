@@ -1,5 +1,8 @@
 package me.wuwenbin.noteblogv4.config.interceptor;
 
+import cn.hutool.cache.CacheUtil;
+import cn.hutool.cache.impl.WeakCache;
+import cn.hutool.core.date.DateUnit;
 import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.config.application.NBSession;
 import me.wuwenbin.noteblogv4.dao.repository.LoggerRepository;
@@ -35,6 +38,11 @@ public class ApplicationInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
+        WeakCache<String, IpInfo> ipInfoCache = blogContext.getApplicationObj("ipCacheBean");
+        if (ipInfoCache == null) {
+            ipInfoCache = CacheUtil.newWeakCache(DateUnit.MINUTE.getMillis() * 10);
+            blogContext.setApplicationObj("ipCacheBean", ipInfoCache);
+        }
         String sessionId = "", username = "";
         Cookie cookie = CookieUtils.getCookie(request, NoteBlogV4.Session.SESSION_ID_COOKIE);
         if (cookie != null) {
@@ -50,10 +58,14 @@ public class ApplicationInterceptor extends HandlerInterceptorAdapter {
             }
         }
         String ipAddr = NBUtils.getRemoteAddress(request);
-        IpInfo ipInfo = NBUtils.getIpInfo(ipAddr);
+        IpInfo cacheInfo = ipInfoCache.get(ipAddr + "ipCache");
+        if (cacheInfo == null) {
+            ipInfoCache.put(ipAddr + "ipCache", NBUtils.getIpInfo(ipAddr));
+        }
+        cacheInfo = ipInfoCache.get(ipAddr + "ipCache");
         NBLogger logger = NBLogger.builder()
                 .ipAddr(ipAddr)
-                .ipInfo(NBUtils.getIpCnInfo(ipInfo))
+                .ipInfo(NBUtils.getIpCnInfo(cacheInfo))
                 .sessionId(sessionId)
                 .time(LocalDateTime.now())
                 .url(request.getRequestURL().toString())

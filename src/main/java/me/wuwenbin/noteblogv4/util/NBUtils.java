@@ -157,6 +157,7 @@ public class NBUtils implements ApplicationContextAware {
      * @return
      */
     public static IpInfo getIpInfo(String ip) {
+        System.out.println("============================");
         String url = "http://ip.taobao.com/service/getIpInfo.php?ip=" + ip;
         String resp = HttpUtil.get(url);
         JSONObject jsonObject = JSONUtil.parseObj(resp);

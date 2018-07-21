@@ -104,12 +104,15 @@ public class EntranceController {
             return "login";
         }
         NBSysUser u = blogContext.getSessionUser(uuid);
-        long masterRoleId = blogContext.getApplicationObj(NoteBlogV4.Session.WEBMASTER_ROLE_ID);
-        if (u != null && u.getDefaultRoleId() == masterRoleId) {
-            return "management/index";
-        } else {
-            return "redirect:/";
+        if (u != null) {
+            long masterRoleId = blogContext.getApplicationObj(NoteBlogV4.Session.WEBMASTER_ROLE_ID);
+            if (u.getDefaultRoleId() == masterRoleId) {
+                return "management/index";
+            } else {
+                return "redirect:/";
+            }
         }
+        return "login";
     }
 
     /**

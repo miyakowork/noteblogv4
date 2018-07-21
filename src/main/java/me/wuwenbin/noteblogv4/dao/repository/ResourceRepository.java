@@ -31,6 +31,6 @@ public interface ResourceRepository extends JpaRepository<NBSysResource, Long> {
      * @param url
      */
     @Modifying
-    @Query("update NBSysResource r set r.name = ?1, r.permission = ?2, r.type = ?3 where r.url = ?3")
+    @Query("update NBSysResource r set r.name = ?1, r.permission = ?2, r.type = ?3 where r.url = ?4")
     void updateByUrl(String name, String permission, NBSysResource.ResType type, String url);
 }
