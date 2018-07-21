@@ -22,8 +22,6 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 mybatis:
   mapper-locations: classpath:mapping/*.xml
-  configuration-properties:
-#  type-aliases-package: me.wuwenbin.noteblogv4.model.entity,me.wuwenbin.noteblogv4.model.pojo.business
 pagehelper:
   helper-dialect: mysql
   reasonable: true

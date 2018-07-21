@@ -93,7 +93,7 @@ public class NBAuthAspect extends BaseController {
                     return handleAuthNotPass(restController, responseBody);
                 }
             } else {
-                log.info("验证角色失败，用户未登录或者登录过期，跳转提示...");
+                log.info("验证权限失败，用户未登录或者登录过期，跳转提示...");
                 return handleUserNotLogin(restController, responseBody);
             }
         } catch (Throwable throwable) {
@@ -168,11 +168,11 @@ public class NBAuthAspect extends BaseController {
         } else if (isRouter(NBUtils.getCurrentRequest())) {
             Exception e = new UserNotLoginException("未登录或登录过期，无法访问！");
             setErrorAttribute(402, LocalDateTime.now().toString(), e);
-            return "error/router";
+            return "error/router_login";
         } else {
             Exception e = new UserNotLoginException("未登录或登录过期，无法访问！");
             setErrorAttribute(402, LocalDateTime.now().toString(), e);
-            return "error/page";
+            return "error/page_login";
         }
     }
 
@@ -188,11 +188,11 @@ public class NBAuthAspect extends BaseController {
         if (restController || responseBody) {
             return NBR.error("您所在的用户组没有权限！");
         } else if (isRouter(NBUtils.getCurrentRequest())) {
-            Exception e = new UnauthorizedRoleException("该用户当前角色未授权，无法访问！");
+            Exception e = new UnauthorizedRoleException("该资源未授权给当前用户的角色，无法访问！");
             setErrorAttribute(401, LocalDateTime.now().toString(), e);
             return "error/router";
         } else {
-            Exception e = new UnauthorizedRoleException("该用户当前角色未授权，无法访问！");
+            Exception e = new UnauthorizedRoleException("该资源未授权给当前用户的角色，无法访问！");
             setErrorAttribute(401, LocalDateTime.now().toString(), e);
             return "error/page";
         }

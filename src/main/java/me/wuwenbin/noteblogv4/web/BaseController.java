@@ -15,7 +15,6 @@ import static org.springframework.util.StringUtils.isEmpty;
 @Slf4j
 public abstract class BaseController {
 
-
     protected static String basePath(HttpServletRequest request) {
         String bathPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/";
         log.info("当前域名：[{}]", bathPath);

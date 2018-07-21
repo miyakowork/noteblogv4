@@ -2,9 +2,13 @@ package me.wuwenbin.noteblogv4.util;
 
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
+import me.wuwenbin.noteblogv4.model.pojo.business.IpInfo;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -144,6 +148,34 @@ public class NBUtils implements ApplicationContextAware {
      */
     public static <T> T getBean(Class<T> tClass) {
         return applicationContext.getBean(tClass);
+    }
+
+    /**
+     * http请求获取ip对象
+     *
+     * @param ip
+     * @return
+     */
+    public static IpInfo getIpInfo(String ip) {
+        String url = "http://ip.taobao.com/service/getIpInfo.php?ip=" + ip;
+        String resp = HttpUtil.get(url);
+        JSONObject jsonObject = JSONUtil.parseObj(resp);
+        return jsonObject.toBean(IpInfo.class);
+    }
+
+    /**
+     * 获取ip地理位置信息
+     *
+     * @param ipInfo
+     * @return
+     */
+    public static String getIpCnInfo(IpInfo ipInfo) {
+        String temp = ipInfo.getData().getCountry() + ipInfo.getData().getRegion() + ipInfo.getData().getCity();
+        if (!ipInfo.getData().getCounty().toLowerCase().contains("x")) {
+            return temp + ipInfo.getData().getCounty();
+        } else {
+            return temp;
+        }
     }
 
     @Override

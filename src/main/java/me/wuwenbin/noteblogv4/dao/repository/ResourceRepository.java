@@ -5,11 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.transaction.Transactional;
+
 /**
  * created by Wuwenbin on 2018/7/19 at 22:54
  *
  * @author wuwenbin
  */
+@Transactional(rollbackOn = Exception.class)
 public interface ResourceRepository extends JpaRepository<NBSysResource, Long> {
 
     /**
@@ -28,6 +31,6 @@ public interface ResourceRepository extends JpaRepository<NBSysResource, Long> {
      * @param url
      */
     @Modifying
-    @Query("update NBSysResource r set r.name = ?1,r.permission = ?2 where r.url = ?3")
-    void updateByUrl(String name, String permission, String url);
+    @Query("update NBSysResource r set r.name = ?1, r.permission = ?2, r.type = ?3 where r.url = ?3")
+    void updateByUrl(String name, String permission, NBSysResource.ResType type, String url);
 }

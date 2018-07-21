@@ -1,5 +1,6 @@
-layui.use('form', function () {
-    var form = layui.form;
+layui.use(['form', 'jquery'], function () {
+    var form = layui.form
+        , $ = layui.$;
 
     form.verify({
         username: function (value) {
@@ -20,18 +21,24 @@ layui.use('form', function () {
             /^[\S]{6,12}$/
             , '密码必须6到12位，且不能出现空格'
         ]
+        , pass2: function (value) {
+            var repeatPass = $("input[name=bmyPass]").val();
+            if (repeatPass !== value) {
+                return "两次输入的密码不一致";
+            }
+        }
     });
 
-    form.on('submit(bmySubmit)', function (data) {
+    form.on('submit(bmyReg)', function (data) {
         data.field.bmyPass = md5(data.field.bmyPass);
-        BMY.ajax("/login", data.field, function (resp) {
+        BMY.ajax("/registration", data.field, function (resp) {
                 if (resp.code === BMY.status.ok) {
-                    layer.msg("登录成功！");
+                    layer.msg("注册成功！");
                     setTimeout(function () {
-                        location.href = BMY.url.manage_index;
+                        location.href = BMY.url.login || resp.data;
                     }, 1000);
                 } else {
-                    layer.msg("登录失败，" + resp.message);
+                    layer.msg("注册失败，" + resp.message);
                 }
             }
         );

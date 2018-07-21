@@ -7,6 +7,7 @@ import me.wuwenbin.noteblogv4.config.permission.NBAuth;
 import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.entity.NBParam;
+import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource;
 import me.wuwenbin.noteblogv4.service.param.ParamService;
 import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,8 +74,6 @@ public class ResourceListener implements ApplicationListener<ContextRefreshedEve
             for (Object bean : beans.values()) {
                 if (isControllerPresent(bean)) {
                     String[] prefixes = getPrefixUrl(bean);
-                    RequestMethod[] requestMethods = getRequestMethod(bean);
-                    String[] produces = getRequestProduces(bean);
 
                     for (String prefix : prefixes) {
                         Method[] methods = AopProxyUtils.ultimateTargetClass(bean).getDeclaredMethods();
@@ -85,15 +84,18 @@ public class ResourceListener implements ApplicationListener<ContextRefreshedEve
                             for (String last : lasts) {
                                 String url = getCompleteUrl(prefix, last);
                                 if (method.isAnnotationPresent(NBAuth.class)) {
+                                    RequestMethod[] requestMethods = getRequestMethod(method);
+                                    String[] produces = getRequestProduces(method);
                                     log.info("资源：[url = '{}'，请求方式：'{}'，媒体类型：'{}'] 扫描到@NBAuth，准备处理...", url, Arrays.toString(requestMethods), produces);
                                     NBAuth nbAuth = method.getAnnotation(NBAuth.class);
                                     String permission = isNotEmpty(nbAuth.permission()) ? nbAuth.permission() : nbAuth.value();
+                                    NBSysResource.ResType type = nbAuth.type();
                                     Map<String, Object> tempMap = MapUtil.of("permission", permission);
                                     tempMap.put("remark", nbAuth.remark());
                                     tempMap.put("url", url);
+                                    tempMap.put("type", type);
                                     resources.add(tempMap);
                                     cnt++;
-                                    log.info("处理完毕，等待下一步插入数据库赋给网站管理员角色...");
                                 } else {
                                     log.info("资源：[{}] 未扫描到@NBAuth，略过处理步骤", url);
                                 }
@@ -105,7 +107,7 @@ public class ResourceListener implements ApplicationListener<ContextRefreshedEve
 
                 }
             }
-            log.info("扫描资源完毕，共计处理资源数目：[{}]", cnt);
+            log.info("扫描资源完毕，共计处理资源数目：[{}]，等待下一步插入数据库赋给网站管理员角色..", cnt);
             context.setApplicationObj(NoteBlogV4.Init.MASTER_RESOURCES, resources);
 
         }
@@ -167,6 +169,8 @@ public class ResourceListener implements ApplicationListener<ContextRefreshedEve
         RequestMethod[] prefixes;
         if (AopProxyUtils.ultimateTargetClass(bean).isAnnotationPresent(RequestMapping.class)) {
             prefixes = AopProxyUtils.ultimateTargetClass(bean).getAnnotation(RequestMapping.class).method();
+        } else if (bean instanceof Method && ((Method) bean).isAnnotationPresent(RequestMapping.class)) {
+            prefixes = ((Method) bean).getAnnotation(RequestMapping.class).method();
         } else {
             prefixes = new RequestMethod[]{};
         }
@@ -183,6 +187,8 @@ public class ResourceListener implements ApplicationListener<ContextRefreshedEve
         String[] prefixes;
         if (AopProxyUtils.ultimateTargetClass(bean).isAnnotationPresent(RequestMapping.class)) {
             prefixes = AopProxyUtils.ultimateTargetClass(bean).getAnnotation(RequestMapping.class).produces();
+        } else if (bean instanceof Method && ((Method) bean).isAnnotationPresent(RequestMapping.class)) {
+            prefixes = ((Method) bean).getAnnotation(RequestMapping.class).produces();
         } else {
             prefixes = new String[]{""};
         }

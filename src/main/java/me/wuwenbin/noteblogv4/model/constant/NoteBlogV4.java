@@ -11,7 +11,7 @@ public interface NoteBlogV4 {
     /**
      * 初始化的时候的一些参数key
      */
-    interface  Init {
+    interface Init {
 
         /**
          * @see Param
@@ -238,7 +238,11 @@ public interface NoteBlogV4 {
          */
         String BLOG_INDEX_PAGE_SIZE = "blog_index_page_size";
 
-
+        /**
+         * 是否开启访问统计
+         * 因为是频繁的插入数据库，所以默认是不开启此项的
+         */
+        String STATISTIC_ANALYSIS = "statistic_analysis";
     }
 
     /**

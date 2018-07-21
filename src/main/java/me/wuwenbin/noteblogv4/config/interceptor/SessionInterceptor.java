@@ -1,14 +1,11 @@
 package me.wuwenbin.noteblogv4.config.interceptor;
 
 import cn.hutool.core.codec.Base64;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.dao.repository.UserRepository;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
-import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import me.wuwenbin.noteblogv4.util.CookieUtils;
 import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -18,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * 拦截器更多的是为了处理Session和Cookie的一些逻辑
  * created by Wuwenbin on 2018/1/23 at 13:36
  *
  * @author wuwenbin

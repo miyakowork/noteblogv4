@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -57,13 +58,14 @@ public class InitController {
         NBSysUser u
                 = NBSysUser.builder()
                 .username("admin")
-                .password(SecureUtil.md5("123456"))
+                .password(SecureUtil.md5(SecureUtil.md5("123456")))
                 .defaultRoleId(nbContext.getApplicationObj(NoteBlogV4.Session.WEBMASTER_ROLE_ID))
                 .nickname("管理员")
                 .build();
         UserRepository userRepository = NBUtils.getBean(UserRepository.class);
         NBSysUser u2 = userRepository.save(u);
-        nbContext.setSessionUser(request, response, u2);
+//        nbContext.setSessionUser(request, response, u2);
         return u2;
     }
+
 }

@@ -1,5 +1,6 @@
 package me.wuwenbin.noteblogv4.config.permission;
 
+import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResType;
 import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;
@@ -21,6 +22,11 @@ public @interface NBAuth {
      */
     String value();
 
+    /**
+     * 权限标识，同{@code value()}
+     *
+     * @return
+     */
     @AliasFor("value")
     String permission() default "";
 
@@ -31,4 +37,12 @@ public @interface NBAuth {
      */
     String remark() default "";
 
+
+    /**
+     * url的类型
+     * 可做导航或者其他两种类型
+     *
+     * @return
+     */
+    ResType type() default ResType.OTHER;
 }

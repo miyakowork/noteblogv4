@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 /**
  * 访问数据库的一些配置
  * created by Wuwenbin on 2018/7/14 at 9:26
+ *
  * @author wuwenbin
  */
 @Slf4j
@@ -51,4 +52,5 @@ public class DataSourceConfig {
             throw new RuntimeException(e);
         }
     }
+
 }

@@ -10,7 +10,6 @@ import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysRole;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysRoleResource;
 import me.wuwenbin.noteblogv4.model.entity.permission.pk.RoleResourceKey;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -67,12 +66,14 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
         //没有初始化角色信息
         if (roleCnt == 0) {
             log.info("「笔记博客」App 正在初始化权限系统，请稍后...");
-            setUpAuthority();
+            setUpAuthority(false);
             log.info("权限系统初始化完毕...");
         } else {
-            //已经包含初始化后的角色信息，查出角色名为ROLE_MASTER的对象，没有就赋值为1
+            //已经包含初始化后的角色信息，查出角色名为ROLE_MASTER的对象，没有就抛出异常
             Optional<NBSysRole> role = roleRepository.findOne(Example.of(NBSysRole.builder().name("ROLE_MASTER").build()));
-            context.setApplicationObj(NoteBlogV4.Session.WEBMASTER_ROLE_ID, role.orElseThrow(() -> new RuntimeException("未找到角色「ROLE_MASTER」")).getId());
+            context.setApplicationObj(NoteBlogV4.Session.WEBMASTER_ROLE_ID,
+                    role.orElseThrow(() -> new RuntimeException("未找到角色「ROLE_MASTER」")).getId());
+            setUpAuthority(true);
         }
         long panelCnt = panelRepository.count();
         if (panelCnt != NBPanel.PanelDom.values().length) {
@@ -98,25 +99,33 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
      * 包含两中角色：管理员和访客
      * 访客需要去后台管理配置权限之后才能访问
      */
-    private void setUpAuthority() {
-        //插入管理员角色信息
-        NBSysRole webmasterRole = NBSysRole.builder().name("ROLE_MASTER").cnName("网站管理员").build();
-        NBSysRole webmaster = roleRepository.saveAndFlush(webmasterRole);
-        context.setApplicationObj(NoteBlogV4.Session.WEBMASTER_ROLE_ID, webmaster.getId());
+    private void setUpAuthority(boolean isRoleInitialed) {
+        NBSysRole webmaster;
+        //如果角色信息没有被初始化
+        if (!isRoleInitialed) {
+            //插入管理员角色信息
+            NBSysRole webmasterRole = NBSysRole.builder().name("ROLE_MASTER").cnName("网站管理员").build();
+            webmaster = roleRepository.saveAndFlush(webmasterRole);
+            context.setApplicationObj(NoteBlogV4.Session.WEBMASTER_ROLE_ID, webmaster.getId());
+        } else {
+            long webmasterRoleId = context.getApplicationObj(NoteBlogV4.Session.WEBMASTER_ROLE_ID);
+            webmaster = roleRepository.getOne(webmasterRoleId);
+        }
         //获取扫描到的所有需要验证权限的资源
         List<Map<String, Object>> authResources = context.getApplicationObj(NoteBlogV4.Init.MASTER_RESOURCES);
         authResources.forEach(res -> {
             String url = res.get("url").toString();
             String name = res.get("remark").toString();
             String permission = res.get("permission").toString();
+            NBSysResource.ResType type = (NBSysResource.ResType) res.get("type");
             //数据库已存在此url，做更新操作
             if (resourceRepository.countByUrl(url) == 1) {
-                resourceRepository.updateByUrl(name, permission, url);
+                resourceRepository.updateByUrl(name, permission, type, url);
             }
             //数据库不存在，做插入操作
             else {
                 NBSysResource resourceInsert = NBSysResource.builder()
-                        .permission(permission).name(name).url(url)
+                        .permission(permission).name(name).url(url).type(type)
                         .build();
                 NBSysResource newRes = resourceRepository.saveAndFlush(resourceInsert);
                 NBSysRoleResource rr = NBSysRoleResource.builder()
@@ -126,9 +135,11 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
             }
         });
 
-        //插入网站普通用户角色信息
-        NBSysRole normalUser = NBSysRole.builder().name("ROLE_USER").cnName("网站访客").build();
-        roleRepository.saveAndFlush(normalUser);
+        if (!isRoleInitialed) {
+            //插入网站普通用户角色信息
+            NBSysRole normalUser = NBSysRole.builder().name("ROLE_USER").cnName("网站访客").build();
+            roleRepository.saveAndFlush(normalUser);
+        }
     }
 
     /**
@@ -179,7 +190,8 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
                 {QINIU_SECRET_KEY, null, "七牛云SecretKey"},
                 {QINIU_BUCKET, null, "七牛云bucket"},
                 {PAGE_MODERN, INIT_DEFAULT_PAGE_MODERN, "首页博文分页模式0：流式，1：按钮加载"},
-                {BLOG_INDEX_PAGE_SIZE, INIT_DEFAULT_PAGE_SIZE, "首页博文分页模式0：流式，1：按钮加载"}
+                {BLOG_INDEX_PAGE_SIZE, INIT_DEFAULT_PAGE_SIZE, "首页博文分页模式0：流式，1：按钮加载"},
+                {STATISTIC_ANALYSIS, INIT_NOT, "是否开启访问统计，默认不开启"}
         };
         saveParam(settings);
     }

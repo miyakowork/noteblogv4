@@ -64,8 +64,4 @@ public class NBSysUser implements Serializable {
     @Column(length = 32)
     private String openId;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    @Transient
-    private List<NBSysRole> roles;
-
 }

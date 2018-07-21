@@ -9,4 +9,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author wuwenbin
  */
 public interface RoleRepository extends JpaRepository<NBSysRole, Long> {
+
+    /**
+     * 根据角色名查找角色信息对象
+     *
+     * @param name
+     * @return
+     */
+    NBSysRole findByName(String name);
 }

@@ -8,6 +8,7 @@ var BMY = {
     , url: {
         prefix: "/management"
         , manage_index: "/management/index"
+        , login: "/login"
     }
 
     , ajax: function (url, data, success) {

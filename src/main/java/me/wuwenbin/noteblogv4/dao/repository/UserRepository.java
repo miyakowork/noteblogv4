@@ -18,4 +18,12 @@ public interface UserRepository extends JpaRepository<NBSysUser, Long> {
      * @return
      */
     NBSysUser findByUsernameAndPasswordAndEnableTrue(String username, String password);
+
+    /**
+     * 根据用户名查找用户对象
+     *
+     * @param username
+     * @return
+     */
+    NBSysUser findByUsername(String username);
 }

@@ -2,9 +2,15 @@ body {
     background: #eeeeee;
 }
 
-@media screen and (max-width: 768px) {
-    .user-login {
-        padding-top: 80px;
+@media screen and (max-height: 550px) {
+    .footer-login {
+        display: none;
+    }
+}
+
+@media screen and (max-height: 650px) {
+    .footer-registration {
+        display: none;
     }
 }
 
@@ -12,13 +18,13 @@ body {
     position: relative;
     left: 0;
     top: 0;
-    padding: 110px 0;
+    padding: 5% 0;
     min-height: 100%;
     box-sizing: border-box;
 }
 
 @media screen and (max-width: 768px) {
-    .login-form {
+    .login-form, .registration-form {
         width: 300px;
         margin: 0 auto;
         box-sizing: border-box;
@@ -26,7 +32,7 @@ body {
 }
 
 @media screen and (min-width: 769px) {
-    .login-form {
+    .login-form, .registration-form {
         width: 375px;
         margin: 0 auto;
         box-sizing: border-box;
@@ -85,7 +91,7 @@ body {
     border-radius: 2px;
 }
 
-.login-form input[type=checkbox] {
+.login-form input[type=checkbox], .registration-form input[type=checkbox] {
     display: none;
 }
 
@@ -118,4 +124,41 @@ body {
 .layadmin-user-login-footer a {
     padding: 0 5px;
     color: rgba(0, 0, 0, .5);
+}
+
+.layadmin-user-login-other {
+    position: relative;
+    font-size: 0;
+    line-height: 38px;
+    padding-top: 20px;
+}
+
+.login-footer {
+    position: relative;
+}
+
+.login-footer label {
+    width: 100px;
+    color: #0e0e0e;
+}
+
+.login-footer a:first-of-type {
+    margin-left: 100px;
+}
+
+.login-footer a {
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.login-footer a i {
+    font-size: 24px;
+}
+
+.layui-icon-login-qq {
+    color: #3492ED;
+}
+
+.layui-icon-login-wechat {
+    color: #4DAF29;
 }

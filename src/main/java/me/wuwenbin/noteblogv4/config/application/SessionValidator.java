@@ -1,4 +1,4 @@
-package me.wuwenbin.noteblogv4.config.configuration;
+package me.wuwenbin.noteblogv4.config.application;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -21,12 +21,12 @@ import java.util.Enumeration;
 @Slf4j
 @Component
 @EnableScheduling
-public class SessionConfig {
+public class SessionValidator {
 
     private final NBContext nbContext;
 
     @Autowired
-    public SessionConfig(NBContext nbContext) {
+    public SessionValidator(NBContext nbContext) {
         this.nbContext = nbContext;
     }
 

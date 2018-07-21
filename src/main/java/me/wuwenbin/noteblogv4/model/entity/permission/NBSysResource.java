@@ -10,6 +10,7 @@ import java.io.Serializable;
 
 /**
  * created by Wuwenbin on 2018/7/18 at 14:01
+ *
  * @author wuwenbin
  */
 @Entity
@@ -33,4 +34,22 @@ public class NBSysResource implements Serializable {
 
     @Column(nullable = false, length = 50)
     private String permission;
+
+    @Enumerated(EnumType.STRING)
+    private ResType type;
+
+    /**
+     * url的类型
+     */
+    public enum ResType {
+        /**
+         * 可以做菜单栏的导航链接
+         */
+        NAV_LINK,
+
+        /**
+         * 其他类型
+         */
+        OTHER
+    }
 }

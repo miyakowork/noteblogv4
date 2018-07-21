@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * 虽然{@code @NBAuth}也能够处理权限拦截
+ * 此处的拦截器更多的是为了处理Session和Cookie的一些逻辑
  * created by Wuwenbin on 2018/1/23 at 13:41
  *
  * @author wuwenbin
