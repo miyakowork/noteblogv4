@@ -9,19 +9,32 @@
     <title>笔记博客 - 后台管理</title>
     <link rel="stylesheet" href="/static/plugins/layui/css/layui.css">
     <link rel="stylesheet" href="/static/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/plugins/layui/css/admin.css">
     <link rel="stylesheet" href="/static/assets/css/management/admin.css">
 </head>
-<body class="layui-layout-body">
+<body class="layui-layout-body layadmin-tabspage-none">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <div class="layui-logo"><span><i class="fa fa-graduation-cap"></i>笔记博客</span> 后台管理</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
-        <ul class="layui-nav layui-layout-left layui-hide layui-show-sm-inline-block">
-            <li class="layui-nav-item"><a href="#home"><i class="fa fa-dashboard"></i> 控制台</a></li>
-            <li class="layui-nav-item"><a href="/" target="_blank"><i class="fa fa-home"></i> 前台首页</a></li>
+        <ul class="layui-nav layui-layout-left" lay-filter="nav-icon">
+            <li class="layui-nav-item layadmin-flexible">
+                <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+                    <i class="layui-icon layui-icon-shrink-right"></i>
+                </a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="http://www.layui.com/admin/" target="_blank" title="前台">
+                    <i class="layui-icon layui-icon-website"></i>
+                </a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;" lay-filter="refresh" title="刷新">
+                    <i class="layui-icon layui-icon-refresh-3"></i>
+                </a>
+            </li>
         </ul>
         <ul class="layui-nav layui-layout-right">
-            <li class="layui-nav-item layui-hide-xs layui-hide-sm layui-show-md-block">
+            <li class="layui-nav-item">
                 <a href="javascript:;">
                     <img th:src="${avatar}" class="layui-nav-img">
                     <span th:text="${nickname}"></span>
@@ -33,16 +46,15 @@
                     <dd><a href="/management/logout?from=management"><i class="fa fa-sign-out"></i> 退了</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item layui-hide-lg layui-hide-md layui-show-sm-block">
-                <a href="javascript:leftMenu();" style="font-size: 18px;"><i class="fa fa-navicon"></i> </a>
-            </li>
         </ul>
     </div>
 
-    <div id="left-menu" class="layui-side layui-bg-black ">
+    <div id="left-menu" class="layui-side layui-side-menu ">
         <div class="layui-side-scroll">
+            <div class="layui-logo"><cite><i class="fa fa-graduation-cap"></i><span>笔记博客</span> <span>后台管理</span></cite>
+            </div>
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree" lay-filter="">
+            <ul class="layui-nav layui-nav-tree" lay-filter="" lay-shrink="all">
                 <li class="layui-nav-item layui-show-xs-block layui-hide">
                     <a href="javascript:;">
                         <img src="/static/assets/img/bmy.png" class="layui-nav-img">
@@ -59,20 +71,20 @@
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                    <a class="" href="javascript:;"><i class="fa fa-keyboard-o"></i> 发布内容</a>
+                    <a class="" href="javascript:;"><i class="fa fa-keyboard-o"></i> <cite>发布内容</cite></a>
                     <dl class="layui-nav-child">
-                        <dd><a class="" href="#blog"><i class="fa fa-book"></i> 发布博文</a></dd>
-                        <dd><a href="#note"><i class="fa fa-sticky-note-o"></i> 撰写笔记</a></dd>
+                        <dd><a class="" href="#blog"><i class="fa fa-book"></i><cite>发布博文</cite></a></dd>
+                        <dd><a href="#note"><i class="fa fa-sticky-note-o"></i><cite>撰写笔记</cite></a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                    <a class="" href="javascript:;"><i class="fa fa-code"></i> 内容管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="#blogs"><i class="fa fa-book"></i> 博文管理</a></dd>
-                        <dd><a href="#notes"><i class="fa fa-sticky-note-o"></i> 笔记管理</a></dd>
-                        <dd><a href="#file"><i class="fa fa-file"></i> 分享管理</a></dd>
-                        <dd><a href="#about"><i class="fa fa-trademark"></i> 关于内容</a></dd>
-                    </dl>
+                    <a class="" href="javascript:;"><i class="fa fa-code"></i> <cite>内容管理</cite></a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="#blogs"><i class="fa fa-book"></i> 博文管理</a></dd>
+                            <dd><a href="#notes"><i class="fa fa-sticky-note-o"></i> 笔记管理</a></dd>
+                            <dd><a href="#file"><i class="fa fa-file"></i> 分享管理</a></dd>
+                            <dd><a href="#about"><i class="fa fa-trademark"></i> 关于内容</a></dd>
+                        </dl>
                 </li>
 
                 <li class="layui-nav-item">
@@ -110,13 +122,8 @@
     </div>
 </div>
 <script type="text/html" id="error">
-    <div class="layui-hide">
-        {{errStatus}}
-    </div>
-    <div class="layui-fluid">
-        <div class="layui-row layui-admin-mt20">
-            {{errContent}}
-        </div>
+    <div class="vipspa-error">
+        {{errContent}}
     </div>
 </script>
 <script src="/static/plugins/jquery/jquery-2.1.4.min.js"></script>
@@ -129,34 +136,21 @@
     layui.use('element', function () {
         var element = layui.element;
         element.render();
-    });
 
-    function leftMenu() {
-        var $leftMenu = $("#left-menu");
-        var left = $leftMenu.css("left");
-        if (left === "-200px") {
-            $leftMenu.animate({
-                left: 0
-            })
-        } else {
-            $leftMenu.animate({
-                left: "-200px"
-            })
-        }
-    }
-
-    $(function () {
-        BMY.hashChange($);
-
-        $(window).resize(function () {
-            if (document.getElementsByTagName("body")[0].offsetWidth > 768) {
-                $("#left-menu").addClass("slideOutLeft").css("left", 0)
-            } else {
-                $("#left-menu").css("left", "-200px")
+        element.on('nav(nav-icon)', function (elem) {
+            var event = $(elem).attr("layadmin-event");
+            var select = $(elem).attr("lay-select");
+            if (event === 'flexible') {
+                if (select === undefined) {
+                    $(elem).attr("lay-select", "");
+                    $("body").addClass("layadmin-side-shrink");
+                } else {
+                    $(elem).removeAttr("lay-select");
+                    $("body").removeClass("layadmin-side-shrink");
+                }
             }
-        })
+        });
     });
-
 
 </script>
 </body>

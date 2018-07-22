@@ -72,24 +72,24 @@ var BMY = {
         return "不合法的日期";
     }
 
-    , hashChange: function ($) {
-        var hash = location.hash;
-        var restIndex = hash.indexOf("!!");
-        if (restIndex > -1) {
-            hash = hash.substring(0, restIndex);
-        }
-        var $layuiThis = $("li.layui-nav-item a[href=" + hash + "]");
-        if ($layuiThis !== undefined && $layuiThis.length > 0) {
-            var $layItem = $layuiThis.last();
-            $layItem.addClass("layui-this").css("color", "#ffffff");
-            $(".layui-nav-itemed").removeClass("layui-nav-itemed");
-            $layItem.parents("li.layui-nav-item").addClass("layui-nav-itemed");
-            $layItem.addClass("layui-this")
-        }
-        $("li.layui-nav-item").click(function () {
-            $(this).siblings("li").removeClass("layui-nav-itemed");
-        })
-    }
+    // , hashChange: function ($) {
+    //     var hash = location.hash;
+    //     var restIndex = hash.indexOf("!!");
+    //     if (restIndex > -1) {
+    //         hash = hash.substring(0, restIndex);
+    //     }
+    //     var $layuiThis = $("li.layui-nav-item a[href=" + hash + "]");
+    //     if ($layuiThis !== undefined && $layuiThis.length > 0) {
+    //         var $layItem = $layuiThis.last();
+    //         $layItem.addClass("layui-this").css("color", "#ffffff");
+    //         $(".layui-nav-itemed").removeClass("layui-nav-itemed");
+    //         $layItem.parents("li.layui-nav-item").addClass("layui-nav-itemed");
+    //         $layItem.addClass("layui-this")
+    //     }
+    //     $("li.layui-nav-item").click(function () {
+    //         $(this).siblings("li").removeClass("layui-nav-itemed");
+    //     })
+    // }
 
     , coffee4Me: function () {
         layer.open({
