@@ -2,7 +2,6 @@ package me.wuwenbin.noteblogv4.config.permission;
 
 import cn.hutool.core.util.ArrayUtil;
 import lombok.extern.slf4j.Slf4j;
-import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.dao.mapper.UserPermissionMapper;
 import me.wuwenbin.noteblogv4.exception.UnauthorizedRoleException;
 import me.wuwenbin.noteblogv4.exception.UserNotLoginException;
@@ -22,13 +21,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.security.auth.message.AuthException;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -83,6 +80,7 @@ public class NBAuthAspect extends BaseController {
         try {
             NBSysUser user = NBUtils.getSessionUser();
             if (user != null) {
+                //FIXME:权限后续记得加上缓存
                 List<NBSysResource> resources = userPermissionMapper.findResourcesByRoleId(user.getDefaultRoleId());
                 List<String> permissions = resources.stream().map(NBSysResource::getPermission).collect(Collectors.toList());
                 if (permissions.contains(nbAuth.value())) {

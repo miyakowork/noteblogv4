@@ -45,4 +45,11 @@ public @interface NBAuth {
      * @return
      */
     ResType type() default ResType.OTHER;
+
+    /**
+     * 资源分组
+     *
+     * @return
+     */
+    String group() default "noteblogv4";
 }

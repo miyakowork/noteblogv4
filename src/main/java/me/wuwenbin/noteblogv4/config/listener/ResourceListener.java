@@ -94,6 +94,7 @@ public class ResourceListener implements ApplicationListener<ContextRefreshedEve
                                     tempMap.put("remark", nbAuth.remark());
                                     tempMap.put("url", url);
                                     tempMap.put("type", type);
+                                    tempMap.put("group",nbAuth.group());
                                     resources.add(tempMap);
                                     cnt++;
                                 } else {

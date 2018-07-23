@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -42,7 +41,7 @@ public class InitController {
         return initialization ? "init" : "redirect:/";
     }
 
-    @NBAuth("b")
+    @NBAuth(value = "b", remark = "字体图标预览", group = "user")
     @RequestMapping("/b")
     public String b(HttpServletRequest request) {
         String fontawesome = NBUtils.getFilePathInClassesPath("static/plugins/font-awesome/css/font-awesome.css");

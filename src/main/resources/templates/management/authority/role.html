@@ -15,9 +15,11 @@
                 <div class="layui-card-body">
                     <table class="layui-table role-list" lay-skin="nob">
                         <tbody>
-                        <tr v-for="(role,index) in roles" v-bind:class="{'select':index==0}">
+                        <tr v-for="(role,index) in roles" v-bind:class="{'select':role.id == selected}"
+                            @click="selectRole(role.id,role.cnName)">
                             <td><i class="layui-icon layui-icon-username"></i> {{role.cnName}}</td>
-                            <td class="layui-float-right"><i v-if="index == 0" class="layui-icon layui-icon-ok"></i>
+                            <td class="layui-float-right"><i v-if="role.id == selected"
+                                                             class="layui-icon layui-icon-ok"></i>
                             </td>
                         </tr>
                         </tbody>
@@ -27,14 +29,14 @@
         </div>
         <div class="layui-col-sm8">
             <div class="layui-card">
-                <div class="layui-card-header">URL资源权限列表</div>
+                <div class="layui-card-header">URL资源权限列表 - {{roleName}}</div>
                 <div class="layui-card-body">
                     <form class="layui-form">
                         <div id="roleTree" style="width:100%;"></div>
                     </form>
                 </div>
                 <div class="layui-card-footer">
-                    <button class="layui-btn layui-btn-sm">提交</button>
+                    <button class="layui-btn layui-btn-sm" @click="subRes">提交</button>
                 </div>
             </div>
         </div>
@@ -51,10 +53,16 @@
 </style>
 <script src="/static/plugins/layui-xtree/layui-xtree.js"></script>
 <script th:inline="javascript">
-    var roleTab = new Vue({
+    var roleTabApp = new Vue({
         el: "#NB-role-tab",
         data: {
+            resTree: null,
             roles: [[${roleList}]]
+            , selected: [[${roleList[0].id}]]
+            , roleName: [[${roleList[0].cnName}]]
+        },
+        created: function () {
+            window.__roleId = this.selected;
         },
         mounted: function () {
             layui.use(['form', 'element'], function () {
@@ -62,41 +70,40 @@
                     element = layui.element;
 
                 element.render();
-                var xtree1 = new layuiXtree({
+                roleTabApp.resTree = new layuiXtree({
                     elem: 'roleTree'   //(必填) 放置xtree的容器id，不要带#号
                     , form: form     //(必填) layui 的 from
                     , ckall: true
                     , icon: {        //三种图标样式，更改几个都可以，用的是layui的图标
                         end: "<i class='layui-icon layui-icon-template-1'></i>"      //末尾节点的图标
                     }
-                    , click: function (data) {  //节点选中状态改变事件监听，全选框有自己的监听事件
-                        console.log(data.elem); //得到checkbox原始DOM对象
-                        console.log(data.elem.checked); //开关是否开启，true或者false
-                        console.log(data.value); //开关value值，也可以通过data.elem.value得到
-                        console.log(data.othis); //得到美化后的DOM对象
-                    }
-                    , data: [
-                        {
-                            title: "节点1", value: "jd1", data: [
-                                {title: "节点1.1", checked: true, disabled: true, value: "jd1.1", data: []}
-                                , {title: "节点1.2", value: "jd1.2", checked: true, data: []}
-                                , {title: "节点1.3", value: "jd1.3", disabled: true, data: []}
-                                , {title: "节点1.4", value: "jd1.4", data: []}
-                            ]
-                        }
-                        , {
-                            title: "节点2", value: "jd2", data: [
-                                {title: "节点2.1", value: "jd2.1", data: []}
-                                , {title: "节点2.2", value: "jd2.2", data: []}
-                                , {title: "节点2.3", value: "jd2.3", data: []}
-                                , {title: "节点2.4", value: "jd2.4", data: []}
-                            ]
-                        }
-                        , {title: "节点3", value: "jd3", data: []}
-                        , {title: "节点4", value: "jd4", data: []}
-                    ]     //(必填) json数组（数据格式在下面）
+                    , data: BMY.url.prefix + '/resource/tree?roleId='
                 });
             })
+        }
+        , methods: {
+            selectRole: function (roleId, roleCnName) {
+                roleTabApp.selected = roleId;
+                window.__roleId = roleId;
+                roleTabApp.roleName = roleCnName;
+                roleTabApp.resTree.render();
+            }
+            , subRes: function () {
+                var selectedInputs = roleTabApp.resTree.GetChecked();
+                var resourceIds = [];
+                for (var i = 0; i < selectedInputs.length; i++) {
+                    resourceIds.push(selectedInputs[i].value);
+                }
+                $.post(BMY.url.prefix + '/update/role/resource', {
+                    roleId: roleTabApp.selected,
+                    resourceIds: resourceIds
+                }, function (resp) {
+                    layer.msg(resp.message);
+                    if (resp.code === 200) {
+                        roleTabApp.resTree.render();
+                    }
+                })
+            }
         }
     })
 </script>

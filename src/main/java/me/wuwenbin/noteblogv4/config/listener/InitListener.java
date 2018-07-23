@@ -1,6 +1,5 @@
 package me.wuwenbin.noteblogv4.config.listener;
 
-import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.dao.repository.*;
@@ -119,27 +118,16 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
             String name = res.get("remark").toString();
             String permission = res.get("permission").toString();
             NBSysResource.ResType type = (NBSysResource.ResType) res.get("type");
-            String[] groupArray = permission.split(":");
-            StringBuilder group = new StringBuilder();
-            if (groupArray.length == 1) {
-                group = new StringBuilder("root");
-            } else {
-                for (int i = 0; i < groupArray.length - 1; i++) {
-                    group.append(groupArray[i]).append(":");
-                }
-            }
-            String groupStr = group.toString();
-            if (groupStr.endsWith(":")) {
-                groupStr = groupStr.substring(0, groupStr.length() - 1);
-            }
+            String group = res.get("group").toString();
+
             //数据库已存在此url，做更新操作
             if (resourceRepository.countByUrl(url) == 1) {
-                resourceRepository.updateByUrl(name, permission, type, groupStr, url);
+                resourceRepository.updateByUrl(name, permission, type, group, url);
             }
             //数据库不存在，做插入操作
             else {
                 NBSysResource resourceInsert = NBSysResource.builder()
-                        .permission(permission).name(name).url(url).type(type).group(groupStr)
+                        .permission(permission).name(name).url(url).type(type).group(group)
                         .build();
                 NBSysResource newRes = resourceRepository.saveAndFlush(resourceInsert);
                 NBSysRoleResource rr = NBSysRoleResource.builder()

@@ -123,8 +123,9 @@
 <script src="/static/plugins/spa/vipspa.js"></script>
 <script src="/static/assets/js/management/config/spa.config.js"></script>
 <script>
-    layui.use('element', function () {
+    layui.use(['element', 'layer'], function () {
         var element = layui.element;
+        window._layer = layui.layer;
         element.render();
 
         element.on('nav(nav-icon)', function (elem) {

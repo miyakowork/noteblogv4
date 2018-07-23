@@ -12,13 +12,6 @@ import java.util.List;
  */
 public interface UserPermissionService {
 
-    /**
-     * 查询该角色所包含的所有权限
-     *
-     * @param roleId
-     * @return
-     */
-    List<NBSysResource> getPermissionByRoleId(long roleId);
 
     /**
      * 根据roleId查找资源树集合

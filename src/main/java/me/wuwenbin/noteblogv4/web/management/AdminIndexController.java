@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/management")
 public class AdminIndexController {
 
-    @NBAuth(value = "management:index", type = ResType.NAV_LINK)
+    @NBAuth(value = "management:index", remark = "后台管理首页", type = ResType.NAV_LINK, group = "dashboard")
     @RequestMapping("/index")
     public String index() {
         return "admin_index";

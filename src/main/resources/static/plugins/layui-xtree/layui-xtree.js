@@ -70,10 +70,16 @@ layuiXtree.prototype.Loading = function (options) {
 
     //如果是字符串url，进行异步加载
     var obj = new XMLHttpRequest();
-    obj.open('get', options.data, true);
+    obj.open('get', options.data + window.__roleId, true);
     obj.onreadystatechange = function () {
         if (obj.readyState == 4 && obj.status == 200 || obj.status == 304) { //回调成功
-            _this._dataJson = eval('(' + obj.responseText + ')'); //将返回的数据转为json
+            var resp = eval('(' + obj.responseText + ')'); //将返回的数据转为json
+            if (resp.code === 200) {
+                _this._dataJson = resp.data;
+            } else {
+                window._layer.msg(resp.message);
+                _this._dataJson = [];
+            }
             _this.Initial(options);
         }
     };
@@ -86,17 +92,19 @@ layuiXtree.prototype.Initial = function (o) {
     _this._form = o.form; //layui from对象
     _this._domStr = "";  //结构字符串
     _this._isopen = o.isopen != null ? o.isopen : true;
-    if (o.color == null) o.color = { open: '#2F4056', close: '#2F4056', end: '#2F4056' };//图标颜色
+    if (o.color == null) o.color = {open: '#2F4056', close: '#2F4056', end: '#2F4056'};//图标颜色
     _this._iconOpenColor = o.color.open != null ? o.color.open : "#2F4056";
     _this._iconCloseColor = o.color.close != null ? o.color.close : "#2F4056";
     _this._iconEndColor = o.color.end != null ? o.color.end : "#2F4056";
-    if (o.icon == null) o.icon = { open: '&#xe625;', close: '&#xe623;', end: '&#xe621;' };//图标样式
+    if (o.icon == null) o.icon = {open: '&#xe625;', close: '&#xe623;', end: '&#xe621;'};//图标样式
     _this._iconOpen = o.icon.open != null ? o.icon.open : '&#xe625;';
     _this._iconClose = o.icon.close != null ? o.icon.close : '&#xe623;';
     _this._iconEnd = o.icon.end != null ? o.icon.end : '&#xe621;';
-    _this._click = o.click != null ? o.click : function () { };
+    _this._click = o.click != null ? o.click : function () {
+    };
     _this._ckall = o.ckall != null ? o.ckall : false;  //全选是否启用
-    _this._ckallSuccess = o.ckallback != null ? o.ckallback : function () { };//全选回调
+    _this._ckallSuccess = o.ckallback != null ? o.ckallback : function () {
+    };//全选回调
     _this.CreateCkAll();
     _this.dataBind(_this._dataJson);
     _this.Rendering();
@@ -292,7 +300,8 @@ layuiXtree.prototype.GetChecked = function () {
     var cks = _this.getByClassName('layui-xtree-checkbox');
     for (var i = 0; i < cks.length; i++) {
         if (cks[i].checked && cks[i].getAttribute('data-xend') == '1') {
-            arr[arrIndex] = cks[i]; arrIndex++;
+            arr[arrIndex] = cks[i];
+            arrIndex++;
         }
     }
     return arr;
@@ -305,7 +314,8 @@ layuiXtree.prototype.GetAllCheckBox = function () {
     var arrIndex = 0;
     var cks = _this.getByClassName('layui-xtree-checkbox');
     for (var i = 0; i < cks.length; i++) {
-        arr[arrIndex] = cks[i]; arrIndex++;
+        arr[arrIndex] = cks[i];
+        arrIndex++;
     }
     return arr;
 }

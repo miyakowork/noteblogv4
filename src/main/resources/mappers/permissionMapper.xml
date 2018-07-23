@@ -12,4 +12,17 @@
                        WHERE rr.role_id = #{roleId})
     </select>
 
+    <!--查询所有group（不重复）-->
+    <select id="findAllGroupCates" resultType="me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource">
+        SELECT r.*
+        FROM sys_resource r
+        GROUP BY r.`group`
+    </select>
+
+    <!--删除角色资源关系-->
+    <delete id="deleteRrByRoleId" parameterType="long">
+        DELETE FROM sys_role_resource
+        WHERE role_id = #{roleId}
+    </delete>
+
 </mapper>

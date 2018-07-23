@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * created by Wuwenbin on 2018/7/20 at 14:52
+ *
  * @author wuwenbin
  */
 @MybatisDao
@@ -20,4 +21,19 @@ public interface UserPermissionMapper {
      * @return
      */
     List<NBSysResource> findResourcesByRoleId(@Param("roleId") long roleId);
+
+    /**
+     * 查询所有group（不重复）
+     *
+     * @return
+     */
+    List<NBSysResource> findAllGroupCates();
+
+
+    /**
+     * 删除角色资源关系
+     *
+     * @param roleId
+     */
+    void deleteRrByRoleId(long roleId);
 }
