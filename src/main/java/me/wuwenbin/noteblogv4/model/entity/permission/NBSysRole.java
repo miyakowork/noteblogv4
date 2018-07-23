@@ -1,15 +1,14 @@
 package me.wuwenbin.noteblogv4.model.entity.permission;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 /**
  * created by Wuwenbin on 2018/7/15 at 12:04
+ *
  * @author wuwenbin
  */
 @Data

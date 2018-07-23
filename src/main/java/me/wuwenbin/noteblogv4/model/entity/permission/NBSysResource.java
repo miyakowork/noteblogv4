@@ -39,6 +39,14 @@ public class NBSysResource implements Serializable {
     private ResType type;
 
     /**
+     * 资源属于哪个组的
+     * 比如management:user:edit属于management:user这一组
+     * management:user属于management这一组
+     */
+    @Column(name = "[group]")
+    private String group;
+
+    /**
      * url的类型
      */
     public enum ResType {

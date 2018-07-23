@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
 import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
@@ -28,6 +29,7 @@ import java.util.Objects;
  * @author wuwenbin
  */
 @Component
+@Slf4j
 public class NBUtils implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext = null;
@@ -157,9 +159,9 @@ public class NBUtils implements ApplicationContextAware {
      * @return
      */
     public static IpInfo getIpInfo(String ip) {
-        System.out.println("============================");
         String url = "http://ip.taobao.com/service/getIpInfo.php?ip=" + ip;
         String resp = HttpUtil.get(url);
+        log.info("请求 ip.taobao.com，请求参数：{}", ip);
         JSONObject jsonObject = JSONUtil.parseObj(resp);
         return jsonObject.toBean(IpInfo.class);
     }

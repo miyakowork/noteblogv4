@@ -1,24 +1,25 @@
+.layui-float-right {
+    float: right;
+}
+
 .layui-header *, #left-menu {
     -moz-user-select: none;
     -ms-user-select: none;
     -webkit-user-select: none;
 }
 
-.layui-logo i, .layui-logo  span:first-of-type {
+.layui-logo i, .layui-logo span:first-of-type {
     color: #5FB878;
     font-style: italic;
     font-weight: bold;
 }
-.layui-logo span:nth-of-type(2){
+
+.layui-logo span:nth-of-type(2) {
     font-style: normal !important;
 }
 
-.layui-header .layui-nav-item .layui-icon {
-    font-size: 17px;
-}
-
 .layui-layout-admin .layui-body {
-    bottom: 70px;
+    bottom: 45px;
 }
 
 .layui-side-menu .layui-nav .layui-nav-item > a {
@@ -48,4 +49,27 @@
     .vipspa-error .layui-container {
         width: 1024px;
     }
+}
+
+.layui-layout-admin .layui-footer {
+    padding: 0;
+}
+
+.layadmin-tabs-card {
+    z-index: 999;
+    position: fixed;
+    width: 100%;
+    background: #fff;
+}
+
+.layadmin-container {
+    margin-top: 45px;
+}
+
+.layui-card-footer {
+    padding: 15px;
+    border-top: 1px solid #f6f6f6;
+    color: #333;
+    border-radius: 2px 2px 0 0;
+    font-size: 14px;
 }

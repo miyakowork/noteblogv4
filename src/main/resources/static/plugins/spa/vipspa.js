@@ -154,13 +154,13 @@
             dataType: 'html',
             success: function (data, status, xhr) {
                 var container = $(vipspa.mainView);
-                container.css({
-                    opacity: '0.0'
-                }).html(data).delay(50).animate({
-                    opacity: '1.0'
-                }, 500);
-                BMY.hashChange($);
-                loadScript(routerItem.controller);
+                container.html(data);
+                if (routerItem.controller !== undefined) {
+                    loadScript(routerItem.controller);
+                }
+                // clear data var
+                data = null;
+                container = null;
             },
             error: function (xhr, errorType, error) {
                 if ($(vipspa.errorTemplateId).length === 0) {

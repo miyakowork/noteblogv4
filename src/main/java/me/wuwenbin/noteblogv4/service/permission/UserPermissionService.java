@@ -1,6 +1,7 @@
 package me.wuwenbin.noteblogv4.service.permission;
 
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource;
+import me.wuwenbin.noteblogv4.model.pojo.business.LayuiXTree;
 
 import java.util.List;
 
@@ -17,5 +18,13 @@ public interface UserPermissionService {
      * @param roleId
      * @return
      */
-    List<NBSysResource> getPermissionByRoleId(int roleId);
+    List<NBSysResource> getPermissionByRoleId(long roleId);
+
+    /**
+     * 根据roleId查找资源树集合
+     *
+     * @param roleId
+     * @return
+     */
+    List<LayuiXTree> findResourceTreeByRoleId(long roleId);
 }

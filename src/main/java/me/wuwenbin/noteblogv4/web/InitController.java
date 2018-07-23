@@ -42,7 +42,7 @@ public class InitController {
         return initialization ? "init" : "redirect:/";
     }
 
-    @NBAuth("font:view")
+    @NBAuth("b")
     @RequestMapping("/b")
     public String b(HttpServletRequest request) {
         String fontawesome = NBUtils.getFilePathInClassesPath("static/plugins/font-awesome/css/font-awesome.css");

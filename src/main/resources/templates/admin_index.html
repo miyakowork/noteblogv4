@@ -23,12 +23,12 @@
                 </a>
             </li>
             <li class="layui-nav-item layui-hide-xs">
-                <a href="http://www.layui.com/admin/" target="_blank" title="前台">
+                <a href="/" target="_blank" title="前台">
                     <i class="layui-icon layui-icon-website"></i>
                 </a>
             </li>
             <li class="layui-nav-item">
-                <a href="javascript:;" lay-filter="refresh" title="刷新">
+                <a href="javascript:;" layadmin-event="refresh" title="刷新">
                     <i class="layui-icon layui-icon-refresh-3"></i>
                 </a>
             </li>
@@ -36,7 +36,7 @@
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">
-                    <img th:src="${avatar}" class="layui-nav-img">
+                    <img th:src="${#strings.isEmpty(avatar)?'/static/assets/img/bmy.png':avatar}" class="layui-nav-img">
                     <span th:text="${nickname}"></span>
                 </a>
                 <dl class="layui-nav-child">
@@ -56,56 +56,46 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="" lay-shrink="all">
                 <li class="layui-nav-item layui-show-xs-block layui-hide">
-                    <a href="javascript:;">
-                        <img src="/static/assets/img/bmy.png" class="layui-nav-img">
-                        彬码俑
-                    </a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="#profile"><i class="fa fa-user"></i> 我的资料</a></dd>
-                        <dd><a href="#settings"><i class="fa fa-cogs"></i> 偏好设置</a></dd>
-                        <dd class="layui-hide-lg layui-hide-md layui-hide-sm layui-show-xs-block"><a href="#home"><i
-                                class="fa fa-dashboard"></i> 控制台</a></dd>
-                        <dd class="layui-hide-lg layui-hide-md layui-hide-sm layui-show-xs-block">
-                            <a href="/" target="_blank"><i class="fa fa-home"></i> 前台首页</a></dd>
-                        <dd><a href=""><i class="fa fa-sign-out"></i> 退了</a></dd>
-                    </dl>
+                    <a href="#home"><i
+                            class="fa fa-dashboard"></i> 控制台</a>
                 </li>
                 <li class="layui-nav-item">
                     <a class="" href="javascript:;"><i class="fa fa-keyboard-o"></i> <cite>发布内容</cite></a>
                     <dl class="layui-nav-child">
-                        <dd><a class="" href="#blog"><i class="fa fa-book"></i><cite>发布博文</cite></a></dd>
-                        <dd><a href="#note"><i class="fa fa-sticky-note-o"></i><cite>撰写笔记</cite></a></dd>
+                        <dd><a class="" href="#blog"><i class="fa fa-book"></i>发布博文</a></dd>
+                        <dd><a href="#note"><i class="fa fa-sticky-note-o"></i>撰写笔记</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
                     <a class="" href="javascript:;"><i class="fa fa-code"></i> <cite>内容管理</cite></a>
-                        <dl class="layui-nav-child">
-                            <dd><a href="#blogs"><i class="fa fa-book"></i> 博文管理</a></dd>
-                            <dd><a href="#notes"><i class="fa fa-sticky-note-o"></i> 笔记管理</a></dd>
-                            <dd><a href="#file"><i class="fa fa-file"></i> 分享管理</a></dd>
-                            <dd><a href="#about"><i class="fa fa-trademark"></i> 关于内容</a></dd>
-                        </dl>
+                    <dl class="layui-nav-child">
+                        <dd><a href="#blogs"><i class="fa fa-book"></i> 博文管理</a></dd>
+                        <dd><a href="#notes"><i class="fa fa-sticky-note-o"></i> 笔记管理</a></dd>
+                        <dd><a href="#file"><i class="fa fa-file"></i> 分享管理</a></dd>
+                        <dd><a href="#about"><i class="fa fa-trademark"></i> 关于内容</a></dd>
+                    </dl>
                 </li>
 
                 <li class="layui-nav-item">
-                    <a href="javascript:;"><i class="fa fa-star-o"></i> 类别管理</a>
+                    <a href="javascript:;"><i class="fa fa-star-o"></i> <cite>类别管理</cite></a>
                     <dl class="layui-nav-child">
                         <dd><a href="#tag"><i class="fa fa-tags"></i> 标签管理</a></dd>
                         <dd><a href="#cate"><i class="fa fa-sliders"></i> 分类管理</a></dd>
                         <dd><a href="#keyword"><i class="fa fa-text-width"></i> 关键字管理</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="#users"><i class="fa fa-users"></i> 用户管理</a></li>
-                <li class="layui-nav-item"><a href="#comment"><i class="fa fa-comment-o"></i> 评论管理</a></li>
-                <li class="layui-nav-item"><a href="#message"><i class="fa fa-bell-o"></i> 留言管理</a></li>
+                <li class="layui-nav-item"><a href="#users"><i class="fa fa-users"></i> <cite>用户管理</cite></a></li>
+                <li class="layui-nav-item"><a href="#comment"><i class="fa fa-comment-o"></i> <cite>评论管理</cite></a></li>
+                <li class="layui-nav-item"><a href="#message"><i class="fa fa-bell-o"></i> <cite>留言管理</cite></a></li>
                 <li class="layui-nav-item">
-                    <a href="javascript:void(0);"><i class="fa fa-cog"></i> 偏好设置</a>
+                    <a href="javascript:void(0);"><i class="fa fa-cog"></i> <cite>偏好设置</cite></a>
                     <dl class="layui-nav-child">
                         <dd><a href="#settings"><i class="fa fa-balance-scale"></i> 网站设置</a></dd>
                         <dd><a href="#qrcode"><i class="fa fa-money"></i> 打赏二维码</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="#noteblog"><i class="fa fa-info-circle"></i> 关于笔记博客</a></li>
+                <li class="layui-nav-item"><a href="#noteblog"><i class="fa fa-info-circle"></i> <cite>关于笔记博客</cite></a>
+                </li>
             </ul>
         </div>
     </div>
@@ -127,31 +117,47 @@
     </div>
 </script>
 <script src="/static/plugins/jquery/jquery-2.1.4.min.js"></script>
+<script src="/static/plugins/vue/vue.min.js"></script>
 <script src="/static/plugins/layui/layui.js"></script>
 <script src="/static/assets/js/BMY.js"></script>
 <script src="/static/plugins/spa/vipspa.js"></script>
 <script src="/static/assets/js/management/config/spa.config.js"></script>
 <script>
-    //JavaScript代码区域
     layui.use('element', function () {
         var element = layui.element;
         element.render();
 
         element.on('nav(nav-icon)', function (elem) {
+            var windowWidth = window.innerWidth;
             var event = $(elem).attr("layadmin-event");
             var select = $(elem).attr("lay-select");
             if (event === 'flexible') {
                 if (select === undefined) {
                     $(elem).attr("lay-select", "");
-                    $("body").addClass("layadmin-side-shrink");
+                    if (windowWidth >= 993) {
+                        $("body").removeClass("layadmin-side-spread-sm").addClass("layadmin-side-shrink");
+                    } else {
+                        $("body").removeClass("layadmin-side-shrink").addClass("layadmin-side-spread-sm");
+                    }
+                    $(elem).find(".layui-icon").removeClass("layui-icon-spread-right").addClass("layui-icon-spread-left");
                 } else {
                     $(elem).removeAttr("lay-select");
-                    $("body").removeClass("layadmin-side-shrink");
+                    $("body").removeClass("layadmin-side-shrink").removeClass("layadmin-side-spread-sm");
+                    $(elem).find(".layui-icon").removeClass("layui-icon-spread-left").addClass("layui-icon-spread-right");
                 }
+            }
+            if (event === 'refresh') {
+                location.reload();
             }
         });
     });
 
+    $(function () {
+        $(window).resize(function () {
+            $("body").removeClass("layadmin-side-spread-sm").removeClass("layadmin-side-shrink");
+            $("a[layadmin-event=flexible]").removeClass("layui-icon-spread-left").addClass("layui-icon-spread-right");
+        })
+    })
 </script>
 </body>
 </html>

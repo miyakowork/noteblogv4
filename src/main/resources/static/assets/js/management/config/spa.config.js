@@ -4,6 +4,7 @@ $(function () {
     vipspa.start({
         view: '#admin-body',
         router: {
+            role: {templateUrl: url_prefix + 'role'},
             'home': {
                 templateUrl: url_prefix + 'home',
                 controller: static_prefix + '/home.js'
