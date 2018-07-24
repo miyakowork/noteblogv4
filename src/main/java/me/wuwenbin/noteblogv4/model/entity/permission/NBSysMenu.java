@@ -29,7 +29,7 @@ public class NBSysMenu implements Serializable {
 
     private String name;
 
-    @Column(nullable = false, length = 11)
+    @Column(length = 11)
     private Long resourceId;
 
     private String icon;
@@ -37,7 +37,7 @@ public class NBSysMenu implements Serializable {
     @Enumerated(EnumType.STRING)
     private MenuType type;
 
-    @Column(nullable = false, length = 11)
+    @Column(length = 11)
     private long roleId;
 
     @Column(length = 1, columnDefinition = "tinyint(1)", nullable = false)

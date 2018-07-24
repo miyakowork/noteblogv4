@@ -1,5 +1,7 @@
 package me.wuwenbin.noteblogv4.model.pojo.framework;
 
+import cn.hutool.core.util.StrUtil;
+
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -50,6 +52,21 @@ public class NBR extends ConcurrentHashMap<String, Object> {
         nbr.put("message", msg == null || "".equals(msg) ? "success!" : msg);
         return nbr;
     }
+
+    /**
+     * 返回默认的成功响应的实体，只带文本信息
+     *
+     * @param msg   文本信息
+     * @param param 替换为本占位符参数
+     * @return
+     */
+    public static NBR formatOk(String msg, Object... param) {
+        NBR nbr = new NBR();
+        //noinspection ConfusingArgumentToVarargsMethod
+        nbr.put("message", msg == null || "".equals(msg) ? "success!" : StrUtil.format(msg, param));
+        return nbr;
+    }
+
 
     /**
      * 自定义成功响应数据，包含额外的返回数据

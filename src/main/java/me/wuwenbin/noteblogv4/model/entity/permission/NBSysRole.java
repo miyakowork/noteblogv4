@@ -1,9 +1,13 @@
 package me.wuwenbin.noteblogv4.model.entity.permission;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -25,8 +29,12 @@ public class NBSysRole implements Serializable {
     private Long id;
 
     @Column(nullable = false, length = 50)
+    @NotEmpty
+    @Length(max = 50)
     private String name;
 
     @Column(length = 50)
+    @NotEmpty
+    @Length(max = 50)
     private String cnName;
 }

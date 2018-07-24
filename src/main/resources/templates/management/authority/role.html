@@ -11,15 +11,23 @@
     <div class="layui-row layui-col-space10">
         <div class="layui-col-sm4">
             <div class="layui-card">
-                <div class="layui-card-header">角色信息列表</div>
+                <div class="layui-card-header">
+                    角色信息列表
+                    <a @click="add" style="cursor: pointer;"><i class="layui-icon layui-icon-add-circle"></i> </a>
+                </div>
                 <div class="layui-card-body">
                     <table class="layui-table role-list" lay-skin="nob">
                         <tbody>
                         <tr v-for="(role,index) in roles" v-bind:class="{'select':role.id == selected}"
                             @click="selectRole(role.id,role.cnName)">
-                            <td><i class="layui-icon layui-icon-username"></i> {{role.cnName}}</td>
-                            <td class="layui-float-right"><i v-if="role.id == selected"
-                                                             class="layui-icon layui-icon-ok"></i>
+                            <td>
+                                <i class="layui-icon layui-icon-username"></i><span
+                                    v-bind:class="{'layui-selected':role.id == selected}"> {{role.cnName}} </span>
+                                <i v-if="role.id == selected" class="layui-icon layui-icon-ok layui-selected"></i>
+                            </td>
+                            <td class="layui-float-right layui-role-operate">
+                                <a @click.stop="edit(role)"> <i class="layui-icon layui-icon-edit"></i></a>
+                                <a @click.stop="del(role)"> <i class="layui-icon layui-icon-close"></i></a>
                             </td>
                         </tr>
                         </tbody>
@@ -29,19 +37,64 @@
         </div>
         <div class="layui-col-sm8">
             <div class="layui-card">
-                <div class="layui-card-header">URL资源权限列表 - {{roleName}}</div>
+                <div class="layui-card-header layui-elip">资源列表（仅包含需授权的资源） - {{roleName}}</div>
                 <div class="layui-card-body">
                     <form class="layui-form">
                         <div id="roleTree" style="width:100%;"></div>
                     </form>
                 </div>
                 <div class="layui-card-footer">
-                    <button class="layui-btn layui-btn-sm" @click="subRes">提交</button>
+                    <button class="layui-btn layui-btn-sm" @click="subRes">提交更改</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script type="text/html" id="NB-add-role">
+    <form class="layui-form" style="padding: 20px 20px 0 0;">
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色标识</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" required lay-verify="required" placeholder="请输入角色标识" autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色中文名</label>
+            <div class="layui-input-block">
+                <input type="text" name="cnName" required lay-verify="required" placeholder="请输入角色中文名"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn-sm layui-bg-black" lay-submit lay-filter="addRole">立即提交</button>
+            </div>
+        </div>
+    </form>
+</script>
+
+<script type="text/html" id="NB-edit-role">
+    <form class="layui-form" style="padding: 20px 20px 0 0;">
+        <input name="id" type="hidden">
+        <input name="name" type="hidden">
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色中文名</label>
+            <div class="layui-input-block">
+                <input type="text" name="cnName" required lay-verify="required" placeholder="请输入角色中文名"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn-sm layui-bg-black" lay-submit lay-filter="updateRole">立即提交</button>
+            </div>
+        </div>
+    </form>
+</script>
 <style>
     .layui-table.role-list tr {
         cursor: pointer;
@@ -49,6 +102,11 @@
 
     .layui-table.role-list tr.select {
         background: #f2f2f2;
+    }
+
+    .layui-role-operate > a:hover, .layui-card-header > a:hover {
+        font-weight: 800;
+        color: #0e0e0e;
     }
 </style>
 <script src="/static/plugins/layui-xtree/layui-xtree.js"></script>
@@ -60,6 +118,7 @@
             roles: [[${roleList}]]
             , selected: [[${roleList[0].id}]]
             , roleName: [[${roleList[0].cnName}]]
+            , index: null
         },
         created: function () {
             window.__roleId = this.selected;
@@ -74,11 +133,38 @@
                     elem: 'roleTree'   //(必填) 放置xtree的容器id，不要带#号
                     , form: form     //(必填) layui 的 from
                     , ckall: true
+                    , isopen: false
                     , icon: {        //三种图标样式，更改几个都可以，用的是layui的图标
                         end: "<i class='layui-icon layui-icon-template-1'></i>"      //末尾节点的图标
                     }
                     , data: BMY.url.prefix + '/resource/tree?roleId='
                 });
+
+                form.on('submit(addRole)', function (data) {
+                    $.post(BMY.url.prefix + "/role/add", data.field, function (resp) {
+                        layer.msg(resp.message);
+                        if (resp.code === 200) {
+                            layer.close(roleTabApp.index);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1000);
+                        }
+                    });
+                    return false;
+                });
+
+                form.on('submit(updateRole)', function (data) {
+                    $.post(BMY.url.prefix + "/role/update", data.field, function (resp) {
+                        layer.msg(resp.message);
+                        if (resp.code === 200) {
+                            layer.close(roleTabApp.index);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1000);
+                        }
+                    });
+                    return false;
+                })
             })
         }
         , methods: {
@@ -103,6 +189,46 @@
                         roleTabApp.resTree.render();
                     }
                 })
+            }
+            , add: function () {
+                roleTabApp.index = layer.open({
+                    title: "添加新角色",
+                    type: 1,
+                    skin: 'noteblog-layer', //样式类名
+                    closeBtn: 0, //不显示关闭按钮
+                    shadeClose: true, //开启遮罩关闭
+                    content: $("#NB-add-role").html()
+                });
+            }
+            , edit: function (role) {
+                roleTabApp.index = layer.open({
+                    id: "NB-edit-layer",
+                    title: "修改 [" + role.name + "] 的角色名",
+                    type: 1,
+                    skin: 'noteblog-layer', //样式类名
+                    closeBtn: 0, //不显示关闭按钮
+                    shadeClose: true, //开启遮罩关闭
+                    content: $("#NB-edit-role").html(),
+                    success: function () {
+                        $("#NB-edit-layer input[name=id]").val(role.id);
+                        $("#NB-edit-layer input[name=name]").val(role.name);
+                        $("#NB-edit-layer input[name=cnName]").val(role.cnName);
+                    }
+                });
+            }
+            , del: function (role) {
+                layer.confirm('确认删除[' + role.cnName + ']角色吗？', {skin: 'noteblog-layer'}, function () {
+                    $.post(BMY.url.prefix + "/role/delete", {roleId: role.id}, function (resp) {
+                        layer.msg(resp.message);
+                        if (resp.code === 200) {
+                            layer.closeAll();
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1000);
+                        }
+                    });
+                });
+
             }
         }
     })

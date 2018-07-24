@@ -2,6 +2,10 @@
     float: right;
 }
 
+.layui-selected {
+    color: #5FB878 !important;
+}
+
 .layui-header *, #left-menu {
     -moz-user-select: none;
     -ms-user-select: none;
@@ -73,3 +77,8 @@
     border-radius: 2px 2px 0 0;
     font-size: 14px;
 }
+
+body .noteblog-layer .layui-layer-title{background:#20222A ; color:#fff; border: none;}
+body .noteblog-layer .layui-layer-btn{border-top:1px solid #E9E7E7}
+body .noteblog-layer .layui-layer-btn a{background:#333;border: none;}
+body .noteblog-layer .layui-layer-btn .layui-layer-btn1{background:#999;}

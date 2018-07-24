@@ -5,6 +5,7 @@ import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.config.permission.NBAuth;
 import me.wuwenbin.noteblogv4.dao.repository.UserRepository;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
+import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResType;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
 import me.wuwenbin.noteblogv4.service.param.ParamService;
 import me.wuwenbin.noteblogv4.util.FontAwesomeUtil;
@@ -41,7 +42,7 @@ public class InitController {
         return initialization ? "init" : "redirect:/";
     }
 
-    @NBAuth(value = "b", remark = "字体图标预览", group = "user")
+    @NBAuth(value = "user:b:page", remark = "字体图标预览", group = "user", type = ResType.NAV_LINK)
     @RequestMapping("/b")
     public String b(HttpServletRequest request) {
         String fontawesome = NBUtils.getFilePathInClassesPath("static/plugins/font-awesome/css/font-awesome.css");

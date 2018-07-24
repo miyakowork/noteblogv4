@@ -1,0 +1,141 @@
+<div class="layui-card layadmin-tabs-card">
+    <div class="layui-card-header">
+        <span class="layui-breadcrumb">
+            <a href="/management/index">首页</a>
+            <a><cite>用户菜单管理</cite></a>
+        </span>
+    </div>
+</div>
+
+<div class="layui-fluid layadmin-container layui-anim-fadein" id="NB-menu-tab">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-sm3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    角色信息列表
+                </div>
+                <div class="layui-card-body">
+                    <table class="layui-table role-list" lay-skin="nob">
+                        <tbody>
+                        <tr v-for="(role,index) in roles" v-bind:class="{'select':role.id == selected}"
+                            @click="selectRole(role.id,role.cnName)">
+                            <td>
+                                <i class="layui-icon layui-icon-username"></i><span
+                                    v-bind:class="{'layui-selected':role.id == selected}"> {{role.cnName}} </span>
+                            </td>
+                            <td class="layui-float-right"><i v-if="role.id == selected"
+                                                             class="layui-icon layui-icon-ok layui-selected"></i></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-sm9">
+            <div class="layui-card">
+                <div class="layui-card-header layui-elip">菜单信息 - {{roleName}}</div>
+                <div class="layui-card-body">
+                    <table id="menuTable" class="layui-table" lay-filter="menuTable"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .layui-table.role-list tr {
+        cursor: pointer;
+    }
+
+    .layui-table.role-list tr.select {
+        background: #f2f2f2;
+    }
+
+</style>
+<script th:inline="javascript">
+
+    var menuTabApp = new Vue({
+        el: "#NB-menu-tab",
+        data: {
+            roles: [[${roleList}]]
+            , selected: [[${roleList[0].id}]]
+            , roleName: [[${roleList[0].cnName}]]
+        },
+        created: function () {
+            window.__roleId = this.selected;
+        },
+        mounted: function () {
+            layui.config({base: '/static/plugins/treetable-lay/'})
+                .extend({treetable: 'treetable'})
+                .use(['treetable', 'element', 'table'], function () {
+                    var treetable = layui.treetable;
+                    var element = layui.element;
+                    var table = layui.table;
+                    element.render();
+
+                    // 渲染表格
+                    treetable.render({
+                        treeColIndex: 0,          // treetable新增参数
+                        treeSpid: 0,             // treetable新增参数
+                        treeIdName: 'id',       // treetable新增参数
+                        treePidName: 'parentId',     // treetable新增参数
+                        treeDefaultClose: true,   // treetable新增参数
+                        treeLinkage: true,        // treetable新增参数
+                        elem: '#menuTable',
+                        url: BMY.url.prefix + '/menu/list',
+                        where: {
+                            roleId: menuTabApp.selected
+                        },
+                        cols: [
+                            [
+                                {type: 'numbers'},
+                                {field: 'id', title: 'id'},
+                                {field: 'name', title: '菜单名称', templet: '#titleTpl'},
+                                {field: 'parentId', title: '上级id'},
+                                {
+                                    field: 'type', title: '菜单类型', templet: function (d) {
+                                        if (d.type === 'ROOT') {
+                                            return '<span class="layui-badge layui-bg-black">根节点</span>'
+                                        }
+                                        if (d.type === 'PARENT') {
+                                            return '<span class="layui-badge layui-bg-blue">根节点</span>'
+                                        }
+                                        if (d.type === 'LEAF') {
+                                            return '<span class="layui-badge layui-bg-gray">根节点</span>'
+                                        }
+                                    }
+                                },
+                                {title: '操作', width: 178, align: 'center', toolbar: '#bar'}
+                            ]
+                        ]
+                    });
+
+                    table.on('tool(menuTable)', function (obj) {
+                        var data = obj.data;
+                        if (obj.event === 'add') {
+                            layer.msg('ID：' + data.id + ' 的查看操作');
+                        } else if (obj.event === 'del') {
+                            layer.confirm('真的删除行么', function (index) {
+                                obj.del();
+                                layer.close(index);
+                            });
+                        } else if (obj.event === 'edit') {
+                            layer.alert('编辑行：<br>' + JSON.stringify(data))
+                        }
+                    });
+
+                });
+        }
+        , methods: {}
+    })
+</script>
+<script type="text/html" id="titleTpl">
+    <i class="{{d.icon}}"></i> {{d.name}}
+</script>
+<script type="text/html" id="bar">
+    <a class="layui-btn layui-btn-xs" lay-event="add">添加</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>

@@ -153,8 +153,8 @@ public class EntranceController {
      * @param uuid
      * @return
      */
-    @NBAuth(value = "management:user:logout", remark = "用户注销请求地址", group = "user")
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @NBAuth(value = "user:logout:ajax", remark = "用户注销请求地址", group = "user")
+    @RequestMapping(value = "/management/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request,
                          HttpServletResponse response, String from,
                          @CookieValue(NoteBlogV4.Session.SESSION_ID_COOKIE) String uuid) {

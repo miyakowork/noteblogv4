@@ -6,6 +6,7 @@ import me.wuwenbin.noteblogv4.dao.repository.*;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.entity.NBPanel;
 import me.wuwenbin.noteblogv4.model.entity.NBParam;
+import me.wuwenbin.noteblogv4.model.entity.permission.NBSysMenu;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysRole;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysRoleResource;
@@ -43,6 +44,7 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
     private final NBContext context;
     private final RoleResourceRepository roleResourceRepository;
     private final ResourceRepository resourceRepository;
+    private final MenuRepository menuRepository;
 
     @Autowired
     public InitListener(ParamRepository paramRepository,
@@ -50,13 +52,14 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
                         PanelRepository panelRepository,
                         NBContext context,
                         RoleResourceRepository roleResourceRepository,
-                        ResourceRepository resourceRepository) {
+                        ResourceRepository resourceRepository, MenuRepository menuRepository) {
         this.paramRepository = paramRepository;
         this.roleRepository = roleRepository;
         this.panelRepository = panelRepository;
         this.context = context;
         this.roleResourceRepository = roleResourceRepository;
         this.resourceRepository = resourceRepository;
+        this.menuRepository = menuRepository;
     }
 
     @Override
@@ -75,6 +78,9 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
                     role.orElseThrow(() -> new RuntimeException("未找到角色「ROLE_MASTER」")).getId());
             setUpAuthority(true);
         }
+
+        setUpRootMenu();
+
         long panelCnt = panelRepository.count();
         if (panelCnt != NBPanel.PanelDom.values().length) {
             log.info("「笔记博客」App 正在初始化首页右侧面板设置，请稍后...");
@@ -142,6 +148,23 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
             NBSysRole normalUser = NBSysRole.builder().name("ROLE_USER").cnName("网站访客").build();
             roleRepository.saveAndFlush(normalUser);
         }
+    }
+
+    /**
+     * 插入根菜单至菜单表中
+     */
+    private void setUpRootMenu() {
+        log.info("「笔记博客」App 初始化设置根菜单...");
+        long cnt = menuRepository.countByParentId(0);
+        if (cnt == 0) {
+            NBSysMenu menu = NBSysMenu.builder()
+                    .name("菜单根目录")
+                    .icon("layui-icon layui-icon-home")
+                    .type(NBSysMenu.MenuType.ROOT)
+                    .parentId(0L).build();
+            menuRepository.save(menu);
+        }
+        log.info("「笔记博客」App 设置根菜单完毕");
     }
 
     /**
