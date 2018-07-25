@@ -3,13 +3,16 @@ package me.wuwenbin.noteblogv4.web;
 import lombok.extern.slf4j.Slf4j;
 import me.wuwenbin.noteblogv4.model.pojo.framework.LayuiTable;
 import me.wuwenbin.noteblogv4.model.pojo.framework.Page;
+import org.springframework.validation.FieldError;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
  * created by Wuwenbin on 2018/7/17 at 17:09
+ *
  * @author wuwenbin
  */
 @Slf4j
@@ -43,6 +46,14 @@ public abstract class BaseController {
     protected boolean isGet(HttpServletRequest request) {
         String method = request.getMethod();
         return "GET".equalsIgnoreCase(method);
+    }
+
+    protected String handleErrorMsg(List<FieldError> fieldErrors) {
+        StringBuilder message = new StringBuilder();
+        for (FieldError error : fieldErrors) {
+            message.append(error.getField()).append(":").append(error.getDefaultMessage());
+        }
+        return message.toString();
     }
 
 }

@@ -44,4 +44,12 @@ public interface ResourceRepository extends JpaRepository<NBSysResource, Long> {
      * @return
      */
     List<NBSysResource> findAllByGroup(String groupName);
+
+    /**
+     * 根据资源类型查找
+     *
+     * @param type
+     * @return
+     */
+    List<NBSysResource> findAllByType(NBSysResource.ResType type);
 }

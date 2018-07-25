@@ -3,8 +3,10 @@ package me.wuwenbin.noteblogv4.web.management.authority;
 import me.wuwenbin.noteblogv4.config.permission.NBAuth;
 import me.wuwenbin.noteblogv4.dao.mapper.UserPermissionMapper;
 import me.wuwenbin.noteblogv4.dao.repository.MenuRepository;
+import me.wuwenbin.noteblogv4.dao.repository.ResourceRepository;
 import me.wuwenbin.noteblogv4.dao.repository.RoleRepository;
 import me.wuwenbin.noteblogv4.dao.repository.RoleResourceRepository;
+import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysMenu;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResType;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysRole;
@@ -13,9 +15,11 @@ import me.wuwenbin.noteblogv4.model.entity.permission.pk.RoleResourceKey;
 import me.wuwenbin.noteblogv4.model.pojo.framework.LayuiTable;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import me.wuwenbin.noteblogv4.service.permission.UserPermissionService;
+import me.wuwenbin.noteblogv4.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,24 +35,26 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/management")
-public class AuthorityController {
+public class AuthorityController extends BaseController {
 
     private final RoleRepository roleRepository;
     private final UserPermissionService userPermissionService;
     private final RoleResourceRepository roleResourceRepository;
     private final UserPermissionMapper userPermissionMapper;
     private final MenuRepository menuRepository;
+    private final ResourceRepository resourceRepository;
 
     @Autowired
     public AuthorityController(RoleRepository roleRepository,
                                UserPermissionService userPermissionService,
                                RoleResourceRepository roleResourceRepository,
-                               UserPermissionMapper userPermissionMapper, MenuRepository menuRepository) {
+                               UserPermissionMapper userPermissionMapper, MenuRepository menuRepository, ResourceRepository resourceRepository) {
         this.roleRepository = roleRepository;
         this.userPermissionService = userPermissionService;
         this.roleResourceRepository = roleResourceRepository;
         this.userPermissionMapper = userPermissionMapper;
         this.menuRepository = menuRepository;
+        this.resourceRepository = resourceRepository;
     }
 
     /**
@@ -131,7 +137,7 @@ public class AuthorityController {
             roleRepository.saveAndFlush(role);
             return NBR.formatOk("添加角色 [{}] 成功！", role.getCnName());
         } else {
-            return NBR.error(result.getAllErrors().toString());
+            return NBR.error(handleErrorMsg(result.getFieldErrors()));
         }
     }
 
@@ -182,6 +188,44 @@ public class AuthorityController {
         List<NBSysMenu> menus = menuRepository.findAllByRoleId(roleId);
         menus.add(menuRepository.findByParentId(0L));
         return new LayuiTable<>(menus.size(), menus);
+    }
+
+
+    /**
+     * 添加角色菜单界面
+     *
+     * @return
+     */
+    @NBAuth(value = "permission:menuAdd:router", remark = "添加角色菜单界面", group = "permission")
+    @RequestMapping("/menu/add")
+    public String addMenu(Model model, String roleId,String parentId) {
+        if (StringUtils.isEmpty(roleId)) {
+            return NoteBlogV4.Session.ERROR_ROUTER;
+        }
+        model.addAttribute("roleId", roleId);
+        model.addAttribute("parentId", parentId);
+        model.addAttribute("resources", resourceRepository.findAllByType(ResType.NAV_LINK));
+        return "management/authority/menu_add";
+    }
+
+
+    /**
+     * 添加新角色菜单操作
+     *
+     * @param menu
+     * @param result
+     * @return
+     */
+    @NBAuth(value = "permission:menuCreate:ajax", remark = "添加新角色菜单操作", group = "permission")
+    @ResponseBody
+    @RequestMapping("/menu/create")
+    public NBR createMenu(@Valid NBSysMenu menu, BindingResult result) {
+        if (result.getErrorCount() == 0) {
+            menuRepository.saveAndFlush(menu);
+            return NBR.formatOk("添加菜单 [{}] 成功！", menu.getName());
+        } else {
+            return NBR.error(handleErrorMsg(result.getFieldErrors()));
+        }
     }
 
 

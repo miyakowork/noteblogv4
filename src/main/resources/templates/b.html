@@ -3,11 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/static/plugins/font-awesome/css/font-awesome.css">
-    <title>Title</title>
+    <link rel="stylesheet" href="/static/plugins/layui/css/layui.css">
+    <title>字体图标展示</title>
+    <style>
+        p {
+            margin: auto 10px 10px 0;
+        }
+
+        p > i {
+            font-size: 18px !important;
+        }
+
+    </style>
 </head>
-<body>
-<div >
-   <i th:class="'fa '+${font}"th:each="font:${fonts}" style="margin-right: 10px;"></i>
+<body style="padding: 20px 50px;">
+<div class="layui-container" id="fontApp">
+    <div class="layui-col-sm4">
+        <p v-for="(font,index) in fonts">
+            <template v-if="index <= 225">
+                <i :class="fontCss(font)"></i>
+                <span>{{fontCss(font)}}</span>
+            </template>
+        </p>
+    </div>
+    <div class="layui-col-sm4">
+        <p v-for="(font,index) in fonts">
+            <template v-if="index <= 450 && index >225">
+                <i :class="fontCss(font)"></i>
+                <span>{{fontCss(font)}}</span>
+            </template>
+        </p>
+    </div>
+    <div class="layui-col-sm4">
+        <p v-for="(font,index) in fonts">
+            <template v-if="index <= 675">
+                <i :class="fontCss(font)"></i>
+                <span>{{fontCss(font)}}</span>
+            </template>
+        </p>
+    </div>
 </div>
+<script src="/static/plugins/vue/vue.min.js"></script>
+<script th:inline="javascript">
+    new Vue({
+        el: "#fontApp",
+        data: {
+            fonts: [[${fonts}]]
+        },
+        methods: {
+            // 仅读取
+            fontCss: function (font) {
+                return 'fa ' + font;
+            }
+        }
+    })
+</script>
 </body>
 </html>

@@ -87,22 +87,42 @@
         return hash;
     };
 
+    Vipspa.prototype.stringifyDefault = function (routerUrl) {
+        var hash = routerUrl;
+        return hash + "?_=" + new Date().getTime();
+    };
+
+    Vipspa.prototype.stringify = function (routerUrl, paramObj) {
+        var paramStr = '', hash;
+        for (var i in  paramObj) {
+            paramStr += i + '=' + encodeURIComponent(paramObj[i]) + '&';
+        }
+        paramStr += '_=' + new Date().getTime() + '&';
+        if (paramStr === '') {
+            hash = routerUrl;
+        }
+        else {
+            paramStr = paramStr.substring(0, paramStr.length - 1);
+            hash = routerUrl + '?' + paramStr;
+        }
+        return hash;
+    };
+
+
     Vipspa.prototype.parse = function (routerHash) {
         var hash = typeof routerHash === 'undefined' ? location.hash : routerHash;
         var obj = {
             url: '',
-            param: {},
-            rest: ''
+            param: {}
         };
-        var param = {}, url = '', rest = '';
+        var param = {}, url = '';
         var pIndex = hash.indexOf('?');
-        var restIndex = hash.indexOf('!!');
         if (hash === '') {
             return obj;
         }
 
-        if (pIndex > -1 && restIndex > -1) {
-            url = hash.substring(1, pIndex < restIndex ? pIndex : restIndex);
+        if (pIndex > -1) {
+            url = hash.substring(1, pIndex);
             var paramStr = hash.substring(pIndex + 1);
             var paramArr = paramStr.split('&');
 
@@ -115,28 +135,29 @@
                 if (key !== '') {
                     param[key] = decodeURIComponent(val);
                 }
+
+
             });
         }
         else {
-            if (restIndex <= -1)
-                url = hash.substring(1);
-            else
-                url = hash.substring(1, restIndex);
+            url = hash.substring(1);
             param = {};
-        }
-
-        if (restIndex > -1) {
-            rest = hash.substring(restIndex + 2, hash.length);
         }
         return {
             url: url,
-            param: param,
-            rest: rest
+            param: param
         };
     };
 
     function routerAction(routeObj) {
-        var routerItem = vipspa.routerMap[routeObj.url];
+        var key = routeObj.url.indexOf("?");
+        var routerItem;
+        if (key > -1) {
+            var url = routeObj.url.substr(0, key);
+            routerItem = vipspa.routerMap[url];
+        } else {
+            routerItem = vipspa.routerMap[routeObj.url];
+        }
         if (typeof routerItem === 'undefined') {
             var defaultsRoute = vipspa.routerMap.defaults;
             routerItem = vipspa.routerMap[defaultsRoute];
@@ -150,11 +171,19 @@
         $.ajax({
             type: 'GET',
             url: ajaxUrl,
+            data: routeObj.param,
             cache: false,
             dataType: 'html',
             success: function (data, status, xhr) {
                 var container = $(vipspa.mainView);
                 container.html(data);
+                //layui中的form和element的刷新
+                if (window._layform) {
+                    window._layform.render();
+                }
+                if (window._layelem) {
+                    window._layelem.render();
+                }
                 if (routerItem.controller !== undefined) {
                     loadScript(routerItem.controller);
                 }

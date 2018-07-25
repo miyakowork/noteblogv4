@@ -283,6 +283,16 @@ public interface NoteBlogV4 {
          * 网站管理员的角色id，通过initListener初始化之后，会全局设置到NBContext对象中
          */
         String WEBMASTER_ROLE_ID = "webmaster_role_id";
+
+        /**
+         * 错误页面
+         */
+        String ERROR_PAGE = "error/page";
+
+        /**
+         * 错误路由
+         */
+        String ERROR_ROUTER = "error/router";
     }
 
     /**

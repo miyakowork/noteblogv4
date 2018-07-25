@@ -44,7 +44,7 @@
                     </form>
                 </div>
                 <div class="layui-card-footer">
-                    <button class="layui-btn layui-btn-sm" @click="subRes">提交更改</button>
+                    <button class="layui-btn" @click="subRes">提交更改</button>
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@
 </div>
 
 <script type="text/html" id="NB-add-role">
-    <form class="layui-form" style="padding: 20px 20px 0 0;">
+    <form class="layui-form" style="padding: 20px 30px 0 0;">
         <div class="layui-form-item">
             <label class="layui-form-label">角色标识</label>
             <div class="layui-input-block">
@@ -70,14 +70,14 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button class="layui-btn layui-btn-sm layui-bg-black" lay-submit lay-filter="addRole">立即提交</button>
+                <button class="layui-btn layui-bg-cyan" lay-submit lay-filter="addRole">立即提交</button>
             </div>
         </div>
     </form>
 </script>
 
 <script type="text/html" id="NB-edit-role">
-    <form class="layui-form" style="padding: 20px 20px 0 0;">
+    <form class="layui-form" style="padding: 20px 30px 0 0;">
         <input name="id" type="hidden">
         <input name="name" type="hidden">
         <div class="layui-form-item">
@@ -90,7 +90,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button class="layui-btn layui-btn-sm layui-bg-black" lay-submit lay-filter="updateRole">立即提交</button>
+                <button class="layui-btn layui-btn-sm layui-bg-cyan" lay-submit lay-filter="updateRole">立即提交</button>
             </div>
         </div>
     </form>
@@ -194,9 +194,6 @@
                 roleTabApp.index = layer.open({
                     title: "添加新角色",
                     type: 1,
-                    skin: 'noteblog-layer', //样式类名
-                    closeBtn: 0, //不显示关闭按钮
-                    shadeClose: true, //开启遮罩关闭
                     content: $("#NB-add-role").html()
                 });
             }
@@ -205,9 +202,6 @@
                     id: "NB-edit-layer",
                     title: "修改 [" + role.name + "] 的角色名",
                     type: 1,
-                    skin: 'noteblog-layer', //样式类名
-                    closeBtn: 0, //不显示关闭按钮
-                    shadeClose: true, //开启遮罩关闭
                     content: $("#NB-edit-role").html(),
                     success: function () {
                         $("#NB-edit-layer input[name=id]").val(role.id);

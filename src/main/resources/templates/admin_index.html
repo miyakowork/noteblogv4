@@ -123,6 +123,9 @@
 <script src="/static/plugins/spa/vipspa.js"></script>
 <script src="/static/assets/js/management/config/spa.config.js"></script>
 <script>
+    layui.config({base: '/static/plugins/treetable-lay/'})
+        .extend({treetable: 'treetable'});
+
     layui.use(['element', 'layer'], function () {
         var element = layui.element;
         window._layer = layui.layer;

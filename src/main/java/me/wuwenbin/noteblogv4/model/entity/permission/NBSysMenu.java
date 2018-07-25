@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -25,19 +27,24 @@ public class NBSysMenu implements Serializable {
     private Long id;
 
     @Column(nullable = false, length = 11)
+    @NotNull
     private Long parentId;
 
+    @NotEmpty
     private String name;
 
     @Column(length = 11)
     private Long resourceId;
 
+    @NotEmpty
     private String icon;
 
     @Enumerated(EnumType.STRING)
-    private MenuType type;
+    @Builder.Default
+    private MenuType type = MenuType.PARENT;
 
     @Column(length = 11)
+    @NotNull
     private long roleId;
 
     @Column(length = 1, columnDefinition = "tinyint(1)", nullable = false)

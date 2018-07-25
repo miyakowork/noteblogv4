@@ -7,6 +7,7 @@ $(function () {
             '/role': {templateUrl: url_prefix + 'role'},
             '/menu': {templateUrl: url_prefix + 'menu'},
             '/home': {templateUrl: url_prefix + 'home', controller: static_prefix + '/home.js'},
+            '/menu/add': {templateUrl: url_prefix + 'menu/add'},
             'blog': {
                 templateUrl: url_prefix + 'blog',
                 controller: static_prefix + '/blog.js'

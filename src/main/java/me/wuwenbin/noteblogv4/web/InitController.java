@@ -42,8 +42,8 @@ public class InitController {
         return initialization ? "init" : "redirect:/";
     }
 
-    @NBAuth(value = "user:b:page", remark = "字体图标预览", group = "user", type = ResType.NAV_LINK)
-    @RequestMapping("/b")
+    @NBAuth(value = "user:fontList:page", remark = "字体图标预览", group = "user", type = ResType.NAV_LINK)
+    @RequestMapping("/font/list")
     public String b(HttpServletRequest request) {
         String fontawesome = NBUtils.getFilePathInClassesPath("static/plugins/font-awesome/css/font-awesome.css");
         List<String> a = FontAwesomeUtil.getAllFonts(fontawesome);

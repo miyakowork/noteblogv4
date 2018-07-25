@@ -7,7 +7,7 @@
     </div>
 </div>
 
-<div class="layui-fluid layadmin-container layui-anim-fadein" id="NB-menu-tab">
+<div class="layui-fluid layadmin-container" id="NB-menu-tab">
     <div class="layui-row layui-col-space10">
         <div class="layui-col-sm3">
             <div class="layui-card">
@@ -41,8 +41,8 @@
             </div>
         </div>
     </div>
-</div>
 
+</div>
 
 <style>
     .layui-table.role-list tr {
@@ -55,7 +55,6 @@
 
 </style>
 <script th:inline="javascript">
-
     var menuTabApp = new Vue({
         el: "#NB-menu-tab",
         data: {
@@ -67,66 +66,67 @@
             window.__roleId = this.selected;
         },
         mounted: function () {
-            layui.config({base: '/static/plugins/treetable-lay/'})
-                .extend({treetable: 'treetable'})
-                .use(['treetable', 'element', 'table'], function () {
-                    var treetable = layui.treetable;
-                    var element = layui.element;
-                    var table = layui.table;
-                    element.render();
+            layui.use(['treetable', 'element', 'table'], function () {
+                var treetable = layui.treetable;
+                var element = layui.element;
+                var table = layui.table;
+                element.render();
 
-                    // 渲染表格
-                    treetable.render({
-                        treeColIndex: 0,          // treetable新增参数
-                        treeSpid: 0,             // treetable新增参数
-                        treeIdName: 'id',       // treetable新增参数
-                        treePidName: 'parentId',     // treetable新增参数
-                        treeDefaultClose: true,   // treetable新增参数
-                        treeLinkage: true,        // treetable新增参数
-                        elem: '#menuTable',
-                        url: BMY.url.prefix + '/menu/list',
-                        where: {
-                            roleId: menuTabApp.selected
-                        },
-                        cols: [
-                            [
-                                {type: 'numbers'},
-                                {field: 'id', title: 'id'},
-                                {field: 'name', title: '菜单名称', templet: '#titleTpl'},
-                                {field: 'parentId', title: '上级id'},
-                                {
-                                    field: 'type', title: '菜单类型', templet: function (d) {
-                                        if (d.type === 'ROOT') {
-                                            return '<span class="layui-badge layui-bg-black">根节点</span>'
-                                        }
-                                        if (d.type === 'PARENT') {
-                                            return '<span class="layui-badge layui-bg-blue">根节点</span>'
-                                        }
-                                        if (d.type === 'LEAF') {
-                                            return '<span class="layui-badge layui-bg-gray">根节点</span>'
-                                        }
+                // 渲染表格
+                treetable.render({
+                    treeColIndex: 1,          // treetable新增参数
+                    treeSpid: 0,             // treetable新增参数
+                    treeIdName: 'id',       // treetable新增参数
+                    treePidName: 'parentId',     // treetable新增参数
+                    treeDefaultClose: true,   // treetable新增参数
+                    treeLinkage: true,        // treetable新增参数
+                    elem: '#menuTable',
+                    url: BMY.url.prefix + '/menu/list',
+                    where: {
+                        roleId: menuTabApp.selected
+                    },
+                    cols: [
+                        [
+                            {type: 'numbers'},
+                            {field: 'id', title: 'id'},
+                            {field: 'name', title: '菜单名称', templet: '#titleTpl'},
+                            {field: 'parentId', title: '上级id'},
+                            {
+                                field: 'type', title: '菜单类型', templet: function (d) {
+                                    if (d.type === 'ROOT') {
+                                        return '<span class="layui-badge layui-bg-black">根节点</span>'
                                     }
-                                },
-                                {title: '操作', width: 178, align: 'center', toolbar: '#bar'}
-                            ]
+                                    if (d.type === 'PARENT') {
+                                        return '<span class="layui-badge layui-bg-blue">目录菜单</span>'
+                                    }
+                                    if (d.type === 'LEAF') {
+                                        return '<span class="layui-badge layui-bg-green">链接菜单</span>'
+                                    }
+                                }
+                            },
+                            {title: '操作', width: 178, align: 'center', toolbar: '#bar'}
                         ]
-                    });
-
-                    table.on('tool(menuTable)', function (obj) {
-                        var data = obj.data;
-                        if (obj.event === 'add') {
-                            layer.msg('ID：' + data.id + ' 的查看操作');
-                        } else if (obj.event === 'del') {
-                            layer.confirm('真的删除行么', function (index) {
-                                obj.del();
-                                layer.close(index);
-                            });
-                        } else if (obj.event === 'edit') {
-                            layer.alert('编辑行：<br>' + JSON.stringify(data))
-                        }
-                    });
-
+                    ]
                 });
+
+                table.on('tool(menuTable)', function (obj) {
+                    var data = obj.data;
+                    if (obj.event === 'add') {
+                        location.hash = vipspa.stringify('/menu/add', {
+                            roleId: menuTabApp.selected,
+                            parentId: data.id
+                        });
+                    } else if (obj.event === 'del') {
+                        layer.confirm('真的删除行么', function (index) {
+                            obj.del();
+                            layer.close(index);
+                        });
+                    } else if (obj.event === 'edit') {
+                        layer.alert('编辑行：<br>' + JSON.stringify(data))
+                    }
+                });
+
+            });
         }
         , methods: {}
     })
