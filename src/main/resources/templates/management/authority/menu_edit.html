@@ -3,34 +3,35 @@
         <span class="layui-breadcrumb">
             <a href="/management/index">首页</a>
             <a href="/management/index#/menu">菜单管理</a>
-            <a><cite>角色菜单添加</cite></a>
+            <a><cite>修改角色菜单</cite></a>
         </span>
     </div>
 </div>
-<div class="layui-fluid layadmin-container" id="NB-menu-add">
+<div class="layui-fluid layadmin-container" id="NB-menu-edit">
     <div class="layui-row">
         <div class="layui-card">
             <div class="layui-card-header">
-                添加角色菜单
+                修改角色菜单
             </div>
             <div class="layui-card-body">
-                <form class="layui-form" style="padding: 20px 30px 0 0;" lay-filter="NB-add-menu">
-                    <input type="hidden" name="roleId" :value="roleId">
-                    <input type="hidden" name="parentId" :value="parentId">
+                <form class="layui-form" style="padding: 20px 30px 0 0;" lay-filter="NB-edit-menu">
+                    <input type="hidden" name="id" :value="menu.id">
+                    <input type="hidden" name="parentId" :value="menu.parentId">
+                    <input type="hidden" name="roleId" :value="menu.roleId">
                     <div class="layui-form-item">
                         <label class="layui-form-label">菜单名称</label>
                         <div class="layui-input-block">
                             <input type="text" name="name" required lay-verify="required" placeholder="请输入菜单名称"
-                                   autocomplete="off"
+                                   autocomplete="off" :value="menu.name"
                                    class="layui-input">
                         </div>
                     </div>
-                    <div class="layui-form-item">
+                    <div class="layui-form-item" v-if="menu.type != 'ROOT'">
                         <label class="layui-form-label">菜单类型</label>
                         <div class="layui-input-block">
-                            <input type="radio" name="type" value="PARENT" title="目录菜单" :checked="type == 'PARENT'"
+                            <input type="radio" name="type" value="PARENT" title="目录菜单" :checked="type=='PARENT'"
                                    lay-filter="type">
-                            <input type="radio" name="type" value="LEAF" title="链接菜单" :checked="type == 'LEAF'"
+                            <input type="radio" name="type" value="LEAF" title="链接菜单" :checked="type=='LEAF'"
                                    lay-filter="type">
                         </div>
                     </div>
@@ -38,6 +39,7 @@
                         <label class="layui-form-label">菜单图标</label>
                         <div class="layui-input-inline">
                             <input type="text" name="icon" required lay-verify="required" placeholder="字体图标样式类名"
+                                   :value="menu.icon"
                                    autocomplete="off" class="layui-input">
                         </div>
                         <div class="layui-form-mid layui-word-aux"><a target="_blank" href="/font/list"><i
@@ -47,17 +49,19 @@
                         <label class="layui-form-label">备注</label>
                         <div class="layui-input-block">
                             <input type="text" name="remark" required lay-verify="required" placeholder="请输入菜单备注"
+                                   :value="menu.remark"
                                    autocomplete="off"
                                    class="layui-input">
                         </div>
                     </div>
-                    <div class="layui-form-item" v-if="type != 'PARENT'">
+                    <div class="layui-form-item" v-if="type != 'PARENT' && type != 'ROOT'">
                         <label class="layui-form-label">菜单资源</label>
                         <div class="layui-input-block">
-                            <select name="resource" lay-verify="required">
+                            <select name="resourceId" lay-verify="required">
                                 <option value=""></option>
                                 <template v-for="res in resources">
-                                    <option :value="res.id">{{optionVal(res)}}</option>
+                                    <option :value="res.id" :selected="menu.resource.id == res.id">{{optionVal(res)}}
+                                    </option>
                                 </template>
                             </select>
                         </div>
@@ -65,13 +69,13 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">是否可用</label>
                         <div class="layui-input-block">
-                            <input type="checkbox" name="enable" :value="enable"
-                                   lay-skin="switch" lay-text="可用|不可用" checked>
+                            <input type="checkbox" name="enable" :value="menu.enable"
+                                   lay-skin="switch" lay-text="可用|不可用" :checked="menu.enable">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn layui-bg-cyan" lay-submit lay-filter="addMenu">立即提交
+                            <button class="layui-btn layui-bg-cyan" lay-submit lay-filter="editMenu">立即提交
                             </button>
                             <a class="layui-btn" href="/management/index#/menu">返回</a>
                         </div>
@@ -82,14 +86,12 @@
     </div>
 </div>
 <script th:inline="javascript">
-    var addMenuApp = new Vue({
-        el: '#NB-menu-add'
+    var editMenuApp = new Vue({
+        el: '#NB-menu-edit'
         , data: {
+            menu: [[${menu}]],
+            type: [[${menu.type}]],
             resources: [[${resources}]]
-            , roleId: [[${roleId}]]
-            , parentId: [[${parentId}]]
-            , type: "PARENT"
-            , enable: 1
         }
         , updated: function () {
             window._layform.render();
@@ -100,15 +102,16 @@
                     element = window._layelem = layui.element;
                 element.render();
 
-                form.on('submit(addMenu)', function (data) {
+
+                form.on('submit(editMenu)', function (data) {
                     if (!data.field.enable) {
                         data.field.enable = 0;
                     }
-                    $.post(BMY.url.prefix + '/menu/create', data.field, function (resp) {
+                    $.post(BMY.url.prefix + '/menu/modify', data.field, function (resp) {
                         layer.msg(resp.message);
                         if (resp.code === 200) {
                             setTimeout(function () {
-                                location.hash = vipspa.stringifyDefault("/menu");
+                                location.href = BMY.url.manage_index + "#/menu";
                             }, 1000);
                         }
                     });
@@ -116,7 +119,8 @@
                 });
 
                 form.on('radio(type)', function (data) {
-                    addMenuApp.type = data.value;
+                    editMenuApp.type = data.value;
+                    window._layform = form;
                 });
 
 

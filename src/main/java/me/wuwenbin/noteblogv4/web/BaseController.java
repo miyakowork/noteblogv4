@@ -2,6 +2,7 @@ package me.wuwenbin.noteblogv4.web;
 
 import lombok.extern.slf4j.Slf4j;
 import me.wuwenbin.noteblogv4.model.pojo.framework.LayuiTable;
+import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import me.wuwenbin.noteblogv4.model.pojo.framework.Page;
 import org.springframework.validation.FieldError;
 
@@ -48,12 +49,12 @@ public abstract class BaseController {
         return "GET".equalsIgnoreCase(method);
     }
 
-    protected String handleErrorMsg(List<FieldError> fieldErrors) {
+    protected NBR ajaxError(List<FieldError> fieldErrors) {
         StringBuilder message = new StringBuilder();
         for (FieldError error : fieldErrors) {
             message.append(error.getField()).append(":").append(error.getDefaultMessage());
         }
-        return message.toString();
+        return NBR.error(message.toString());
     }
 
 }

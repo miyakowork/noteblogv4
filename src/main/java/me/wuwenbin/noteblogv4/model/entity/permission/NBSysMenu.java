@@ -1,5 +1,6 @@
 package me.wuwenbin.noteblogv4.model.entity.permission;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,7 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 public class NBSysMenu implements Serializable {
 
     @Id
@@ -33,8 +35,8 @@ public class NBSysMenu implements Serializable {
     @NotEmpty
     private String name;
 
-    @Column(length = 11)
-    private Long resourceId;
+//    @Column(length = 11, name = "resource_id")
+//    private Long resourceId;
 
     @NotEmpty
     private String icon;
@@ -52,6 +54,11 @@ public class NBSysMenu implements Serializable {
     private Boolean enable = Boolean.TRUE;
 
     private String remark;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "resource_id")
+//    @org.springframework.data.annotation.Transient
+    private NBSysResource resource;
 
     /**
      * 菜单类型

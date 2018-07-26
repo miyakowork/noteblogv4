@@ -137,7 +137,7 @@ public class AuthorityController extends BaseController {
             roleRepository.saveAndFlush(role);
             return NBR.formatOk("添加角色 [{}] 成功！", role.getCnName());
         } else {
-            return NBR.error(handleErrorMsg(result.getFieldErrors()));
+            return ajaxError(result.getFieldErrors());
         }
     }
 
@@ -171,7 +171,7 @@ public class AuthorityController extends BaseController {
             roleRepository.saveAndFlush(role);
             return NBR.formatOk("修改角色 [{}] 成功！", role.getCnName());
         } else {
-            return NBR.error(result.getAllErrors().toString());
+            return ajaxError(result.getFieldErrors());
         }
     }
 
@@ -198,7 +198,7 @@ public class AuthorityController extends BaseController {
      */
     @NBAuth(value = "permission:menuAdd:router", remark = "添加角色菜单界面", group = "permission")
     @RequestMapping("/menu/add")
-    public String addMenu(Model model, String roleId,String parentId) {
+    public String addMenu(Model model, String roleId, String parentId) {
         if (StringUtils.isEmpty(roleId)) {
             return NoteBlogV4.Session.ERROR_ROUTER;
         }
@@ -208,6 +208,22 @@ public class AuthorityController extends BaseController {
         return "management/authority/menu_add";
     }
 
+
+    /**
+     * 修改角色菜单界面
+     *
+     * @return
+     */
+    @NBAuth(value = "permission:menuEdit:router", remark = "修改角色菜单界面", group = "permission")
+    @RequestMapping("/menu/edit")
+    public String addMenu(Model model, Long menuId) {
+        if (StringUtils.isEmpty(menuId)) {
+            return NoteBlogV4.Session.ERROR_ROUTER;
+        }
+        model.addAttribute("resources", resourceRepository.findAllByType(ResType.NAV_LINK));
+        model.addAttribute("menu", menuRepository.getOne(menuId));
+        return "management/authority/menu_edit";
+    }
 
     /**
      * 添加新角色菜单操作
@@ -224,8 +240,47 @@ public class AuthorityController extends BaseController {
             menuRepository.saveAndFlush(menu);
             return NBR.formatOk("添加菜单 [{}] 成功！", menu.getName());
         } else {
-            return NBR.error(handleErrorMsg(result.getFieldErrors()));
+            return ajaxError(result.getFieldErrors());
         }
+    }
+
+    /**
+     * 修改角色菜单
+     *
+     * @param menu
+     * @param result
+     * @return
+     */
+    @NBAuth(value = "permission:menuModify:ajax", remark = "修改角色菜单", group = "permission")
+    @ResponseBody
+    @RequestMapping("/menu/modify")
+    public NBR modifyMenu(@Valid NBSysMenu menu, BindingResult result) {
+        if (result.getErrorCount() == 0) {
+            if (StringUtils.isEmpty(menu.getId())) {
+                return NBR.error("id不能为空！");
+            }
+//            if (menu.getType() == NBSysMenu.MenuType.PARENT) {
+//                menu.setResourceId(null);
+//            }
+            menuRepository.saveAndFlush(menu);
+            return NBR.formatOk("修改菜单 [{}] 成功！", menu.getName());
+        } else {
+            return ajaxError(result.getFieldErrors());
+        }
+    }
+
+    /**
+     * 删除角色菜单
+     *
+     * @param id
+     * @return
+     */
+    @NBAuth(value = "permission:menuDelete:ajax", remark = "删除角色菜单", group = "permission")
+    @ResponseBody
+    @RequestMapping("/menu/delete")
+    public NBR createMenu(Long id) {
+        menuRepository.deleteById(id);
+        return NBR.ok("删除菜单成功！");
     }
 
 

@@ -67,7 +67,7 @@
 }
 
 .layadmin-container {
-    margin-top: 45px;
+    top: 45px;
 }
 
 .layui-card-footer {
@@ -76,4 +76,17 @@
     color: #333;
     border-radius: 2px 2px 0 0;
     font-size: 14px;
+}
+
+/** 未展开 */
+.treeTable-icon .layui-icon-layer:before {
+    content: "\e66e";
+}
+
+/** 展开 */
+.treeTable-icon.open .layui-icon-layer:before {
+    content: "\e66e";
+}
+.treeTable-icon .layui-icon-file:before {
+    content: "\e656";
 }

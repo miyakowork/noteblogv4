@@ -4,10 +4,12 @@ $(function () {
     vipspa.start({
         view: '#admin-body',
         router: {
+            'defaults': '/menu',//默认路由
             '/role': {templateUrl: url_prefix + 'role'},
             '/menu': {templateUrl: url_prefix + 'menu'},
             '/home': {templateUrl: url_prefix + 'home', controller: static_prefix + '/home.js'},
             '/menu/add': {templateUrl: url_prefix + 'menu/add'},
+            '/menu/edit': {templateUrl: url_prefix + 'menu/edit'},
             'blog': {
                 templateUrl: url_prefix + 'blog',
                 controller: static_prefix + '/blog.js'
@@ -79,8 +81,7 @@ $(function () {
             'profile': {
                 templateUrl: url_prefix + 'profile',
                 controller: static_prefix + '/profile.js'
-            },
-            'defaults': '/home' //默认路由
+            }
         },
         errorTemplateId: '#error'
     });
