@@ -42,8 +42,9 @@
                                    :value="menu.icon"
                                    autocomplete="off" class="layui-input">
                         </div>
-                        <div class="layui-form-mid layui-word-aux"><a target="_blank" href="/font/list"><i
-                                class="layui-icon layui-icon-search"></i> 查看图标</a></div>
+                        <div class="layui-form-mid layui-word-aux"><a target="_blank" @click="seeIcons"
+                                                                      style="cursor:pointer;"><i
+                                class="layui-icon layui-icon-search"></i> 查看应用包含的图标</a></div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">备注</label>
@@ -60,7 +61,9 @@
                             <select name="resourceId" lay-verify="required">
                                 <option value=""></option>
                                 <template v-for="res in resources">
-                                    <option :value="res.id" :selected="menu.resource.id == res.id">{{optionVal(res)}}
+                                    <option :value="res.id"
+                                            :selected="menu.resource != null && menu.resource.id == res.id">
+                                        {{optionVal(res)}}
                                     </option>
                                 </template>
                             </select>
@@ -129,6 +132,14 @@
         , methods: {
             optionVal: function (res) {
                 return res.name + "「" + res.url + "」";
+            }, seeIcons: function () {
+                layer.open({
+                    type: 2,
+                    title: "字体图标列表",
+                    area: ['480px', '230px'],
+                    fixed: false, //不固定
+                    content: '/font/list'
+                });
             }
         }
     });

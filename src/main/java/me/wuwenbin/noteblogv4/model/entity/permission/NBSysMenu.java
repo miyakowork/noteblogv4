@@ -35,9 +35,6 @@ public class NBSysMenu implements Serializable {
     @NotEmpty
     private String name;
 
-//    @Column(length = 11, name = "resource_id")
-//    private Long resourceId;
-
     @NotEmpty
     private String icon;
 
@@ -46,8 +43,7 @@ public class NBSysMenu implements Serializable {
     private MenuType type = MenuType.PARENT;
 
     @Column(length = 11)
-    @NotNull
-    private long roleId;
+    private Long roleId;
 
     @Column(length = 1, columnDefinition = "tinyint(1)", nullable = false)
     @Builder.Default
@@ -57,7 +53,6 @@ public class NBSysMenu implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "resource_id")
-//    @org.springframework.data.annotation.Transient
     private NBSysResource resource;
 
     /**

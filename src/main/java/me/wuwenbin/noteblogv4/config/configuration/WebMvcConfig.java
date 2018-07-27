@@ -4,6 +4,7 @@ import me.wuwenbin.noteblogv4.config.interceptor.AdminInterceptor;
 import me.wuwenbin.noteblogv4.config.interceptor.ApplicationInterceptor;
 import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.config.interceptor.SessionInterceptor;
+import me.wuwenbin.noteblogv4.service.param.ParamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
@@ -26,11 +27,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     private final NBContext blogContext;
     private final Environment env;
+    private final ParamService paramService;
 
     @Autowired
-    public WebMvcConfig(NBContext blogContext, Environment env) {
+    public WebMvcConfig(NBContext blogContext, Environment env, ParamService paramService) {
         this.blogContext = blogContext;
         this.env = env;
+        this.paramService = paramService;
     }
 
     /**
@@ -55,7 +58,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new ApplicationInterceptor(blogContext)).addPathPatterns("/**").excludePathPatterns("/static/**");
+        registry.addInterceptor(new ApplicationInterceptor(blogContext, paramService)).addPathPatterns("/**").excludePathPatterns("/static/**");
         registry.addInterceptor(new SessionInterceptor(blogContext)).addPathPatterns("/management/**", "/token/**");
         registry.addInterceptor(new AdminInterceptor(blogContext)).addPathPatterns("/management/**");
 

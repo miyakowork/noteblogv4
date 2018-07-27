@@ -9,7 +9,7 @@
 
 <div class="layui-fluid layadmin-container" id="NB-menu-tab">
     <div class="layui-row layui-col-space10">
-        <div class="layui-col-sm2">
+        <div class="layui-col-sm3">
             <div class="layui-card">
                 <div class="layui-card-header">
                     角色信息列表
@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <div class="layui-col-sm10">
+        <div class="layui-col-sm9">
             <div class="layui-card">
                 <div class="layui-card-header layui-elip">菜单信息 - <span style="color:#5FB878;">{{roleName}}</span></div>
                 <div class="layui-card-body">
@@ -74,7 +74,7 @@
 
                 // 渲染表格
                 treetable.render({
-                    treeColIndex: 2,          // treetable新增参数
+                    treeColIndex: 1,          // treetable新增参数
                     treeSpid: 0,             // treetable新增参数
                     treeIdName: 'id',       // treetable新增参数
                     treePidName: 'parentId',     // treetable新增参数
@@ -87,12 +87,16 @@
                     },
                     cols: [
                         [
-                            {type: 'numbers'},
-                            {field: 'id', title: 'id', width: '7%'},
-                            {field: 'name', title: '菜单名称', templet: '#titleTpl', width: '20%'},
+                            {type: 'numbers', title: '序号'},
+                            {field: 'id', title: '菜单索引'},
                             {
-                                field: 'url', title: '菜单链接', width: '30%', templet: function (data) {
-                                    return data.resource == null ? " - " : data.resource.url;
+                                field: 'name', title: '菜单名称', width: '20%', templet: function (data) {
+                                    return "<i class='" + data.icon + "'></i> " + data.name;
+                                }
+                            },
+                            {
+                                field: 'url', title: '菜单链接', templet: function (d) {
+                                    return d.resource === null ? " - " : d.resource.url;
                                 }
                             },
                             {field: 'parentId', title: '上级id'},
@@ -149,7 +153,7 @@
                 menuTabApp.roleName = roleCnName;
                 layer.load(2);
                 window.__layTreetable.render({
-                    treeColIndex: 2,          // treetable新增参数
+                    treeColIndex: 1,          // treetable新增参数
                     treeSpid: 0,             // treetable新增参数
                     treeIdName: 'id',       // treetable新增参数
                     treePidName: 'parentId',     // treetable新增参数
@@ -162,12 +166,16 @@
                     },
                     cols: [
                         [
-                            {type: 'numbers'},
-                            {field: 'id', title: 'id', width: '7%'},
-                            {field: 'name', title: '菜单名称', templet: '#titleTpl', width: '20%'},
+                            {type: 'numbers', title: '序号'},
+                            {field: 'id', title: '菜单索引'},
                             {
-                                field: 'url', title: '菜单链接', width: '30%', templet: function (data) {
-                                    return data.resource == null ? " - " : data.resource.url;
+                                field: 'name', title: '菜单名称', width: '20%', templet: function (data) {
+                                    return "<i class='" + data.icon + "'></i> " + data.name;
+                                }
+                            },
+                            {
+                                field: 'resource', title: '菜单链接', templet: function (d) {
+                                    return d.resource === null ? " - " : d.resource.url;
                                 }
                             },
                             {field: 'parentId', title: '上级id'},
@@ -199,9 +207,6 @@
             }
         }
     })
-</script>
-<script type="text/html" id="titleTpl">
-    <i class="{{d.icon}}"></i> {{d.name}}
 </script>
 <script type="text/html" id="bar">
     <a class="layui-btn layui-btn-xs" lay-event="add">添加</a>

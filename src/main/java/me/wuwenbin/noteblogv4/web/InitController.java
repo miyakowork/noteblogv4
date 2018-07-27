@@ -1,22 +1,16 @@
 package me.wuwenbin.noteblogv4.web;
 
-import cn.hutool.crypto.SecureUtil;
-import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.config.permission.NBAuth;
-import me.wuwenbin.noteblogv4.dao.repository.UserRepository;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResType;
-import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
 import me.wuwenbin.noteblogv4.service.param.ParamService;
 import me.wuwenbin.noteblogv4.util.FontAwesomeUtil;
 import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -42,30 +36,13 @@ public class InitController {
         return initialization ? "init" : "redirect:/";
     }
 
-    @NBAuth(value = "user:fontList:page", remark = "字体图标预览", group = "user", type = ResType.NAV_LINK)
+    @NBAuth(value = "user:font_list:page", remark = "字体图标预览", group = "user", type = ResType.NAV_LINK)
     @RequestMapping("/font/list")
     public String b(HttpServletRequest request) {
-        String fontawesome = NBUtils.getFilePathInClassesPath("static/plugins/font-awesome/css/font-awesome.css");
-        List<String> a = FontAwesomeUtil.getAllFonts(fontawesome);
+        String fontAwesome = NBUtils.getFilePathInClassesPath("static/plugins/font-awesome/css/font-awesome.css");
+        List<String> a = FontAwesomeUtil.getAllFonts(fontAwesome);
         request.setAttribute("fonts", a);
-        return "b";
-    }
-
-    @RequestMapping("initUser")
-    @ResponseBody
-    public NBSysUser insertUser(HttpServletRequest request, HttpServletResponse response) {
-        NBContext nbContext = NBUtils.getBean(NBContext.class);
-        NBSysUser u
-                = NBSysUser.builder()
-                .username("admin")
-                .password(SecureUtil.md5(SecureUtil.md5("123456")))
-                .defaultRoleId(nbContext.getApplicationObj(NoteBlogV4.Session.WEBMASTER_ROLE_ID))
-                .nickname("管理员")
-                .build();
-        UserRepository userRepository = NBUtils.getBean(UserRepository.class);
-        NBSysUser u2 = userRepository.save(u);
-//        nbContext.setSessionUser(request, response, u2);
-        return u2;
+        return "fonts";
     }
 
 }

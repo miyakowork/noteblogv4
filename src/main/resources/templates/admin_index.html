@@ -34,6 +34,12 @@
             </li>
         </ul>
         <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item" lay-unselect="">
+                <a lay-href="app/message/" layadmin-event="message">
+                    <i class="layui-icon layui-icon-notice"></i>
+                    <span class="layui-badge-dot"></span>
+                </a>
+            </li>
             <li class="layui-nav-item">
                 <a href="javascript:;">
                     <img th:src="${#strings.isEmpty(avatar)?'/static/assets/img/bmy.png':avatar}" class="layui-nav-img">

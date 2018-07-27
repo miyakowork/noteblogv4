@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/plugins/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="/static/plugins/layui/css/layui.css">
+    <title>字体图标展示</title>
+    <style>
+        span {
+            margin: auto 10px 10px 0;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        span:hover {
+            color: #5FB878;
+        }
+
+        span > i {
+            font-size: 18px !important;
+        }
+
+    </style>
+</head>
+<body style="padding: 10px;">
+<div class="layui-fluid" id="fontApp">
+    <div class="layui-col-sm4" id="fontDiv">
+
+    </div>
+    <div id="pager"></div>
+</div>
+<script src="/static/plugins/layui/layui.js"></script>
+<script th:inline="javascript">
+    var data = [[${fonts}]];
+    var $;
+    layui.use(['laypage', 'jquery'], function () {
+        var laypage = layui.laypage;
+        $ = layui.$;
+        //调用分页
+        laypage.render({
+            elem: 'pager'
+            , count: data.length
+            , limit: 50
+            , layout: ['limit', 'skip', 'prev', 'next']
+            , jump: function (obj) {
+                //模拟渲染
+                document.getElementById('fontDiv').innerHTML = function () {
+                    var arr = []
+                        , thisData = data.concat().splice(obj.curr * obj.limit - obj.limit, obj.limit);
+                    layui.each(thisData, function (index, item) {
+                        var html = '' +
+                            '<span onclick="setIcon(this);" data-icon="' + item + '">' +
+                            '   <i class="fa ' + item + '"></i>' +
+                            '</span>';
+                        arr.push(html);
+                    });
+                    return arr.join('');
+                }();
+            }
+        });
+
+    });
+
+    function setIcon(dom) {
+        var i = $(dom).attr("data-icon");
+        parent.$("input[name=icon]").val('fa ' + i);
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+
+</script>
+</body>
+</html>

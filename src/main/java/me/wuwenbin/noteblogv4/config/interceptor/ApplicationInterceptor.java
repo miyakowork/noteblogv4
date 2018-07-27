@@ -10,6 +10,7 @@ import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.entity.NBLogger;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
 import me.wuwenbin.noteblogv4.model.pojo.business.IpInfo;
+import me.wuwenbin.noteblogv4.service.param.ParamService;
 import me.wuwenbin.noteblogv4.util.CookieUtils;
 import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,11 +31,39 @@ import java.time.LocalDateTime;
 public class ApplicationInterceptor extends HandlerInterceptorAdapter {
 
     private NBContext blogContext;
+    private ParamService paramService;
 
-    public ApplicationInterceptor(NBContext blogContext) {
+    public ApplicationInterceptor(NBContext blogContext, ParamService paramService) {
         this.blogContext = blogContext;
+        this.paramService = paramService;
     }
 
+    /**
+     * 判断是否走初始化页面
+     *
+     * @param request
+     * @param response
+     * @param handler
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String init = "/init";
+        boolean initialize = paramService.getValueByName(NoteBlogV4.Init.INIT_STATUS).equals(NoteBlogV4.Init.INIT_SURE);
+        boolean initPage = init.equals(request.getRequestURI());
+        if (!initialize) {
+            response.sendRedirect(NoteBlogV4.Session.INIT_PAGE);
+            return false;
+        } else {
+            if (!initPage) {
+                return true;
+            } else {
+                response.sendRedirect(NoteBlogV4.Session.FRONTEND_INDEX);
+                return false;
+            }
+        }
+    }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {

@@ -251,6 +251,11 @@ public interface NoteBlogV4 {
     interface Session {
 
         /**
+         * 初始化应用的页面
+         */
+        String INIT_PAGE = "/init";
+
+        /**
          * sessionIdCookie的名称
          */
         String SESSION_ID_COOKIE = "noteblogv4sid";
