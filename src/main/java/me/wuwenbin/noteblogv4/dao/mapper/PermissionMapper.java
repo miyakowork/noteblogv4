@@ -12,7 +12,7 @@ import java.util.List;
  * @author wuwenbin
  */
 @MybatisDao
-public interface UserPermissionMapper {
+public interface PermissionMapper {
 
     /**
      * 根据角色id查找资源

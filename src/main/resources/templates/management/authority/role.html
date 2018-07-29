@@ -129,7 +129,7 @@
                     element = layui.element;
 
                 element.render();
-                roleTabApp.resTree = new layuiXtree({
+                window.resTree = new layuiXtree({
                     elem: 'roleTree'   //(必填) 放置xtree的容器id，不要带#号
                     , form: form     //(必填) layui 的 from
                     , ckall: true
@@ -172,10 +172,10 @@
                 roleTabApp.selected = roleId;
                 window.__roleId = roleId;
                 roleTabApp.roleName = roleCnName;
-                roleTabApp.resTree.render();
+                window.resTree.render();
             }
             , subRes: function () {
-                var selectedInputs = roleTabApp.resTree.GetChecked();
+                var selectedInputs = window.resTree.GetChecked();
                 var resourceIds = [];
                 for (var i = 0; i < selectedInputs.length; i++) {
                     resourceIds.push(selectedInputs[i].value);
@@ -186,7 +186,7 @@
                 }, function (resp) {
                     layer.msg(resp.message);
                     if (resp.code === 200) {
-                        roleTabApp.resTree.render();
+                        window.resTree.render();
                     }
                 })
             }

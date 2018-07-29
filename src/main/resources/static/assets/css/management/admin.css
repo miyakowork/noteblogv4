@@ -12,6 +12,9 @@
     -webkit-user-select: none;
 }
 
+.layui-logo{
+    cursor: pointer;
+}
 .layui-logo i, .layui-logo span:first-of-type {
     color: #5FB878;
     font-style: italic;

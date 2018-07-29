@@ -57,7 +57,8 @@
 
     <div id="left-menu" class="layui-side layui-side-menu ">
         <div class="layui-side-scroll">
-            <div class="layui-logo"><cite><i class="fa fa-graduation-cap"></i><span>笔记博客</span> <span>后台管理</span></cite>
+            <div class="layui-logo" onclick="BMY.toAdminIndex();"><cite><i
+                    class="fa fa-graduation-cap"></i><span>笔记博客</span> <span>后台管理</span></cite>
             </div>
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="" lay-shrink="all">
@@ -129,8 +130,11 @@
 <script src="/static/plugins/spa/vipspa.js"></script>
 <script src="/static/assets/js/management/config/spa.config.js"></script>
 <script>
-    layui.config({base: '/static/plugins/treetable-lay/'})
-        .extend({treetable: 'treetable'});
+    layui.config({base: '/static/plugins/'})
+        .extend({
+            treetable: 'treetable-lay/treetable'
+            , formSelects: 'form-selects/form-selects.v4'
+        });
 
     layui.use(['element', 'layer'], function () {
         var element = layui.element;

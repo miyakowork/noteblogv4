@@ -1,0 +1,188 @@
+<link rel="stylesheet" href="/static/plugins/form-selects/form-selects.v4.css">
+<div class="layui-card layadmin-tabs-card">
+    <div class="layui-card-header">
+        <span class="layui-breadcrumb">
+            <a href="/management/index">首页</a>
+            <a><cite>用户管理</cite></a>
+        </span>
+    </div>
+</div>
+<div class="layui-fluid layadmin-container" id="NB-users-tab">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-sm8">
+            <div class="layui-card">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div id="user-table-search" class="layui-form">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">用户账号：</label>
+                                <div class="layui-input-block">
+                                    <input class="layui-input" id="user-search" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">用户昵称：</label>
+                                <div class="layui-input-block">
+                                    <input class="layui-input" id="user-nick-search" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <button class="layui-btn layuiadmin-btn-forum-list" data-type="reload"><i
+                                        class="layui-icon layui-icon-search layuiadmin-button-btn"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-card-body">
+                    <table id="userTable" lay-filter="user"></table>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm4">
+            <div class="layui-form">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        用户 <span id="NB-users-tab-selected" style="color: #5FB878;">请在左侧勾选用户</span> 的角色信息
+                    </div>
+                    <div class="layui-card-body">
+                        <select name="roleIds" xm-select="roles" xm-select-search="" xm-select-search-type="dl">
+                        </select>
+                    </div>
+                    <div class="layui-card-footer">
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-forum-list" type="submit" lay-submit=""
+                                    lay-filter="submitUserRoles">提交
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="enableTpl">
+    <input type="checkbox" name="enable" value="{{d.id}}" lay-skin="switch" lay-text="正常|禁用" lay-filter="enable" {{
+           d.enable== true ? 'checked' : '' }}>
+</script>
+
+<script th:inline="javascript">
+    layui.use(['form', 'table', 'element', 'formSelects'], function () {
+        var table = layui.table
+            , element = layui.element
+            , form = layui.form
+            , formSelects = layui.formSelects;
+        element.render();
+
+
+        var userTable = table.render({
+            elem: '#userTable'
+            , id: 'user-table'
+            , url: BMY.url.prefix + '/users/list'
+            , page: true
+            , limit: 20
+            , height: 'full'
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [
+                [
+                    {type: 'checkbox', event: 'user-selected'},
+                    {field: 'id', width: 80, title: 'ID', sort: true}
+                    , {
+                    field: 'username', title: '账号', sort: true, templet: function (d) {
+                        return d.username === '' || d.username === null ? '第三方注册' : d.username;
+                    }
+                }
+                    , {
+                    field: 'avatar', title: "用户头像", templet: function (d) {
+                        return '<img  src="' + d.avatar + '" style="width: 30px;height: 30px;">';
+                    }
+                }
+                    , {field: 'nickname', sort: true, title: '昵称'}
+                    , {
+                    field: 'create', title: '注册日期', sort: true, templet: function (d) {
+                        return BMY.dateFormatter(d.create);
+                    }
+                }
+                    , {title: '状态', width: 90, align: 'center', toolbar: '#enableTpl'}
+                ]
+            ]
+        });
+
+        formSelects.config('roles', {
+            keyName: 'cnName'
+            , keyVal: 'id'
+        });
+        formSelects.data('roles', 'server', {
+            url: BMY.url.prefix + '/users/roles/list'
+        });
+
+        form.on('switch(enable)', function (obj) {
+            BMY.ajax(BMY.url.prefix + "/users/edit/enable", {
+                id: this.value,
+                enable: obj.elem.checked
+            }, function (json) {
+                BMY.okMsgHandle(json);
+                layer.tips('用户状态：' + ((obj.elem.checked) ? "正常" : "锁定"), obj.othis);
+            });
+        });
+        form.on('submit(submitUserRoles)', function (obj) {
+            obj.field.userId = window._NB_users_userId;
+            BMY.ajaxManagement("/users/roles/update", obj.field, function (resp) {
+                layer.msg(resp.message);
+                if (resp.code === 200) {
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                }
+            })
+        });
+
+        table.on('sort(user)', function (obj) {
+            userTable.reload({
+                initSort: obj
+                , where: {
+                    sort: obj.field
+                    , order: obj.type
+                }
+            });
+        });
+
+        table.on('tool(user)', function (obj) {
+            var data = obj.data;
+            window._NB_users_userId = data.id;
+            $("#NB-users-tab-selected").text(data.username);
+            BMY.ajaxManagement("/users/roles/list", {userId: data.id}, function (data) {
+                var vals = [];
+                for (var i = 0; i < data.length; i++) {
+                    vals.push(data[i].id);
+                }
+                formSelects.value('roles', vals);
+            })
+        });
+
+
+        var $ = layui.$, active = {
+            reload: function () {
+                var username = $('#user-search');
+                var nickname = $("#user-nick-search");
+                //执行重载
+                userTable.reload({
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        username: username.val(),
+                        nickname: nickname.val()
+                    }
+                });
+            }
+        };
+
+        $('#user-table-search').find('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    })
+    ;
+</script>

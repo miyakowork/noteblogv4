@@ -96,7 +96,7 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
         } else {
             log.info("「笔记博客」App 已经完成初始化，略过初始化步骤。");
         }
-        log.info("「笔记博客」App 启动完毕。");
+        log.info("「笔记博客」App 启动完毕。讨论/反馈群：【697053454】");
     }
 
 
@@ -119,29 +119,31 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
         }
         //获取扫描到的所有需要验证权限的资源
         List<Map<String, Object>> authResources = context.getApplicationObj(NoteBlogV4.Init.MASTER_RESOURCES);
-        authResources.forEach(res -> {
-            String url = res.get("url").toString();
-            String name = res.get("remark").toString();
-            String permission = res.get("permission").toString();
-            NBSysResource.ResType type = (NBSysResource.ResType) res.get("type");
-            String group = res.get("group").toString();
+        if (authResources != null) {
+            authResources.forEach(res -> {
+                String url = res.get("url").toString();
+                String name = res.get("remark").toString();
+                String permission = res.get("permission").toString();
+                NBSysResource.ResType type = (NBSysResource.ResType) res.get("type");
+                String group = res.get("group").toString();
 
-            //数据库已存在此url，做更新操作
-            if (resourceRepository.countByUrl(url) == 1) {
-                resourceRepository.updateByUrl(name, permission, type, group, url);
-            }
-            //数据库不存在，做插入操作
-            else {
-                NBSysResource resourceInsert = NBSysResource.builder()
-                        .permission(permission).name(name).url(url).type(type).group(group)
-                        .build();
-                NBSysResource newRes = resourceRepository.saveAndFlush(resourceInsert);
-                NBSysRoleResource rr = NBSysRoleResource.builder()
-                        .pk(new RoleResourceKey(webmaster.getId(), newRes.getId()))
-                        .build();
-                roleResourceRepository.saveAndFlush(rr);
-            }
-        });
+                //数据库已存在此url，做更新操作
+                if (resourceRepository.countByUrl(url) == 1) {
+                    resourceRepository.updateByUrl(name, permission, type, group, url);
+                }
+                //数据库不存在，做插入操作
+                else {
+                    NBSysResource resourceInsert = NBSysResource.builder()
+                            .permission(permission).name(name).url(url).type(type).group(group)
+                            .build();
+                    NBSysResource newRes = resourceRepository.saveAndFlush(resourceInsert);
+                    NBSysRoleResource rr = NBSysRoleResource.builder()
+                            .pk(new RoleResourceKey(webmaster.getId(), newRes.getId()))
+                            .build();
+                    roleResourceRepository.saveAndFlush(rr);
+                }
+            });
+        }
 
         if (!isRoleInitialed) {
             //插入网站普通用户角色信息
@@ -190,7 +192,8 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
                 {MENU_SEARCH_SHOW, INIT_SURE, "导航菜单_搜索是否显示，默认显示"},
                 {WEBSITE_LOGO_WORDS, INIT_WEBSITE_LOGO_WORDS, "网站logo的文字"},
                 {COMMENT_NOTICE, INIT_COMMENT_WORD, "评论置顶公告"},
-                {MESSAGE_PANEL_WORDS, INIT_MESSAGE_PANEL_WORDS, "留言板的提示信息文字"}
+                {MESSAGE_PANEL_WORDS, INIT_MESSAGE_PANEL_WORDS, "留言板的提示信息文字"},
+                {QINIU_DOMAIN, null, "七牛云文件服务器域名"}
         };
         saveParam(words);
     }
@@ -215,7 +218,7 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
                 {QINIU_SECRET_KEY, null, "七牛云SecretKey"},
                 {QINIU_BUCKET, null, "七牛云bucket"},
                 {PAGE_MODERN, INIT_DEFAULT_PAGE_MODERN, "首页博文分页模式0：流式，1：按钮加载"},
-                {BLOG_INDEX_PAGE_SIZE, INIT_DEFAULT_PAGE_SIZE, "首页博文分页模式0：流式，1：按钮加载"},
+                {BLOG_INDEX_PAGE_SIZE, INIT_DEFAULT_PAGE_SIZE, "博客首页文章页面数据量大小"},
                 {STATISTIC_ANALYSIS, INIT_NOT, "是否开启访问统计，默认不开启"}
         };
         saveParam(settings);

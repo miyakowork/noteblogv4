@@ -63,36 +63,50 @@ layui.use('form', function () {
     form.on('submit(nbInit)', function (data) {
         var html = '<p style="color: #FF5722;">请确认您所填的信息</p>';
         var obj = data.field;
-        var originUploadMethod = data.field.uploadMethod;
+        var originUploadMethod = data.field.upload_type;
         for (var o in obj) {
             if (obj.hasOwnProperty(o)
                 && originUploadMethod !== 'QINIU'
-                && (o === 'accessKey' || o === 'secretKey' || o === 'bucket')) {
+                && (o === 'qiniu_accessKey' || o === 'qiniu_secretKey' || o === 'qiniu_bucket' || o === 'qiniu_domain')) {
                 continue;
             }
             if (obj.hasOwnProperty(o) && o !== 'repeatPass') {
                 var labelName = $("input[name=" + o + "], select[name=" + o + "]").parents("div.layui-form-item").find("label").text();
-                if (o === 'uploadMethod') {
+                if (o === 'upload_type') {
                     obj[o] = $("option[value=" + obj[o] + "]").text();
+                    html += '<p>' + labelName + '：' + obj[o] + '</p>';
+                } else if (o === 'statistic_analysis') {
+                    var txt1 = obj[o] === 1 ? "开启" : "关闭";
+                    html += '<p>' + labelName + '：' + txt1 + '</p>';
+                } else if (o === 'page_modern') {
+                    var txt2 = obj[o] === 0 ? '流式（自动加载）' : '按钮加载';
+                    html += '<p>' + labelName + '：' + txt2 + '</p>';
+                } else {
+                    html += '<p>' + labelName + '：' + obj[o] + '</p>';
                 }
-                html += '<p>' + labelName + '：' + obj[o] + '</p>';
             }
         }
-        obj.uploadMethod = originUploadMethod;
+        obj.upload_type = originUploadMethod;
         var index = layer.confirm(html, {
             btn: ['确定', '重填']
             , title: '确认信息'
         }, function () {
-            if (obj.uploadMethod === 'QINIU') {
-                if (obj.accessKey === '' || obj.secretKey === '' || obj.bucket === '') {
+            if (obj.upload_type === 'QINIU') {
+                if (obj.qiniu_accessKey === '' || obj.qiniu_secretKey === '' || obj.qiniu_bucket === '' || obj.qiniu_domain === '') {
                     layer.alert('请正确填写七牛云的相关数据！');
                     return false;
                 }
             }
-            $.post('http://127.0.0.1:8088/initApp'
+            obj.password = md5(data.field.password);
+            $.post('/init/submit'
                 , obj
                 , function (json) {
-                    console.log(json);
+                    layer.msg("     " + json.message, {icon: 1});
+                    if (json.code === 200) {
+                        setTimeout(function () {
+                            location.href = "/";
+                        }, 1000)
+                    }
                     layer.close(index);
                 });
         });

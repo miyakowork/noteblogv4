@@ -228,6 +228,11 @@ public interface NoteBlogV4 {
         String QINIU_BUCKET = "qiniu_bucket";
 
         /**
+         * 访问七牛云服务器的域名
+         */
+        String QINIU_DOMAIN = "qiniu_domain";
+
+        /**
          * 设置博客的分页形式
          * 0：默认模式（流式下拉加载），1：显示分页按钮类型的加载（采用单页模式）
          */
@@ -243,6 +248,7 @@ public interface NoteBlogV4 {
          * 因为是频繁的插入数据库，所以默认是不开启此项的
          */
         String STATISTIC_ANALYSIS = "statistic_analysis";
+
     }
 
     /**

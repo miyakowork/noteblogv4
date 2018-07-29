@@ -1,6 +1,5 @@
 package me.wuwenbin.noteblogv4.service.permission;
 
-import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource;
 import me.wuwenbin.noteblogv4.model.pojo.business.LayuiXTree;
 
 import java.util.List;
@@ -20,4 +19,13 @@ public interface UserPermissionService {
      * @return
      */
     List<LayuiXTree> findResourceTreeByRoleId(long roleId);
+
+    /**
+     * 初始化管理员账号
+     *
+     * @param username
+     * @param password
+     * @param email
+     */
+    void initMasterAccount(String username, String password, String email);
 }

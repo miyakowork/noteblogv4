@@ -1,14 +1,15 @@
 package me.wuwenbin.noteblogv4.model.entity.permission;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static java.lang.Boolean.TRUE;
 import static java.time.LocalDateTime.now;
@@ -44,10 +45,13 @@ public class NBSysUser implements Serializable {
 
     @Column(updatable = false, name = "[create]")
     @Builder.Default
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime create = now();
 
     @Column(length = 20)
     private String qqNum;
+
+    private String email;
 
     /**
      * 默认为普通访客用户
@@ -61,7 +65,9 @@ public class NBSysUser implements Serializable {
     @Builder.Default
     private Boolean enable = TRUE;
 
-    @Column(length = 32)
-    private String openId;
+    private String qqOpenId;
+
+    private String wechatOpenId;
+
 
 }

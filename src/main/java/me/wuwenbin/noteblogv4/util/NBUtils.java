@@ -20,6 +20,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
@@ -179,6 +181,35 @@ public class NBUtils implements ApplicationContextAware {
         } else {
             return temp;
         }
+    }
+
+    /**
+     * 返回值类型为Map<String, Object>
+     *
+     * @param properties
+     * @return
+     */
+    public static Map<String, Object> getParameterMap(Map<String, String[]> properties) {
+        Map<String, Object> returnMap = new HashMap<>();
+        Iterator<Map.Entry<String, String[]>> iterator = properties.entrySet().iterator();
+        String name;
+        String value = "";
+        while (iterator.hasNext()) {
+            Map.Entry<String, String[]> entry = iterator.next();
+            name = entry.getKey();
+            Object valueObj = entry.getValue();
+            if (null == valueObj) {
+                value = "";
+            } else {
+                String[] values = (String[]) valueObj;
+                for (String value1 : values) { //用于请求参数中有多个相同名称
+                    value = value1 + ",";
+                }
+                value = value.substring(0, value.length() - 1);
+            }
+            returnMap.put(name, value);
+        }
+        return returnMap;
     }
 
     @Override

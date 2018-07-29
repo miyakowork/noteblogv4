@@ -26,7 +26,7 @@
                     站点标题
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" name="titleText" required lay-verify="required"
+                    <input type="text" name="website_title" required lay-verify="required"
                            placeholder="网站标题"
                            autocomplete="off" class="layui-input">
                 </div>
@@ -41,7 +41,7 @@
                     LOGO文字
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" name="logoText" required lay-verify="required"
+                    <input type="text" name="website_logo_words" required lay-verify="required"
                            placeholder="LOGO处文字"
                            autocomplete="off" class="layui-input">
                 </div>
@@ -101,10 +101,20 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">访问统计</label>
                 <div class="layui-input-inline">
-                    <input type="checkbox" name="statisticAnalysis" lay-skin="switch" lay-text="开启|关闭">
+                    <input type="checkbox" name="statistic_analysis" lay-skin="switch" lay-text="开启|关闭" value="1">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
-                   关闭有利于节省系统资源
+                    关闭有利于节省系统资源
+                    <span class="layui-danger-star">*</span>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">博文模式</label>
+                <div class="layui-input-inline">
+                    <input type="checkbox" name="page_modern" lay-skin="switch" lay-text="流式(自动)|手动加载" value="1">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    首页博文分页模式流式(自动)/手动加载
                     <span class="layui-danger-star">*</span>
                 </div>
             </div>
@@ -127,8 +137,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">上传方式</label>
                 <div class="layui-input-inline">
-                    <select name="uploadMethod" required lay-verify="required" lay-filter="uploadMethod">
-                        <option value="">请选择上传方式</option>
+                    <select name="upload_type" required lay-verify="required" lay-filter="uploadMethod">
                         <option value="LOCAL">本地服务器</option>
                         <option value="QINIU">七牛云方式</option>
                     </select>
@@ -145,7 +154,7 @@
                         AccessKey
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="accessKey" placeholder="accessKey" autocomplete="off"
+                        <input type="text" name="qiniu_accessKey" placeholder="accessKey" autocomplete="off"
                                class="layui-input">
                     </div>
                     <div class="layui-form-mid layui-word-aux">
@@ -159,7 +168,7 @@
                         SecretKey
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="secretKey" placeholder="secretKey" autocomplete="off"
+                        <input type="text" name="qiniu_secretKey" placeholder="secretKey" autocomplete="off"
                                class="layui-input">
                     </div>
                     <div class="layui-form-mid layui-word-aux">
@@ -173,12 +182,26 @@
                         Bucket
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="bucket"
+                        <input type="text" name="qiniu_bucket"
                                placeholder="bucket"
                                autocomplete="off" class="layui-input">
                     </div>
                     <div class="layui-form-mid layui-word-aux">
                         您的七牛云Bucket
+                        <span class="layui-danger-star">*</span>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        访问域名
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="qiniu_domain"
+                               placeholder="bucket"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">
+                        访问您的七牛云存储的域名
                         <span class="layui-danger-star">*</span>
                     </div>
                 </div>
@@ -204,6 +227,7 @@
 
 </div>
 <script src="/static/plugins/layui/layui.js"></script>
+<script src="/static/plugins/md5/md5.min.js"></script>
 <script src="/static/assets/js/frontend/init.js"></script>
 
 </body>

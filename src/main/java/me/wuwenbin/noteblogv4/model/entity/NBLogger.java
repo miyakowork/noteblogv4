@@ -46,4 +46,6 @@ public class NBLogger implements Serializable {
 
     private String requestMethod;
 
+    private String contentType;
+
 }

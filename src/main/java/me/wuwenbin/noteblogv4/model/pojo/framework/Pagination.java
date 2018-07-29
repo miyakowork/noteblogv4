@@ -11,17 +11,18 @@ import java.util.List;
  * @author wuwenbin
  * @since 1.0.0
  */
-public class Page<T> extends PageOrder implements Serializable {
+public class Pagination<T> extends PageOrder implements Serializable {
 
     /**
      * 当前页面编号，默认1
      */
-    private int pageNo = 1;
+    private int page = 1;
 
     /**
      * 每页数据量大小，默认30
      */
-    private int pageSize = 30;
+    private int limit = 30;
+
 
     /**
      * 当前页的数据集合List
@@ -39,21 +40,21 @@ public class Page<T> extends PageOrder implements Serializable {
 
     //some construct methods
 
-    public Page() {
+    public Pagination() {
     }
 
-    public Page(int pageSize) {
-        this.pageSize = pageSize;
+    public Pagination(int limit) {
+        this.limit = limit;
     }
 
-    public Page(List<T> data) {
+    public Pagination(List<T> data) {
         this.result = data;
     }
 
-    public Page(int pageSize, String orderDirection, String orderField) {
-        this.pageSize = pageSize;
-        super.orderDirection = orderDirection;
-        super.orderField = orderField;
+    public Pagination(int limit, String orderDirection, String orderField) {
+        this.limit = limit;
+        super.order = orderDirection;
+        super.sort = orderField;
     }
 
     public boolean isAutoCount() {
@@ -69,63 +70,79 @@ public class Page<T> extends PageOrder implements Serializable {
     /**
      * @return 每页数据量大小
      */
+    public int getLimit() {
+        return limit;
+    }
+
     public int getPageSize() {
-        return pageSize;
+        return limit;
     }
 
     /**
      * 设置每页数据量大小
      *
-     * @param #pageSize
+     * @param #limit
      */
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
     public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
+        setLimit(pageSize);
     }
 
     /**
      * @return 是否已经设置每页数据量大小
      */
     public boolean isPageSizeSetted() {
-        return pageSize >= 0;
+        return limit >= 0;
     }
 
     /**
      * @return 获取当前页码
      */
-    public int getPageNo() {
-        return getTotalPages() != -1 && getTotalPages() <= pageNo ? getTotalPages() : pageNo;
+    public int getPage() {
+        return getTotalPages() != -1 && getTotalPages() <= page ? getTotalPages() : page;
     }
 
     /**
-     * 和 {@link #getPageNo()}一致
+     * 和 {@link #getPage()}一致
      *
-     * @see #getPageNo()
+     * @see #getPage()
      */
     public int getCurrentPageNo() {
-        return getPageNo();
+        return getPage();
+    }
+
+    public int getPageNo() {
+        return getPage();
     }
 
     /**
      * 设置当前页码
      *
-     * @param #pageNo
+     * @param #page
      */
+    public void setPage(int page) {
+        this.page = page;
+    }
+
     public void setPageNo(int pageNo) {
-        this.pageNo = pageNo;
+        setPage(pageNo);
     }
 
     /**
      * @return 通过挡圈的页码和页面数据量大小计算当前页面的数据的第一条在数据库中的顺序
      */
     public int getFirst() {
-        return getPageNo() < 1 || getPageSize() < 1 ? -1 : (getPageNo() - 1) * getPageSize();
+        return getPage() < 1 || getLimit() < 1 ? -1 : (getPage() - 1) * getLimit();
     }
 
     /**
      * @return whether page is set the first
      */
     public boolean isFirstSetted() {
-        return (getPageNo() > 0 && getPageSize() > 0);
+        return (getPage() > 0 && getLimit() > 0);
     }
 
     /**
@@ -180,8 +197,8 @@ public class Page<T> extends PageOrder implements Serializable {
      *
      * @param #totalCount
      */
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
+    public void setTotalCount(long totalCount) {
+        this.totalCount = (int) totalCount;
     }
 
     /**
@@ -191,8 +208,8 @@ public class Page<T> extends PageOrder implements Serializable {
         if (totalCount == -1) {
             return -1;
         }
-        int count = totalCount / pageSize;
-        if (totalCount % pageSize > 0) {
+        int count = totalCount / limit;
+        if (totalCount % limit > 0) {
             count++;
         }
         return count;
@@ -202,27 +219,27 @@ public class Page<T> extends PageOrder implements Serializable {
      * @return 是否有下一页
      */
     public boolean isHasNext() {
-        return (pageNo + 1 <= getTotalPages());
+        return (page + 1 <= getTotalPages());
     }
 
     /**
      * @return 下一页的页码
      */
     public int getNextPage() {
-        return isHasNext() ? pageNo + 1 : pageNo;
+        return isHasNext() ? page + 1 : page;
     }
 
     /**
      * @return 是否有上一页
      */
     public boolean isHasPre() {
-        return (pageNo - 1 >= 1);
+        return (page - 1 >= 1);
     }
 
     /**
      * @return 上一页页码
      */
     public int getPrePage() {
-        return isHasPre() ? pageNo - 1 : pageNo;
+        return isHasPre() ? page - 1 : page;
     }
 }

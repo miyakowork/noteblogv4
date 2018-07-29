@@ -2,6 +2,10 @@ package me.wuwenbin.noteblogv4.dao.repository;
 
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+
+import javax.transaction.Transactional;
 
 /**
  * created by Wuwenbin on 2018/7/18 at 17:34
@@ -26,4 +30,15 @@ public interface UserRepository extends JpaRepository<NBSysUser, Long> {
      * @return
      */
     NBSysUser findByUsername(String username);
+
+    /**
+     * 更新用户状态信息
+     *
+     * @param userId
+     * @param enable
+     */
+    @Modifying
+    @Transactional(rollbackOn = Exception.class)
+    @Query("update NBSysUser u set u.enable = ?2 where u.id = ?1")
+    int updateUserStatus(long userId, boolean enable);
 }

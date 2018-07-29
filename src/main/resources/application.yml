@@ -20,11 +20,21 @@ spring:
       ddl-auto: update
     show-sql: true
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
 mybatis:
   mapper-locations: classpath:mappers/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
 pagehelper:
   helper-dialect: mysql
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
-
+logging:
+  level:
+    me:
+      wuwenbin:
+        noteblogv4:
+          dao:
+            mapper: DEBUG

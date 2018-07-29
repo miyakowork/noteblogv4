@@ -49,17 +49,21 @@ public class ApplicationInterceptor extends HandlerInterceptorAdapter {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String init = "/init";
+        String init = "/init", initSubmit = "/init/submit";
         boolean initialize = paramService.getValueByName(NoteBlogV4.Init.INIT_STATUS).equals(NoteBlogV4.Init.INIT_SURE);
-        boolean initPage = init.equals(request.getRequestURI());
-        if (!initialize) {
-            response.sendRedirect(NoteBlogV4.Session.INIT_PAGE);
-            return false;
-        } else {
+        boolean initPage = init.equals(request.getRequestURI()) || initSubmit.equals(request.getRequestURI());
+        if (initialize) {
             if (!initPage) {
                 return true;
             } else {
                 response.sendRedirect(NoteBlogV4.Session.FRONTEND_INDEX);
+                return false;
+            }
+        } else {
+            if (initPage) {
+                return true;
+            } else {
+                response.sendRedirect(NoteBlogV4.Session.INIT_PAGE);
                 return false;
             }
         }
@@ -101,6 +105,7 @@ public class ApplicationInterceptor extends HandlerInterceptorAdapter {
                 .userAgent(request.getHeader("User-Agent"))
                 .username(username)
                 .requestMethod(request.getMethod())
+                .contentType(request.getContentType())
                 .build();
         NBUtils.getBean(LoggerRepository.class).saveAndFlush(logger);
     }
