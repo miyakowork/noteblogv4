@@ -1,6 +1,5 @@
 package me.wuwenbin.noteblogv4.model.pojo.business;
 
-import cn.hutool.core.util.ArrayUtil;
 import lombok.Data;
 import org.springframework.util.StringUtils;
 
@@ -34,17 +33,17 @@ public class LayuiXTree implements Serializable {
         this.parentId = getPid(id);
     }
 
-    public LayuiXTree(String title, String value, String id, String parentId, boolean checked, boolean disabled) {
-        this.title = title;
-        this.value = value;
+    public LayuiXTree(String id, String parentId) {
+        this.title = "";
+        this.value = "";
         this.id = id;
-        this.checked = checked;
-        this.disabled = disabled;
+        this.checked = false;
+        this.disabled = false;
         this.parentId = parentId;
     }
 
 
-    private String getPid(String gp) {
+    private static String getPid(String gp) {
         if (StringUtils.isEmpty(gp)) {
             throw new RuntimeException("title 不能为空！");
         } else {
@@ -82,11 +81,12 @@ public class LayuiXTree implements Serializable {
     public static List<LayuiXTree> buildByRecursive(List<LayuiXTree> treeNodes) {
         List<LayuiXTree> trees = new ArrayList<>(treeNodes);
         treeNodes.forEach(node -> {
-            Arrays.stream(ArrayUtil.reverse(node.getId().split(":"))).forEach(id -> {
-                long cnt = trees.stream().filter(tree -> tree.getId().equalsIgnoreCase(id)).count();
-                if (cnt == 0) {
-                    LayuiXTree xTree = new LayuiXTree("", "", id, false, false);
-                    trees.add(xTree);
+            LayuiXTree xTree = new LayuiXTree(node.getParentId(), getPid(node.getParentId()));
+            Arrays.stream(node.getId().split(":")).forEach(id -> {
+                long cnt1 = trees.stream().filter(tree -> tree.getId().equalsIgnoreCase(id)).count();
+                if (cnt1 == 0) {
+                    LayuiXTree xTree1 = new LayuiXTree("", "", id, false, false);
+                    trees.add(xTree1);
                 }
             });
         });
