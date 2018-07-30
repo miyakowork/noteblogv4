@@ -51,7 +51,7 @@
                     <div class="layui-card-footer">
                         <div class="layui-inline">
                             <button class="layui-btn layuiadmin-btn-forum-list" type="submit" lay-submit=""
-                                    lay-filter="submitUserRoles">提交
+                                    lay-filter="submitUserRoles">提交更改
                             </button>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
             });
         });
 
-        table.on('tool(user)', function (obj) {
+        table.on('checkbox(user)', function (obj) {
             var data = obj.data;
             window._NB_users_userId = data.id;
             $("#NB-users-tab-selected").text(data.username);

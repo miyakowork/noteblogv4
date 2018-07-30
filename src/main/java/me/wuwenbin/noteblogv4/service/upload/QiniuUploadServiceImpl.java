@@ -75,13 +75,13 @@ public class QiniuUploadServiceImpl<T, R> implements UploadService<T, R> {
      * @return
      */
     private String getUpToken() {
-        String ACCESS_KEY = paramRepository.findByName("qiniu_accessKey").getValue();
-        String SECRET_KEY = paramRepository.findByName("qiniu_secretKey").getValue();
-        String BUCKET_NAME = paramRepository.findByName("qiniu_bucket").getValue();
+        String accessKey = paramRepository.findByName("qiniu_accessKey").getValue();
+        String secretKey = paramRepository.findByName("qiniu_secretKey").getValue();
+        String bucketName = paramRepository.findByName("qiniu_bucket").getValue();
         //密钥配置
-        Auth auth = Auth.create(ACCESS_KEY, SECRET_KEY);
+        Auth auth = Auth.create(accessKey, secretKey);
         //简单上传，使用默认策略，只需要设置上传的空间名就可以了
-        return auth.uploadToken(BUCKET_NAME);
+        return auth.uploadToken(bucketName);
     }
 
     /**

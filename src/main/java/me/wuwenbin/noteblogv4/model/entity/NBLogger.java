@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 /**
  * 记录访问日志的类
  * created by Wuwenbin on 2018/7/21 at 17:31
+ * @author wuwenbin
  */
 @Entity
 @Data

@@ -71,7 +71,8 @@ public class EntranceController {
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     @ResponseBody
     public NBR register(String bmyName, String bmyPass, String nickname) {
-        if (StrUtil.isEmpty(bmyName) || bmyName.length() < 4 || bmyName.length() > 12) {
+        int min = 4, max = 12;
+        if (StrUtil.isEmpty(bmyName) || bmyName.length() < min || bmyName.length() > max) {
             return NBR.error("用户名长度不合法，请重新输入");
         } else if (StringUtils.isEmpty(bmyPass)) {
             return NBR.error("密码格式错误！");
@@ -131,12 +132,13 @@ public class EntranceController {
         data.setRequest(request);
         data.setResponse(response);
 
+        String simpleLogin = "simple", qqLogin = "qq", wechatLogin = "wechat";
         if (StrUtil.isNotEmpty(requestType)) {
-            if ("simple".equals(requestType)) {
+            if (simpleLogin.equals(requestType)) {
                 return simpleLoginService.doLogin(data);
-            } else if ("qq".equals(requestType)) {
+            } else if (qqLogin.equals(requestType)) {
                 return null;
-            } else if ("wechat".equals(requestType)) {
+            } else if (wechatLogin.equals(requestType)) {
                 return null;
             }
         }

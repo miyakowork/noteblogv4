@@ -36,6 +36,7 @@ public interface UserRepository extends JpaRepository<NBSysUser, Long> {
      *
      * @param userId
      * @param enable
+     * @return
      */
     @Modifying
     @Transactional(rollbackOn = Exception.class)

@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * created by Wuwenbin on 2018/7/29 at 0:01
+ * @author wuwenbin
  */
 @MybatisDao
 public interface UserMapper {

@@ -13,6 +13,7 @@ import java.io.Serializable;
 
 /**
  * created by Wuwenbin on 2018/7/20 at 21:23
+ * @author wuwenbin
  */
 @Entity
 @Data
@@ -74,6 +75,6 @@ public class NBSysMenu implements Serializable {
         /**
          * 叶子节点，子节点，无下级的
          */
-        LEAF;
+        LEAF
     }
 }

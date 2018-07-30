@@ -53,7 +53,8 @@ public class PageOrder {
     public void setOrderBy(String orderBy) {
         if (!StringUtils.isEmpty(orderBy)) {
             String[] temp = orderBy.split(" ");
-            if (temp.length == 2) {
+            int expectLength = 2;
+            if (temp.length == expectLength) {
                 this.sort = temp[0].replace("`", "");
                 this.order = temp[1];
             }

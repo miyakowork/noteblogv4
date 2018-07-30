@@ -19,6 +19,7 @@ import static me.wuwenbin.noteblogv4.model.pojo.framework.NBR.ok;
 /**
  * 普通登录方法
  * created by Wuwenbin on 2018/7/21 at 18:05
+ * @author wuwenbin
  */
 @Service("simpleLogin")
 @Transactional(rollbackOn = Exception.class)

@@ -24,6 +24,7 @@ import java.util.List;
 
 /**
  * created by Wuwenbin on 2018/7/28 at 23:37
+ * @author wuwenbin
  */
 @Controller
 @RequestMapping("/management/users")
@@ -84,9 +85,9 @@ public class UserController extends BaseController {
     @NBAuth(value = "management:user_roles_update:ajax", remark = "修改用户的角色关联信息", group = "management:user")
     public NBR updateUserRoles(Long userId, String roleIds) {
         if (StringUtils.isEmpty(roleIds)) {
-            return NBR.error("角色信息为空！");
+            return NBR.error("角色信息为空，至少选择一个角色信息！");
         } else if (StringUtils.isEmpty(userId)) {
-            return NBR.error("用户信息为空！");
+            return NBR.error("用户信息为空，请勾选用户！");
         } else {
             usersService.updateUserRoles(userId, roleIds);
             return NBR.ok("更新用户角色信息成功！");

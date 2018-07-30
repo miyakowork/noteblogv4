@@ -175,8 +175,9 @@ public class NBUtils implements ApplicationContextAware {
      * @return
      */
     public static String getIpCnInfo(IpInfo ipInfo) {
+        String undefined = "x";
         String temp = ipInfo.getData().getCountry() + ipInfo.getData().getRegion() + ipInfo.getData().getCity();
-        if (!ipInfo.getData().getCounty().toLowerCase().contains("x")) {
+        if (!ipInfo.getData().getCounty().toLowerCase().contains(undefined)) {
             return temp + ipInfo.getData().getCounty();
         } else {
             return temp;
@@ -190,7 +191,7 @@ public class NBUtils implements ApplicationContextAware {
      * @return
      */
     public static Map<String, Object> getParameterMap(Map<String, String[]> properties) {
-        Map<String, Object> returnMap = new HashMap<>();
+        Map<String, Object> returnMap = new HashMap<>(16);
         Iterator<Map.Entry<String, String[]>> iterator = properties.entrySet().iterator();
         String name;
         String value = "";
@@ -202,7 +203,8 @@ public class NBUtils implements ApplicationContextAware {
                 value = "";
             } else {
                 String[] values = (String[]) valueObj;
-                for (String value1 : values) { //用于请求参数中有多个相同名称
+                //用于请求参数中有多个相同名称
+                for (String value1 : values) {
                     value = value1 + ",";
                 }
                 value = value.substring(0, value.length() - 1);
