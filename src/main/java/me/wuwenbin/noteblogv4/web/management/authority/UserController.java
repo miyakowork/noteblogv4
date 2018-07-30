@@ -49,7 +49,7 @@ public class UserController extends BaseController {
     @RequestMapping
     @NBAuth(value = "management:user:router", remark = "用户管理界面", type = ResType.NAV_LINK, group = Group.ROUTER)
     public String usersListRouter() {
-        return "management/users";
+        return "management/authority/users";
     }
 
 

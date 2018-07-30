@@ -53,14 +53,9 @@ public class UserPermissionServiceImpl implements UserPermissionService {
     @Override
     public List<LayuiXTree> findResourceTreeByRoleId(long roleId) {
         List<NBSysResource> all = resourceRepository.findAll();
-//        List<NBSysResource> allGroup = permissionMapper.findAllGroupCates();
         List<NBSysResource> hasResources = permissionMapper.findResourcesByRoleId(roleId);
         List<LayuiXTree> treeList = new ArrayList<>(all.size());
         treeList.addAll(transTo(all, NBSysResource::getName, NBSysResource::getId, NBSysResource::getPermission, hasResources::contains, res -> false));
-//        treeList.forEach(tree -> {
-//            List<NBSysResource> resources = resourceRepository.findAllByGroup(tree.getValue());
-//            tree.setChildren(transTo(resources, NBSysResource::getName, res -> res.getId().toString(), hasResources::contains, res -> false));
-//        });
         return LayuiXTree.buildByRecursive(treeList);
     }
 

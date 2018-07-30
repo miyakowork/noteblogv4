@@ -1,10 +1,6 @@
-.layui-float-right {
-    float: right;
-}
+.layui-float-right {float: right;}
 
-.layui-selected {
-    color: #5FB878 !important;
-}
+.layui-selected {color: #5FB878 !important;}
 
 .layui-header *, #left-menu {
     -moz-user-select: none;
@@ -12,39 +8,25 @@
     -webkit-user-select: none;
 }
 
-.layui-logo{
-    cursor: pointer;
-}
+.layui-logo {cursor: pointer;}
+
 .layui-logo i, .layui-logo span:first-of-type {
     color: #5FB878;
     font-style: italic;
     font-weight: bold;
 }
 
-.layui-logo span:nth-of-type(2) {
-    font-style: normal !important;
-}
+.layui-logo span:nth-of-type(2) {font-style: normal !important;}
 
-.layui-layout-admin .layui-body {
-    bottom: 45px;
-}
+.layui-layout-admin .layui-body {bottom: 45px;}
 
-.layui-side-menu .layui-nav .layui-nav-item > a {
-    padding-left: 20px;
-}
+.layui-side-menu .layui-nav .layui-nav-item > a {padding-left: 20px;}
 
-.layui-side-menu .layui-nav .layui-nav-item a > i {
-    margin-right: 10px;
-}
+.layui-side-menu .layui-nav .layui-nav-item a > i {margin-right: 10px;}
 
-.layui-nav.layui-layout-right {
-    padding-right: 20px;
-}
+.layui-nav.layui-layout-right {padding-right: 20px;}
 
-.layadmin-tips .layui-text {
-    width: 80%;
-    max-width: 500px;
-}
+.layadmin-tips .layui-text {width: 80%;max-width: 500px;}
 
 @media screen and (min-width: 993px) and (max-width: 1366px) {
     .vipspa-error .layui-container {
@@ -58,9 +40,7 @@
     }
 }
 
-.layui-layout-admin .layui-footer {
-    padding: 0;
-}
+.layui-layout-admin .layui-footer {padding: 0;}
 
 .layadmin-tabs-card {
     z-index: 999;
@@ -69,9 +49,7 @@
     background: #fff;
 }
 
-.layadmin-container {
-    top: 45px;
-}
+.layadmin-container {top: 45px;}
 
 .layui-card-footer {
     padding: 15px;
@@ -82,14 +60,14 @@
 }
 
 /** 未展开 */
-.treeTable-icon .layui-icon-layer:before {
-    content: "\e66e";
-}
-
+.treeTable-icon .layui-icon-layer:before {content: "\e66e";}
 /** 展开 */
-.treeTable-icon.open .layui-icon-layer:before {
-    content: "\e66e";
-}
-.treeTable-icon .layui-icon-file:before {
-    content: "\e656";
-}
+.treeTable-icon.open .layui-icon-layer:before {content: "\e66e";}
+.treeTable-icon .layui-icon-file:before {content: "\e656";}
+.layui-admin-mt5 {margin-top: 5px !important;}
+.layui-admin-mt10 {margin-top: 10px !important;}
+.layui-admin-mt15 {margin-top: 15px !important;}
+.layui-admin-mt20 {margin-top: 20px !important;}
+.approve{color: #5FB878}
+.approve:hover{color: #FF5722}
+.appro{font-style: italic;}

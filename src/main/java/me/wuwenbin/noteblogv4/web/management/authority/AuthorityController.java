@@ -166,7 +166,7 @@ public class AuthorityController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(" /role/update")
+    @RequestMapping("/role/update")
     @NBAuth(value = "permission:role:update", remark = "修改角色操作", group = Group.AJAX)
     public NBR updateRole(@Valid NBSysRole role, BindingResult result) {
         if (result.getErrorCount() == 0) {

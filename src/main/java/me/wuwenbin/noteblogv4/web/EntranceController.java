@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.config.permission.NBAuth;
+import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
 import me.wuwenbin.noteblogv4.dao.repository.RoleRepository;
 import me.wuwenbin.noteblogv4.dao.repository.UserRepository;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
@@ -37,6 +38,8 @@ public class EntranceController {
     private final NBContext blogContext;
     private final RoleRepository roleRepository;
     private final LoginService<SimpleLoginData> simpleLoginService;
+    @Autowired
+    private ParamRepository paramRepository;
 
     @Autowired
     public EntranceController(UserRepository userRepository,
@@ -100,7 +103,8 @@ public class EntranceController {
      * @return
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(@CookieValue(value = NoteBlogV4.Session.SESSION_ID_COOKIE, required = false) String uuid) {
+    public String login(HttpServletRequest request, @CookieValue(value = NoteBlogV4.Session.SESSION_ID_COOKIE, required = false) String uuid) {
+        request.setAttribute("qqLogin", paramRepository.findByName(NoteBlogV4.Param.QQ_LOGIN));
         if (StringUtils.isEmpty(uuid)) {
             return "login";
         }

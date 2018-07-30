@@ -40,7 +40,9 @@
                 </div>
                 <div class="layui-form-item login-footer">
                     <label>社交账号登入</label>
-                    <a href="javascript:;" onclick="layer.msg('正在跳转至QQ登录，请稍后...')"><i class="layui-icon layui-icon-login-qq"></i></a>
+
+                    <a th:if="${qqLogin.value} eq 1" href="javascript:;" onclick="layer.msg('正在跳转至QQ登录，请稍后...')"><i
+                            class="layui-icon layui-icon-login-qq"></i></a>
                     <a href="javascript:layer.msg('暂未开放');"><i class="layui-icon layui-icon-login-wechat"></i></a>
                     <a href="/registration" style="color:#029789;float: right;">前往注册</a>
                 </div>
