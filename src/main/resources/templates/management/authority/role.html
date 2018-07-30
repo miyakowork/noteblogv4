@@ -37,7 +37,7 @@
         </div>
         <div class="layui-col-sm8">
             <div class="layui-card">
-                <div class="layui-card-header layui-elip">资源列表（仅包含需授权的资源） - {{roleName}}</div>
+                <div class="layui-card-header layui-elip">资源列表（仅包含需授权的资源） - <span style="color: #5FB878;">{{roleName}}</span></div>
                 <div class="layui-card-body">
                     <form class="layui-form">
                         <div id="roleTree" style="width:100%;"></div>
@@ -141,7 +141,7 @@
                 });
 
                 form.on('submit(addRole)', function (data) {
-                    $.post(BMY.url.prefix + "/role/add", data.field, function (resp) {
+                    $.post(BMY.url.prefix + "/role/create", data.field, function (resp) {
                         layer.msg(resp.message);
                         if (resp.code === 200) {
                             layer.close(roleTabApp.index);

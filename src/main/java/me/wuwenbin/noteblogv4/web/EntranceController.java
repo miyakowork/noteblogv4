@@ -155,7 +155,7 @@ public class EntranceController {
      * @param uuid
      * @return
      */
-    @NBAuth(value = "user:logout:ajax", remark = "用户注销请求地址", group = "user")
+    @NBAuth(value = "user:logout:page", remark = "用户注销请求地址", group = NBAuth.Group.PAGE)
     @RequestMapping(value = "/management/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request,
                          HttpServletResponse response, String from,

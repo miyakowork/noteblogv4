@@ -4,7 +4,7 @@ $(function () {
     vipspa.start({
         view: '#admin-body',
         router: {
-            'defaults': '/users',//默认路由
+            'defaults': '/role',//默认路由
             '/role': {templateUrl: url_prefix + 'role'},
             '/menu': {templateUrl: url_prefix + 'menu'},
             '/home': {templateUrl: url_prefix + 'home', controller: static_prefix + '/home.js'},

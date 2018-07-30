@@ -110,7 +110,7 @@
                     if (!data.field.enable) {
                         data.field.enable = 0;
                     }
-                    $.post(BMY.url.prefix + '/menu/modify', data.field, function (resp) {
+                    $.post(BMY.url.prefix + '/menu/update', data.field, function (resp) {
                         layer.msg(resp.message);
                         if (resp.code === 200) {
                             setTimeout(function () {

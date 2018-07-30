@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import static me.wuwenbin.noteblogv4.config.permission.NBAuth.Group;
+
 /**
  * created by Wuwenbin on 2018/7/16 at 14:10
  *
@@ -53,7 +55,7 @@ public class InitController {
         return NBR.ok("初始化设置成功！");
     }
 
-    @NBAuth(value = "user:font_list:page", remark = "字体图标预览", group = "user", type = ResType.NAV_LINK)
+    @NBAuth(value = "user:font:page", remark = "字体图标预览", group = Group.PAGE, type = ResType.NAV_LINK)
     @RequestMapping("/font/list")
     public String b(HttpServletRequest request) {
         String fontAwesome = NBUtils.getFilePathInClassesPath("static/plugins/font-awesome/css/font-awesome.css");

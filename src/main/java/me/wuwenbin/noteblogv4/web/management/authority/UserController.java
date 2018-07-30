@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
+import static me.wuwenbin.noteblogv4.config.permission.NBAuth.Group;
+
 /**
  * created by Wuwenbin on 2018/7/28 at 23:37
  *
@@ -45,7 +47,7 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping
-    @NBAuth(value = "management:user_list:router", remark = "用户管理界面", type = ResType.NAV_LINK, group = "management:user")
+    @NBAuth(value = "management:user:router", remark = "用户管理界面", type = ResType.NAV_LINK, group = Group.ROUTER)
     public String usersListRouter() {
         return "management/users";
     }
@@ -53,7 +55,7 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    @NBAuth(value = "management:user_list:ajax", remark = "用户信息分页数据", group = "management:user")
+    @NBAuth(value = "management:user:table_list", remark = "用户信息分页数据", group = Group.AJAX)
     public LayuiTable<NBSysUser> userList(Pagination<NBSysUser> userPage, NBSysUser user) {
         Page<NBSysUser> pageUser = usersService.findUserPage(userPage, user);
         return layuiTable(pageUser);
@@ -62,7 +64,7 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/enable/update", method = RequestMethod.POST)
     @ResponseBody
-    @NBAuth(value = "management:user_edit_enable:ajax", remark = "修改用户状态信息", group = "management:user")
+    @NBAuth(value = "management:user:enable_update", remark = "修改用户状态信息", group = Group.AJAX)
     public NBR enableUpdate(Long id, Boolean enable) {
         return ajaxDone(
                 () -> userRepository.updateUserStatus(id, enable) > 0,
@@ -72,7 +74,7 @@ public class UserController extends BaseController {
 
     @RequestMapping("/roles/list")
     @ResponseBody
-    @NBAuth(value = "management:user_roles_list:ajax", remark = "查询用户的角色信息", group = "management:user")
+    @NBAuth(value = "management:user:role_list", remark = "查询用户的角色信息", group = Group.AJAX)
     public List<NBSysRole> roleList(Long userId) {
         if (StringUtils.isEmpty(userId)) {
             return roleRepository.findAll();
@@ -83,7 +85,7 @@ public class UserController extends BaseController {
 
     @RequestMapping("/roles/update")
     @ResponseBody
-    @NBAuth(value = "management:user_roles_update:ajax", remark = "修改用户的角色关联信息", group = "management:user")
+    @NBAuth(value = "management:user:role_update", remark = "修改用户的角色关联信息", group = Group.AJAX)
     public NBR userRolesUpdate(Long userId, String roleIds) {
         if (StringUtils.isEmpty(roleIds)) {
             return NBR.error("角色信息为空，至少选择一个角色信息！");
@@ -97,7 +99,7 @@ public class UserController extends BaseController {
 
     @RequestMapping("/nickname/update")
     @ResponseBody
-    @NBAuth(value = "management:user_edit_nickname:ajax", remark = "修改用户昵称信息", group = "management:user")
+    @NBAuth(value = "management:user:nickname_update", remark = "修改用户昵称信息", group = Group.AJAX)
     public NBR nicknameUpdate(Long userId, String nickname) {
         if (StringUtils.isEmpty(nickname)) {
             return NBR.error("昵称不能为空！");

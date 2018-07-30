@@ -5,10 +5,10 @@ import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
+ * layuiXtree树对象
  * created by Wuwenbin on 2018/7/23 at 16:55
  *
  * @author wuwenbin
@@ -33,8 +33,8 @@ public class LayuiXTree implements Serializable {
         this.parentId = getPid(id);
     }
 
-    public LayuiXTree(String id, String parentId) {
-        this.title = "";
+    private LayuiXTree(String id, String parentId) {
+        this.title = id;
         this.value = "";
         this.id = id;
         this.checked = false;
@@ -45,17 +45,14 @@ public class LayuiXTree implements Serializable {
 
     private static String getPid(String gp) {
         if (StringUtils.isEmpty(gp)) {
-            throw new RuntimeException("title 不能为空！");
+            throw new IllegalArgumentException("title 字段不能为空！");
         } else {
             String[] groupArray = gp.split(":");
             int length = groupArray.length;
-            int middleLevel = 2;
             if (length == 1) {
                 return "root";
-            } else if (length == middleLevel) {
-                return groupArray[0];
             } else {
-                return groupArray[1];
+                return gp.substring(0, gp.lastIndexOf(":"));
             }
         }
     }
@@ -80,21 +77,25 @@ public class LayuiXTree implements Serializable {
      */
     public static List<LayuiXTree> buildByRecursive(List<LayuiXTree> treeNodes) {
         List<LayuiXTree> trees = new ArrayList<>(treeNodes);
-        treeNodes.forEach(node -> {
-            LayuiXTree xTree = new LayuiXTree(node.getParentId(), getPid(node.getParentId()));
-            Arrays.stream(node.getId().split(":")).forEach(id -> {
-                long cnt1 = trees.stream().filter(tree -> tree.getId().equalsIgnoreCase(id)).count();
-                if (cnt1 == 0) {
-                    LayuiXTree xTree1 = new LayuiXTree("", "", id, false, false);
-                    trees.add(xTree1);
-                }
-            });
-        });
-        for (LayuiXTree treeNode : treeNodes) {
+        List<LayuiXTree> newTrees = iteratorIt(iteratorIt(trees));
+        List<LayuiXTree> data = new ArrayList<>(20);
+        for (LayuiXTree treeNode : newTrees) {
             if ("root".equals(treeNode.getParentId())) {
-                trees.add(findChildren(treeNode, treeNodes));
+                data.add(findChildren(treeNode, newTrees));
             }
         }
+        return data;
+    }
+
+    private static List<LayuiXTree> iteratorIt(List<LayuiXTree> data) {
+        List<LayuiXTree> trees = new ArrayList<>(data);
+        data.forEach(d -> {
+            LayuiXTree xTree = new LayuiXTree(d.getParentId(), getPid(d.getParentId()));
+            long cnt1 = trees.stream().filter(tree -> tree.getId().equalsIgnoreCase(d.getParentId())).count();
+            if (cnt1 == 0) {
+                trees.add(xTree);
+            }
+        });
         return trees;
     }
 }
