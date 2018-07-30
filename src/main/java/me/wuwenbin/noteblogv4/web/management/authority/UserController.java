@@ -24,6 +24,7 @@ import java.util.List;
 
 /**
  * created by Wuwenbin on 2018/7/28 at 23:37
+ *
  * @author wuwenbin
  */
 @Controller
@@ -36,16 +37,16 @@ public class UserController extends BaseController {
     private final RoleRepository roleRepository;
 
     @Autowired
-    public UserController(UsersService usersService, UserRepository userRepository, UserMapper userMapper, RoleRepository roleRepository) {
-        this.usersService = usersService;
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-        this.roleRepository = roleRepository;
+    public UserController(UsersService us, UserRepository ur, UserMapper um, RoleRepository rr) {
+        this.usersService = us;
+        this.userRepository = ur;
+        this.userMapper = um;
+        this.roleRepository = rr;
     }
 
     @RequestMapping
     @NBAuth(value = "management:user_list:router", remark = "用户管理界面", type = ResType.NAV_LINK, group = "management:user")
-    public String index() {
+    public String usersListRouter() {
         return "management/users";
     }
 
@@ -53,16 +54,16 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     @NBAuth(value = "management:user_list:ajax", remark = "用户信息分页数据", group = "management:user")
-    public LayuiTable<NBSysUser> list(Pagination<NBSysUser> userPage, NBSysUser user) {
+    public LayuiTable<NBSysUser> userList(Pagination<NBSysUser> userPage, NBSysUser user) {
         Page<NBSysUser> pageUser = usersService.findUserPage(userPage, user);
         return layuiTable(pageUser);
     }
 
 
-    @RequestMapping(value = "/edit/enable", method = RequestMethod.POST)
+    @RequestMapping(value = "/enable/update", method = RequestMethod.POST)
     @ResponseBody
     @NBAuth(value = "management:user_edit_enable:ajax", remark = "修改用户状态信息", group = "management:user")
-    public NBR editEnable(Long id, Boolean enable) {
+    public NBR enableUpdate(Long id, Boolean enable) {
         return ajaxDone(
                 () -> userRepository.updateUserStatus(id, enable) > 0,
                 () -> "修改用户状态"
@@ -83,7 +84,7 @@ public class UserController extends BaseController {
     @RequestMapping("/roles/update")
     @ResponseBody
     @NBAuth(value = "management:user_roles_update:ajax", remark = "修改用户的角色关联信息", group = "management:user")
-    public NBR updateUserRoles(Long userId, String roleIds) {
+    public NBR userRolesUpdate(Long userId, String roleIds) {
         if (StringUtils.isEmpty(roleIds)) {
             return NBR.error("角色信息为空，至少选择一个角色信息！");
         } else if (StringUtils.isEmpty(userId)) {
@@ -94,4 +95,17 @@ public class UserController extends BaseController {
         }
     }
 
+    @RequestMapping("/nickname/update")
+    @ResponseBody
+    @NBAuth(value = "management:user_edit_nickname:ajax", remark = "修改用户昵称信息", group = "management:user")
+    public NBR nicknameUpdate(Long userId, String nickname) {
+        if (StringUtils.isEmpty(nickname)) {
+            return NBR.error("昵称不能为空！");
+        } else {
+            return ajaxDone(
+                    () -> userRepository.updateUserNickname(userId, nickname) > 0,
+                    () -> "修改用户昵称"
+            );
+        }
+    }
 }

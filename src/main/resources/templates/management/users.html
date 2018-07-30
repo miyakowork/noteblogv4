@@ -82,22 +82,21 @@
             , page: true
             , limit: 20
             , height: 'full'
-            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cellMinWidth: 50 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [
                 [
                     {type: 'checkbox', event: 'user-selected'},
-                    {field: 'id', width: 80, title: 'ID', sort: true}
-                    , {
-                    field: 'username', title: '账号', sort: true, templet: function (d) {
-                        return d.username === '' || d.username === null ? '第三方注册' : d.username;
+                    {
+                        field: 'username', title: '账号', sort: true, templet: function (d) {
+                            return d.username === '' || d.username === null ? '第三方注册' : d.username;
+                        }
                     }
-                }
                     , {
-                    field: 'avatar', title: "用户头像", templet: function (d) {
+                    field: 'avatar', title: "头像", width: 60, templet: function (d) {
                         return '<img  src="' + d.avatar + '" style="width: 30px;height: 30px;">';
                     }
                 }
-                    , {field: 'nickname', sort: true, title: '昵称'}
+                    , {field: 'nickname', sort: true, title: '昵称', edit: 'text'}
                     , {
                     field: 'create', title: '注册日期', sort: true, templet: function (d) {
                         return BMY.dateFormatter(d.create);
@@ -117,7 +116,7 @@
         });
 
         form.on('switch(enable)', function (obj) {
-            BMY.ajax(BMY.url.prefix + "/users/edit/enable", {
+            BMY.ajax(BMY.url.prefix + "/users/enable/update", {
                 id: this.value,
                 enable: obj.elem.checked
             }, function (json) {
@@ -158,6 +157,14 @@
                 }
                 formSelects.value('roles', vals);
             })
+        });
+
+        //监听单元格编辑
+        table.on('edit(user)', function (obj) {
+            var value = obj.value //得到修改后的值
+                , data = obj.data //得到所在行所有键值
+                , field = obj.field; //得到字段
+            layer.msg('[ID: ' + data.id + '] ' + field + ' 字段更改为：' + value);
         });
 
 

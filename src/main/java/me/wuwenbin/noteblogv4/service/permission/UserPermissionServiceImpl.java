@@ -53,15 +53,15 @@ public class UserPermissionServiceImpl implements UserPermissionService {
     @Override
     public List<LayuiXTree> findResourceTreeByRoleId(long roleId) {
         List<NBSysResource> all = resourceRepository.findAll();
-        List<NBSysResource> allGroup = permissionMapper.findAllGroupCates();
+//        List<NBSysResource> allGroup = permissionMapper.findAllGroupCates();
         List<NBSysResource> hasResources = permissionMapper.findResourcesByRoleId(roleId);
         List<LayuiXTree> treeList = new ArrayList<>(all.size());
-        treeList.addAll(transTo(allGroup, NBSysResource::getGroup, NBSysResource::getGroup, hasResources::contains, res -> false));
-        treeList.forEach(tree -> {
-            List<NBSysResource> resources = resourceRepository.findAllByGroup(tree.getValue());
-            tree.setData(transTo(resources, NBSysResource::getName, res -> res.getId().toString(), hasResources::contains, res -> false));
-        });
-        return treeList;
+        treeList.addAll(transTo(all, NBSysResource::getName, NBSysResource::getId, NBSysResource::getPermission, hasResources::contains, res -> false));
+//        treeList.forEach(tree -> {
+//            List<NBSysResource> resources = resourceRepository.findAllByGroup(tree.getValue());
+//            tree.setChildren(transTo(resources, NBSysResource::getName, res -> res.getId().toString(), hasResources::contains, res -> false));
+//        });
+        return LayuiXTree.buildByRecursive(treeList);
     }
 
     @Override
@@ -101,18 +101,19 @@ public class UserPermissionServiceImpl implements UserPermissionService {
      */
     private List<LayuiXTree> transTo(List<NBSysResource> data,
                                      Function<NBSysResource, String> title,
-                                     Function<NBSysResource, String> value,
+                                     Function<NBSysResource, Long> value,
+                                     Function<NBSysResource, String> group,
                                      Function<NBSysResource, Boolean> checked,
                                      Function<NBSysResource, Boolean> disabled) {
 
         List<LayuiXTree> treeList = new ArrayList<>();
         data.forEach(res -> {
-            LayuiXTree tree = LayuiXTree.builder()
-                    .title(title.apply(res))
-                    .value(value.apply(res))
-                    .checked(checked.apply(res))
-                    .disabled(disabled.apply(res))
-                    .build();
+            LayuiXTree tree = new LayuiXTree(
+                    title.apply(res),
+                    value.apply(res).toString(),
+                    group.apply(res),
+                    checked.apply(res),
+                    disabled.apply(res));
             treeList.add(tree);
         });
         return treeList;

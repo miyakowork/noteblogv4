@@ -108,7 +108,7 @@ public class EntranceController {
         if (u != null) {
             long masterRoleId = blogContext.getApplicationObj(NoteBlogV4.Session.WEBMASTER_ROLE_ID);
             if (u.getDefaultRoleId() == masterRoleId) {
-                return "management/index";
+                return "redirect:/management/index";
             } else {
                 return "redirect:/";
             }

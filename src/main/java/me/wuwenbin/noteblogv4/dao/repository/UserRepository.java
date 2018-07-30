@@ -42,4 +42,16 @@ public interface UserRepository extends JpaRepository<NBSysUser, Long> {
     @Transactional(rollbackOn = Exception.class)
     @Query("update NBSysUser u set u.enable = ?2 where u.id = ?1")
     int updateUserStatus(long userId, boolean enable);
+
+    /**
+     * 修改用户昵称
+     *
+     * @param userId
+     * @param nickname
+     * @return
+     */
+    @Modifying
+    @Transactional(rollbackOn = Exception.class)
+    @Query("update NBSysUser u set u.nickname = ?2 where u.id = ?1")
+    int updateUserNickname(long userId, String nickname);
 }
