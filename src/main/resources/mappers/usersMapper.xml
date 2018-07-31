@@ -10,7 +10,7 @@
                 nickname LIKE CONCAT('%', #{user.nickname}, '%')
             </if>
             <if test="user.username != null and user.username != ''">
-                AND  username LIKE CONCAT('%', #{user.username}, '%')
+                AND username LIKE CONCAT('%', #{user.username}, '%')
             </if>
         </where>
     </select>

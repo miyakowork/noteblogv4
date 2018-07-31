@@ -10,8 +10,8 @@
 <div class="layui-fluid layadmin-container" id="NB-menu-add">
     <div class="layui-row">
         <div class="layui-card">
-            <div class="layui-card-header">
-                添加角色菜单
+            <div class="layui-card-header layui-elip">
+                添加角色菜单（目前仅支持<span style="color:#FF5722;">三级菜单</span>（不包含根目录），请悉知）
             </div>
             <div class="layui-card-body">
                 <form class="layui-form" style="padding: 20px 30px 0 0;" lay-filter="NB-add-menu">
@@ -40,7 +40,8 @@
                             <input type="text" name="icon" required lay-verify="required" placeholder="字体图标样式类名"
                                    autocomplete="off" class="layui-input">
                         </div>
-                        <div class="layui-form-mid layui-word-aux"><a target="_blank" @click="seeIcons" style="cursor:pointer;"><i
+                        <div class="layui-form-mid layui-word-aux"><a target="_blank" @click="seeIcons"
+                                                                      style="cursor:pointer;"><i
                                 class="layui-icon layui-icon-search"></i> 查看应用包含的图标</a></div>
                     </div>
                     <div class="layui-form-item">
@@ -126,10 +127,10 @@
             optionVal: function (res) {
                 return res.name + "「" + res.url + "」";
             }
-            ,seeIcons:function () {
+            , seeIcons: function () {
                 layer.open({
                     type: 2,
-                    title:"字体图标列表",
+                    title: "字体图标列表",
                     area: ['480px', '230px'],
                     fixed: false, //不固定
                     content: '/font/list'

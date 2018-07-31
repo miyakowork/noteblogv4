@@ -22,13 +22,6 @@ public interface PermissionMapper {
      */
     List<NBSysResource> findResourcesByRoleId(@Param("roleId") long roleId);
 
-    /**
-     * 查询所有group（不重复）
-     *
-     * @return
-     */
-    List<NBSysResource> findAllGroupCates();
-
 
     /**
      * 删除角色资源关系

@@ -1,5 +1,8 @@
 .layui-float-right {float: right;}
 
+.layui-card {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .25);
+}
 .layui-selected {color: #5FB878 !important;}
 
 .layui-header *, #left-menu {
@@ -17,15 +20,10 @@
 }
 
 .layui-logo span:nth-of-type(2) {font-style: normal !important;}
-
 .layui-layout-admin .layui-body {bottom: 45px;}
-
 .layui-side-menu .layui-nav .layui-nav-item > a {padding-left: 20px;}
-
 .layui-side-menu .layui-nav .layui-nav-item a > i {margin-right: 10px;}
-
 .layui-nav.layui-layout-right {padding-right: 20px;}
-
 .layadmin-tips .layui-text {width: 80%;max-width: 500px;}
 
 @media screen and (min-width: 993px) and (max-width: 1366px) {

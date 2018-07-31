@@ -2,11 +2,13 @@ package me.wuwenbin.noteblogv4.dao.repository;
 
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysMenu;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
 /**
  * created by Wuwenbin on 2018/7/24 at 22:11
+ *
  * @author wuwenbin
  */
 public interface MenuRepository extends JpaRepository<NBSysMenu, Long> {
@@ -34,5 +36,14 @@ public interface MenuRepository extends JpaRepository<NBSysMenu, Long> {
      * @return
      */
     long countByParentId(long parentId);
+
+    /**
+     * 查找所有菜单（包含根目录）
+     *
+     * @param roleId
+     * @return
+     */
+    @Query("select  m from NBSysMenu m where m.roleId = ?1 or (m.roleId is null and m.parentId = 0)order by m.orderIndex asc")
+    List<NBSysMenu> findAllByRoleIdOrderBy(Long roleId);
 
 }

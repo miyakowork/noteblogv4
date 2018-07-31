@@ -13,6 +13,7 @@ import java.io.Serializable;
 
 /**
  * created by Wuwenbin on 2018/7/20 at 21:23
+ *
  * @author wuwenbin
  */
 @Entity
@@ -51,6 +52,9 @@ public class NBSysMenu implements Serializable {
     private Boolean enable = Boolean.TRUE;
 
     private String remark;
+
+    @Builder.Default
+    private Integer orderIndex = 0;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "resource_id")

@@ -42,8 +42,9 @@
             </li>
             <li class="layui-nav-item">
                 <a href="javascript:">
-                    <img th:src="${#strings.isEmpty(avatar)?'/static/assets/img/bmy.png':avatar}" class="layui-nav-img">
-                    <span th:text="${su.nickname}"></span>
+                    <img data-th-src="${#strings.isEmpty(avatar)?'/static/assets/img/bmy.png':avatar}"
+                         class="layui-nav-img">
+                    <span data-th-text="${su.nickname}"></span>
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="#profile"><i class="fa fa-user"></i> 我的资料</a></dd>
@@ -61,49 +62,50 @@
                     class="fa fa-graduation-cap"></i><span>笔记博客</span> <span>后台管理</span></cite>
             </div>
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree" lay-filter="" lay-shrink="all">
-                <li class="layui-nav-item layui-show-xs-block layui-hide">
-                    <a href="#home"><i
-                            class="fa fa-dashboard"></i> 控制台</a>
-                </li>
-                <li class="layui-nav-item">
-                    <a class="" href="javascript:"><i class="fa fa-keyboard-o"></i> <cite>发布内容</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd><a class="" href="#blog"><i class="fa fa-book"></i>发布博文</a></dd>
-                        <dd><a href="#note"><i class="fa fa-sticky-note-o"></i>撰写笔记</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a class="" href="javascript:"><i class="fa fa-code"></i> <cite>内容管理</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="#blogs"><i class="fa fa-book"></i> 博文管理</a></dd>
-                        <dd><a href="#notes"><i class="fa fa-sticky-note-o"></i> 笔记管理</a></dd>
-                        <dd><a href="#file"><i class="fa fa-file"></i> 分享管理</a></dd>
-                        <dd><a href="#about"><i class="fa fa-trademark"></i> 关于内容</a></dd>
-                    </dl>
-                </li>
+            <ul class="layui-nav layui-nav-tree" id="left-menu-temp" lay-filter="" lay-shrink="all"></ul>
+            <!--<ul class="layui-nav layui-nav-tree" lay-filter="" lay-shrink="all">-->
+            <!--<li class="layui-nav-item layui-show-xs-block layui-hide">-->
+            <!--<a href="#home"><i-->
+            <!--class="fa fa-dashboard"></i> 控制台</a>-->
+            <!--</li>-->
+            <!--<li class="layui-nav-item">-->
+            <!--<a class="" href="javascript:"><i class="fa fa-keyboard-o"></i> <cite>发布内容</cite></a>-->
+            <!--<dl class="layui-nav-child">-->
+            <!--<dd><a class="" href="#blog"><i class="fa fa-book"></i>发布博文</a></dd>-->
+            <!--<dd><a href="#note"><i class="fa fa-sticky-note-o"></i>撰写笔记</a></dd>-->
+            <!--</dl>-->
+            <!--</li>-->
+            <!--<li class="layui-nav-item">-->
+            <!--<a class="" href="javascript:"><i class="fa fa-code"></i> <cite>内容管理</cite></a>-->
+            <!--<dl class="layui-nav-child">-->
+            <!--<dd><a href="#blogs"><i class="fa fa-book"></i> 博文管理</a></dd>-->
+            <!--<dd><a href="#notes"><i class="fa fa-sticky-note-o"></i> 笔记管理</a></dd>-->
+            <!--<dd><a href="#file"><i class="fa fa-file"></i> 分享管理</a></dd>-->
+            <!--<dd><a href="#about"><i class="fa fa-trademark"></i> 关于内容</a></dd>-->
+            <!--</dl>-->
+            <!--</li>-->
 
-                <li class="layui-nav-item">
-                    <a href="javascript:"><i class="fa fa-star-o"></i> <cite>类别管理</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="#tag"><i class="fa fa-tags"></i> 标签管理</a></dd>
-                        <dd><a href="#cate"><i class="fa fa-sliders"></i> 分类管理</a></dd>
-                        <dd><a href="#keyword"><i class="fa fa-text-width"></i> 关键字管理</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"><a href="#users"><i class="fa fa-users"></i> <cite>用户管理</cite></a></li>
-                <li class="layui-nav-item"><a href="#comment"><i class="fa fa-comment-o"></i> <cite>评论管理</cite></a></li>
-                <li class="layui-nav-item"><a href="#message"><i class="fa fa-bell-o"></i> <cite>留言管理</cite></a></li>
-                <li class="layui-nav-item">
-                    <a href="javascript:void(0);"><i class="fa fa-cog"></i> <cite>偏好设置</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="#settings"><i class="fa fa-balance-scale"></i> 网站设置</a></dd>
-                        <dd><a href="#qrcode"><i class="fa fa-money"></i> 打赏二维码</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"><a href="#noteblog"><i class="fa fa-info-circle"></i> <cite>关于笔记博客</cite></a>
-                </li>
-            </ul>
+            <!--<li class="layui-nav-item">-->
+            <!--<a href="javascript:"><i class="fa fa-star-o"></i> <cite>类别管理</cite></a>-->
+            <!--<dl class="layui-nav-child">-->
+            <!--<dd><a href="#tag"><i class="fa fa-tags"></i> 标签管理</a></dd>-->
+            <!--<dd><a href="#cate"><i class="fa fa-sliders"></i> 分类管理</a></dd>-->
+            <!--<dd><a href="#keyword"><i class="fa fa-text-width"></i> 关键字管理</a></dd>-->
+            <!--</dl>-->
+            <!--</li>-->
+            <!--<li class="layui-nav-item"><a href="#users"><i class="fa fa-users"></i> <cite>用户管理</cite></a></li>-->
+            <!--<li class="layui-nav-item"><a href="#comment"><i class="fa fa-comment-o"></i> <cite>评论管理</cite></a></li>-->
+            <!--<li class="layui-nav-item"><a href="#message"><i class="fa fa-bell-o"></i> <cite>留言管理</cite></a></li>-->
+            <!--<li class="layui-nav-item">-->
+            <!--<a href="javascript:void(0);"><i class="fa fa-cog"></i> <cite>偏好设置</cite></a>-->
+            <!--<dl class="layui-nav-child">-->
+            <!--<dd><a href="#settings"><i class="fa fa-balance-scale"></i> 网站设置</a></dd>-->
+            <!--<dd><a href="#qrcode"><i class="fa fa-money"></i> 打赏二维码</a></dd>-->
+            <!--</dl>-->
+            <!--</li>-->
+            <!--<li class="layui-nav-item"><a href="#noteblog"><i class="fa fa-info-circle"></i> <cite>关于笔记博客</cite></a>-->
+            <!--</li>-->
+            <!--</ul>-->
         </div>
     </div>
 
@@ -118,10 +120,54 @@
                                                                      style="color: #1E9FFF;">请我喝一杯咖啡.</a>
     </div>
 </div>
+<div class="layadmin-body-shade"></div>
 <script type="text/html" id="error">
     <div class="vipspa-error">
         {{errContent}}
     </div>
+</script>
+<script type="text/html" id="left-menu-template">
+    {{# layui.each(d[0].data, function(index, item){ }}
+    <li class="layui-nav-item">
+        {{# if(item.url === null){ }}
+        <a href="javascript:"><i class="{{ item.icon }}"></i> <cite>{{ item.name }}</cite></a>
+        {{# }else{ }}
+        <a href="{{ BMY.transUrl(item.url) }}">
+            <i class="{{ item.icon }}"></i> <cite>{{ item.name }}</cite>
+        </a>
+        {{# } }}
+        {{# if(item.data !== null && item.data.length>0){ }}
+        <dl class="layui-nav-child">
+            {{# layui.each(item.data, function(index, d){ }}
+            <dd>
+                {{# if(d.url === null){ }}
+                <a href="javascript:"><i class="{{ d.icon }}"></i> <cite>{{ d.name }}</cite></a>
+                {{# }else{ }}
+                <a href="{{ BMY.transUrl(d.url) }}">
+                    <i class="{{ d.icon }}"></i> <cite>{{ d.name }}</cite>
+                </a>
+                {{# } }}
+                {{# if(d.data !== null && d.data.length>0){ }}
+                <dl class="layui-nav-child">
+                    {{# layui.each(d.data, function(index, dd){ }}
+                    <dd>
+                        {{# if(dd.url === null){ }}
+                        <a href="javascript:"><i class="{{ dd.icon }}"></i> <cite>{{ dd.name }}</cite></a>
+                        {{# }else{ }}
+                        <a href="{{ BMY.transUrl(dd.url) }}">
+                            <i class="{{ dd.icon }}"></i> <cite>{{ dd.name }}</cite>
+                        </a>
+                        {{# } }}
+                    </dd>
+                    {{# }); }}
+                </dl>
+                {{# } }}
+            </dd>
+            {{# }); }}
+        </dl>
+        {{# } }}
+    </li>
+    {{# }); }}
 </script>
 <script src="/static/plugins/jquery/jquery-2.1.4.min.js"></script>
 <script src="/static/plugins/vue/vue.min.js"></script>
@@ -129,17 +175,24 @@
 <script src="/static/assets/js/BMY.js"></script>
 <script src="/static/plugins/spa/vipspa.js"></script>
 <script src="/static/assets/js/management/config/spa.config.js"></script>
-<script>
+<script th:inline="javascript">
     layui.config({base: '/static/plugins/'})
         .extend({
             treetable: 'treetable-lay/treetable'
             , formSelects: 'form-selects/form-selects.v4'
         });
 
-    layui.use(['element', 'layer'], function () {
+    layui.use(['element', 'layer', 'laytpl'], function () {
         var element = layui.element;
+        var laytpl = layui.laytpl;
         window._layer = layui.layer;
         element.render();
+
+        var getTpl = document.getElementById("left-menu-template").innerHTML
+            , view = document.getElementById('left-menu-temp');
+        laytpl(getTpl).render([[${menus}]], function (html) {
+            view.innerHTML = html;
+        });
 
         element.on('nav(nav-icon)', function (elem) {
             var windowWidth = window.innerWidth;
@@ -170,6 +223,9 @@
         $(window).resize(function () {
             $("body").removeClass("layadmin-side-spread-sm").removeClass("layadmin-side-shrink");
             $("a[layadmin-event=flexible]").removeClass("layui-icon-spread-left").addClass("layui-icon-spread-right");
+        });
+        $(".layadmin-body-shade").click(function () {
+            $(".layadmin-flexible>a").trigger("click");
         })
     })
 </script>

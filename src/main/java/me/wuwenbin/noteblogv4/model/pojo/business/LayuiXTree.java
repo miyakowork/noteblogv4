@@ -77,6 +77,7 @@ public class LayuiXTree implements Serializable {
      */
     public static List<LayuiXTree> buildByRecursive(List<LayuiXTree> treeNodes) {
         List<LayuiXTree> trees = new ArrayList<>(treeNodes);
+        //权限标识是三级的，故此循环两次即可，此处后续可改为动态循环次数
         List<LayuiXTree> newTrees = iteratorIt(iteratorIt(trees));
         List<LayuiXTree> data = new ArrayList<>(20);
         for (LayuiXTree treeNode : newTrees) {

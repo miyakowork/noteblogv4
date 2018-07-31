@@ -148,4 +148,14 @@ var BMY = {
     , toAdminIndex: function () {
         location.href = BMY.url.manage_index;
     }
+
+    , transUrl: function (url) {
+        console.log(url);
+        console.log(BMY.startsWith(url, '/management/') ? '#/' + url.substring(12) : url);
+        return BMY.startsWith(url, '/management/') ? '#/' + url.substring(12) : url;
+    }
+
+    , startsWith: function (str, prefix) {
+        return str.slice(0, prefix.length) === prefix;
+    }
 };

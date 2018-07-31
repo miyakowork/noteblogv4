@@ -90,7 +90,7 @@ public abstract class BaseController {
      * @param ifCondition
      * @return
      */
-    public NBR ajaxDone(Supplier<Boolean> ifCondition, Supplier<String> operationInfo) {
+    protected NBR ajaxDone(Supplier<Boolean> ifCondition, Supplier<String> operationInfo) {
         try {
             boolean res = ifCondition.get();
             if (res) {
@@ -106,4 +106,5 @@ public abstract class BaseController {
             return NBR.error(msg);
         }
     }
+
 }
