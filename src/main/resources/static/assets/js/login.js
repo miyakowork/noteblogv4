@@ -1,6 +1,6 @@
-layui.use('form', function () {
+layui.use(['form', 'jquery'], function () {
     var form = layui.form;
-
+    window.$ = layui.$;
     form.verify({
         username: function (value) {
             if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
@@ -32,6 +32,7 @@ layui.use('form', function () {
                         location.href = BMY.url.manage_index;
                     }, 1000);
                 } else {
+                    $("#NB-user-vercode").trigger("click");
                     layer.msg("登录失败，" + resp.message);
                 }
             }
@@ -40,3 +41,8 @@ layui.use('form', function () {
     });
 
 });
+
+//验证码图片刷新
+function captchaRefresh(img) {
+    $(img).attr("src", "/image/code?t=" + Math.random());
+}

@@ -18,5 +18,6 @@ public class SimpleLoginData implements Serializable {
     private String bmyName;
     private String bmyPass;
     private Boolean remember;
+    private String vercode;
 
 }

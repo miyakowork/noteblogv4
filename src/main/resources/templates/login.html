@@ -21,14 +21,30 @@
             </div>
             <div class="login-body">
                 <div class="layui-form-item">
-                    <label><i class="layui-icon">&#xe612;</i> </label>
+                    <label><i class="layui-icon layui-icon-username"></i> </label>
                     <input type="text" name="bmyName" lay-verify="username"
                            placeholder="用户名" class="layui-input">
                 </div>
                 <div class="layui-form-item">
-                    <label><i class="layui-icon">&#xe631;</i> </label>
+                    <label><i class="layui-icon layui-icon-password"></i> </label>
                     <input type="password" name="bmyPass" lay-verify="pass"
                            placeholder="密码" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-xs7">
+                            <label for="NB-user-vercode" style="margin-top: 8px;margin-left: 7px;"><i
+                                    class="layadmin-user-login-icon layui-icon layui-icon-vercode"></i> </label>
+                            <input type="text" name="vercode" id="LAY-user-login-vercode" lay-verify="required"
+                                   placeholder="图形验证码" class="layui-input">
+                        </div>
+                        <div class="layui-col-xs5">
+                            <div>
+                                <img src="/image/code" class="layadmin-user-login-codeimg" id="NB-user-vercode"
+                                     onclick="captchaRefresh(this)">
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="layui-form-item">
                     <input type="checkbox" name="remember" lay-skin="primary" title="记住密码" lay-filter="rm" value="true">

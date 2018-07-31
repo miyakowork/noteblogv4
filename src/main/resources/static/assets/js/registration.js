@@ -38,6 +38,7 @@ layui.use(['form', 'jquery'], function () {
                         location.href = BMY.url.login || resp.data;
                     }, 1000);
                 } else {
+                    $("#NB-user-vercode").trigger("click");
                     layer.msg("注册失败，" + resp.message);
                 }
             }

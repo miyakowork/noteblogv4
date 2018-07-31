@@ -2,6 +2,7 @@ package me.wuwenbin.noteblogv4.web;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
+import com.google.code.kaptcha.Constants;
 import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.config.permission.NBAuth;
 import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
@@ -73,7 +74,15 @@ public class EntranceController {
      */
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     @ResponseBody
-    public NBR register(String bmyName, String bmyPass, String nickname) {
+    public NBR register(String bmyName, String bmyPass, String nickname, String vercode, HttpServletRequest request) {
+        if (StringUtils.isEmpty(vercode)) {
+            return NBR.error("验证码为空！");
+        } else {
+            String code = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+            if (!code.equalsIgnoreCase(vercode)) {
+                return NBR.error("验证码错误！");
+            }
+        }
         int min = 4, max = 12;
         if (StrUtil.isEmpty(bmyName) || bmyName.length() < min || bmyName.length() > max) {
             return NBR.error("用户名长度不合法，请重新输入");
@@ -132,6 +141,14 @@ public class EntranceController {
     @ResponseBody
     public NBR login(HttpServletRequest request, HttpServletResponse response, String requestType, SimpleLoginData data) {
 
+        if (StringUtils.isEmpty(data.getVercode())) {
+            return NBR.error("验证码为空！");
+        } else {
+            String code = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+            if (!code.equalsIgnoreCase(data.getVercode())) {
+                return NBR.error("验证码错误！");
+            }
+        }
         data.setBmyPass(SecureUtil.md5(data.getBmyPass()));
         data.setRequest(request);
         data.setResponse(response);

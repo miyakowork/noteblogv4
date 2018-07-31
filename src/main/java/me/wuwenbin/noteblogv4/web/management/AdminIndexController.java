@@ -36,7 +36,7 @@ public class AdminIndexController {
     }
 
     @RequestMapping("/index")
-    @NBAuth(value = "management:index:page", remark = "后台管理首页", type = ResType.NAV_LINK, group = Group.PAGE)
+    @NBAuth(value = "management:index:page", remark = "后台管理首页", type = ResType.OTHER, group = Group.PAGE)
     public String index(Model model) {
         Long userRoleId = Objects.requireNonNull(NBUtils.getSessionUser()).getDefaultRoleId();
         List<NBSysMenu> menus = menuRepository.findAllByRoleIdOrderBy(userRoleId);
@@ -46,7 +46,7 @@ public class AdminIndexController {
     }
 
     @RequestMapping("/dashboard")
-    @NBAuth(value = "management:index:dashboard", remark = "管理页面仪表盘界面", group = Group.ROUTER)
+    @NBAuth(value = "management:index:dashboard", remark = "管理页面仪表盘界面", type = ResType.NAV_LINK, group = Group.ROUTER)
     public String dashboard(Model model) {
         model.addAttribute("articleCnt", articleRepository.findAll());
         return "management/dashboard";

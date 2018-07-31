@@ -41,6 +41,22 @@
                            placeholder="用户昵称" class="layui-input">
                 </div>
                 <div class="layui-form-item">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-xs7">
+                            <label for="NB-user-vercode" style="margin-top: 8px;margin-left: 7px;"><i
+                                    class="layadmin-user-login-icon layui-icon layui-icon-vercode"></i> </label>
+                            <input type="text" name="vercode" id="LAY-user-login-vercode" lay-verify="required"
+                                   placeholder="图形验证码" class="layui-input">
+                        </div>
+                        <div class="layui-col-xs5">
+                            <div>
+                                <img src="/image/code" class="layadmin-user-login-codeimg" id="NB-user-vercode"
+                                     onclick="captchaRefresh(this)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="bmyReg">注册
                     </button>
                 </div>

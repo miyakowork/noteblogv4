@@ -162,3 +162,10 @@ body {
 .layui-icon-login-wechat {
     color: #4DAF29;
 }
+
+.layadmin-user-login-codeimg {
+    height: 38px;
+    width: 100%;
+    cursor: pointer;
+    box-sizing: border-box;
+}
