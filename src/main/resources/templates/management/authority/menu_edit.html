@@ -58,7 +58,7 @@
                     <div class="layui-form-item" v-if="type != 'PARENT' && type != 'ROOT'">
                         <label class="layui-form-label">菜单资源</label>
                         <div class="layui-input-block">
-                            <select name="resourceId" lay-verify="required">
+                            <select name="resource" lay-verify="required">
                                 <option value=""></option>
                                 <template v-for="res in resources">
                                     <option :value="res.id"
@@ -72,7 +72,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">是否可用</label>
                         <div class="layui-input-block">
-                            <input type="checkbox" name="enable" :value="menu.enable"
+                            <input type="checkbox" name="enable" value="true"
                                    lay-skin="switch" lay-text="可用|不可用" :checked="menu.enable">
                         </div>
                     </div>

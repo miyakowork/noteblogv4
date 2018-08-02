@@ -19,6 +19,7 @@ import static java.time.LocalDateTime.now;
 /**
  * 博文的表对应的实体类
  * created by Wuwenbin on 2018/7/15 at 10:57
+ *
  * @author wuwenbin
  */
 @Data
@@ -53,6 +54,10 @@ public class NBArticle implements Serializable {
 
     @Column(columnDefinition = "text", nullable = false)
     private String content;
+
+    @Column(columnDefinition = "text", nullable = false)
+    @Builder.Default
+    private String mdContent = "";
 
     @Column(columnDefinition = "text", nullable = false)
     @Builder.Default

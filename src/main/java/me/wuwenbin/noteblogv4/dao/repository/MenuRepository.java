@@ -43,7 +43,7 @@ public interface MenuRepository extends JpaRepository<NBSysMenu, Long> {
      * @param roleId
      * @return
      */
-    @Query("select  m from NBSysMenu m where m.roleId = ?1 or (m.roleId is null and m.parentId = 0)order by m.orderIndex asc")
-    List<NBSysMenu> findAllByRoleIdOrderBy(Long roleId);
+    @Query("select  m from NBSysMenu m where (m.roleId = ?1 and m.enable = ?2)or (m.roleId is null and m.parentId = 0) order by m.orderIndex asc")
+    List<NBSysMenu> findAllByRoleIdOrderBy(Long roleId, boolean enable);
 
 }

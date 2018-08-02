@@ -150,8 +150,6 @@ var BMY = {
     }
 
     , transUrl: function (url) {
-        console.log(url);
-        console.log(BMY.startsWith(url, '/management/') ? '#/' + url.substring(12) : url);
         return BMY.startsWith(url, '/management/') ? '#/' + url.substring(12) : url;
     }
 

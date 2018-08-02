@@ -13,6 +13,7 @@ import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -38,6 +39,7 @@ import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Init.INIT_STATUS;
  */
 @Slf4j
 @Component
+@Order(2)
 public class ResourceListener implements ApplicationListener<ContextRefreshedEvent> {
 
     private final NBContext context;
@@ -94,7 +96,7 @@ public class ResourceListener implements ApplicationListener<ContextRefreshedEve
                                     tempMap.put("remark", nbAuth.remark());
                                     tempMap.put("url", url);
                                     tempMap.put("type", type);
-                                    tempMap.put("group",nbAuth.group());
+                                    tempMap.put("group", nbAuth.group());
                                     resources.add(tempMap);
                                     cnt++;
                                 } else {

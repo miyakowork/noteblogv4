@@ -39,7 +39,7 @@ public class AdminIndexController {
     @NBAuth(value = "management:index:page", remark = "后台管理首页", type = ResType.OTHER, group = Group.PAGE)
     public String index(Model model) {
         Long userRoleId = Objects.requireNonNull(NBUtils.getSessionUser()).getDefaultRoleId();
-        List<NBSysMenu> menus = menuRepository.findAllByRoleIdOrderBy(userRoleId);
+        List<NBSysMenu> menus = menuRepository.findAllByRoleIdOrderBy(userRoleId, true);
         List<MenuTree> menuTrees = MenuTree.buildByRecursive(menus);
         model.addAttribute("menus", menuTrees);
         return "admin_index";
