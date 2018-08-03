@@ -19,6 +19,10 @@ a:hover {
     color: #01AAED;
 }
 
+.nb-theme-color {
+    color: #F44336 !important;
+}
+
 /*responsive style*/
 @media screen and (min-width: 1440px) {
     .layui-container {
@@ -127,10 +131,15 @@ a:hover {
 }
 
 /*website style*/
-
-body {
+body, input, button, textarea {
     background: #f8f8f8 !important;
-    line-height: 24px;
+    -webkit-appearance: none;
+    border-radius: 0;
+    font-family: "Exo 2", "Trebuchet MS", "Helvetica", "Arial", 'PingFang SC', 'Hiragino Sans GB', 'STHeiti Light', 'Microsoft YaHei', 'SimHei', 'WenQuanYi Micro Hei', sans-serif;
+    letter-spacing: .04em;
+    line-height: 2.4em;
+    font-size: 15px;
+    color: #888;
 }
 
 body:before {

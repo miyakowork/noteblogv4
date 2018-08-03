@@ -12,6 +12,7 @@ import java.util.Properties;
 /**
  * 验证码配置
  * created by Wuwenbin on 2018/7/31 at 20:18
+ * @author wuwenbin
  */
 @Configuration
 public class KaptchaConfig {

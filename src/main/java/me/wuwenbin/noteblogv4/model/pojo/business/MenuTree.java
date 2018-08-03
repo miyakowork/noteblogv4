@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * created by Wuwenbin on 2018/7/31 at 15:05
+ * @author wuwenbin
  */
 @Data
 public class MenuTree implements Serializable {

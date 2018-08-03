@@ -39,19 +39,19 @@ public class EntranceController {
     private final NBContext blogContext;
     private final RoleRepository roleRepository;
     private final LoginService<SimpleLoginData> simpleLoginService;
-    @Autowired
-    private ParamRepository paramRepository;
+    private final ParamRepository paramRepository;
 
     @Autowired
     public EntranceController(UserRepository userRepository,
                               NBContext blogContext,
                               RoleRepository roleRepository,
-                              @Qualifier("simpleLogin") LoginService<SimpleLoginData> simpleLoginService) {
+                              @Qualifier("simpleLogin") LoginService<SimpleLoginData> simpleLoginService, ParamRepository paramRepository) {
 
         this.userRepository = userRepository;
         this.blogContext = blogContext;
         this.simpleLoginService = simpleLoginService;
         this.roleRepository = roleRepository;
+        this.paramRepository = paramRepository;
     }
 
     /**

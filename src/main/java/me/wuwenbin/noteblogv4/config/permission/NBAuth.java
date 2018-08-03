@@ -16,7 +16,7 @@ import java.lang.annotation.*;
 public @interface NBAuth {
 
     /**
-     * 权限标识，类似shiro
+     * 权限标识，类似 shiro
      * 推荐规则：[aaa]:[bbb]:[ccc]
      * aaa->填写某个模块的标识
      * bbb->填写模块下某个功能的标识
@@ -60,8 +60,9 @@ public @interface NBAuth {
 
     /**
      * 资源的三种类别
+     * @author wuwenbin
      */
-    public enum Group {
+    enum Group {
         /**
          * ajax、router、page
          */

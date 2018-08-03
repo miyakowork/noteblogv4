@@ -11,10 +11,7 @@ $(function () {
             '/menu/add': {templateUrl: url_prefix + 'menu/add'},
             '/menu/edit': {templateUrl: url_prefix + 'menu/edit'},
             '/users': {templateUrl: url_prefix + 'users'},
-            'blog': {
-                templateUrl: url_prefix + 'blog',
-                controller: static_prefix + '/blog.js'
-            },
+            '/article/post': {templateUrl: url_prefix + 'article/post', controller: static_prefix + '/article_post.js'},
             'blog_edit': {
                 templateUrl: url_prefix + 'blog/edit',
                 controller: static_prefix + '/blog_edit.js'
