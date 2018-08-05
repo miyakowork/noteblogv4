@@ -7,13 +7,13 @@ spring:
     active: noteblogv4
   application:
     name: NoteBlogV4
-#资源配置
+  #资源配置
   thymeleaf:
     cache: false
     mode: LEGACYHTML5
   resources:
     static-locations: classpath:/static/
-#数据访问配置
+  #数据访问配置
   jpa:
     database: mysql
     hibernate:
@@ -22,6 +22,10 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
+  #最大上传文件大小
+  servlet:
+    multipart:
+      max-file-size: 20MB
 mybatis:
   mapper-locations: classpath:mappers/*.xml
   configuration:

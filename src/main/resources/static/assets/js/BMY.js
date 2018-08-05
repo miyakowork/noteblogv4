@@ -68,14 +68,14 @@ var BMY = {
             type: 1,
             title: false,
             closeBtn: false,
-            area: ['640px', '400px'],
+            area: ['550px', '319px'],
             shade: 0.8,
             id: 'BMY_PAY',
             resize: false,
             shadeClose: true,
             btnAlign: 'c',
             moveType: 1,
-            content: '<div style="padding: 60px; background-color: #5b6275; color: #fff; font-weight: 300;" class="layui-row">' +
+            content: '<div style="padding: 20px; background-color: #5b6275; color: #fff; font-weight: 300;" class="layui-row">' +
                 '<div class="layui-col-md6">' +
                 '   <img src="/static/assets/img/alipay.png" style="width: 250px;height: 250px;">' +
                 '   <p style="text-align: center;" class="layui-admin-mt10">支付宝</p>' +

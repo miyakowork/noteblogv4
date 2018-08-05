@@ -1,9 +1,10 @@
 package me.wuwenbin.noteblogv4.config.configuration;
 
+import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.config.interceptor.AdminInterceptor;
 import me.wuwenbin.noteblogv4.config.interceptor.ApplicationInterceptor;
-import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.config.interceptor.SessionInterceptor;
+import me.wuwenbin.noteblogv4.model.constant.Upload;
 import me.wuwenbin.noteblogv4.service.param.ParamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.ErrorPage;
@@ -47,7 +48,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
         String uploadPath = env.getProperty("noteblog.upload.path");
-        registry.addResourceHandler("/upfiles/**").addResourceLocations(uploadPath);
+        registry.addResourceHandler(Upload.FileType.VISIT_PATH + "/**").addResourceLocations(uploadPath);
     }
 
     /**

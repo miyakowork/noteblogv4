@@ -13,14 +13,16 @@ import com.qiniu.util.Auth;
 import lombok.extern.slf4j.Slf4j;
 import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
 import me.wuwenbin.noteblogv4.model.constant.LayUploader;
+import me.wuwenbin.noteblogv4.model.constant.NkUploader;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.constant.Upload;
+import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.util.function.Function;
+import java.util.function.Consumer;
 
 /**
  * 七牛文件上传Service
@@ -29,9 +31,9 @@ import java.util.function.Function;
  * @author wuwenbin
  */
 @Slf4j
-@Service
+@Service("qiniuUpload")
 @Transactional(rollbackOn = Exception.class)
-public class QiniuUploadServiceImpl<T, R> implements UploadService<T, R> {
+public class QiniuUploadServiceImpl<T> implements UploadService<T> {
 
     private final ParamRepository paramRepository;
 
@@ -46,7 +48,7 @@ public class QiniuUploadServiceImpl<T, R> implements UploadService<T, R> {
     }
 
     @Override
-    public LayUploader upload(MultipartFile fileObj, Function<T, R> extra) {
+    public Object upload(MultipartFile fileObj, String reqType, Consumer<T> extra, T t) {
         log.info("上传[" + fileObj.getContentType() + "]类型文件");
         Response res = doUpload(fileObj, getUpToken());
         String message;
@@ -56,7 +58,15 @@ public class QiniuUploadServiceImpl<T, R> implements UploadService<T, R> {
                 String generateFileName = respObj.getStr("key");
                 String qiniuDomain = paramRepository.findByName(NoteBlogV4.Param.QINIU_DOMAIN).getValue();
                 log.info("上传至七牛云服务器成功！，文件：[{}]", generateFileName);
-                return new LayUploader().ok("上传至七牛云服务器成功！", qiniuDomain + "/" + generateFileName);
+                extra.accept(t);
+                String src = qiniuDomain + "/" + generateFileName;
+                if (LAYUI_UPLOADER.equalsIgnoreCase(reqType)) {
+                    return new LayUploader().ok("上传至七牛云服务器成功！", src);
+                } else if (NKEDITOR_UPLOADER.equalsIgnoreCase(reqType)) {
+                    return new NkUploader().ok(src);
+                } else {
+                    return NBR.ok("上传成功！", src);
+                }
             } else {
                 message = res != null ? res.error : "上传至七牛云服务失败，返回信息为空！";
             }
@@ -65,7 +75,13 @@ public class QiniuUploadServiceImpl<T, R> implements UploadService<T, R> {
             e.printStackTrace();
         }
         log.error("上传至七牛服务器失败，错误信息：[{}]", message);
-        return new LayUploader().err(message);
+        if (LAYUI_UPLOADER.equalsIgnoreCase(reqType)) {
+            return new LayUploader().err(message);
+        } else if (NKEDITOR_UPLOADER.equalsIgnoreCase(reqType)) {
+            return new NkUploader().err("上传至七牛服务器失败，错误信息：" + message);
+        } else {
+            return NBR.error("上传至七牛服务器失败，错误信息：[{}]" + message);
+        }
     }
 
 

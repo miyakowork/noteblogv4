@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="me.wuwenbin.noteblogv4.dao.mapper.TagMapper">
+
+    <!--查找所有tag-->
+    <select id="findAll" resultType="me.wuwenbin.noteblogv4.model.entity.NBTag">
+        SELECT *
+        FROM nb_tag
+    </select>
+
+    <!--查找对应的tag-->
+</mapper>

@@ -7,9 +7,13 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import me.wuwenbin.noteblogv4.config.application.NBContext;
+import me.wuwenbin.noteblogv4.exception.MethodNotMatchException;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
+import me.wuwenbin.noteblogv4.model.constant.Upload;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
 import me.wuwenbin.noteblogv4.model.pojo.business.IpInfo;
+import me.wuwenbin.noteblogv4.service.param.ParamService;
+import me.wuwenbin.noteblogv4.service.upload.UploadService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -108,7 +112,7 @@ public class NBUtils implements ApplicationContextAware {
      */
     public static HttpServletRequest getCurrentRequest() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        return attributes.getRequest();
+        return Objects.requireNonNull(attributes).getRequest();
     }
 
 
@@ -213,6 +217,30 @@ public class NBUtils implements ApplicationContextAware {
         }
         return returnMap;
     }
+
+    /**
+     * 根据设定的上传方式（本地服务器上传还是七牛云上传）来匹配相应的service实例
+     *
+     * @param <T>
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> UploadService<T> getUploadServiceByConfig() {
+        final String name = NoteBlogV4.Param.UPLOAD_TYPE;
+        String config = applicationContext.getBean(ParamService.class).getValueByName(name);
+        if (config != null) {
+            Upload.Method method = Upload.Method.getMethodByName(config);
+            if (method.name().equalsIgnoreCase("local")) {
+                return applicationContext.getBean("localUpload", UploadService.class);
+            } else if (method.name().equalsIgnoreCase("qiniu")) {
+                return applicationContext.getBean("qiniuUpload", UploadService.class);
+            } else {
+                throw new MethodNotMatchException("未找到相应的上传类型的Service实例！");
+            }
+        }
+        return null;
+    }
+
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

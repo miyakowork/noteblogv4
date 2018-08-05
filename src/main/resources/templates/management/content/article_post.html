@@ -1,5 +1,5 @@
-<link rel="stylesheet" type="text/css" href="/static/plugins/tagsinput/jquery.tagsinput.min.css">
 <link rel="stylesheet" type="text/css" href="/static/plugins/editormd/css/editormd.min.css">
+<link rel="stylesheet" href="/static/plugins/form-selects/form-selects.v4.css">
 <div class="layui-card layadmin-tabs-card">
     <div class="layui-card-header">
         <span class="layui-breadcrumb">
@@ -43,29 +43,46 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">编辑器类型</label>
                             <div class="layui-input-block">
-                                <input type="radio" name="editor" value="markdown" title="markdown编辑器"
+                                <input type="radio" name="editor" value="markdown" title="markdown编辑器" checked
                                        lay-filter="editor">
-                                <input type="radio" name="editor" value="html" title="富文本编辑器" checked
+                                <input type="radio" name="editor" value="html" title="富文本编辑器"
                                        lay-filter="editor">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">内容</label>
-                            <div class="layui-input-block" id="content-editor" style="max-width: 1080px;">
+                            <div class="layui-input-block" id="content-editor" style="max-width: 1366px;">
                                 <textarea id="editor" placeholder="输入内容" style="display: none;"></textarea>
                             </div>
                         </div>
-                        <div class="layui-form-item layui-form-text">
+                        <!--此处id和name不能随意改-->
+                        <textarea id="editormd-markdown-doc" name="editormd-markdown-doc"
+                                  style="display:none;"></textarea>
+                        <textarea id="editormd-html-code" name="editormd-html-code" style="display:none;"></textarea>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">开启摘要</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" name="autoSummary" lay-skin="switch"
+                                       lay-filter="summary" lay-text="手动撰写|自动生成">
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form-text" id="article-summary" style="display: none;">
                             <label class="layui-form-label">文章摘要</label>
                             <div class="layui-input-block">
                             <textarea name="summary" placeholder="如果不填，则取文章内容的开头小部分（不包含图片以及文字格式）" class="layui-textarea"
                                       style="resize: none;"></textarea>
                             </div>
                         </div>
-                        <div class="layui-form-item tags">
-                            <label class="layui-form-label">文章标签</label>
+                        <div class="layui-form-item layui-col-sm8">
+                            <label class="layui-form-label">标签</label>
                             <div class="layui-input-block">
-                                <input type="text" id="tagName" class="layui-input">
+                                <select name="tags"
+                                        xm-select="tags"
+                                        xm-select-max="4"
+                                        xm-select-search=""
+                                        xm-select-create=""
+                                        xm-select-search-type="dl">
+                                </select>
                             </div>
                         </div>
                         <div class="layui-form-item">
@@ -101,5 +118,4 @@
 
 <script src="/static/plugins/nkeditor/libs/JDialog/JDialog.min.js"></script>
 <script src="/static/plugins/nkeditor/NKeditor-all-min.js"></script>
-<script src="/static/plugins/tagsinput/jquery.tagsinput.min.js"></script>
 

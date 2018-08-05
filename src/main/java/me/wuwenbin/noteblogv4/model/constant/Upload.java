@@ -1,5 +1,7 @@
 package me.wuwenbin.noteblogv4.model.constant;
 
+import me.wuwenbin.noteblogv4.exception.MethodNotMatchException;
+
 /**
  * 上传相关的常量
  * created by Wuwenbin on 2018/7/16 at 15:26
@@ -21,7 +23,23 @@ public interface Upload {
         /**
          * 七牛云上传
          */
-        QINIU
+        QINIU;
+
+        /**
+         * 根据name查找Method
+         *
+         * @param name
+         * @return
+         */
+        public static Method getMethodByName(String name) {
+            if (name.equalsIgnoreCase(LOCAL.name())) {
+                return LOCAL;
+            } else if (name.equalsIgnoreCase(QINIU.name())) {
+                return QINIU;
+            } else  {
+                throw new MethodNotMatchException("没有找到匹配的上传接口方法类型！");
+            }
+        }
     }
 
     /**
@@ -37,5 +55,10 @@ public interface Upload {
          * 非图片文件
          */
         String FILE = "/file";
+
+        /**
+         * 访问文件的虚拟路径前缀
+         */
+        String VISIT_PATH = "/upfiles";
     }
 }

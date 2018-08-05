@@ -72,3 +72,8 @@
 .approve{color: #5FB878}
 .approve:hover{color: #FF5722}
 .appro{font-style: italic;}
+
+.editormd-code-toolbar select{
+    display: inline-block !important;
+}
+#coverImg{padding: 10px 5px !important;}

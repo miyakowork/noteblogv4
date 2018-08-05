@@ -13,7 +13,6 @@ import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -39,7 +38,6 @@ import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Init.INIT_STATUS;
  */
 @Slf4j
 @Component
-@Order(2)
 public class ResourceListener implements ApplicationListener<ContextRefreshedEvent> {
 
     private final NBContext context;
@@ -58,14 +56,18 @@ public class ResourceListener implements ApplicationListener<ContextRefreshedEve
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        log.info("「笔记博客」App 正在初始化启动中，请稍后...");
+        log.info("「笔记博客」APP 正在检测初始化状态，请稍后...");
         NBParam nbParam = paramRepository.findByName(INIT_STATUS);
         if (nbParam == null || StringUtils.isEmpty(nbParam.getValue())) {
+            log.info("「笔记博客」APP 未初始化，初始化中，请稍后...");
             setUpAppInitialState();
+        }else {
+            log.info("「笔记博客」APP 已初始化，开始准备其它内容，请稍后...");
         }
 
-        boolean initialized = paramService.getValueByName(NoteBlogV4.Param.INIT_STATUS).equals(NoteBlogV4.Init.INIT_SURE);
-        if (!initialized) {
+//        boolean initialized = paramService.getValueByName(NoteBlogV4.Param.INIT_STATUS).equals(NoteBlogV4.Init.INIT_SURE);
+//        if (!initialized) {
+            log.info("「笔记博客」App 正在启动中，请稍后...");
             List<Map<String, Object>> resources = new ArrayList<>(50);
             //以防万一，先移除以前的资源
             context.removeApplicationObj(NoteBlogV4.Init.MASTER_RESOURCES);
@@ -114,7 +116,7 @@ public class ResourceListener implements ApplicationListener<ContextRefreshedEve
             context.setApplicationObj(NoteBlogV4.Init.MASTER_RESOURCES, resources);
 
         }
-    }
+//    }
 
 
     /**

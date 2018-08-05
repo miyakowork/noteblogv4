@@ -14,6 +14,7 @@ import me.wuwenbin.noteblogv4.model.entity.permission.pk.RoleResourceKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -36,6 +37,7 @@ import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Param.*;
  */
 @Slf4j
 @Component
+@Order(1)
 public class InitListener implements ApplicationListener<ApplicationReadyEvent> {
 
     private final ParamRepository paramRepository;
@@ -70,7 +72,7 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
         if (roleCnt == 0) {
             log.info("「笔记博客」App 正在初始化权限系统，请稍后...");
             setUpAuthority(false);
-            log.info("权限系统初始化完毕...");
+            log.info("「笔记博客」App 权限系统初始化完毕...");
         } else {
             //已经包含初始化后的角色信息，查出角色名为ROLE_MASTER的对象，没有就抛出异常
             Optional<NBSysRole> role = roleRepository.findOne(Example.of(NBSysRole.builder().name("ROLE_MASTER").build()));
@@ -86,7 +88,7 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
             log.info("「笔记博客」App 正在初始化首页右侧面板设置，请稍后...");
             panelRepository.deleteAll();
             setUpPanel();
-            log.info("首页右侧面板初始化完毕...");
+            log.info("「笔记博客」App 首页右侧面板初始化完毕...");
         }
         NBParam nbParam = paramRepository.findByName(INIT_STATUS);
         if (nbParam == null || StringUtils.isEmpty(nbParam.getValue()) || paramRepository.count() == 1) {
@@ -96,7 +98,6 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
         } else {
             log.info("「笔记博客」App 已经完成初始化，略过初始化步骤。");
         }
-        log.info("「笔记博客」App 启动完毕。讨论/反馈群：【697053454】");
     }
 
 
@@ -156,17 +157,17 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
      * 插入根菜单至菜单表中
      */
     private void setUpRootMenu() {
-        log.info("「笔记博客」App 初始化设置根菜单...");
         long cnt = menuRepository.countByParentId(0);
         if (cnt == 0) {
+            log.info("「笔记博客」App 初始化设置根菜单...");
             NBSysMenu menu = NBSysMenu.builder()
                     .name("菜单根目录")
                     .icon("layui-icon layui-icon-home")
                     .type(NBSysMenu.MenuType.ROOT)
                     .parentId(0L).build();
             menuRepository.save(menu);
+            log.info("「笔记博客」App 设置根菜单完毕");
         }
-        log.info("「笔记博客」App 设置根菜单完毕");
     }
 
     /**

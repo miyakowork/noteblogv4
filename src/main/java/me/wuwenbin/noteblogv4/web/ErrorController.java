@@ -18,8 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.Map;
 
-import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.*;
 
 /**
  * created by Wuwenbin on 2018/7/17 at 17:03
@@ -70,7 +69,11 @@ public class ErrorController extends BaseController implements org.springframewo
      * @param request
      * @return
      */
-    @RequestMapping(produces = {APPLICATION_JSON_VALUE, APPLICATION_FORM_URLENCODED_VALUE})
+    @RequestMapping(produces = {
+            APPLICATION_JSON_VALUE,
+            APPLICATION_FORM_URLENCODED_VALUE,
+            MULTIPART_FORM_DATA_VALUE
+    })
     @ResponseBody
     public NBR error(HttpServletRequest request) {
         Map<String, Object> body = getErrorAttributes(request, isIncludeStackTrace(request));

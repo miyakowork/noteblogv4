@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -42,17 +44,21 @@ public class NBArticle implements Serializable {
     private Long id;
 
     @Column(length = 100, nullable = false)
+    @NotEmpty(message = "文章标题不能为空")
     private String title;
 
     @Column(length = 11, nullable = false)
+    @NotNull(message = "文章必须属于一个分类下")
     private Long cateId;
 
     private String cover;
 
     @Column(length = 300)
+    @NotEmpty(message = "文章摘要不能为空")
     private String summary;
 
     @Column(columnDefinition = "text", nullable = false)
+    @NotEmpty(message = "文章内容不能为空")
     private String content;
 
     @Column(columnDefinition = "text", nullable = false)
