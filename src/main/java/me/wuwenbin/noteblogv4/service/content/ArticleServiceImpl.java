@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import me.wuwenbin.noteblogv4.dao.repository.ArticleRepository;
 import me.wuwenbin.noteblogv4.model.entity.NBArticle;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -18,13 +18,13 @@ import org.springframework.util.StringUtils;
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
-    private final DataSourceTransactionManager tm;
+    private final PlatformTransactionManager tm;
     private final ArticleRepository articleRepository;
 
     @Autowired
     public ArticleServiceImpl(
             ArticleRepository articleRepository,
-            DataSourceTransactionManager tm) {
+            PlatformTransactionManager tm) {
         this.articleRepository = articleRepository;
         this.tm = tm;
     }
