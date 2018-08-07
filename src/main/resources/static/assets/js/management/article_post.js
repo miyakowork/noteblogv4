@@ -19,27 +19,32 @@ layui.use(['element', 'form', 'layer', 'upload', 'formSelects'], function () {
         layer.msg("最多只能选择4个");
     });
 
-    var post = function (data, draft, msg, editor, mdContent) {
+    var post = function (data, draft, msg, mdContent) {
         data.field.draft = draft;
-        data.field.editor = editor;
+        data.field.editor = data.;
         data.field.mdContent = mdContent;
-        data.field.content = editor.html();
+        if (editor === 'html') {
+            data.field.content = editor.html();
+        }
         data.field.cover = $("#coverImg").find("img").attr("src");
-        $.ajax({
-            type: "post"
-            , url: BMY.url.prefix + "/blog/post"
-            , dataType: "json"
-            , data: data.field
-            , success: function (json) {
-                BMY.okMsgHandle(json, msg);
-                if (json.code === BMY.status.ok) {
-                    location.hash = vipspa.stringifyParam("blogs", {});
-                }
-            }
-        });
+        console.log(data.field)
+        // $.ajax({
+        //     type: "post"
+        //     , url: BMY.url.prefix + "/blog/post"
+        //     , dataType: "json"
+        //     , data: data.field
+        //     , success: function (json) {
+        //         BMY.okMsgHandle(json, msg);
+        //         if (json.code === BMY.status.ok) {
+        //             location.hash = vipspa.stringifyParam("blogs", {});
+        //         }
+        //     }
+        // });
     };
     //监听提交
     form.on('submit(postSubmit)', function (data) {
+        debugger
+        console.log("===:"+data.field)
         post(data, false, "发布博文成功！");
         return false;
     });
