@@ -13,7 +13,7 @@ import javax.transaction.Transactional;
  *
  * @author wuwenbin
  */
-@Transactional(rollbackOn = Exception.class)
+@Transactional
 public interface ParamRepository extends JpaRepository<NBParam, Long> {
 
     /**

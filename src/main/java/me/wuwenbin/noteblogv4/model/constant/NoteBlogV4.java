@@ -249,6 +249,11 @@ public interface NoteBlogV4 {
          */
         String STATISTIC_ANALYSIS = "statistic_analysis";
 
+        /**
+         * 文章摘要文字长度
+         */
+        String ARTICLE_SUMMARY_WORDS_LENGTH = "article_summary_words_length";
+
     }
 
     /**

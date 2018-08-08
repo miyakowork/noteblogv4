@@ -22,7 +22,7 @@ import java.util.function.Consumer;
  */
 @Slf4j
 @Service("localUpload")
-@Transactional(rollbackOn = Exception.class)
+@Transactional
 public class LocalUploadServiceImpl<T> implements UploadService<T> {
 
     private final UploadRepository uploadRepository;

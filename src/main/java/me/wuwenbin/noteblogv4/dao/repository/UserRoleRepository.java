@@ -10,6 +10,6 @@ import javax.transaction.Transactional;
  * created by Wuwenbin on 2018/7/28 at 23:26
  * @author wuwenbin
  */
-@Transactional(rollbackOn = Exception.class)
+@Transactional
 public interface UserRoleRepository extends JpaRepository<NBSysUserRole, UserRoleKey> {
 }

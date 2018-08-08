@@ -220,7 +220,8 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
                 {QINIU_BUCKET, null, "七牛云bucket"},
                 {PAGE_MODERN, INIT_DEFAULT_PAGE_MODERN, "首页博文分页模式0：流式，1：按钮加载"},
                 {BLOG_INDEX_PAGE_SIZE, INIT_DEFAULT_PAGE_SIZE, "博客首页文章页面数据量大小"},
-                {STATISTIC_ANALYSIS, INIT_NOT, "是否开启访问统计，默认不开启"}
+                {STATISTIC_ANALYSIS, INIT_NOT, "是否开启访问统计，默认不开启"},
+                {ARTICLE_SUMMARY_WORDS_LENGTH, "243", "首页展示文章的摘要的文字数量，默认243"}
         };
         saveParam(settings);
     }

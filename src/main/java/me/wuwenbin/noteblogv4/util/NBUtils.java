@@ -241,6 +241,27 @@ public class NBUtils implements ApplicationContextAware {
         return null;
     }
 
+    /**
+     * 判断全角的字符串，包括全角汉字以及全角标点
+     *
+     * @param charSequence
+     * @return
+     */
+    public static int fullAngelWords(CharSequence charSequence) {
+        if (charSequence == null) {
+            return 0;
+        }
+        char[] t1 = charSequence.toString().toCharArray();
+        int count = 0;
+        for (char aT1 : t1) {
+            if (Character.toString(aT1).matches("[^\\x00-\\xff]")) {
+                System.out.println(aT1);
+                count++;
+            }
+        }
+        return count;
+    }
+
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

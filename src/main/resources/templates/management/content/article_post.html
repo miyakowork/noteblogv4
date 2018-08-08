@@ -23,6 +23,20 @@
                                        autocomplete="off" class="layui-input">
                             </div>
                         </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">自定义链接</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" lay-skin="switch"
+                                       lay-filter="customUrl" lay-text="自定义|自动生成">
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-col-sm8" style="display: none;" id="urlSequence">
+                            <label class="layui-form-label">url链接</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="urlSequence" placeholder="请输入url地址" autocomplete="off"
+                                       class="layui-input">
+                            </div>
+                        </div>
                         <div class="layui-form-item layui-col-md6">
                             <label class="layui-form-label">分类</label>
                             <div class="layui-input-block">
@@ -76,7 +90,7 @@
                         <div class="layui-form-item layui-col-sm8">
                             <label class="layui-form-label">标签</label>
                             <div class="layui-input-block">
-                                <select name="tags"
+                                <select name="tagNames"
                                         xm-select="tags"
                                         xm-select-max="4"
                                         xm-select-search=""

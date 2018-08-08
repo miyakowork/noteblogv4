@@ -12,8 +12,7 @@ public interface ArticleService {
      *
      * @param article
      * @param tagNames
-     * @param editor
      * @return
      */
-    boolean createArticle(NBArticle article, String tagNames, String editor);
+    boolean createArticle(NBArticle article, String tagNames);
 }

@@ -19,32 +19,33 @@ layui.use(['element', 'form', 'layer', 'upload', 'formSelects'], function () {
         layer.msg("最多只能选择4个");
     });
 
-    var post = function (data, draft, msg, mdContent) {
+    var post = function (data, draft, msg) {
         data.field.draft = draft;
-        data.field.editor = data.;
-        data.field.mdContent = mdContent;
-        if (editor === 'html') {
+        if (data.field.editor === 'html') {
+            data.field.mdContent = "";
             data.field.content = editor.html();
         }
-        data.field.cover = $("#coverImg").find("img").attr("src");
-        console.log(data.field)
-        // $.ajax({
-        //     type: "post"
-        //     , url: BMY.url.prefix + "/blog/post"
-        //     , dataType: "json"
-        //     , data: data.field
-        //     , success: function (json) {
-        //         BMY.okMsgHandle(json, msg);
-        //         if (json.code === BMY.status.ok) {
-        //             location.hash = vipspa.stringifyParam("blogs", {});
-        //         }
-        //     }
-        // });
+        if (data.field.editor === 'markdown') {
+            data.field.mdContent = editorMd.getMarkdown();
+            data.field.content = editorMd.getHTML();
+        }
+        data.field.cover = $("#coverImg").find("img").attr("src") || "";
+
+        BMY.ajaxManagement(
+            "/article/create",
+            data.field,
+            function (json) {
+                BMY.msgHandle(json, function () {
+                    if (json.code === BMY.status.ok) {
+                        alert("11111")
+                        // location.hash = vipspa.stringifyParam("blogs", {});
+                    }
+                });
+            });
+
     };
     //监听提交
     form.on('submit(postSubmit)', function (data) {
-        debugger
-        console.log("===:"+data.field)
         post(data, false, "发布博文成功！");
         return false;
     });
@@ -60,6 +61,14 @@ layui.use(['element', 'form', 'layer', 'upload', 'formSelects'], function () {
             $("#article-summary").show();
         } else {
             $("#article-summary").hide();
+        }
+    });
+
+    form.on("switch(customUrl)", function (data) {
+        if (data.elem.checked) {
+            $("#urlSequence").show();
+        } else {
+            $("#urlSequence").hide();
         }
     });
 

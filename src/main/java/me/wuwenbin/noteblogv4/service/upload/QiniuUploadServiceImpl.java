@@ -32,7 +32,7 @@ import java.util.function.Consumer;
  */
 @Slf4j
 @Service("qiniuUpload")
-@Transactional(rollbackOn = Exception.class)
+@Transactional
 public class QiniuUploadServiceImpl<T> implements UploadService<T> {
 
     private final ParamRepository paramRepository;

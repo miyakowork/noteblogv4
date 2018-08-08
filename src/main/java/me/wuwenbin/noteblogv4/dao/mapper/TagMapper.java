@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * created by Wuwenbin on 2018/8/4 at 11:20
+ * @author wuwenbin
  */
 @MybatisDao
 public interface TagMapper {
@@ -16,4 +17,5 @@ public interface TagMapper {
      * @return
      */
     List<NBTag> findAll();
+
 }

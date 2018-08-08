@@ -6,19 +6,24 @@ import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
+import me.wuwenbin.noteblogv4.dao.mapper.TagMapper;
+import me.wuwenbin.noteblogv4.dao.repository.CateRepository;
+import me.wuwenbin.noteblogv4.model.entity.NBCate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.io.File;
 import java.util.UUID;
 
-//@RunWith(SpringRunner.class)
-//@SpringBootTest
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class NoteBlogV4ApplicationTests {
 
-    @Test
+    //    @Test
     public void contextLoads() {
         String ACCESS_KEY = "tfrkgwObJguLqFJFC55LBFJKpe53MYVppdu0pkIP";
         String SECRET_KEY = "ei4sc7sfTr5QHa4BGaTXmv-GQmqKfDhpQAwhl_YE";
@@ -46,4 +51,36 @@ public class NoteBlogV4ApplicationTests {
         }
     }
 
+    @Autowired
+    private TagMapper tagMapper;
+
+    @Autowired
+    private CateRepository cateRepository;
+
+    @Test
+    @Transactional
+    public void testTxJpaAndMybatis() {
+        testTxJpa();
+        testTxMybatis();
+    }
+
+    @Test
+//    @Transactional
+    public void testTxJpa() {
+        NBCate cate1 = NBCate.builder().cnName("1").name("1").build();
+        cateRepository.save(cate1);
+        int s = 1 / 0;
+        NBCate cate2 = NBCate.builder().cnName("2").name("2").build();
+        cateRepository.save(cate2);
+    }
+
+    @Test
+//    @Transactional
+    public void testTxMybatis() {
+        String name1 = "1";
+//        tagMapper.save(name1);
+        int s = 1 / 0;
+        String name2 = "2";
+//        tagMapper.save(name2);
+    }
 }

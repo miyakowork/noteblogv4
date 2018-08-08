@@ -31,8 +31,9 @@ var BMY = {
             , url: BMY.url.prefix + url
             , data: data
             , success: success
-            , error: function () {
-                layer.msg("发生未知错误！");
+            , error: function (err) {
+                var msg = err.responseJSON.message || "发生未知错误！";
+                layer.msg(msg);
             }
         })
     }
@@ -50,6 +51,10 @@ var BMY = {
         }
     }
 
+    , msgHandle: function (json, callback) {
+        layer.msg(json.message || json.msg || json.errorMsg || json.errMsg);
+        callback();
+    }
     , okMsgHandle: function (json, ok) {
         if (json.code === BMY.status.ok) {
             var okMsg = ok !== undefined ? ok : json.message;

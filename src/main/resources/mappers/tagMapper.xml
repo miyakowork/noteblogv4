@@ -8,5 +8,4 @@
         FROM nb_tag
     </select>
 
-    <!--查找对应的tag-->
 </mapper>

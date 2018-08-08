@@ -6,6 +6,7 @@ import me.wuwenbin.noteblogv4.dao.repository.CateRepository;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.entity.NBArticle;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
+import me.wuwenbin.noteblogv4.service.content.ArticleService;
 import me.wuwenbin.noteblogv4.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,11 +33,13 @@ public class ArticleController extends BaseController {
 
     private final CateRepository cateRepository;
     private final NBContext context;
+    private final ArticleService articleService;
 
     @Autowired
-    public ArticleController(CateRepository cateRepository, NBContext context) {
+    public ArticleController(CateRepository cateRepository, NBContext context, ArticleService articleService) {
         this.cateRepository = cateRepository;
         this.context = context;
+        this.articleService = articleService;
     }
 
     @RequestMapping("/article/post")
@@ -49,9 +52,10 @@ public class ArticleController extends BaseController {
     @RequestMapping("/article/create")
     @NBAuth(value = "management:article:create", remark = "发布一篇新的博文", group = AJAX)
     @ResponseBody
-    public NBR articleCreate(@Valid NBArticle article, String tagNames, String editor, BindingResult result, @CookieValue(NoteBlogV4.Session.SESSION_ID_COOKIE) String uuid) {
+    public NBR articleCreate(@Valid NBArticle article, BindingResult result, String tagNames, @CookieValue(NoteBlogV4.Session.SESSION_ID_COOKIE) String uuid) {
         if (result.getErrorCount() == 0) {
             article.setAuthorId(context.getSessionUser(uuid).getId());
+            articleService.createArticle(article, tagNames);
             return NBR.ok();
         } else {
             return ajaxJsr303(result.getFieldErrors());
