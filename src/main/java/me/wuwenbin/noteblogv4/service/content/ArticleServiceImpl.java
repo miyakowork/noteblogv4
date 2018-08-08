@@ -50,12 +50,7 @@ public class ArticleServiceImpl implements ArticleService {
             throw new RuntimeException("tagNames 不能为空！");
         }
         setArticleSummaryAndTxt(article);
-        article.setPost(now());
-        article.setView(randomInt(666, 1609));
-        article.setApproveCnt(randomInt(6, 169));
-        article.setAppreciable(false);
-        article.setCommented(false);
-        article.setTop(0);
+        decorateArticle(article);
         NBArticle newArticle = articleRepository.save(article);
         String[] tagNameArray = tagNames.split(",");
         int cnt = 0;
@@ -96,7 +91,17 @@ public class ArticleServiceImpl implements ArticleService {
         article.setTextContent(clearContent);
     }
 
+    /**
+     * 装饰article的一些空值为默认值
+     *
+     * @param article
+     */
     private void decorateArticle(NBArticle article) {
-
+        article.setPost(now());
+        article.setView(randomInt(666, 1609));
+        article.setApproveCnt(randomInt(6, 169));
+        article.setAppreciable(false);
+        article.setCommented(false);
+        article.setTop(0);
     }
 }
