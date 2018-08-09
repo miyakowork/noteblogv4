@@ -29,6 +29,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
+import static org.springframework.util.StringUtils.isEmpty;
+
 /**
  * created by Wuwenbin on 2018/7/14 at 10:33
  *
@@ -145,6 +147,39 @@ public class NBUtils implements ApplicationContextAware {
      */
     public static boolean isAjaxRequest(HttpServletRequest request) {
         return StrUtil.isNotBlank(request.getHeader("x-requested-with")) && "XMLHttpRequest".equals(request.getHeader("x-requested-with"));
+    }
+
+    /**
+     * 是否为 json 请求
+     *
+     * @param request
+     * @return
+     */
+    public static boolean isJson(HttpServletRequest request) {
+        String headerAccept = request.getHeader("Accept");
+        return !isEmpty(headerAccept) && headerAccept.contains("application/json");
+    }
+
+    /**
+     * 是否为get请求
+     *
+     * @param request
+     * @return
+     */
+    public static boolean isGetRequest(HttpServletRequest request) {
+        String method = request.getMethod();
+        return "GET".equalsIgnoreCase(method);
+    }
+
+    /**
+     * 是否为 router 请求
+     *
+     * @param request
+     * @return
+     */
+    public static boolean isRouterRequest(HttpServletRequest request) {
+        String headerAccept = request.getHeader("Accept");
+        return !isEmpty(headerAccept) && headerAccept.contains("text/html") && !isJson(request) && isAjaxRequest(request) && isGetRequest(request);
     }
 
     /**

@@ -56,7 +56,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
     }
 
     static void handleAjaxRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (NBUtils.isAjaxRequest(request)) {
+        if (NBUtils.isAjaxRequest(request) && !NBUtils.isRouterRequest(request)) {
             response.setCharacterEncoding("UTF-8");
             JSONObject jsonObject = JSONUtil.createObj();
             jsonObject.putAll(NBR.error("用户未登录或登录时效过期，请重新登录！", NoteBlogV4.Session.LOGIN_URL));

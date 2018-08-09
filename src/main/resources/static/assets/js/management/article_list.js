@@ -7,11 +7,10 @@ layui.use(['form', 'table', 'element'], function () {
     var articleTable = table.render({
         elem: '#article-table'
         , height: 'full'
-        , url: BMY.url.prefix + "/blog/list"
+        , url: BMY.url.prefix + "/article/list"
         , cellMinWidth: 90
         , limit: 10
         , size: 'lg'
-        , method: "post"
         , where: {
             order: 'desc'
             , sort: 'post'
@@ -23,13 +22,13 @@ layui.use(['form', 'table', 'element'], function () {
         , cols: [[
             {type: 'numbers'}
             , {
-                field: 'title', title: '文章标题', sort: true, templet: function (d) {
+                field: 'title', title: '标题', sort: true, minWidth: 250, templet: function (d) {
                     return '<a href="/article/' + d.id + '" class="layui-blue" target="_blank">' + d.title + '</a>';
                 }
             }
-            , {field: 'cateName', title: '文章分类'}
+            , {field: 'cnName', title: '分类'}
             , {
-                field: 'post', title: '发布时间', sort: true, templet: function (d) {
+                field: 'post', title: '发布时间', minWidth: 200, sort: true, templet: function (d) {
                     return BMY.dateFormatter(d.post);
                 }
             }
@@ -38,7 +37,7 @@ layui.use(['form', 'table', 'element'], function () {
                     return d.draft ? '<span class="layui-badge layui-bg-orange">未发布</span>' : '<span class="layui-badge layui-bg-blue">已发布</span>';
                 }
             }
-            , {field: 'views', title: '浏览数', width: 90}
+            , {field: 'view', title: '浏览数', width: 90}
             , {title: '评论', width: 90, align: 'center', toolbar: '#commentedTpl'}
             , {title: '打赏', width: 90, align: 'center', toolbar: '#appreciableTpl'}
             , {field: 'top', title: '置顶', width: 110, templet: '#topTpl'}
@@ -61,7 +60,7 @@ layui.use(['form', 'table', 'element'], function () {
         }
     };
 
-    $('#article-table-search').find('.layui-btn').on('click', function () {
+    $('button[data-type]').on('click', function () {
         var type = $(this).data('type');
         active[type] ? active[type].call(this) : '';
     });
@@ -74,7 +73,7 @@ layui.use(['form', 'table', 'element'], function () {
         } else if (obj.event === 'del') {
             layer.confirm('确认删除吗？', function (index) {
                 obj.del();
-                BMY.ajax(BMY.url.prefix + "/blog/delete/" + data.id, {}, function (json) {
+                BMY.ajax(BMY.url.prefix + "/article/delete/" + data.id, {}, function (json) {
                     BMY.okMsgHandle(json);
                 });
                 layer.close(index);
@@ -93,21 +92,21 @@ layui.use(['form', 'table', 'element'], function () {
     });
 
     form.on('switch(appreciable)', function (obj) {
-        BMY.ajax(BMY.url.prefix + "/blog/edit/appreciable/" + this.value, {appreciable: obj.elem.checked}, function (json) {
+        BMY.ajax(BMY.url.prefix + "/article/edit/appreciable/" + this.value, {appreciable: obj.elem.checked}, function (json) {
             BMY.okMsgHandle(json);
             layer.tips('打赏：' + ((obj.elem.checked) ? "开启" : "关闭"), obj.othis);
         });
     });
 
     form.on('switch(commented)', function (obj) {
-        BMY.ajax(BMY.url.prefix + "/blog/edit/commented/" + this.value, {commented: obj.elem.checked}, function (json) {
+        BMY.ajax(BMY.url.prefix + "/article/edit/commented/" + this.value, {commented: obj.elem.checked}, function (json) {
             BMY.okMsgHandle(json);
             layer.tips('评论：' + ((obj.elem.checked) ? "开启" : "关闭"), obj.othis);
         });
     });
 
     form.on('checkbox(top)', function (obj) {
-        BMY.ajax(BMY.url.prefix + "/blog/edit/top/" + this.value, {top: obj.elem.checked}, function (json) {
+        BMY.ajax(BMY.url.prefix + "/article/edit/top/" + this.value, {top: obj.elem.checked}, function (json) {
             BMY.okMsgHandle(json);
             layer.tips(((obj.elem.checked) ? "已置顶" : "取消置顶"), obj.othis);
         });

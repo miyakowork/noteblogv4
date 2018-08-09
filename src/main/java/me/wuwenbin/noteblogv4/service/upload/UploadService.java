@@ -9,8 +9,10 @@ import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -59,12 +61,25 @@ public interface UploadService<T> {
         String ext = fileName.substring(Objects.requireNonNull(fileName).lastIndexOf("."));
         String newFileName = RandomUtil.randomUUID().concat(ext);
         String prefix = NBUtils.getBean(Environment.class).getProperty("noteblog.upload.path");
-        String uploadFilePath = FileUtil.getAbsolutePath(prefix + uploadPathPre + "/" + newFileName);
+        String datePrefix = LocalDate.now().toString();
+        String completePrefix = prefix + uploadPathPre + "/" + datePrefix + "/";
+        //剔除字符串前缀L：[file:]
+        File targetFile = new File(completePrefix.substring(5));
+        boolean m = true;
+        if (!targetFile.exists()) {
+            m = targetFile.mkdirs();
+        }
+        String uploadFilePath;
+        if (m) {
+            uploadFilePath = FileUtil.getAbsolutePath(completePrefix + newFileName);
+        } else {
+            throw new RuntimeException("创建目录：" + completePrefix + "失败！");
+        }
         FileOutputStream out = new FileOutputStream(uploadFilePath);
         out.write(fileObj.getBytes());
         out.flush();
         out.close();
-        String virtualPath = Upload.FileType.VISIT_PATH.concat(uploadPathPre).concat("/").concat(newFileName);
+        String virtualPath = Upload.FileType.VISIT_PATH.concat(uploadPathPre).concat("/" + datePrefix + "/").concat(newFileName);
         extra.accept(t);
         return NBUpload.builder()
                 .diskPath(uploadFilePath)

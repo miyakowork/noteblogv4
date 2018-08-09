@@ -37,7 +37,6 @@ layui.use(['element', 'form', 'layer', 'upload', 'formSelects'], function () {
             function (json) {
                 BMY.msgHandle(json, function () {
                     if (json.code === BMY.status.ok) {
-                        alert("11111")
                         // location.hash = vipspa.stringifyParam("blogs", {});
                     }
                 });

@@ -11,15 +11,9 @@ $(function () {
             '/menu/add': {templateUrl: url_prefix + 'menu/add'},
             '/menu/edit': {templateUrl: url_prefix + 'menu/edit'},
             '/users': {templateUrl: url_prefix + 'users'},
+            '/article': {templateUrl: url_prefix + 'article', controller: static_prefix + '/article_list.js'},
             '/article/post': {templateUrl: url_prefix + 'article/post', controller: static_prefix + '/article_post.js'},
-            'blog_edit': {
-                templateUrl: url_prefix + 'blog/edit',
-                controller: static_prefix + '/blog_edit.js'
-            },
-            'blogs': {
-                templateUrl: url_prefix + 'blog/index',
-                controller: static_prefix + '/blogs.js'
-            },
+            '/article/edit': {templateUrl: url_prefix + 'article/edit', controller: static_prefix + '/article_edit.js'},
             'note': {
                 templateUrl: url_prefix + 'note',
                 controller: static_prefix + '/note.js'
