@@ -69,7 +69,7 @@ layui.use(['form', 'table', 'element'], function () {
     table.on('tool(article)', function (obj) {
         var data = obj.data;
         if (obj.event === 'detail') {
-            location.hash = vipspa.stringifyPattern("blog_edit", [data.id]);
+            location.hash = vipspa.stringify("/article/edit", {id: data.id});
         } else if (obj.event === 'del') {
             layer.confirm('确认删除吗？', function (index) {
                 obj.del();

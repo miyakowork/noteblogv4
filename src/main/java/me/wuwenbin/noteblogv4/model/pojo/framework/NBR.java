@@ -15,12 +15,12 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class NBR extends ConcurrentHashMap<String, Object> {
 
-    public static final String CODE = "code";
-    public static final String MESSAGE = "message";
-    public static final String DATA = "data";
+    private static final String CODE = "code";
+    private static final String MESSAGE = "message";
+    private static final String DATA = "data";
 
-    public static final int SUCCESS = 200;
-    public static final int SERVER_ERROR = 500;
+    private static final int SUCCESS = 200;
+    private static final int SERVER_ERROR = 500;
 
     private NBR() {
         put(CODE, SUCCESS);
@@ -86,7 +86,7 @@ public class NBR extends ConcurrentHashMap<String, Object> {
      * @return 返回响应正确的实体
      */
     public static NBR ok(String msg, Object data) {
-        return ok(msg).put("data", data);
+        return ok(msg).put(DATA, data);
     }
 
     /**
@@ -109,7 +109,7 @@ public class NBR extends ConcurrentHashMap<String, Object> {
      * @return 返回响应错误的实体
      */
     public static <T> NBR error(String message, T data) {
-        return error(message).put("data", data);
+        return error(message).put(DATA, data);
     }
 
     /**
@@ -119,7 +119,18 @@ public class NBR extends ConcurrentHashMap<String, Object> {
      * @return 返回响应错误的实体
      */
     public static NBR error(String message) {
-        return Objects.requireNonNull(ok().put("code", SERVER_ERROR)).put("message", message);
+        return Objects.requireNonNull(ok().put(CODE, SERVER_ERROR)).put(MESSAGE, message);
+    }
+
+    /**
+     * 自定义响应数据，不带额外的参数
+     *
+     * @param code 状态码
+     * @param data 额外数据
+     * @return 静态方法，返回响应实体JSON数据
+     */
+    public static <T> NBR custom(int code, T data) {
+        return Objects.requireNonNull(ok().put(CODE, code)).put(DATA, data);
     }
 
     /**
@@ -130,7 +141,17 @@ public class NBR extends ConcurrentHashMap<String, Object> {
      * @return 静态方法，返回响应实体JSON数据
      */
     public static NBR custom(int code, String message) {
-        return Objects.requireNonNull(ok().put("code", code)).put("message", message);
+        return Objects.requireNonNull(ok().put(CODE, code)).put(MESSAGE, message);
+    }
+
+    /**
+     * 自定义响应数据，不带额外的参数
+     *
+     * @param code 状态码
+     * @return 静态方法，返回响应实体JSON数据
+     */
+    public static NBR custom(int code) {
+        return custom(code, "");
     }
 
     /**
@@ -143,6 +164,6 @@ public class NBR extends ConcurrentHashMap<String, Object> {
      * @return 静态方法，返回响应实体JSON数据
      */
     public static <T> NBR custom(int code, String message, T data) {
-        return custom(code, message).put("data", data);
+        return custom(code, message).put(DATA, data);
     }
 }

@@ -39,7 +39,7 @@ public class NBContext extends ConcurrentHashMap<String, NBSession> {
     }
 
     public NBSysUser getSessionUser(String uuid) {
-        Optional<NBSession> user = Optional.ofNullable(getOrDefault(uuid, null));
+        Optional<NBSession> user = Optional.ofNullable(get(uuid));
         return user.map(NBSession::getSessionUser).orElse(null);
     }
 

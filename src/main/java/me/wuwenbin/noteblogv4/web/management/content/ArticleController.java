@@ -3,11 +3,12 @@ package me.wuwenbin.noteblogv4.web.management.content;
 import com.github.pagehelper.Page;
 import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.config.permission.NBAuth;
+import me.wuwenbin.noteblogv4.dao.mapper.TagMapper;
 import me.wuwenbin.noteblogv4.dao.repository.ArticleRepository;
 import me.wuwenbin.noteblogv4.dao.repository.CateRepository;
-import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
+import me.wuwenbin.noteblogv4.exception.ArticleFetchFailedException;
 import me.wuwenbin.noteblogv4.model.entity.NBArticle;
-import me.wuwenbin.noteblogv4.model.pojo.framework.LayuiTable;
+import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import me.wuwenbin.noteblogv4.model.pojo.framework.Pagination;
 import me.wuwenbin.noteblogv4.model.pojo.vo.NBArticleVO;
@@ -16,14 +17,18 @@ import me.wuwenbin.noteblogv4.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 import static me.wuwenbin.noteblogv4.config.permission.NBAuth.Group.AJAX;
 import static me.wuwenbin.noteblogv4.config.permission.NBAuth.Group.ROUTER;
+import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Session.SESSION_ID_COOKIE;
 import static me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResType.NAV_LINK;
+import static me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResType.OTHER;
 
 /**
  * created by Wuwenbin on 2018/8/2 at 21:24
@@ -38,13 +43,15 @@ public class ArticleController extends BaseController {
     private final NBContext context;
     private final ArticleService articleService;
     private final ArticleRepository articleRepository;
+    private final TagMapper tagMapper;
 
     @Autowired
-    public ArticleController(CateRepository cateRepository, NBContext context, ArticleService articleService, ArticleRepository articleRepository) {
+    public ArticleController(CateRepository cateRepository, NBContext context, ArticleService articleService, ArticleRepository articleRepository, TagMapper tagMapper) {
         this.cateRepository = cateRepository;
         this.context = context;
         this.articleService = articleService;
         this.articleRepository = articleRepository;
+        this.tagMapper = tagMapper;
     }
 
     @RequestMapping("/article/post")
@@ -60,22 +67,67 @@ public class ArticleController extends BaseController {
         return "management/content/article_list";
     }
 
+    @RequestMapping("/article/edit")
+    @NBAuth(value = "management:article:edit_page", remark = "博文管编辑页面", type = OTHER, group = ROUTER)
+    public String edit(Model model, Long id) {
+        model.addAttribute("cateList", cateRepository.findAll());
+        Optional<NBArticle> article = articleRepository.findById(id);
+        model.addAttribute("editArticle", article.orElseThrow(ArticleFetchFailedException::new));
+        return "management/content/article_edit";
+    }
+
+    @RequestMapping("/article/edit/tags")
+    @ResponseBody
+    @NBAuth(value = "management:article:edit_article_tags", remark = "编辑文章页面的tag数据包含选中的(selected)", type = OTHER, group = AJAX)
+    public NBR editPageArticleTags(Long id) {
+        if (StringUtils.isEmpty(id)) {
+            return NBR.custom(-1);
+        } else {
+            return NBR.custom(0, tagMapper.findTagNamesByArticleId(id));
+        }
+    }
+
     @RequestMapping(value = "/article/list", method = RequestMethod.GET)
     @NBAuth(value = "management:article:list_data", remark = "博文管理页面中的数据接口", group = AJAX)
     @ResponseBody
-    public LayuiTable<NBArticleVO> articleList(Pagination<NBArticleVO> pagination, String title) {
-        Page<NBArticleVO> page = articleService.findPageInfo(pagination, title);
+    public Object articleList(Pagination<NBArticleVO> pagination, String title, @CookieValue(SESSION_ID_COOKIE) String uuid) {
+        NBSysUser user = context.getSessionUser(uuid);
+        if (user == null) {
+            return NBR.error("用户未登录或登录超时！");
+        }
+        Page<NBArticleVO> page = articleService.findPageInfo(pagination, title, user.getId());
         return layuiTable(page);
     }
 
     @RequestMapping("/article/create")
     @NBAuth(value = "management:article:create", remark = "发布一篇新的博文", group = AJAX)
     @ResponseBody
-    public NBR articleCreate(@Valid NBArticle article, BindingResult result, String tagNames, @CookieValue(NoteBlogV4.Session.SESSION_ID_COOKIE) String uuid) {
+    public NBR articleCreate(@Valid NBArticle article, BindingResult result, String tagNames, @CookieValue(SESSION_ID_COOKIE) String uuid) {
         if (result.getErrorCount() == 0) {
-            article.setAuthorId(context.getSessionUser(uuid).getId());
+            NBSysUser user = context.getSessionUser(uuid);
+            if (user == null) {
+                return NBR.error("用户未登录或登录超时！");
+            }
+            article.setAuthorId(user.getId());
             articleService.createArticle(article, tagNames);
             return NBR.ok("发表文章成功！");
+        } else {
+            return ajaxJsr303(result.getFieldErrors());
+        }
+    }
+
+    @RequestMapping("/article/update")
+    @NBAuth(value = "management:article:update", remark = "修改一篇博文", group = AJAX)
+    @ResponseBody
+    public NBR articleUpdate(@Valid NBArticle article, BindingResult result, String tagNames, @CookieValue(SESSION_ID_COOKIE) String uuid) {
+        if (result.getErrorCount() == 0) {
+            NBSysUser user = context.getSessionUser(uuid);
+            if (user == null) {
+                return NBR.error("用户未登录或登录超时！");
+            }
+            article.setAuthorId(user.getId());
+            articleService.updateArticle(article, tagNames);
+            return NBR.ok("修改文章成功！");
         } else {
             return ajaxJsr303(result.getFieldErrors());
         }

@@ -9,6 +9,7 @@
             <if test="title != null and title != ''">
                 a.title LIKE CONCAT('%', #{title}, '%')
             </if>
+            AND a.author_id = #{authorId}
         </where>
     </select>
 

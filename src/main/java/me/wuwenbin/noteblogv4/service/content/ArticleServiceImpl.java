@@ -67,28 +67,38 @@ public class ArticleServiceImpl implements ArticleService {
         NBArticle newArticle = articleRepository.save(article);
         String[] tagNameArray = tagNames.split(",");
         int cnt = 0;
-        for (String name : tagNameArray) {
-            Example<NBTag> condition = Example.of(NBTag.builder().name(name).build());
-            boolean isExist = tagRepository.count(condition) == 0;
-            long tagId = isExist ?
-                    tagRepository.save(NBTag.builder().name(name).build()).getId() :
-                    tagRepository.findByName(name).getId();
+        saveTags(newArticle, tagNameArray, cnt, tagRepository, tagReferRepository);
+    }
 
-            tagReferRepository.save(
-                    NBTagRefer.builder()
-                            .referId(newArticle.getId())
-                            .tagId(tagId)
-                            .show(cnt < 4)
-                            .type(TagType.article.name()).build()
-            );
-            cnt++;
+    @Override
+    public void updateArticle(NBArticle article, String tagNames) {
+        if (StringUtils.isEmpty(article.getId())) {
+            throw new RuntimeException("未指定修改文章的ID");
+        }
+        if (StringUtils.isEmpty(tagNames)) {
+            throw new RuntimeException("tagNames 不能为空！");
+        }
+        if (!StringUtils.isEmpty(article.getUrlSequence())) {
+            boolean isExistUrl = articleRepository.countByUrlSequence(article.getUrlSequence()) > 0;
+            if (isExistUrl) {
+                throw new RuntimeException("已存在 url：" + article.getUrlSequence());
+            }
+        }
+        setArticleSummaryAndTxt(article);
+        decorateArticle(article);
+        NBArticle updateArticle = articleRepository.save(article);
+        if (updateArticle != null) {
+            tagReferRepository.deleteByReferId(updateArticle.getId());
+            String[] tagNameArray = tagNames.split(",");
+            int cnt = 0;
+            saveTags(updateArticle, tagNameArray, cnt, tagRepository, tagReferRepository);
         }
     }
 
     @Override
-    public Page<NBArticleVO> findPageInfo(Pagination<NBArticleVO> articlePage, String title) {
+    public Page<NBArticleVO> findPageInfo(Pagination<NBArticleVO> articlePage, String title, Long authorId) {
         PageHelper.startPage(articlePage.getPage(), articlePage.getLimit(), articlePage.getOrderBy());
-        return articleMapper.findPageInfo(articlePage, title);
+        return articleMapper.findPageInfo(articlePage, title, authorId);
     }
 
     @Override
@@ -140,6 +150,34 @@ public class ArticleServiceImpl implements ArticleService {
         }
         if (StringUtils.isEmpty(article.getTop())) {
             article.setTop(0);
+        }
+    }
+
+    /**
+     * 保存文章的 tags
+     *
+     * @param updateArticle
+     * @param tagNameArray
+     * @param cnt
+     * @param tagRepository
+     * @param tagReferRepository
+     */
+    private static void saveTags(NBArticle updateArticle, String[] tagNameArray, int cnt, TagRepository tagRepository, TagReferRepository tagReferRepository) {
+        for (String name : tagNameArray) {
+            Example<NBTag> condition = Example.of(NBTag.builder().name(name).build());
+            boolean isExist = tagRepository.count(condition) == 0;
+            long tagId = isExist ?
+                    tagRepository.save(NBTag.builder().name(name).build()).getId() :
+                    tagRepository.findByName(name).getId();
+
+            tagReferRepository.save(
+                    NBTagRefer.builder()
+                            .referId(updateArticle.getId())
+                            .tagId(tagId)
+                            .show(cnt < 4)
+                            .type(TagType.article.name()).build()
+            );
+            cnt++;
         }
     }
 }

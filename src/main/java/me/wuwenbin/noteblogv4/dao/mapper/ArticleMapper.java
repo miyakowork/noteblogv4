@@ -19,9 +19,10 @@ public interface ArticleMapper {
      *
      * @param pagination
      * @param title
+     * @param authorId
      * @return
      */
-    Page<NBArticleVO> findPageInfo(Pagination<NBArticleVO> pagination, @Param("title") String title);
+    Page<NBArticleVO> findPageInfo(Pagination<NBArticleVO> pagination, @Param("title") String title, @Param("authorId") Long authorId);
 
     /**
      * 查找出最大的 top 值

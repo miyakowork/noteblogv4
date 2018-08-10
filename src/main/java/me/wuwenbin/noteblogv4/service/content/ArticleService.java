@@ -22,13 +22,22 @@ public interface ArticleService {
     void createArticle(NBArticle article, String tagNames);
 
     /**
+     * 修改一篇文章
+     *
+     * @param article
+     * @param tagNames
+     */
+    void updateArticle(NBArticle article, String tagNames);
+
+    /**
      * 查找文章分页信息，可带查询
      *
      * @param articlePage
      * @param title
+     * @param authorId
      * @return
      */
-    Page<NBArticleVO> findPageInfo(Pagination<NBArticleVO> articlePage, String title);
+    Page<NBArticleVO> findPageInfo(Pagination<NBArticleVO> articlePage, String title, Long authorId);
 
     /**
      * 修改文章的 top 值

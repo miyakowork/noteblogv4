@@ -37,7 +37,7 @@ layui.use(['element', 'form', 'layer', 'upload', 'formSelects'], function () {
             function (json) {
                 BMY.msgHandle(json, function () {
                     if (json.code === BMY.status.ok) {
-                        // location.hash = vipspa.stringifyParam("blogs", {});
+                        location.hash = vipspa.stringifyDefault("/article");
                     }
                 });
             });
@@ -51,7 +51,6 @@ layui.use(['element', 'form', 'layer', 'upload', 'formSelects'], function () {
 
     form.on('submit(draftSubmit)', function (data) {
         post(data, true, "保存草稿成功！");
-        // window.location.href = BMY.url.prefix + "/index#/blogs";
         return false;
     });
 

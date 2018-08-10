@@ -9,4 +9,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author wuwenbin
  */
 public interface TagReferRepository extends JpaRepository<NBTagRefer, Long> {
+
+    /**
+     * 根据 refer_id 删除相关的记录
+     *
+     * @param referId
+     */
+    void deleteByReferId(Long referId);
 }

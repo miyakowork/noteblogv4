@@ -8,4 +8,14 @@
         FROM nb_tag
     </select>
 
+    <!--查找某篇文章的所有tag，并 selected 选中-->
+    <select id="findTagNamesByArticleId" resultType="me.wuwenbin.noteblogv4.model.pojo.vo.NBTagVO">
+        SELECT a.*, IF(COUNT(1) > 1, 'selected', '') AS selected
+        FROM ((SELECT t.* FROM nb_tag t)
+              UNION ALL
+              (SELECT t.*
+               FROM nb_tag t
+               WHERE t.id IN (SELECT tr.tag_id FROM nb_tag_refer tr WHERE tr.refer_id = #{articleId}))) a
+        GROUP BY a.`name`
+    </select>
 </mapper>

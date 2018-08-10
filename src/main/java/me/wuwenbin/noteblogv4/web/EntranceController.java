@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Session.SESSION_ID_COOKIE;
+
 /**
  * created by Wuwenbin on 2018/7/19 at 20:54
  *
@@ -112,7 +114,7 @@ public class EntranceController {
      * @return
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(HttpServletRequest request, @CookieValue(value = NoteBlogV4.Session.SESSION_ID_COOKIE, required = false) String uuid) {
+    public String login(HttpServletRequest request, @CookieValue(value = SESSION_ID_COOKIE, required = false) String uuid) {
         request.setAttribute("qqLogin", paramRepository.findByName(NoteBlogV4.Param.QQ_LOGIN));
         if (StringUtils.isEmpty(uuid)) {
             return "login";
@@ -180,7 +182,7 @@ public class EntranceController {
     @RequestMapping(value = "/management/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request,
                          HttpServletResponse response, String from,
-                         @CookieValue(NoteBlogV4.Session.SESSION_ID_COOKIE) String uuid) {
+                         @CookieValue(SESSION_ID_COOKIE) String uuid) {
         blogContext.removeSessionUser(uuid);
         request.getSession().invalidate();
         CookieUtils.deleteCookie(request, response, NoteBlogV4.Session.REMEMBER_COOKIE_NAME);

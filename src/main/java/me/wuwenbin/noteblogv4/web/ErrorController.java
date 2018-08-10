@@ -57,8 +57,9 @@ public class ErrorController extends BaseController implements org.springframewo
     @RequestMapping(produces = "text/html")
     public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response) {
         HttpStatus status = getStatus(request);
-        Map<String, Object> model = Collections.unmodifiableMap(getErrorAttributes(request, isIncludeStackTrace(request)));
+        Map<String, Object> model = Collections.synchronizedMap(getErrorAttributes(request, isIncludeStackTrace(request)));
         response.setStatus(status.value());
+        model.put("status", status.value());
         String template = isRouter(request) ? ERROR_ROUTER : ERROR_PAGE;
         return new ModelAndView(template, model);
     }
@@ -85,10 +86,10 @@ public class ErrorController extends BaseController implements org.springframewo
 
 
     private HttpStatus getStatus(HttpServletRequest request) {
-        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
+        String code = request.getParameter("errorCode");
+        Integer statusCode = code == null ? null : Integer.valueOf(code);
         if (statusCode == null) {
-            String code = request.getParameter("errorCode");
-            statusCode = code == null ? null : Integer.valueOf(code);
+            statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
         }
         if (statusCode == null) {
             return HttpStatus.INTERNAL_SERVER_ERROR;
