@@ -14,6 +14,7 @@ $(function () {
             '/article': {templateUrl: url_prefix + 'article', controller: static_prefix + '/article_list.js'},
             '/article/post': {templateUrl: url_prefix + 'article/post', controller: static_prefix + '/article_post.js'},
             '/article/edit': {templateUrl: url_prefix + 'article/edit', controller: static_prefix + '/article_edit.js'},
+            '/settings': {templateUrl: url_prefix + 'settings', controller: static_prefix + '/settings.js'},
             'note': {
                 templateUrl: url_prefix + 'note',
                 controller: static_prefix + '/note.js'
@@ -45,10 +46,6 @@ $(function () {
             'keyword': {
                 templateUrl: url_prefix + 'keyword',
                 controller: static_prefix + '/keyword.js'
-            },
-            'settings': {
-                templateUrl: url_prefix + 'settings',
-                controller: static_prefix + '/settings.js'
             },
             'qrcode': {
                 templateUrl: url_prefix + 'settings/qrcode',

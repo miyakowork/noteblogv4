@@ -41,6 +41,7 @@ public interface MenuRepository extends JpaRepository<NBSysMenu, Long> {
      * 查找所有菜单（包含根目录）
      *
      * @param roleId
+     * @param enable
      * @return
      */
     @Query("select  m from NBSysMenu m where (m.roleId = ?1 and m.enable = ?2)or (m.roleId is null and m.parentId = 0) order by m.orderIndex asc")

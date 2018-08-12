@@ -2,6 +2,7 @@ package me.wuwenbin.noteblogv4.exception;
 
 /**
  * created by Wuwenbin on 2018/8/3 at 23:10
+ * @author wuwenbin
  */
 public class UploadPathMissException extends RuntimeException {
     public UploadPathMissException() {

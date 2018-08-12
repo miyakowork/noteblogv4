@@ -1,0 +1,70 @@
+<div class="layui-card layadmin-tabs-card">
+    <div class="layui-card-header">
+        <span class="layui-breadcrumb">
+            <a href="/management/index">首页</a>
+            <a><cite>网站设置</cite></a>
+        </span>
+    </div>
+</div>
+<div class="layui-fluid layadmin-container" id="NB-settings-tab">
+    <div class="layui-row layui-col-space10 layui-form">
+
+        <div class="layui-col-sm6">
+            <div class="layui-card">
+                <div class="layui-card-header">文本设置</div>
+                <div class="layui-card-body">
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">LOGO文字</label>
+                            <div class="layui-input-inline" style="width: 350px;">
+                                <input type="text" name="website_logo_words" placeholder="请输入文本"
+                                       th:value="${website_logo_words}" autocomplete="off" class="layui-input"></div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn-sm layui-btn" lay-submit lay-filter="settings">提交</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="layui-col-sm6">
+            <div class="layui-card">
+                <div class="layui-card-header">开关设置</div>
+                <div class="layui-card-body">
+
+                    <!--全站评论-->
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">全站评论</label>
+                            <div class="layui-input-inline">
+                                <input type="checkbox" name="all_comment_open" lay-skin="switch" lay-text="开启|关闭"
+                                       lay-filter="all_comment_open"
+                                       th:checked="${all_comment_open eq '1'}">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">设置全局的评论开关（不覆盖单独设置）</div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">额外导航链接</label>
+                            <div class="layui-input-inline">
+                                <input type="checkbox" name="comment" lay-skin="switch" lay-text="开启|关闭"
+                                       lay-filter="commentSwitch"
+                                       th:checked="${menu_link_show eq '1'}">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">导航栏是否显示额外的导航链接</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

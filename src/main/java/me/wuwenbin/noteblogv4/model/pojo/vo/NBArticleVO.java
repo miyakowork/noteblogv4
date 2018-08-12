@@ -2,6 +2,7 @@ package me.wuwenbin.noteblogv4.model.pojo.vo;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import me.wuwenbin.noteblogv4.model.entity.NBArticle;
 
 /**
@@ -11,6 +12,7 @@ import me.wuwenbin.noteblogv4.model.entity.NBArticle;
  */
 @Getter
 @Setter
+@ToString
 public class NBArticleVO extends NBArticle {
     private String cnName;
 }

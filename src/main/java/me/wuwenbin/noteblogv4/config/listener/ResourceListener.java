@@ -65,8 +65,6 @@ public class ResourceListener implements ApplicationListener<ContextRefreshedEve
             log.info("「笔记博客」APP 已初始化，开始准备其它内容，请稍后...");
         }
 
-//        boolean initialized = paramService.getValueByName(NoteBlogV4.Param.INIT_STATUS).equals(NoteBlogV4.Init.INIT_SURE);
-//        if (!initialized) {
             log.info("「笔记博客」App 正在启动中，请稍后...");
             List<Map<String, Object>> resources = new ArrayList<>(50);
             //以防万一，先移除以前的资源
@@ -116,7 +114,6 @@ public class ResourceListener implements ApplicationListener<ContextRefreshedEve
             context.setApplicationObj(NoteBlogV4.Init.MASTER_RESOURCES, resources);
 
         }
-//    }
 
 
     /**
@@ -129,6 +126,7 @@ public class ResourceListener implements ApplicationListener<ContextRefreshedEve
                 .name(INIT_STATUS)
                 .value(INIT_NOT)
                 .remark("标记用户是否在「笔记博客」App 的初始化设置页面设置过")
+                .level("0")
                 .build();
         paramRepository.save(initStatus);
     }

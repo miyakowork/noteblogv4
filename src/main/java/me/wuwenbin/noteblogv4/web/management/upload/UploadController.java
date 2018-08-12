@@ -18,6 +18,7 @@ import static me.wuwenbin.noteblogv4.config.permission.NBAuth.Group.AJAX;
 
 /**
  * created by Wuwenbin on 2018/8/3 at 22:06
+ * @author wuwenbin
  */
 @Slf4j
 @RestController

@@ -16,7 +16,7 @@ import java.util.Map;
  * @author wuwenbin
  */
 @Service
-@Transactional
+@Transactional(rollbackOn = Exception.class)
 public class ParamServiceImpl implements ParamService {
 
     private final ParamRepository paramRepository;

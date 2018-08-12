@@ -71,6 +71,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public void updateArticle(NBArticle article, String tagNames) {
         if (StringUtils.isEmpty(article.getId())) {
             throw new RuntimeException("未指定修改文章的ID");
@@ -102,6 +103,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public boolean updateTopById(long articleId, boolean top) {
         if (top) {
             int maxTop = articleMapper.findMaxTop();

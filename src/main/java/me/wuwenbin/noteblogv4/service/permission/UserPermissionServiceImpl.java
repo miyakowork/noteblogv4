@@ -28,7 +28,7 @@ import java.util.function.Function;
  * @author wuwenbin
  */
 @Service
-@Transactional
+@Transactional(rollbackOn = Exception.class)
 public class UserPermissionServiceImpl implements UserPermissionService {
 
     private final ResourceRepository resourceRepository;

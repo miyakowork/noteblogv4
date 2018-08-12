@@ -262,12 +262,13 @@ public class NBUtils implements ApplicationContextAware {
     @SuppressWarnings("unchecked")
     public static <T> UploadService<T> getUploadServiceByConfig() {
         final String name = NoteBlogV4.Param.UPLOAD_TYPE;
+        final String local = "local", qiniu = "qiniu";
         String config = applicationContext.getBean(ParamService.class).getValueByName(name);
         if (config != null) {
             Upload.Method method = Upload.Method.getMethodByName(config);
-            if (method.name().equalsIgnoreCase("local")) {
+            if (local.equalsIgnoreCase(method.name())) {
                 return applicationContext.getBean("localUpload", UploadService.class);
-            } else if (method.name().equalsIgnoreCase("qiniu")) {
+            } else if (qiniu.equalsIgnoreCase(method.name())) {
                 return applicationContext.getBean("qiniuUpload", UploadService.class);
             } else {
                 throw new MethodNotMatchException("未找到相应的上传类型的Service实例！");

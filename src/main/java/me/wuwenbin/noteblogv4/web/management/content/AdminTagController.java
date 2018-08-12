@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * created by Wuwenbin on 2018/8/4 at 11:19
+ * @author wuwenbin
  */
 @Controller
 @RequestMapping("/management")

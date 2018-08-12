@@ -153,6 +153,7 @@
 <script th:inline="javascript">
     var isMd = [[${editArticle.mdContent ne null && !#strings.isEmpty(editArticle.mdContent)}]];
     var mdContents = isMd ? [[${editArticle.mdContent}]] : '';
+    var articleId = [[${editArticle.id}]]
 </script>
 <script src="/static/plugins/nkeditor/libs/JDialog/JDialog.min.js"></script>
 <script src="/static/plugins/nkeditor/NKeditor-all-min.js"></script>

@@ -34,8 +34,19 @@ public class NBParam implements Serializable {
 
     private String remark;
 
+    /**
+     * 默认显示级别，数字越小，显示级别越高，公开性越低
+     */
+    @Column(columnDefinition = "int default 0")
+    private String level;
+
+    @Column(columnDefinition = "default 0")
+    private Integer orderIndex;
+
     public <T> T getValue() {
         //noinspection unchecked
         return (T) this.value;
     }
+
+
 }

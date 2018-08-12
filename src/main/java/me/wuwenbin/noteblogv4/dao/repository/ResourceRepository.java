@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author wuwenbin
  */
-@Transactional
+@Transactional(rollbackOn = Exception.class)
 public interface ResourceRepository extends JpaRepository<NBSysResource, Long> {
 
     /**

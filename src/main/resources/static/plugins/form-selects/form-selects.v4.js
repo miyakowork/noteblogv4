@@ -1,6 +1,10 @@
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+    return typeof obj;
+} : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+};
 
 /**
  * name: formSelects
@@ -88,15 +92,23 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             error: null,
             beforeSearch: null
         },
-        quickBtns = [{ icon: 'iconfont icon-quanxuan', name: '全选', click: function click(id, cm) {
+        quickBtns = [{
+            icon: 'iconfont icon-quanxuan', name: '全选', click: function click(id, cm) {
                 cm.selectAll(id, true, true);
-            } }, { icon: 'iconfont icon-qingkong', name: '清空', click: function click(id, cm) {
+            }
+        }, {
+            icon: 'iconfont icon-qingkong', name: '清空', click: function click(id, cm) {
                 cm.removeAll(id, true, true);
-            } }, { icon: 'iconfont icon-fanxuan', name: '反选', click: function click(id, cm) {
+            }
+        }, {
+            icon: 'iconfont icon-fanxuan', name: '反选', click: function click(id, cm) {
                 cm.reverse(id, true, true);
-            } }, { icon: 'iconfont icon-pifu', name: '换肤', click: function click(id, cm) {
+            }
+        }, {
+            icon: 'iconfont icon-pifu', name: '换肤', click: function click(id, cm) {
                 cm.skin(id);
-            } }],
+            }
+        }],
         $ = window.$ || window.layui && window.layui.jquery,
         $win = $(window),
         ajaxs = {},
@@ -128,7 +140,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 btns: [quickBtns[0], quickBtns[1], quickBtns[2]],
                 searchType: 0,
                 create: function create(id, name) {
-                    return Date.now();
+                    // return Date.now();
+                    return name;
                 },
                 template: function template(name, value, selected, disabled) {
                     return name;
@@ -161,32 +174,53 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     a,
                     c,
                     e = Object(this),
-                    f = e.length >>> 0;if (h) {
+                    f = e.length >>> 0;
+                if (h) {
                     b = h;
-                }a = new Array(f);c = 0;while (c < f) {
-                    var d, g;if (c in e) {
-                        d = e[c];g = i.call(b, d, c, e);a[c] = g;
-                    }c++;
-                }return a;
+                }
+                a = new Array(f);
+                c = 0;
+                while (c < f) {
+                    var d, g;
+                    if (c in e) {
+                        d = e[c];
+                        g = i.call(b, d, c, e);
+                        a[c] = g;
+                    }
+                    c++;
+                }
+                return a;
             };
-        };
+        }
+        ;
 
         //拓展Array foreach方法
         if (!Array.prototype.forEach) {
             Array.prototype.forEach = function forEach(g, b) {
-                var d, c;if (this == null) {
+                var d, c;
+                if (this == null) {
                     throw new TypeError("this is null or not defined");
-                }var f = Object(this);var a = f.length >>> 0;if (typeof g !== "function") {
+                }
+                var f = Object(this);
+                var a = f.length >>> 0;
+                if (typeof g !== "function") {
                     throw new TypeError(g + " is not a function");
-                }if (arguments.length > 1) {
+                }
+                if (arguments.length > 1) {
                     d = b;
-                }c = 0;while (c < a) {
-                    var e;if (c in f) {
-                        e = f[c];g.call(d, e, c, f);
-                    }c++;
+                }
+                c = 0;
+                while (c < a) {
+                    var e;
+                    if (c in f) {
+                        e = f[c];
+                        g.call(d, e, c, f);
+                    }
+                    c++;
                 }
             };
-        };
+        }
+        ;
     };
 
     Common.prototype.init = function (target) {
@@ -220,7 +254,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         val: option.value
                     };
                 }),
-                fs = new FormSelects(isRadio ? { btns: [quickBtns[1]] } : {});
+                fs = new FormSelects(isRadio ? {btns: [quickBtns[1]]} : {});
 
             var hisFs = data[id];
             data[id] = fs;
@@ -466,7 +500,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 //渲染多级联动
                 var result = [],
                     index = 0,
-                    temp = { "0": dataArr },
+                    temp = {"0": dataArr},
                     ajaxConfig = ajaxs[id] ? ajaxs[id] : ajax;
 
                 var _loop = function _loop() {
@@ -533,6 +567,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 innerHTML: item[ajaxConfig.keyName],
                 value: item[ajaxConfig.keyVal],
                 sel: item[ajaxConfig.keySel],
+                //FIXME:此处增加一个属性 selected
+                selected: item[ajaxConfig.keySel],
                 disabled: item[ajaxConfig.keyDis],
                 type: item.type,
                 name: item.name
@@ -580,7 +616,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 //如果不存在, 则创建
                 var val = fs.config.create(id, inputValue);
                 if (temp[0]) {
-                    temp.attr('lay-value', val);
+                    //FIXME:此处增加判断以便操作tag
+                    if (window.BMY.valIsName) {
+                        temp.attr('lay-value', inputValue);
+                    } else {
+                        temp.attr('lay-value', val);
+                    }
                     temp.find('span').text(inputValue);
                     temp.find('span').attr("name", inputValue);
                     temp.removeClass(DD_HIDE);
@@ -597,9 +638,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     Common.prototype.createDD = function (id, item, clz) {
+        debugger
         var name = $.trim(item.innerHTML);
-        var template = data[id].config.template(name, item.value, item.selected, item.disabled);
-        return '<dd lay-value="' + item.value + '" class="' + (item.disabled ? DISABLED : '') + ' ' + (clz ? clz : '') + '">\n\t\t\t\t\t<div class="xm-unselect xm-form-checkbox ' + (item.disabled ? DISABLED : '') + '">\n\t\t\t\t\t\t<i class="' + CHECKBOX_YES + '"></i>\n\t\t\t\t\t\t<span name="' + name + '">' + template + '</span>\n\t\t\t\t\t</div>\n\t\t\t\t</dd>';
+        if (window.BMY.valIsName) {
+            var template1 = data[id].config.template(name, item.name, item.selected, item.disabled);
+            return '<dd lay-value="' + item.name + '" class="' + (item.disabled ? DISABLED : '') + ' ' + (clz ? clz : '') + '">\n\t\t\t\t\t<div class="xm-unselect xm-form-checkbox ' + (item.disabled ? DISABLED : '') + '">\n\t\t\t\t\t\t<i class="' + CHECKBOX_YES + '"></i>\n\t\t\t\t\t\t<span name="' + name + '">' + template1 + '</span>\n\t\t\t\t\t</div>\n\t\t\t\t</dd>';
+        } else {
+            var template2 = data[id].config.template(name, item.value, item.selected, item.disabled);
+            return '<dd lay-value="' + item.value + '" class="' + (item.disabled ? DISABLED : '') + ' ' + (clz ? clz : '') + '">\n\t\t\t\t\t<div class="xm-unselect xm-form-checkbox ' + (item.disabled ? DISABLED : '') + '">\n\t\t\t\t\t\t<i class="' + CHECKBOX_YES + '"></i>\n\t\t\t\t\t\t<span name="' + name + '">' + template2 + '</span>\n\t\t\t\t\t</div>\n\t\t\t\t</dd>';
+        }
     };
 
     Common.prototype.createQuickBtn = function (obj, right) {
@@ -616,7 +663,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             quickBtn.push(_this7.createQuickBtn(item, right));
         });
         quickBtn.push('</div>');
-        quickBtn.push(this.createQuickBtn({ icon: 'iconfont icon-caidan', name: '' }));
+        quickBtn.push(this.createQuickBtn({icon: 'iconfont icon-caidan', name: ''}));
         return quickBtn.join('');
     };
 
@@ -630,7 +677,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 dl.parents('.' + FORM_SELECT).attr(SEARCH_TYPE, data[id].config.searchType);
                 dl.find('.' + CZ_GROUP).css('max-width', dl.prev().width() - 54 + 'px');
             }, 10);
-            arr.push(['<dd lay-value="" class="' + FORM_SELECT_TIPS + '" style="background-color: #FFF!important;">', this.renderBtns(id, null, '30px'), '</dd>', '<dd lay-value="" class="' + FORM_SELECT_TIPS + ' ' + FORM_DL_INPUT + '" style="background-color: #FFF!important;">', '<i class="iconfont icon-sousuo"></i>', '<input type="text" class="' + FORM_INPUT + ' ' + INPUT + '" placeholder="\u8BF7\u641C\u7D22"/>', '</dd>'].join(''));
+            arr.push(['<dd lay-value="" class="' + FORM_SELECT_TIPS + '" style="background-color: #FFF!important;">', this.renderBtns(id, null, '30px'), '</dd>', '<dd lay-value="" class="' + FORM_SELECT_TIPS + ' ' + FORM_DL_INPUT + '" style="background-color: #FFF!important;">', '<i class="iconfont icon-sousuo"></i>', '<input type="text" class="' + FORM_INPUT + ' ' + INPUT + '" placeholder="\u8bf7\u641c\u7d22\u6216\u521b\u5efa\u6761\u76ee"/>', '</dd>'].join(''));
         } else {
             arr.push('<dd lay-value="" class="' + FORM_SELECT_TIPS + '">' + tips + '</dd>');
         }
@@ -751,7 +798,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             //如果点击的是input的右边, focus一下
             if (title.find('.' + INPUT + ':not(readonly)')[0]) {
                 var input = title.find('.' + INPUT),
-                    epos = { x: e.pageX, y: e.pageY },
+                    epos = {x: e.pageX, y: e.pageY},
                     pos = _this10.getPosition(title[0]),
                     width = title.width();
                 while (epos.x > pos.x) {
@@ -842,7 +889,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             if (othis.is('dt')) {
                 othis.nextUntil('dt').each(function (index, item) {
                     item = $(item);
-                    if (item.hasClass(DISABLED) || item.hasClass(THIS)) {} else {
+                    if (item.hasClass(DISABLED) || item.hasClass(THIS)) {
+                    } else {
                         item.click();
                     }
                 });
@@ -1013,8 +1061,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     Common.prototype.addLabel = function (id, div, val) {
         if (!val) return;
         var tips = 'fsw="' + NAME + '"';
-        var _ref = [$('<span ' + tips + ' value="' + val.val + '"><font ' + tips + '>' + val.name + '</font></span>'), $('<i ' + tips + ' class="iconfont icon-close"></i>')],
-            $label = _ref[0],
+        var _ref;
+        //FIXME:此处增加判断参数，以便操作标签
+        if (window.BMY.valIsName) {
+            _ref = [$('<span ' + tips + ' value="' + val.name + '"><font ' + tips + '>' + val.name + '</font></span>'), $('<i ' + tips + ' class="iconfont icon-close"></i>')];
+        } else {
+            _ref = [$('<span ' + tips + ' value="' + val.val + '"><font ' + tips + '>' + val.name + '</font></span>'), $('<i ' + tips + ' class="iconfont icon-close"></i>')];
+        }
+        var $label = _ref[0],
             $close = _ref[1];
 
         $label.append($close);
@@ -1219,7 +1273,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             return;
         }
         data[id].values.concat([]).forEach(function (item, index) {
-            if (skipDis && dl.find('dd[lay-value="' + item.val + '"]').hasClass(DISABLED)) {} else {
+            if (skipDis && dl.find('dd[lay-value="' + item.val + '"]').hasClass(DISABLED)) {
+            } else {
                 _this13.handlerLabel(id, dl.find('dd[lay-value="' + item.val + '"]'), false, item, !isOn);
             }
         });
@@ -1260,7 +1315,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             y += e.offsetTop;
             e = e.offsetParent;
         }
-        return { x: x, y: y };
+        return {x: x, y: y};
     };
 
     Common.prototype.onreset = function () {
@@ -1520,7 +1575,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
         if (!btns || !common.isArray(btns)) {
             return this;
-        };
+        }
+        ;
         var target = {};
         id ? common.check(id) && (target[id] = data[id]) : target = data;
 

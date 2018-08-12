@@ -4,6 +4,8 @@ var BMY = {
     , status: {
         ok: 200
     }
+    //此处标识formSelect v4的标签值为标签名字
+    , valIsName: true
 
     , url: {
         prefix: "/management"
@@ -65,6 +67,10 @@ var BMY = {
     }
 
     , dateFormatter: function (date) {
+        if (date.indexOf("T") > -1) {
+            var temp = date.split("T");
+            return temp[0] + " " + temp[1];
+        }
         return date;
     }
 
