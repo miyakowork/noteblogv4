@@ -1,5 +1,6 @@
 package me.wuwenbin.noteblogv4.config.listener;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.dao.repository.*;
@@ -182,7 +183,7 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
                 {MENU_NOTE, INIT_MENU_NOTE, "导航菜单_笔记", "10"},
                 {MENU_LINK, INIT_MENU_LINK, "导航菜单_额外的链接", "10"},
                 {MENU_LINK_ICON, INIT_MENU_LINK_ICON, "导航菜单_额外的链接的字体图标logo", "10"},
-                {MENU_LINK_HREF, null, "导航菜单_额外的链接url", "10"},
+                {MENU_LINK_HREF, StrUtil.EMPTY, "导航菜单_额外的链接url", "10"},
                 {MENU_MINE, INIT_MENU_MINE, "导航菜单_关于我", "10"},
                 {WECHAT_PAY, INIT_WECHAT_PAY, "微信付款码", "10"},
                 {ALIPAY, INIT_ALIPAY, "支付宝付款码", "10"},
@@ -191,7 +192,7 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
                 {WEBSITE_LOGO_WORDS, INIT_WEBSITE_LOGO_WORDS, "网站logo的文字", "10"},
                 {COMMENT_NOTICE, INIT_COMMENT_WORD, "评论置顶公告", "10"},
                 {MESSAGE_PANEL_WORDS, INIT_MESSAGE_PANEL_WORDS, "留言板的提示信息文字", "10"},
-                {QINIU_DOMAIN, null, "七牛云文件服务器域名", "10"}
+                {QINIU_DOMAIN, StrUtil.EMPTY, "七牛云文件服务器域名", "10"}
         };
         saveParam(words);
     }
@@ -206,17 +207,17 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
                 {MENU_MINE_SHOW, INIT_SURE, "导航菜单_关于我是否显示，默认显示", "10"},
                 {MENU_SEARCH_SHOW, INIT_SURE, "导航菜单_搜索是否显示，默认显示", "10"},
                 {MENU_LINK_SHOW, INIT_NOT, "是否显示额外的导航链接（譬如github）", "10"},
-                {APP_ID, null, "qq登录API的app_id", "9"},
-                {APP_KEY, null, "qq登录API的app_key", "9"},
+                {APP_ID, StrUtil.EMPTY, "qq登录API的app_id", "9"},
+                {APP_KEY, StrUtil.EMPTY, "qq登录API的app_key", "9"},
                 {QQ_LOGIN, INIT_NOT, "是否开放qq登录", "10"},
                 {IS_SET_MASTER, INIT_NOT, "是否设置了网站管理员", "0"},
                 {IS_OPEN_MESSAGE, INIT_NOT, "是否开启留言功能", "10"},
                 {INFO_PANEL_ORDER, INIT_SURE, "网站信息和会员中心显示顺序，1表示网站信息显示在首要位置", "10"},
                 {UPLOAD_TYPE, INIT_UPLOAD_TYPE, "上传方式类型，默认local，本地上传", "9"},
                 {IS_OPEN_OSS_UPLOAD, INIT_NOT, "是否开启云服务器上传，默认0不开启", "9"},
-                {QINIU_ACCESS_KEY, null, "七牛云AccessKey", "9"},
-                {QINIU_SECRET_KEY, null, "七牛云SecretKey", "9"},
-                {QINIU_BUCKET, null, "七牛云bucket", "9"},
+                {QINIU_ACCESS_KEY, StrUtil.EMPTY, "七牛云AccessKey", "9"},
+                {QINIU_SECRET_KEY, StrUtil.EMPTY, "七牛云SecretKey", "9"},
+                {QINIU_BUCKET, StrUtil.EMPTY, "七牛云bucket", "9"},
                 {PAGE_MODERN, INIT_DEFAULT_PAGE_MODERN, "首页博文分页模式0：流式，1：按钮加载", "10"},
                 {BLOG_INDEX_PAGE_SIZE, INIT_DEFAULT_PAGE_SIZE, "博客首页文章页面数据量大小", "10"},
                 {STATISTIC_ANALYSIS, INIT_NOT, "是否开启访问统计，默认不开启", "10"},
@@ -251,7 +252,7 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
                             .name(hpw[0])
                             .value(hpw[1])
                             .remark(hpw[2])
-                            .level(hpw[3])
+                            .level(Integer.valueOf(hpw[3]))
                             .build();
                     //保存每个设置的初始值
                     paramRepository.saveAndFlush(item);

@@ -38,7 +38,7 @@ public class NBParam implements Serializable {
      * 默认显示级别，数字越小，显示级别越高，公开性越低
      */
     @Column(columnDefinition = "int default 0")
-    private String level;
+    private Integer level;
 
     @Column(columnDefinition = "int default 0")
     @Builder.Default

@@ -126,7 +126,7 @@ public class ResourceListener implements ApplicationListener<ContextRefreshedEve
                 .name(INIT_STATUS)
                 .value(INIT_NOT)
                 .remark("标记用户是否在「笔记博客」App 的初始化设置页面设置过")
-                .level("0")
+                .level(0)
                 .build();
         paramRepository.save(initStatus);
     }

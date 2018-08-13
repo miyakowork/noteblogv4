@@ -4,7 +4,7 @@ layui.use(['form', 'element'], function () {
     element.render();
     form.render();
 
-    form.on('switch(commentSwitch)', function (data) {
+    form.on('switch(switchFilter)', function (data) {
         var s = data.elem.checked;
         BMY.ajax(BMY.url.prefix + "/settings/edit", {name: 'all_comment_open', value: s ? 1 : 0}, function (json) {
             if (json.code === BMY.status.ok) {
@@ -13,51 +13,8 @@ layui.use(['form', 'element'], function () {
         })
     });
 
-    form.on('switch(messageSwitch)', function (data) {
-        var s = data.elem.checked;
-        BMY.ajax(BMY.url.prefix + "/settings/edit", {name: 'is_open_message', value: s ? 1 : 0}, function (json) {
-            if (json.code === BMY.status.ok) {
-                layer.tips('网友留言功能：' + ((s) ? '开启' : '关闭'), data.othis);
-            }
-        })
-    });
 
-    form.on('switch(infoLabelOrderSwitch)', function (data) {
-        var s = data.elem.checked;
-        BMY.ajax(BMY.url.prefix + "/settings/edit", {name: 'info_panel_order', value: s ? 1 : 0}, function (json) {
-            if (json.code === BMY.status.ok) {
-                layer.tips('修改信息板位置为：' + ((s) ? '首要' : '次要'), data.othis);
-            }
-        })
-    });
 
-    form.on('switch(linkSwitch)', function (data) {
-        var s = data.elem.checked;
-        if (s) {
-            $("#extra-link").removeClass("layui-hide");
-        } else {
-            $("#extra-link").addClass("layui-hide");
-        }
-        BMY.ajax(BMY.url.prefix + "/settings/edit", {name: 'menu_link_show', value: s ? 1 : 0}, function (json) {
-            if (json.code === BMY.status.ok) {
-                layer.tips('额外链接按钮：' + ((data.elem.checked) ? '开启' : '关闭'), data.othis);
-            }
-        })
-    });
-
-    form.on('switch(qqLoginSwitch)', function (data) {
-        var s = data.elem.checked;
-        if (s) {
-            $("#qq-login-id,#qq-login-key").removeClass("layui-hide");
-        } else {
-            $("#qq-login-id,#qq-login-key").addClass("layui-hide");
-        }
-        BMY.ajax(BMY.url.prefix + "/settings/edit", {name: 'qq_login', value: s ? 1 : 0}, function (json) {
-            if (json.code === BMY.status.ok) {
-                layer.tips('qq快捷登录：' + ((data.elem.checked) ? '开启' : '关闭'), data.othis);
-            }
-        })
-    });
 
     form.on('submit(settings)', function (data) {
         var $this = $(data.elem);
@@ -68,7 +25,7 @@ layui.use(['form', 'element'], function () {
             BMY.okMsgHandle(json);
         });
         return false;
-    })
+    });
 
     form.on('submit(link)', function () {
         var text = $("input[name=linkText]").val();
