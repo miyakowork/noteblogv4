@@ -40,8 +40,9 @@ public class NBParam implements Serializable {
     @Column(columnDefinition = "int default 0")
     private String level;
 
-    @Column(columnDefinition = "default 0")
-    private Integer orderIndex;
+    @Column(columnDefinition = "int default 0")
+    @Builder.Default
+    private Integer orderIndex = 0;
 
     public <T> T getValue() {
         //noinspection unchecked
