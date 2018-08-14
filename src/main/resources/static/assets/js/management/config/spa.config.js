@@ -14,7 +14,7 @@ $(function () {
             '/article': {templateUrl: url_prefix + 'article', controller: static_prefix + '/article_list.js'},
             '/article/post': {templateUrl: url_prefix + 'article/post', controller: static_prefix + '/article_post.js'},
             '/article/edit': {templateUrl: url_prefix + 'article/edit', controller: static_prefix + '/article_edit.js'},
-            '/settings': {templateUrl: url_prefix + 'settings'},
+            '/settings/common': {templateUrl: url_prefix + 'settings/common'},
             'note': {
                 templateUrl: url_prefix + 'note',
                 controller: static_prefix + '/note.js'

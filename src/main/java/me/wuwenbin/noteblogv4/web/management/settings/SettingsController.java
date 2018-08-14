@@ -39,13 +39,22 @@ public class SettingsController extends BaseController {
         this.settingsService = settingsService;
     }
 
-    @RequestMapping("/settings")
-    @NBAuth(value = "management:settings:page", remark = "网站基本设置界面", group = ROUTER, type = NAV_LINK)
-    public String settingsIndex(Model model) {
+    @RequestMapping("/settings/common")
+    @NBAuth(value = "management:settings:common", remark = "网站基本设置界面", group = ROUTER, type = NAV_LINK)
+    public String settingsCommon(Model model) {
         List<NBParam> params = paramRepository.findAllByLevelGreaterThanEqual(9);
         Map<String, Object> attributeMap = params.stream().collect(Collectors.toMap(NBParam::getName, NBParam::getValue));
         model.addAllAttributes(attributeMap);
-        return "management/settings/settings";
+        return "/management/settings/common";
+    }
+
+    @RequestMapping("/settings/mail")
+    @NBAuth(value = "management:settings:mail", remark = "网站发送邮件服务器设置", group = ROUTER, type = NAV_LINK)
+    public String settingsMail(Model model) {
+        List<NBParam> params = paramRepository.findAllByLevel(8);
+        Map<String, Object> attributeMap = params.stream().collect(Collectors.toMap(NBParam::getName, NBParam::getValue));
+        model.addAllAttributes(attributeMap);
+        return "/management/settings/mail";
     }
 
     @RequestMapping("/settings/update")

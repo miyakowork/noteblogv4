@@ -1,6 +1,7 @@
 package me.wuwenbin.noteblogv4.dao.repository;
 
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysMenu;
+import me.wuwenbin.noteblogv4.model.entity.permission.NBSysMenu.MenuType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -47,4 +48,11 @@ public interface MenuRepository extends JpaRepository<NBSysMenu, Long> {
     @Query("select  m from NBSysMenu m where (m.roleId = ?1 and m.enable = ?2)or (m.roleId is null and m.parentId = 0) order by m.orderIndex asc")
     List<NBSysMenu> findAllByRoleIdOrderBy(Long roleId, boolean enable);
 
+    /**
+     * 根据菜单类型查找对象
+     *
+     * @param type
+     * @return
+     */
+    NBSysMenu findByType(MenuType type);
 }

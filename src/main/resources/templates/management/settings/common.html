@@ -49,7 +49,7 @@
                 <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">页眉文本</label>
-                        <div class="layui-input-inline" style="width: 550px;">
+                        <div class="layui-input-inline" style="width: 450px;">
                             <input type="text" name="index_top_words"
                                    placeholder="请输入文本"
                                    th:value="${index_top_words}"
@@ -63,7 +63,7 @@
                 <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">页脚文本</label>
-                        <div class="layui-input-inline" style="width: 550px;">
+                        <div class="layui-input-inline" style="width: 450px;">
                             <input type="text" name="footer_words"
                                    placeholder="请输入文本"
                                    th:value="${footer_words}"
@@ -111,10 +111,10 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">分页模式</label>
                             <div class="layui-input-block">
-                                <input type="radio" name="page_modern" value="流式加载" title="流式加载"
+                                <input type="radio" name="page_modern" value="0" title="流式加载"
                                        lay-filter="page_modern"
                                        th:checked="${page_modern eq '0'}">
-                                <input type="radio" name="page_modern" value="按钮加载" title="按钮加载"
+                                <input type="radio" name="page_modern" value="1" title="按钮加载"
                                        lay-filter="page_modern"
                                        th:checked="${page_modern eq '1'}">
                             </div>
@@ -178,7 +178,7 @@
                     <div class="layui-form-item" id="comment-open" v-show="openComment">
                         <div class="layui-inline">
                             <label class="layui-form-label">评论区置顶</label>
-                            <div class="layui-input-inline" style="width: 550px;">
+                            <div class="layui-input-inline" style="width: 450px;">
                                 <input type="text" name="comment_notice" placeholder="请输入评论区置顶公告信息"
                                        th:value="${comment_notice}" autocomplete="off" class="layui-input"></div>
                         </div>
@@ -232,15 +232,15 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">额外链接</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="linkIcon" th:value="${menu_link_icon}"
+                                <input type="text" name="menu_link_icon" th:value="${menu_link_icon}"
                                        placeholder="font-awesome字体图标" autocomplete="off" class="layui-input">
                             </div>
                             <div class="layui-input-inline">
-                                <input type="text" name="linkText" placeholder="请输入文本" th:value="${menu_link}"
+                                <input type="text" name="menu_link" placeholder="请输入文本" th:value="${menu_link}"
                                        autocomplete="off" class="layui-input">
                             </div>
                             <div class="layui-input-inline" style="width: 400px;">
-                                <input type="text" name="linkUrl" placeholder="请输入链接url"
+                                <input type="text" name="menu_link_href" placeholder="请输入链接url"
                                        th:value="${menu_link_href}"
                                        autocomplete="off" class="layui-input">
                             </div>
@@ -497,11 +497,11 @@
 
                 form.on('submit(settings)', function (data) {
                     var $this = $(data.elem);
-                    var $data = $this.parents(".layui-inline").prev(".layui-inline").find("input[type=text]");
+                    var $data = $this.parent(".layui-inline").prev(".layui-inline").find("input.layui-input:eq(0)");
                     var name = $data.attr("name");
-                    name = name === undefined ? $this.parents(".layui-inline").prev(".layui-input-inline").find("textarea").attr("name") : name;
+                    name = name === undefined ? $this.parent(".layui-inline").prev(".layui-input-inline").find("textarea").attr("name") : name;
                     var value = $data.val();
-                    value = value === undefined ? $this.parents(".layui-inline").prev(".layui-input-inline").find("textarea").val() : value;
+                    value = value === undefined ? $this.parent(".layui-inline").prev(".layui-input-inline").find("textarea").val() : value;
                     BMY.ajaxManagement("/settings/update", {
                         type: 'text',
                         name: name,
@@ -510,7 +510,31 @@
                         BMY.okMsgHandle(json);
                     });
                     return false;
-                })
+                });
+
+                form.on('submit(link)', function () {
+                    var value = $("input[name=menu_link_icon]").val();
+                    value = value + "," + $("input[name=menu_link]").val();
+                    value = value + "," + $("input[name=menu_link_href]").val();
+                    BMY.ajaxManagement("/settings/update", {
+                        type: 'text',
+                        name: 'menu_link_icon',
+                        value: value
+                    }, function (json) {
+                        BMY.okMsgHandle(json);
+                    });
+                    return false;
+                });
+
+                form.on('radio(page_modern)', function (data) {
+                    BMY.ajaxManagement("/settings/update", {
+                        type: 'text'
+                        , name: 'page_modern'
+                        , value: data.value
+                    }, function (json) {
+                        BMY.okMsgHandle(json)
+                    })
+                });
 
             });
         }

@@ -52,4 +52,12 @@ public interface ParamRepository extends JpaRepository<NBParam, Long> {
      * @return
      */
     List<NBParam> findAllByLevelGreaterThanEqual(Integer level);
+
+    /**
+     * 查找某个level的参数集合
+     *
+     * @param level
+     * @return
+     */
+    List<NBParam> findAllByLevel(Integer level);
 }

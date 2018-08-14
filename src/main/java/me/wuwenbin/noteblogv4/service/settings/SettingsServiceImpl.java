@@ -32,10 +32,21 @@ public class SettingsServiceImpl implements SettingsService {
 
     @Override
     public NBR updateText(String name, String value) {
+        final String menuLink = "menu_link_icon";
+        final String comma = ",";
+        final String val = value;
+        if (val.split(comma).length > 0) {
+            value = val.split(comma)[0];
+        }
         return update(name, value, () -> {
             if (name.equalsIgnoreCase(NoteBlogV4.Param.IS_OPEN_OSS_UPLOAD)) {
-                final String type = "0".equalsIgnoreCase(value) ? Upload.Method.LOCAL.name() : Upload.Method.QINIU.name();
+                final String type = "0".equalsIgnoreCase(val) ? Upload.Method.LOCAL.name() : Upload.Method.QINIU.name();
                 paramRepository.updateValueByName(NoteBlogV4.Param.UPLOAD_TYPE, type);
+            } else if (menuLink.equalsIgnoreCase(name) && val.split(comma).length > 0) {
+                String value2 = val.split(comma)[1];
+                String value3 = val.split(comma)[2];
+                paramRepository.updateValueByName("menu_link", value2);
+                paramRepository.updateValueByName("menu_link_href", value3);
             }
             return NBR.ok("更新成功！");
         });

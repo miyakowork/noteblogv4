@@ -254,6 +254,14 @@ public interface NoteBlogV4 {
          */
         String ARTICLE_SUMMARY_WORDS_LENGTH = "article_summary_words_length";
 
+        /**
+         * 下面是邮件相关的参数
+         */
+        String MAIL_SMPT_SERVER_ADDR = "mail_smpt_server_addr";
+        String MAIL_SMPT_SERVER_PORT = "mail_smpt_server_port";
+        String MAIL_SERVER_ACCOUNT = "mail_server_account";
+        String MAIL_SENDER_NAME = "mail_sender_name";
+        String MAIL_SERVER_PASSWORD = "mail_server_password";
     }
 
     /**
