@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Map;
+
+import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Param.*;
 
 /**
  * created by Wuwenbin on 2018/8/13 at 15:09
@@ -50,5 +53,15 @@ public class SettingsServiceImpl implements SettingsService {
             }
             return NBR.ok("更新成功！");
         });
+    }
+
+    @Override
+    public NBR updateMailConfig(Map<String, Object> paramMap) {
+        paramRepository.updateValueByName(MAIL_SMPT_SERVER_ADDR, paramMap.get(MAIL_SMPT_SERVER_ADDR).toString());
+        paramRepository.updateValueByName(MAIL_SMPT_SERVER_PORT, paramMap.get(MAIL_SMPT_SERVER_PORT).toString());
+        paramRepository.updateValueByName(MAIL_SERVER_ACCOUNT, paramMap.get(MAIL_SERVER_ACCOUNT).toString());
+        paramRepository.updateValueByName(MAIL_SERVER_PASSWORD, paramMap.get(MAIL_SERVER_PASSWORD).toString());
+        paramRepository.updateValueByName(MAIL_SENDER_NAME, paramMap.get(MAIL_SENDER_NAME).toString());
+        return NBR.ok("更新邮件服务器配置成功！");
     }
 }

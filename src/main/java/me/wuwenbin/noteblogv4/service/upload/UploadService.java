@@ -95,7 +95,7 @@ public interface UploadService<T> {
      * @param fileObj 文件对象
      * @param reqType 上传组件（layuiUploader还是NKuploader）
      * @param extra   上传之外的额外操作
-     * @param t       上传之外的额外操作的参数
+     * @param t       上传之外的额外参数
      * @return upload 的上传json
      */
     Object upload(MultipartFile fileObj, String reqType, Consumer<T> extra, T t);

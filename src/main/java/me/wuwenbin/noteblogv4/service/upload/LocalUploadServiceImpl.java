@@ -48,7 +48,6 @@ public class LocalUploadServiceImpl<T> implements UploadService<T> {
             e.printStackTrace();
             log.error("上传图片/文件失败，错误信息：{}", e.getMessage());
             if (LAYUI_UPLOADER.equalsIgnoreCase(reqType)) {
-
                 return new LayUploader().err("上传图片/文件失败，错误信息：" + e.getLocalizedMessage());
             } else if (NKEDITOR_UPLOADER.equalsIgnoreCase(reqType)) {
                 return new NkUploader().err("上传图片/文件失败，错误信息：" + e.getLocalizedMessage());

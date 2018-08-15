@@ -5,6 +5,7 @@ import me.wuwenbin.noteblogv4.dao.repository.ArticleRepository;
 import me.wuwenbin.noteblogv4.dao.repository.MenuRepository;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysMenu;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResType;
+import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
 import me.wuwenbin.noteblogv4.model.pojo.business.MenuTree;
 import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +39,15 @@ public class AdminIndexController {
     @RequestMapping("/index")
     @NBAuth(value = "management:index:page", remark = "后台管理首页", type = ResType.OTHER, group = Group.PAGE)
     public String index(Model model) {
-        Long userRoleId = Objects.requireNonNull(NBUtils.getSessionUser()).getDefaultRoleId();
+        NBSysUser user = NBUtils.getSessionUser();
+
+        Long userRoleId = Objects.requireNonNull(user).getDefaultRoleId();
         List<NBSysMenu> menus = menuRepository.findAllByRoleIdOrderBy(userRoleId, true);
         List<MenuTree> menuTrees = MenuTree.buildByRecursive(menus);
         model.addAttribute("menus", menuTrees);
+
+        String avatar = user.getAvatar();
+        model.addAttribute("avatar", avatar);
         return "admin_index";
     }
 

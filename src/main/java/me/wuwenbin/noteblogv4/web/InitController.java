@@ -51,6 +51,7 @@ public class InitController {
     public NBR initSubmit(HttpServletRequest request, String username, String password, String email) {
         paramService.saveInitParam(request.getParameterMap());
         userPermissionService.initMasterAccount(username, password, email);
+        paramRepository.updateValueByName(NoteBlogV4.Param.MAIL_SERVER_ACCOUNT, email);
         paramRepository.updateInitParam("1", "init_status");
         return NBR.ok("初始化设置成功！");
     }

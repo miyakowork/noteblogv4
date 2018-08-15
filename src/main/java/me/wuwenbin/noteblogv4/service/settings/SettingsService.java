@@ -7,6 +7,7 @@ import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.util.StringUtils;
 
+import java.util.Map;
 import java.util.function.Supplier;
 
 /**
@@ -57,4 +58,12 @@ public interface SettingsService {
      * @return
      */
     NBR updateText(String name, String value);
+
+    /**
+     * 更新发送邮件服务器配置
+     *
+     * @param paramMap
+     * @return
+     */
+    NBR updateMailConfig(Map<String, Object> paramMap);
 }

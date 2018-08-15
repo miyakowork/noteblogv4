@@ -12,7 +12,8 @@ layui.use(['element', 'form', 'upload'], function () {
             data.field.password1 = md5(data.field.password1);
             data.field.password2 = md5(data.field.password2);
         }
-        BMY.ajax(BMY.url.prefix + "/profile/edit", data.field, function (json) {
+        data.field.avatar = $("#avatar").find("img").attr("src");
+        BMY.ajaxManagement("/settings/profile/update", data.field, function (json) {
             BMY.okMsgHandle(json);
         });
         return false;
@@ -20,7 +21,10 @@ layui.use(['element', 'form', 'upload'], function () {
 
     upload.render({
         elem: '#avatar' //绑定元素
-        , url: BMY.url.prefix + '/profile/upload/' //上传接口
+        , url: BMY.url.prefix + '/upload' //上传接口
+        , data: {
+            reqType: 'lay'
+        }
         , done: function (res) {
             if (res.code === 0) {
                 $("#avatar").find("img").attr("src", res.data.src);

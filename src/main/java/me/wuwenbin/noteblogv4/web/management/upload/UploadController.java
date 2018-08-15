@@ -18,6 +18,7 @@ import static me.wuwenbin.noteblogv4.config.permission.NBAuth.Group.AJAX;
 
 /**
  * created by Wuwenbin on 2018/8/3 at 22:06
+ *
  * @author wuwenbin
  */
 @Slf4j
@@ -28,16 +29,18 @@ public class UploadController {
     private final String EDITOR_MD_FILE_NAME = "editormd-image-file";
     private final String LAY_UPLOADER_FILE_NAME = "file";
 
-    private UploadService<Void> uploadService = NBUtils.getUploadServiceByConfig();
+    private UploadService<Void> uploadService;
 
-    private static void accept(Void v) {
+    public UploadController() {
+        this.uploadService = NBUtils.getUploadServiceByConfig();
     }
 
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @NBAuth(value = "management:common:upload", remark = "通用上传接口", group = AJAX)
-    public Object upload(@RequestParam(value = LAY_UPLOADER_FILE_NAME) MultipartFile file, @RequestParam("reqType") String reqType) {
-        return uploadService.upload(file, reqType, UploadController::accept, null);
+    public Object upload(@RequestParam(LAY_UPLOADER_FILE_NAME) MultipartFile file, @RequestParam("reqType") String reqType) {
+        return uploadService.upload(file, reqType, (v) -> {
+        }, null);
     }
 
 
@@ -45,7 +48,7 @@ public class UploadController {
     @NBAuth(value = "management:editormd:upload", remark = "editormd编辑器上传接口", group = AJAX)
     public Object uploadEditorMD(@RequestParam(value = EDITOR_MD_FILE_NAME) MultipartFile file) {
         try {
-            NBUpload upload = uploadService.uploadIt(file, v -> {
+            NBUpload upload = uploadService.uploadIt(file, (v) -> {
             }, null);
             String visitUrl = upload.getVirtualPath();
             return MapUtil.of(new Object[][]{

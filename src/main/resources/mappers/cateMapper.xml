@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="me.wuwenbin.noteblogv4.dao.mapper.CateMapper">
+
+    <!--查找所有tag-->
+    <select id="findPageInfo" resultType="me.wuwenbin.noteblogv4.model.entity.NBCate"
+            parameterType="me.wuwenbin.noteblogv4.model.entity.NBCate">
+        SELECT *
+        FROM nb_tag
+        <where>
+            <if test="cateQueryBO.name != null and cateQueryBO.name != ''">
+                `name` LIKE CONCAT('%',#{cateQueryBO.name},'%')
+            </if>
+            <if test="cateQueryBO.cnName != null and cateQueryBO.cnName != ''">
+                cnName LIKE CONCAT('%',#{cateQueryBO.cnName},'%')
+            </if>
+        </where>
+    </select>
+
+</mapper>

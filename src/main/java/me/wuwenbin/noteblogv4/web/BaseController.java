@@ -7,6 +7,7 @@ import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import me.wuwenbin.noteblogv4.model.pojo.framework.Pagination;
 import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.validation.FieldError;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -65,6 +66,11 @@ public abstract class BaseController {
     protected boolean isGet(HttpServletRequest request) {
         return NBUtils.isGetRequest(request);
     }
+
+    protected String getParam(HttpServletRequest request, String name) {
+        return WebUtils.findParameterValue(request, name);
+    }
+
 
     /**
      * jsr303验证处理的错误信息

@@ -14,38 +14,44 @@
             <div class="layui-card-body">
 
 
-                <div class="layui-form" wid100 lay-filter="">
+                <div class="layui-form" lay-filter="mailServer">
                     <div class="layui-form-item">
                         <label class="layui-form-label">SMTP服务器</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="smtp_server" value="smtp.aliyun.com" class="layui-input">
+                            <input type="text" name="mail_smpt_server_addr" th:value="${mail_smpt_server_addr}"
+                                   class="layui-input">
                         </div>
                         <div class="layui-form-mid layui-word-aux">如：smtp.163.com</div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">SMTP端口号</label>
                         <div class="layui-input-inline" style="width: 80px;">
-                            <input type="text" name="cache" lay-verify="number" value="25" class="layui-input">
+                            <input type="text" name="mail_smpt_server_port" lay-verify="number"
+                                   th:value="${mail_smpt_server_port}"
+                                   class="layui-input">
                         </div>
                         <div class="layui-form-mid layui-word-aux">一般为 25 或 465</div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">发件人邮箱</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="send_email" value="xianxin@layui-inc.com" lay-verify="email"
+                            <input type="text" name="mail_server_account" th:value="${mail_server_account}"
+                                   lay-verify="email"
                                    autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">发件人昵称</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="send_nickname" value="贤心" autocomplete="off" class="layui-input">
+                            <input type="text" name="mail_sender_name" th:value="${mail_sender_name}" autocomplete="off"
+                                   class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">邮箱登入密码</label>
                         <div class="layui-input-inline">
-                            <input type="password" name="send_nickname" value="123456" autocomplete="off"
+                            <input type="password" name="mail_server_password" th:value="${mail_server_password}"
+                                   autocomplete="off"
                                    class="layui-input">
                         </div>
                     </div>
@@ -63,6 +69,19 @@
 
     </div>
 </div>
+<script>
+    layui.use(['form', 'element'], function () {
+        var form = layui.form;
+        var element = layui.element;
+        element.render();
+
+        form.on('submit(set_system_email)', function (data) {
+            BMY.ajaxManagement("/settings/mail/update", data.field, function (json) {
+                BMY.okMsgHandle(json, "修改邮件服务配置成功！");
+            });
+        })
+    })
+</script>
 
 
 

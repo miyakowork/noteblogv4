@@ -1,0 +1,86 @@
+<div class="layui-card layadmin-tabs-card">
+    <div class="layui-card-header">
+        <span class="layui-breadcrumb">
+            <a href="/management/index">首页</a>
+            <a><cite>个人资料</cite></a>
+        </span>
+    </div>
+</div>
+<div class="layui-fluid layadmin-container" id="NB-settings-mail-tab">
+    <div class="layui-row layui-col-space10 layui-form">
+
+        <div class="layui-card">
+            <div class="layui-card-header">管理员个人资料设置</div>
+            <div class="layui-card-body">
+
+                <div class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户名</label>
+                        <div>
+                            <label class="layui-form-label layui-blue"
+                                   style="text-align: left;" th:text="${loginUser.username}"></label>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">昵称</label>
+                        <div class="layui-input-inline" style="width: 400px;">
+                            <input type="text" name="nickname" required lay-verify="required"
+                                   placeholder="请输入昵称" th:value="${loginUser.nickname}"
+                                   autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">修改结果需重新登录生效</div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">邮箱</label>
+                        <div class="layui-input-inline" style="width: 400px;">
+                            <input type="text" name="email" required lay-verify="required"
+                                   placeholder="请输入昵称" th:value="${loginUser.email}"
+                                   autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">修改结果需重新登录生效</div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">头像</label>
+                        <div class="layui-input-inline">
+                            <p id="avatar" style="cursor: pointer;">
+                                <img th:src="${loginUser.avatar}" style="width: 70px;height: 70px;"
+                                     class="layui-circle"/>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密码</label>
+                        <div class="layui-input-inline" style="width: 400px;">
+                            <input type="password" name="password1" placeholder="请输入密码，留空则不做修改"
+                                   autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">6~16位密码长度</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">确认密码</label>
+                        <div class="layui-input-inline" style="width: 400px;">
+                            <input type="password" name="password2" placeholder="请重复输入密码" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">请重复上面输入的</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="profileForm">提交更改</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+<script src="/static/plugins/md5/md5.min.js"></script>
+
+
+

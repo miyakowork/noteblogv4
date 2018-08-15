@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -38,7 +37,7 @@ public class NBSysUser implements Serializable {
     @Column(length = 50)
     private String nickname;
 
-    @Column(length = 50)
+    @Column(length = 100)
     private String avatar;
 
     private String password;

@@ -77,6 +77,7 @@ public class UserPermissionServiceImpl implements UserPermissionService {
         NBSysUser u = userRepository.saveAndFlush(user);
         if (u != null) {
             paramRepository.updateInitParam("1", "is_set_master");
+            paramRepository.updateValueByName(NoteBlogV4.Param.MAIL_SENDER_NAME, u.getNickname());
             UserRoleKey urk = new UserRoleKey();
             urk.setRoleId(masterRoleId);
             urk.setUserId(u.getId());

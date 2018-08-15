@@ -1,8 +1,13 @@
 package me.wuwenbin.noteblogv4.web.management.settings;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
+import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.config.permission.NBAuth;
 import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
+import me.wuwenbin.noteblogv4.dao.repository.UserRepository;
 import me.wuwenbin.noteblogv4.model.entity.NBParam;
+import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import me.wuwenbin.noteblogv4.service.settings.SettingsService;
 import me.wuwenbin.noteblogv4.web.BaseController;
@@ -10,15 +15,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.WebUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static me.wuwenbin.noteblogv4.config.permission.NBAuth.Group.AJAX;
 import static me.wuwenbin.noteblogv4.config.permission.NBAuth.Group.ROUTER;
+import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Session.SESSION_ID_COOKIE;
 import static me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResType.NAV_LINK;
 
 /**
@@ -32,11 +42,15 @@ public class SettingsController extends BaseController {
 
     private final ParamRepository paramRepository;
     private final SettingsService settingsService;
+    private final NBContext context;
+    private final UserRepository userRepository;
 
     @Autowired
-    public SettingsController(ParamRepository paramRepository, SettingsService settingsService) {
+    public SettingsController(ParamRepository paramRepository, SettingsService settingsService, NBContext context, UserRepository userRepository) {
         this.paramRepository = paramRepository;
         this.settingsService = settingsService;
+        this.context = context;
+        this.userRepository = userRepository;
     }
 
     @RequestMapping("/settings/common")
@@ -57,6 +71,13 @@ public class SettingsController extends BaseController {
         return "/management/settings/mail";
     }
 
+    @RequestMapping("/settings/profile")
+    @NBAuth(value = "management:settings:profile", remark = "管理员个人信息设置", group = ROUTER, type = NAV_LINK)
+    public String settingsProfile(Model model, @CookieValue(SESSION_ID_COOKIE) String uuid) {
+        model.addAttribute("loginUser", context.getSessionUser(uuid));
+        return "/management/settings/profile";
+    }
+
     @RequestMapping("/settings/update")
     @NBAuth(value = "management:settings:update", remark = "网站设置修改操作", group = AJAX)
     @ResponseBody
@@ -72,5 +93,34 @@ public class SettingsController extends BaseController {
         } else {
             return NBR.error("未识别修改参数类型！");
         }
+    }
+
+    @RequestMapping("/settings/mail/update")
+    @NBAuth(value = "management:settings:mail_update", remark = "网站邮件服务器修改操作", group = AJAX)
+    @ResponseBody
+    public NBR updateMailConfig(HttpServletRequest request) {
+        return settingsService.updateMailConfig(WebUtils.getParametersStartingWith(request, ""));
+    }
+
+    @PostMapping("/settings/profile/update")
+    @NBAuth(value = "management:settings:profile_update", remark = "网站管理员修改操作", group = AJAX)
+    @ResponseBody
+    public NBR updateProfile(String nickname, String password1, String password2, @CookieValue(SESSION_ID_COOKIE) String uuid, String avatar) {
+        NBSysUser loginUser = context.getSessionUser(uuid);
+        if (StrUtil.isNotEmpty(nickname)) {
+            userRepository.updateUserNickname(loginUser.getId(), nickname);
+        }
+        if (!StringUtils.isEmpty(password1)) {
+            if (password1.equals(password2)) {
+                String dbPass = SecureUtil.md5(password1);
+                userRepository.updateUserPass(loginUser.getId(), dbPass);
+            } else {
+                return ajaxDone(() -> false, () -> "两次输入的密码不一致，更新密码");
+            }
+        }
+        if (!StringUtils.isEmpty(avatar)) {
+            userRepository.updateUserAvatar(loginUser.getId(), avatar);
+        }
+        return ajaxDone(() -> true, () -> "重新登录生效，更新信息");
     }
 }

@@ -192,8 +192,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 return a;
             };
         }
-        ;
-
         //拓展Array foreach方法
         if (!Array.prototype.forEach) {
             Array.prototype.forEach = function forEach(g, b) {
@@ -220,7 +218,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 }
             };
         }
-        ;
     };
 
     Common.prototype.init = function (target) {
@@ -638,7 +635,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     Common.prototype.createDD = function (id, item, clz) {
-        debugger
         var name = $.trim(item.innerHTML);
         if (window.BMY.valIsName) {
             var template1 = data[id].config.template(name, item.name, item.selected, item.disabled);
@@ -1576,7 +1572,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         if (!btns || !common.isArray(btns)) {
             return this;
         }
-        ;
         var target = {};
         id ? common.check(id) && (target[id] = data[id]) : target = data;
 

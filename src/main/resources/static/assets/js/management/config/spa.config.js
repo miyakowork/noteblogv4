@@ -15,6 +15,11 @@ $(function () {
             '/article/post': {templateUrl: url_prefix + 'article/post', controller: static_prefix + '/article_post.js'},
             '/article/edit': {templateUrl: url_prefix + 'article/edit', controller: static_prefix + '/article_edit.js'},
             '/settings/common': {templateUrl: url_prefix + 'settings/common'},
+            '/settings/mail': {templateUrl: url_prefix + 'settings/mail'},
+            '/settings/profile': {
+                templateUrl: url_prefix + 'settings/profile',
+                controller: static_prefix + "/profile.js"
+            },
             'note': {
                 templateUrl: url_prefix + 'note',
                 controller: static_prefix + '/note.js'
@@ -62,10 +67,6 @@ $(function () {
             'noteblog': {
                 templateUrl: url_prefix + 'noteblog',
                 controller: static_prefix + '/noteblog.js'
-            },
-            'profile': {
-                templateUrl: url_prefix + 'profile',
-                controller: static_prefix + '/profile.js'
             }
         },
         errorTemplateId: '#error'
