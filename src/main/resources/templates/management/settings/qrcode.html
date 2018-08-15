@@ -1,0 +1,47 @@
+<div class="layui-card layadmin-tabs-card">
+    <div class="layui-card-header">
+        <span class="layui-breadcrumb">
+            <a href="/management/index">首页</a>
+            <a><cite>偏好设置</cite></a>
+            <a><cite>二维码设置</cite></a>
+        </span>
+    </div>
+</div>
+<div class="layui-fluid layadmin-container" id="NB-settings-qrcode-tab">
+    <div class="layui-row layui-col-space15 layui-form">
+
+        <div class="layui-card">
+            <div class="layui-card-header">二维码设置</div>
+            <div class="layui-card-body">
+
+                <div class="layui-row layui-col-space30">
+
+                    <div class="layui-col-md6">
+                        <button type="button" class="layui-btn" id="alipay">
+                            <i class="layui-icon">&#xe67c;</i>上传支付宝二维码
+                        </button>
+                        <p id="a" class="layui-admin-mt15">
+                            <img th:src="${alipay}" style="width: 350px;height: 350px;"/>
+                        </p>
+                    </div>
+
+                    <div class="layui-col-md6">
+                        <button type="button" class="layui-btn" id="wechat">
+                            <i class="layui-icon">&#xe67c;</i>上传微信二维码
+                        </button>
+                        <p id="w" class="layui-admin-mt15">
+                            <img th:src="${wechat_pay}" style="width: 350px;height: 350px;"/>
+                        </p>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <script src="/static/plugins/md5/md5.min.js"></script>
+
+
+

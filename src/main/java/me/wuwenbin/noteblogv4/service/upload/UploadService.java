@@ -54,7 +54,7 @@ public interface UploadService<T> {
      * @return
      * @throws IOException
      */
-    default NBUpload uploadIt(MultipartFile fileObj, Consumer<T> extra, T t) throws IOException {
+    default <S> NBUpload uploadIt(MultipartFile fileObj, Consumer<S> extra, S t) throws IOException {
         String uploadPathPre = Objects.requireNonNull(fileObj.getContentType()).contains("image/") ? Upload.FileType.IMAGE : Upload.FileType.FILE;
         String fileName = fileObj.getOriginalFilename();
         //扩展名，包括点符号
@@ -98,6 +98,6 @@ public interface UploadService<T> {
      * @param t       上传之外的额外参数
      * @return upload 的上传json
      */
-    Object upload(MultipartFile fileObj, String reqType, Consumer<T> extra, T t);
+    <S> T upload(MultipartFile fileObj, String reqType, Consumer<S> extra, S t);
 
 }

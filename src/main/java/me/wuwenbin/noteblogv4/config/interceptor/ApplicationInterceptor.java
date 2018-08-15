@@ -13,6 +13,7 @@ import me.wuwenbin.noteblogv4.model.pojo.business.IpInfo;
 import me.wuwenbin.noteblogv4.service.param.ParamService;
 import me.wuwenbin.noteblogv4.util.CookieUtils;
 import me.wuwenbin.noteblogv4.util.NBUtils;
+import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -90,15 +91,22 @@ public class ApplicationInterceptor extends HandlerInterceptorAdapter {
                 }
             }
         }
+
+        final String key = "noteblog.develop";
+        boolean develop = NBUtils.getBean(Environment.class).getProperty(key, Boolean.class, true);
+
         String ipAddr = NBUtils.getRemoteAddress(request);
-        IpInfo cacheInfo = ipInfoCache.get(ipAddr + "ipCache");
-        if (cacheInfo == null) {
-            ipInfoCache.put(ipAddr + "ipCache", NBUtils.getIpInfo(ipAddr));
+        IpInfo cacheInfo;
+        if (!develop) {
+            cacheInfo = ipInfoCache.get(ipAddr + "ipCache");
+            if (cacheInfo == null) {
+                ipInfoCache.put(ipAddr + "ipCache", NBUtils.getIpInfo(ipAddr));
+            }
         }
         cacheInfo = ipInfoCache.get(ipAddr + "ipCache");
         NBLogger logger = NBLogger.builder()
                 .ipAddr(ipAddr)
-                .ipInfo(NBUtils.getIpCnInfo(cacheInfo))
+                .ipInfo(develop ? "开发中内网地址" : NBUtils.getIpCnInfo(cacheInfo))
                 .sessionId(sessionId)
                 .time(LocalDateTime.now())
                 .url(request.getRequestURL().toString())

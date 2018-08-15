@@ -6,13 +6,22 @@ layui.use(['upload', 'element'], function () {
     //执行实例
     var alipay = upload.render({
         elem: '#alipay' //绑定元素
-        , url: BMY.url.prefix + '/settings/upload/' //上传接口
-        , data: {payType: "alipay"}
+        , url: BMY.url.prefix + '/upload' //上传接口
+        , data: {
+            reqType: 'lay',
+            payType: "alipay"
+        }
         , done: function (res) {
             if (res.code === 0) {
                 $("#a").find("img").attr("src", res.data.src);
+                BMY.ajaxManagement("/settings/pay/update", {
+                    name: 'alipay',
+                    value: res.data.src,
+                    msg:"支付宝二维码"
+                }, function (json) {
+                    BMY.msgHandle(json)
+                });
             }
-            layer.msg(res.msg);
         }
         , error: function () {
             layer.msg("上传失败！");
@@ -21,13 +30,22 @@ layui.use(['upload', 'element'], function () {
 
     var wechat = upload.render({
         elem: '#wechat' //绑定元素
-        , url: BMY.url.prefix + '/settings/upload/' //上传接口
-        , data: {payType: "wechat"}
+        , url: BMY.url.prefix + '/upload' //上传接口
+        , data: {
+            reqType: 'lay',
+            payType: "wechat_pay"
+        }
         , done: function (res) {
             if (res.code === 0) {
                 $("#w").find("img").attr("src", res.data.src);
+                BMY.ajaxManagement("/settings/pay/update", {
+                    name: 'wechat_pay',
+                    value: res.data.src,
+                    msg:"微信支付二维码"
+                }, function (json) {
+                    BMY.msgHandle(json)
+                });
             }
-            layer.msg(res.msg);
         }
         , error: function () {
             layer.msg("上传失败！");

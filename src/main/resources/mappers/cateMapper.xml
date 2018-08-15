@@ -9,12 +9,20 @@
         FROM nb_tag
         <where>
             <if test="cateQueryBO.name != null and cateQueryBO.name != ''">
-                `name` LIKE CONCAT('%',#{cateQueryBO.name},'%')
+                `name` LIKE CONCAT('%', #{cateQueryBO.name}, '%')
             </if>
             <if test="cateQueryBO.cnName != null and cateQueryBO.cnName != ''">
-                cnName LIKE CONCAT('%',#{cateQueryBO.cnName},'%')
+                cn_name LIKE CONCAT('%', #{cateQueryBO.cnName}, '%')
             </if>
         </where>
+    </select>
+
+    <!--查找已存在对应的分类数目-->
+    <select id="findCateCount" resultType="java.lang.Long">
+        SELECT COUNT(1)
+        FROM nb_cate
+        WHERE cn_name = #{cnName}
+           OR `name` = #{name}
     </select>
 
 </mapper>

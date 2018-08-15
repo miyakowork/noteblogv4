@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 @Slf4j
 @Service("localUpload")
 @Transactional(rollbackOn = Exception.class)
-public class LocalUploadServiceImpl<T> implements UploadService<T> {
+public class LocalUploadServiceImpl implements UploadService<Object> {
 
     private final UploadRepository uploadRepository;
 
@@ -33,9 +33,9 @@ public class LocalUploadServiceImpl<T> implements UploadService<T> {
     }
 
     @Override
-    public Object upload(MultipartFile fileObj, String reqType, Consumer<T> extra, T t) {
+    public <S> Object upload(MultipartFile fileObj, String reqType, Consumer<S> extra, S s) {
         try {
-            NBUpload upload = uploadIt(fileObj, extra, t);
+            NBUpload upload = uploadIt(fileObj, extra, s);
             uploadRepository.saveAndFlush(upload);
             if (LAYUI_UPLOADER.equalsIgnoreCase(reqType)) {
                 return new LayUploader().ok("上传成功！", upload.getVirtualPath());

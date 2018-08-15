@@ -31,4 +31,9 @@ public class CateServiceImpl implements CateService {
         PageHelper.startPage(catePage.getPage(), catePage.getLimit(), catePage.getOrderBy());
         return cateMapper.findPageInfo(catePage, cateQueryBO);
     }
+
+    @Override
+    public boolean findIfExist(NBCate cate) {
+        return cateMapper.findCateCount(cate.getName(), cate.getCnName()) > 0;
+    }
 }

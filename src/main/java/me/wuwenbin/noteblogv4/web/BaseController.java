@@ -109,6 +109,26 @@ public abstract class BaseController {
         }
     }
 
+    /**
+     * 类似如下的判定方式使用此方法：
+     * if(ifc){
+     * ifo
+     * }else{
+     * elseMsg
+     * }
+     *
+     * @param ifc
+     * @param ifo
+     * @param elseMsg
+     * @return
+     */
+    protected NBR ajaxDone(Supplier<Boolean> ifc, Supplier<NBR> ifo, Supplier<String> elseMsg) {
+        if (ifc.get()) {
+            return ifo.get();
+        } else {
+            return NBR.error(elseMsg.get());
+        }
+    }
 
     /**
      * try catch的ajax处理

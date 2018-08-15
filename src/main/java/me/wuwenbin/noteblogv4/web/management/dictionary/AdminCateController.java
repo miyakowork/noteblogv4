@@ -1,9 +1,12 @@
 package me.wuwenbin.noteblogv4.web.management.dictionary;
 
+import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.Page;
 import me.wuwenbin.noteblogv4.config.permission.NBAuth;
+import me.wuwenbin.noteblogv4.dao.repository.CateRepository;
 import me.wuwenbin.noteblogv4.model.entity.NBCate;
 import me.wuwenbin.noteblogv4.model.pojo.framework.LayuiTable;
+import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import me.wuwenbin.noteblogv4.model.pojo.framework.Pagination;
 import me.wuwenbin.noteblogv4.service.dictionary.CateService;
 import me.wuwenbin.noteblogv4.web.BaseController;
@@ -26,10 +29,12 @@ import static me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResTy
 public class AdminCateController extends BaseController {
 
     private final CateService cateService;
+    private final CateRepository cateRepository;
 
     @Autowired
-    public AdminCateController(CateService cateService) {
+    public AdminCateController(CateService cateService, CateRepository cateRepository) {
         this.cateService = cateService;
+        this.cateRepository = cateRepository;
     }
 
 
@@ -47,4 +52,17 @@ public class AdminCateController extends BaseController {
         return layuiTable(catePageInfo);
     }
 
+    @RequestMapping("/add")
+    @NBAuth(value = "management:cate:create", remark = "添加分类操作", group = AJAX)
+    @ResponseBody
+    public NBR cateCreate(NBCate cate) {
+        if (cate != null && StrUtil.isNotEmpty(cate.getName())) {
+            return ajaxDone(
+                    () -> cateService.findIfExist(cate),
+                    () -> ajaxDone(() -> cateRepository.save(cate) != null, () -> "分类信息"),
+                    () -> "已存在此分类"
+            );
+        }
+        return NBR.error("添加分类值有误！");
+    }
 }

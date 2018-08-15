@@ -33,7 +33,7 @@ import java.util.function.Consumer;
 @Slf4j
 @Service("qiniuUpload")
 @Transactional(rollbackOn = Exception.class)
-public class QiniuUploadServiceImpl<T> implements UploadService<T> {
+public class QiniuUploadServiceImpl implements UploadService<Object> {
 
     private final ParamRepository paramRepository;
 
@@ -48,7 +48,7 @@ public class QiniuUploadServiceImpl<T> implements UploadService<T> {
     }
 
     @Override
-    public Object upload(MultipartFile fileObj, String reqType, Consumer<T> extra, T t) {
+    public <S> Object upload(MultipartFile fileObj, String reqType, Consumer<S> extra, S s) {
         log.info("上传[" + fileObj.getContentType() + "]类型文件");
         Response res = doUpload(fileObj, getUpToken());
         String message;
@@ -58,7 +58,7 @@ public class QiniuUploadServiceImpl<T> implements UploadService<T> {
                 String generateFileName = respObj.getStr("key");
                 String qiniuDomain = paramRepository.findByName(NoteBlogV4.Param.QINIU_DOMAIN).getValue();
                 log.info("上传至七牛云服务器成功！，文件：[{}]", generateFileName);
-                extra.accept(t);
+                extra.accept(s);
                 String src = qiniuDomain + "/" + generateFileName;
                 if (LAYUI_UPLOADER.equalsIgnoreCase(reqType)) {
                     return new LayUploader().ok("上传至七牛云服务器成功！", src);

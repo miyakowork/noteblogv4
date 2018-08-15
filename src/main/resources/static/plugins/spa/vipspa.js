@@ -164,9 +164,9 @@
             location.hash = defaultsRoute;
             return false;
         }
-        var ajaxUrl = routerItem.templateUrl;
+        var ajaxUrl = routerItem.baseUrl;
         if (typeof routeObj.rest !== 'undefined' && routeObj.rest !== '') {
-            ajaxUrl = routerItem.templateUrl + '/' + routeObj.rest;
+            ajaxUrl = routerItem.baseUrl + '/' + routeObj.rest;
         }
         $.ajax({
             type: 'GET',

@@ -19,4 +19,12 @@ public interface CateService {
      * @return
      */
     Page<NBCate> findPageInfo(Pagination<NBCate> catePage, NBCate cateQueryBO);
+
+    /**
+     * 查找数据库中是否已存在相关的cate
+     *
+     * @param cate
+     * @return
+     */
+    boolean findIfExist(NBCate cate);
 }

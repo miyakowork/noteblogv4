@@ -78,6 +78,15 @@ public class SettingsController extends BaseController {
         return "/management/settings/profile";
     }
 
+    @RequestMapping("/settings/qrcode")
+    @NBAuth(value = "management:settings:qrcode", remark = "微信和支付宝二维码图片设置界面", group = ROUTER, type = NAV_LINK)
+    public String settingsQrcode(Model model) {
+        List<NBParam> params = paramRepository.findAllByLevel(11);
+        Map<String, Object> attributeMap = params.stream().collect(Collectors.toMap(NBParam::getName, NBParam::getValue));
+        model.addAllAttributes(attributeMap);
+        return "/management/settings/qrcode";
+    }
+
     @RequestMapping("/settings/update")
     @NBAuth(value = "management:settings:update", remark = "网站设置修改操作", group = AJAX)
     @ResponseBody
@@ -122,5 +131,13 @@ public class SettingsController extends BaseController {
             userRepository.updateUserAvatar(loginUser.getId(), avatar);
         }
         return ajaxDone(() -> true, () -> "重新登录生效，更新信息");
+    }
+
+    @RequestMapping("/settings/pay/update")
+    @NBAuth(value = "management:settings:pay_update", remark = "支付宝/微信二维码修改操作", group = AJAX)
+    @ResponseBody
+    public NBR updateQrcode(String value, String name, String msg) {
+        paramRepository.updateValueByName(name, value);
+        return NBR.ok("修改" + msg + "成功！");
     }
 }

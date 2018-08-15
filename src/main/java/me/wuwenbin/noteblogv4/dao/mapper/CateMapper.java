@@ -21,4 +21,13 @@ public interface CateMapper {
      * @return
      */
     Page<NBCate> findPageInfo(Pagination<NBCate> pagination, NBCate cateQueryBO);
+
+    /**
+     * 查找已存在对应的分类数目
+     *
+     * @param name
+     * @param cnName
+     * @return
+     */
+    long findCateCount(String name, String cnName);
 }
