@@ -22,11 +22,15 @@ import static me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResTy
  * @author wuwenbin
  */
 @Controller
-@RequestMapping("/dictionary/cate")
+@RequestMapping("/management/dictionary/cate")
 public class AdminCateController extends BaseController {
 
+    private final CateService cateService;
+
     @Autowired
-    private CateService cateService;
+    public AdminCateController(CateService cateService) {
+        this.cateService = cateService;
+    }
 
 
     @RequestMapping
