@@ -25,4 +25,11 @@ public interface ParamService {
      * @param map
      */
     void saveInitParam(Map<String, String[]> map);
+
+    /**
+     * 判断是否开启网站统计
+     *
+     * @return
+     */
+    boolean isOpenStatisticAnalysis();
 }

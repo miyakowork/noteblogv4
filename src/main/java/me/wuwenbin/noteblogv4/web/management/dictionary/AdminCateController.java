@@ -64,7 +64,7 @@ public class AdminCateController extends BaseController {
     public NBR cateCreate(NBCate cate) {
         if (cate != null && StrUtil.isNotEmpty(cate.getName())) {
             return ajaxDone(
-                    () -> cateService.findIfExist(cate),
+                    () -> !cateService.findIfExist(cate),
                     () -> ajaxDone(() -> cateRepository.save(cate) != null, () -> "添加分类信息"),
                     () -> "已存在此分类信息"
             );
@@ -75,7 +75,7 @@ public class AdminCateController extends BaseController {
     @RequestMapping("/delete")
     @NBAuth(value = "management:cate:delete", remark = "删除分类操作", group = AJAX)
     @ResponseBody
-    public NBR delete(long cateId) {
+    public NBR delete(Long cateId) {
         return ajaxDone(
                 () -> articleRepository.countByCateId(cateId) == 0,
                 () -> ajaxDone(cateId, cateRepository::deleteById, () -> "删除分类"),

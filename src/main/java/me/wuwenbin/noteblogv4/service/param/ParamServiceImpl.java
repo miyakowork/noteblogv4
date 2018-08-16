@@ -4,11 +4,14 @@ import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
 import me.wuwenbin.noteblogv4.model.entity.NBParam;
 import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 import java.util.Map;
+
+import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Param.STATISTIC_ANALYSIS;
 
 /**
  * created by Wuwenbin on 2018/7/17 at 15:52
@@ -47,5 +50,16 @@ public class ParamServiceImpl implements ParamService {
                 }
             }
         }
+    }
+
+    @Override
+    @Cacheable(value = "paramCache", key = "'statistic_analysis'")
+    public boolean isOpenStatisticAnalysis() {
+        NBParam p = paramRepository.findByName(STATISTIC_ANALYSIS);
+        final String open = "1";
+        if (p != null) {
+            return open.equals(p.getValue());
+        }
+        return false;
     }
 }

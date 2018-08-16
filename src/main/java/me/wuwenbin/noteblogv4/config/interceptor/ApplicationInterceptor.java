@@ -103,18 +103,21 @@ public class ApplicationInterceptor extends HandlerInterceptorAdapter {
                 ipInfoCache.put(ipAddr + "ipCache", NBUtils.getIpInfo(ipAddr));
             }
         }
-        cacheInfo = ipInfoCache.get(ipAddr + "ipCache");
-        NBLogger logger = NBLogger.builder()
-                .ipAddr(ipAddr)
-                .ipInfo(develop ? "开发中内网地址" : NBUtils.getIpCnInfo(cacheInfo))
-                .sessionId(sessionId)
-                .time(LocalDateTime.now())
-                .url(request.getRequestURL().toString())
-                .userAgent(request.getHeader("User-Agent"))
-                .username(username)
-                .requestMethod(request.getMethod())
-                .contentType(request.getContentType())
-                .build();
-        NBUtils.getBean(LoggerRepository.class).saveAndFlush(logger);
+        boolean openAnalysis = paramService.isOpenStatisticAnalysis();
+        if (openAnalysis) {
+            cacheInfo = ipInfoCache.get(ipAddr + "ipCache");
+            NBLogger logger = NBLogger.builder()
+                    .ipAddr(ipAddr)
+                    .ipInfo(develop ? "开发中内网地址" : NBUtils.getIpCnInfo(cacheInfo))
+                    .sessionId(sessionId)
+                    .time(LocalDateTime.now())
+                    .url(request.getRequestURL().toString())
+                    .userAgent(request.getHeader("User-Agent"))
+                    .username(username)
+                    .requestMethod(request.getMethod())
+                    .contentType(request.getContentType())
+                    .build();
+            NBUtils.getBean(LoggerRepository.class).saveAndFlush(logger);
+        }
     }
 }

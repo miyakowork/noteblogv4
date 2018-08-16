@@ -18,7 +18,7 @@ $(function () {
             '/settings/mail': {path: '/settings/mail'},
             '/settings/profile': {path: '/settings/profile', action: "/profile.js"},
             '/settings/qrcode': {path: '/settings/qrcode', action: "/qrcode.js"},
-            '/cate': {path: '/cate', action: '/cate.js'},
+            '/cate': {path: '/dictionary/cate', action: '/cate.js'},
             // 'note': {
             //     url: urlPrefix + 'note',
             //     controller: staticPrefix + '/note.js'

@@ -6,7 +6,7 @@
     <select id="findPageInfo" resultType="me.wuwenbin.noteblogv4.model.entity.NBCate"
             parameterType="me.wuwenbin.noteblogv4.model.entity.NBCate">
         SELECT *
-        FROM nb_tag
+        FROM nb_cate
         <where>
             <if test="cateQueryBO.name != null and cateQueryBO.name != ''">
                 `name` LIKE CONCAT('%', #{cateQueryBO.name}, '%')

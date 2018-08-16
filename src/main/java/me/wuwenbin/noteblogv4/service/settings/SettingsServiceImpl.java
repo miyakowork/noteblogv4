@@ -4,6 +4,7 @@ import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.constant.Upload;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
+import me.wuwenbin.noteblogv4.util.CacheUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +33,8 @@ public class SettingsServiceImpl implements SettingsService {
     public NBR updateSwitch(String name, String value) {
         if (NoteBlogV4.Param.STATISTIC_ANALYSIS.equalsIgnoreCase(name)) {
             return update(name, value, () -> {
-                //FIXME:修改了是否需要统计此参数之后，要把缓存之中的删除
-                return NBR.ok("");
+                CacheUtils.removeParamCache(name);
+                return NBR.ok();
             });
         } else {
             return update(name, value, NBR::ok);

@@ -5,7 +5,7 @@ layui.use(['table', 'element'], function () {
 
     table.render({
         elem: '#cate-table'
-        , url: BMY.url.prefix + '/cate/list'
+        , url: BMY.url.prefix + '/dictionary/cate/list'
         , page: true
         , limit: 10
         , height: 'full'
@@ -22,7 +22,7 @@ layui.use(['table', 'element'], function () {
     table.on('edit(cate)', function (obj) {
         var value = obj.value;
         var data = obj.data;
-        BMY.ajax(BMY.url.prefix + "/cate/edit", obj.data, function (json) {
+        BMY.ajax(BMY.url.prefix + "/dictionary/cate/update", obj.data, function (json) {
             if (json.code === BMY.status.ok) {
                 layer.msg('修改成功！<br/>' + '[ID: ' + data.id + '] 行字段更改为：' + value)
             } else {
@@ -36,7 +36,7 @@ layui.use(['table', 'element'], function () {
         var data = obj.data;
         if (obj.event === 'del') {
             layer.confirm('真的删除么?', function (index) {
-                BMY.ajax(BMY.url.prefix + "/cate/delete", {id: data.id}, function (json) {
+                BMY.ajax(BMY.url.prefix + "/dictionary/cate/delete", {cateId: data.id}, function (json) {
                     BMY.okMsgHandle(json, "删除成功");
                     if (json.code === BMY.status.ok) obj.del();
                     layer.close(index);
@@ -51,7 +51,7 @@ layui.use(['table', 'element'], function () {
             , type: 1
             , area: '480px'
         }, function () {
-            BMY.ajax(BMY.url.prefix + "/cate/add", {
+            BMY.ajax(BMY.url.prefix + "/dictionary/cate/create", {
                 name: $("input.layui-input[name=cateName]").val()
                 , cnName: $("input.layui-input[name=cateCnName]").val()
             }, function (json) {
