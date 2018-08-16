@@ -30,7 +30,14 @@ public class SettingsServiceImpl implements SettingsService {
 
     @Override
     public NBR updateSwitch(String name, String value) {
-        return update(name, value, NBR::ok);
+        if (NoteBlogV4.Param.STATISTIC_ANALYSIS.equalsIgnoreCase(name)) {
+            return update(name, value, () -> {
+                //FIXME:修改了是否需要统计此参数之后，要把缓存之中的删除
+                return NBR.ok("");
+            });
+        } else {
+            return update(name, value, NBR::ok);
+        }
     }
 
     @Override

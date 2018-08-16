@@ -69,4 +69,12 @@ public interface ArticleRepository extends JpaRepository<NBArticle, Long> {
     @Transactional(rollbackOn = Exception.class)
     void updateTopsByTop(int currentTop);
 
+    /**
+     * 查找某个分类下文章的个数
+     *
+     * @param cateId
+     * @return
+     */
+    long countByCateId(long cateId);
+
 }

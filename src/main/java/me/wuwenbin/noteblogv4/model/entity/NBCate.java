@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -27,9 +28,11 @@ public class NBCate implements Serializable {
     private Long id;
 
     @Column(length = 50, nullable = false)
+    @NotEmpty
     private String name;
 
     @Column(length = 50)
+    @NotEmpty
     private String cnName;
 
     private String fontIcon;

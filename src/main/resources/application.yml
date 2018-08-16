@@ -26,6 +26,11 @@ spring:
   servlet:
     multipart:
       max-file-size: 20MB
+  cache:
+    #使用默认的ConcurrentMap
+    type: simple
+    #程序启动时创建的缓存名称
+    cache-names: paramCache,authCache
 mybatis:
   mapper-locations: classpath:mappers/*.xml
   configuration:

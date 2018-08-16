@@ -8,10 +8,15 @@ import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResType;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
 import me.wuwenbin.noteblogv4.model.pojo.business.MenuTree;
 import me.wuwenbin.noteblogv4.util.NBUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +30,14 @@ import static me.wuwenbin.noteblogv4.config.permission.NBAuth.Group;
  */
 @Controller
 @RequestMapping("/management")
-public class AdminIndexController {
+public class AdminIndexController implements ApplicationContextAware {
+
+    private ApplicationContext applicationContext;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
 
     private final ArticleRepository articleRepository;
     private final MenuRepository menuRepository;
@@ -34,6 +46,13 @@ public class AdminIndexController {
     public AdminIndexController(ArticleRepository articleRepository, MenuRepository menuRepository) {
         this.articleRepository = articleRepository;
         this.menuRepository = menuRepository;
+    }
+
+    @RequestMapping("/all")
+    @ResponseBody
+    public Object allBeans() {
+//        return applicationContext.getBeanDefinitionNames();
+        return applicationContext.getBean(CacheManager.class).getClass().getCanonicalName();
     }
 
     @RequestMapping("/index")

@@ -114,7 +114,7 @@ public class SettingsController extends BaseController {
     @PostMapping("/settings/profile/update")
     @NBAuth(value = "management:settings:profile_update", remark = "网站管理员修改操作", group = AJAX)
     @ResponseBody
-    public NBR updateProfile(String nickname, String password1, String password2, @CookieValue(SESSION_ID_COOKIE) String uuid, String avatar) {
+    public NBR updateProfile(String nickname, String email, String password1, String password2, @CookieValue(SESSION_ID_COOKIE) String uuid, String avatar) {
         NBSysUser loginUser = context.getSessionUser(uuid);
         if (StrUtil.isNotEmpty(nickname)) {
             userRepository.updateUserNickname(loginUser.getId(), nickname);
@@ -129,6 +129,9 @@ public class SettingsController extends BaseController {
         }
         if (!StringUtils.isEmpty(avatar)) {
             userRepository.updateUserAvatar(loginUser.getId(), avatar);
+        }
+        if (!StringUtils.isEmpty(email)) {
+            userRepository.updateUserEmail(loginUser.getId(), email);
         }
         return ajaxDone(() -> true, () -> "重新登录生效，更新信息");
     }

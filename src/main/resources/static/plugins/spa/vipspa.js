@@ -7,6 +7,8 @@
         var self = this;
         self.routerMap = config.router;
         self.mainView = config.view;
+        self.baseUrl = config.basePath;
+        self.baseStatic = config.baseStatic;
         self.errorTemplateId = config.errorTemplateId;
         startRouter();
         window.onhashchange = function () {
@@ -164,9 +166,9 @@
             location.hash = defaultsRoute;
             return false;
         }
-        var ajaxUrl = routerItem.baseUrl;
+        var ajaxUrl = vipspa.baseUrl + routerItem.path;
         if (typeof routeObj.rest !== 'undefined' && routeObj.rest !== '') {
-            ajaxUrl = routerItem.baseUrl + '/' + routeObj.rest;
+            ajaxUrl = vipspa.baseUrl + routerItem.path + '/' + routeObj.rest;
         }
         $.ajax({
             type: 'GET',
@@ -184,8 +186,8 @@
                 if (window._layelem) {
                     window._layelem.render();
                 }
-                if (routerItem.controller !== undefined) {
-                    loadScript(routerItem.controller);
+                if (routerItem.action !== undefined) {
+                    loadScript(vipspa.baseStatic + routerItem.action);
                 }
                 // clear data var
                 data = null;
