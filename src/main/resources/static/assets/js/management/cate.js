@@ -13,6 +13,7 @@ layui.use(['table', 'element'], function () {
         , cols: [[
             {field: 'id', width: 80, title: 'ID', sort: true}
             , {field: 'name', title: '分类名称', edit: 'text', sort: true}
+            , {field: 'fontIcon', title: '分类图标', edit: 'text'}
             , {field: 'cnName', title: '分类中文名', edit: 'text', sort: true}
             , {fixed: 'right', title: '操作', width: 178, align: 'center', toolbar: '#cateTableBar'}
         ]]
@@ -20,13 +21,14 @@ layui.use(['table', 'element'], function () {
 
     //监听单元格编辑
     table.on('edit(cate)', function (obj) {
-        var value = obj.value;
-        var data = obj.data;
         BMY.ajax(BMY.url.prefix + "/dictionary/cate/update", obj.data, function (json) {
             if (json.code === BMY.status.ok) {
-                layer.msg('修改成功！<br/>' + '[ID: ' + data.id + '] 行字段更改为：' + value)
+                layer.msg('修改成功！')
             } else {
                 layer.msg("修改出错，错误信息：" + json.message);
+                setTimeout(function () {
+                    location.hash = vipspa.stringifyDefault("/cate");
+                }, 500)
             }
         })
     });
@@ -54,6 +56,7 @@ layui.use(['table', 'element'], function () {
             BMY.ajax(BMY.url.prefix + "/dictionary/cate/create", {
                 name: $("input.layui-input[name=cateName]").val()
                 , cnName: $("input.layui-input[name=cateCnName]").val()
+                , fontIcon: $("input.layui-input[name=cateIcon]").val()
             }, function (json) {
                 BMY.okHandle(json, index, "cate-table");
             })

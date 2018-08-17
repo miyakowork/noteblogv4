@@ -17,4 +17,5 @@ public interface TagRepository extends JpaRepository<NBTag, Long> {
      * @return
      */
     NBTag findByName(String name);
+
 }

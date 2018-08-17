@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -27,5 +28,6 @@ public class NBTag implements Serializable {
     private Long id;
 
     @Column(nullable = false, length = 50)
+    @NotEmpty
     private String name;
 }

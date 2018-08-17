@@ -5,7 +5,7 @@ layui.use(['table', 'element'], function () {
 
     table.render({
         elem: '#tag-table'
-        , url: BMY.url.prefix + '/tag/list'
+        , url: BMY.url.prefix + '/dictionary/tag/list'
         , page: true
         , limit: 10
         , height: 'full'
@@ -20,11 +20,12 @@ layui.use(['table', 'element'], function () {
     table.on('edit(tag)', function (obj) {
         var value = obj.value;
         var data = obj.data;
-        BMY.ajax(BMY.url.prefix + "/tag/edit", obj.data, function (json) {
+        BMY.ajax(BMY.url.prefix + "/dictionary/tag/update", obj.data, function (json) {
             if (json.code === BMY.status.ok) {
                 layer.msg('修改成功！<br/>' + '[ID: ' + data.id + '] 行字段更改为：' + value)
             } else {
                 layer.msg("修改出错，错误信息：" + json.message);
+                location.hash = vipspa.stringifyDefault("/tag");
             }
         })
     });
@@ -34,7 +35,7 @@ layui.use(['table', 'element'], function () {
         var data = obj.data;
         if (obj.event === 'del') {
             layer.confirm('真的删除么?', function (index) {
-                BMY.ajax(BMY.url.prefix + "/tag/delete", {id: data.id}, function (json) {
+                BMY.ajax(BMY.url.prefix + "/dictionary/tag/delete", {id: data.id}, function (json) {
                     BMY.okMsgHandle(json, "删除成功！");
                     if (json.code === BMY.status.ok) obj.del();
                     layer.close(index);
@@ -53,7 +54,7 @@ layui.use(['table', 'element'], function () {
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: {
-                    name: tagSearch.val()
+                    tagName: tagSearch.val()
                 }
             });
         }

@@ -177,21 +177,28 @@
             cache: false,
             dataType: 'html',
             success: function (data, status, xhr) {
-                var container = $(vipspa.mainView);
-                container.html(data);
-                //layui中的form和element的刷新
-                if (window._layform) {
-                    window._layform.render();
+                try {
+                    var resp = eval('(' + data + ')');
+                    if (resp.code && resp.code === -1) {
+                        window.location.href = resp.data;
+                    }
+                } catch (e) {
+                    var container = $(vipspa.mainView);
+                    container.html(data);
+                    //layui中的form和element的刷新
+                    if (window._layform) {
+                        window._layform.render();
+                    }
+                    if (window._layelem) {
+                        window._layelem.render();
+                    }
+                    if (routerItem.action !== undefined) {
+                        loadScript(vipspa.baseStatic + routerItem.action);
+                    }
+                    // clear data var
+                    data = null;
+                    container = null;
                 }
-                if (window._layelem) {
-                    window._layelem.render();
-                }
-                if (routerItem.action !== undefined) {
-                    loadScript(vipspa.baseStatic + routerItem.action);
-                }
-                // clear data var
-                data = null;
-                container = null;
             },
             error: function (xhr, errorType, error) {
                 if ($(vipspa.errorTemplateId).length === 0) {

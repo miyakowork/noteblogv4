@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 import static java.lang.Boolean.TRUE;
@@ -28,6 +29,7 @@ public class NBKeyword implements Serializable {
     private Long id;
 
     @Column(nullable = false)
+    @NotEmpty
     private String words;
 
     @Column(nullable = false, length = 1, columnDefinition = "tinyint(1)")

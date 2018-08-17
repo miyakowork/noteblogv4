@@ -31,6 +31,8 @@ layui.use(['form', 'jquery'], function () {
                     setTimeout(function () {
                         location.href = BMY.url.manage_index;
                     }, 1000);
+                } else if (resp.code === -1) {
+                    location.reload();
                 } else {
                     $("#NB-user-vercode").trigger("click");
                     layer.msg("登录失败，" + resp.message);

@@ -19,6 +19,8 @@ $(function () {
             '/settings/profile': {path: '/settings/profile', action: "/profile.js"},
             '/settings/qrcode': {path: '/settings/qrcode', action: "/qrcode.js"},
             '/cate': {path: '/dictionary/cate', action: '/cate.js'},
+            '/tag': {path: '/dictionary/tag', action: '/tag.js'},
+            '/keyword': {path: '/dictionary/keyword', action: '/keyword.js'},
             // 'note': {
             //     url: urlPrefix + 'note',
             //     controller: staticPrefix + '/note.js'
@@ -35,17 +37,9 @@ $(function () {
             //     url: urlPrefix + 'file',
             //     controller: staticPrefix + '/file.js'
             // },
-            // 'tag': {
-            //     url: urlPrefix + 'tag',
-            //     controller: staticPrefix + '/tag.js'
-            // },
             // 'about': {
             //     url: urlPrefix + 'about',
             //     controller: staticPrefix + '/about.js'
-            // },
-            // 'keyword': {
-            //     url: urlPrefix + 'keyword',
-            //     controller: staticPrefix + '/keyword.js'
             // },
             // 'qrcode': {
             //     url: urlPrefix + 'settings/qrcode',

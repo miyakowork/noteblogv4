@@ -6,7 +6,7 @@ layui.use(['form', 'table', 'element'], function () {
 
     var keywordTable = table.render({
         elem: '#keyword-table'
-        , url: BMY.url.prefix + '/keyword/list'
+        , url: BMY.url.prefix + '/dictionary/keyword/list'
         , page: true
         , limit: 10
         , height: 'full'
@@ -23,11 +23,14 @@ layui.use(['form', 'table', 'element'], function () {
     table.on('edit(keyword)', function (obj) {
         var value = obj.value;
         var data = obj.data;
-        BMY.ajax(BMY.url.prefix + "/keyword/edit/words", obj.data, function (json) {
+        BMY.ajax(BMY.url.prefix + "/dictionary/keyword/update", obj.data, function (json) {
             if (json.code === BMY.status.ok) {
                 layer.msg('修改成功！<br/>' + '[ID: ' + data.id + '] 行字段更改为：' + value)
             } else {
                 layer.msg("修改出错，错误信息：" + json.message);
+                setTimeout(function () {
+                    location.hash = vipspa.stringifyDefault("/keyword");
+                }, 500)
             }
         })
     });
@@ -37,7 +40,7 @@ layui.use(['form', 'table', 'element'], function () {
         var data = obj.data;
         if (obj.event === 'del') {
             layer.confirm('真的删除么?', function (index) {
-                BMY.ajax(BMY.url.prefix + "/keyword/delete", {id: data.id}, function (json) {
+                BMY.ajax(BMY.url.prefix + "/dictionary/keyword/delete", {id: data.id}, function (json) {
                     BMY.okMsgHandle(json, "删除成功");
                     if (json.code === BMY.status.ok) obj.del();
                     layer.close(index);
@@ -52,18 +55,25 @@ layui.use(['form', 'table', 'element'], function () {
             , type: 1
             , area: '480px'
         }, function () {
-            BMY.ajax(BMY.url.prefix + "/keyword/add", {
-                words: $("input.layui-input[name=words]").val()
+            BMY.ajax(BMY.url.prefix + "/dictionary/keyword/create", {
+                words: $("input.layui-input[name=words]").val(),
+                enable: 1
             }, function (json) {
                 BMY.okHandle(json, index, "keyword-table");
+                setTimeout(function () {
+                    location.hash = vipspa.stringifyDefault("/keyword");
+                }, 500)
             })
         });
     });
 
     form.on('switch(enable)', function (obj) {
-        BMY.ajax(BMY.url.prefix + "/keyword/edit/enable", {id: this.value, enable: obj.elem.checked}, function (json) {
+        BMY.ajax(BMY.url.prefix + "/dictionary/keyword/update/enable", {
+            id: this.value,
+            enable: obj.elem.checked
+        }, function (json) {
             BMY.okMsgHandle(json);
-            layer.tips('状态：' + ((obj.elem.checked) ? "正常" : "隐藏"), obj.othis);
+            layer.tips('状态：' + ((obj.elem.checked) ? "使用" : "禁用"), obj.othis);
         });
     });
 

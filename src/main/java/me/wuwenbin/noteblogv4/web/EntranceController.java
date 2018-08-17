@@ -147,6 +147,9 @@ public class EntranceController {
             return NBR.error("验证码为空！");
         } else {
             String code = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+            if (code == null) {
+                return NBR.custom(-1, "请刷新页面");
+            }
             if (!code.equalsIgnoreCase(data.getVercode())) {
                 return NBR.error("验证码错误！");
             }

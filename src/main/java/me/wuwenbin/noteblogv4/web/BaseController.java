@@ -6,6 +6,9 @@ import me.wuwenbin.noteblogv4.model.pojo.framework.LayuiTable;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import me.wuwenbin.noteblogv4.model.pojo.framework.Pagination;
 import me.wuwenbin.noteblogv4.util.NBUtils;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.FieldError;
 import org.springframework.web.util.WebUtils;
 
@@ -49,6 +52,56 @@ public abstract class BaseController {
         pagination.setPage(page.getPageNum());
         pagination.setLimit(page.getPageSize());
         return new LayuiTable<>(pagination.getTotalCount(), pagination.getTResult());
+    }
+
+    /**
+     * 与 jpa 的Page互转，单列排序
+     *
+     * @param jpaPage
+     * @param <T>
+     * @return
+     */
+    protected static <T> LayuiTable<T> layuiTable(org.springframework.data.domain.Page<T> jpaPage, Pageable pageable) {
+        Pagination<T> pagination = new Pagination<>(jpaPage.getContent());
+        pagination.setAutoCount(true);
+        pagination.setTotalCount(jpaPage.getTotalElements());
+        //layuiTable仅支持单排序，所以此处只做首个字段
+        Sort sort = jpaPage.getSort();
+        int cnt = 0;
+        while (cnt < 1 && sort.iterator().hasNext()) {
+            Sort.Order order = sort.iterator().next();
+            pagination.setSort(order.getProperty());
+            pagination.setOrder(order.getDirection().name());
+            cnt++;
+        }
+        pagination.setPage(jpaPage.getTotalPages());
+        pagination.setLimit(pageable.getPageSize());
+        return new LayuiTable<>(pagination.getTotalCount(), pagination.getTResult());
+    }
+
+    /**
+     * 获取 jpa 的排序对象 sort
+     *
+     * @param page
+     * @param <T>
+     * @return
+     */
+    protected <T> Sort getJpaSort(Pagination<T> page) {
+        final String asc = "asc", desc = "desc";
+        String orderField = page.getSort();
+        String orderDirection = page.getOrder();
+        if (!StringUtils.isEmpty(orderField)) {
+            if (StringUtils.isEmpty(orderDirection)) {
+                return Sort.by(Sort.Order.by(orderField));
+            } else {
+                if (asc.equalsIgnoreCase(orderDirection)) {
+                    return Sort.by(Sort.Order.asc(orderField));
+                } else if (desc.equalsIgnoreCase(orderDirection)) {
+                    return Sort.by(Sort.Order.desc(orderField));
+                }
+            }
+        }
+        return Sort.unsorted();
     }
 
     protected boolean isAjax(HttpServletRequest request) {

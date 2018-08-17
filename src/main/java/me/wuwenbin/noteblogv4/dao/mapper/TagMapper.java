@@ -1,7 +1,6 @@
 package me.wuwenbin.noteblogv4.dao.mapper;
 
 import me.wuwenbin.noteblogv4.dao.annotation.MybatisDao;
-import me.wuwenbin.noteblogv4.model.entity.NBTag;
 import me.wuwenbin.noteblogv4.model.pojo.vo.NBTagVO;
 
 import java.util.List;
@@ -13,13 +12,6 @@ import java.util.List;
  */
 @MybatisDao
 public interface TagMapper {
-
-    /**
-     * 查找所有tag
-     *
-     * @return
-     */
-    List<NBTag> findAll();
 
     /**
      * 根据文章id查找此篇文章对应的所有tag
