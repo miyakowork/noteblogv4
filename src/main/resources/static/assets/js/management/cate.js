@@ -26,10 +26,10 @@ layui.use(['table', 'element'], function () {
                 layer.msg('修改成功！')
             } else {
                 layer.msg("修改出错，错误信息：" + json.message);
-                setTimeout(function () {
-                    location.hash = vipspa.stringifyDefault("/cate");
-                }, 500)
             }
+            setTimeout(function () {
+                location.hash = vipspa.stringifyDefault("/cate");
+            }, 500)
         })
     });
 

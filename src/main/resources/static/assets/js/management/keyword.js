@@ -60,9 +60,6 @@ layui.use(['form', 'table', 'element'], function () {
                 enable: 1
             }, function (json) {
                 BMY.okHandle(json, index, "keyword-table");
-                setTimeout(function () {
-                    location.hash = vipspa.stringifyDefault("/keyword");
-                }, 500)
             })
         });
     });

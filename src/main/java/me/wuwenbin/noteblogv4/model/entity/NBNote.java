@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -15,6 +16,7 @@ import static java.time.LocalDateTime.now;
 
 /**
  * created by Wuwenbin on 2018/7/15 at 12:00
+ *
  * @author wuwenbin
  */
 @Data
@@ -31,19 +33,23 @@ public class NBNote implements Serializable {
     private Long id;
 
     @Column(length = 50, nullable = false)
+    @NotEmpty
     private String title;
 
     @Column(length = 999)
     private String clearContent;
 
+    private String mdContent;
+
     @Column(length = 999, nullable = false)
+    @NotEmpty
     private String content;
 
     @Column(nullable = false, length = 1, columnDefinition = "tinyint(1)")
     @Builder.Default
     private Boolean top = FALSE;
 
-    @Column(nullable = false, length = 1, name = "[note]")
+    @Column(nullable = false, length = 1, name = "[show]", columnDefinition = "tinyint(1)")
     @Builder.Default
     private Boolean show = TRUE;
 

@@ -66,8 +66,7 @@ public class ArticleServiceImpl implements ArticleService {
         decorateArticle(article);
         NBArticle newArticle = articleRepository.save(article);
         String[] tagNameArray = tagNames.split(",");
-        int cnt = 0;
-        saveTags(newArticle, tagNameArray, cnt, tagRepository, tagReferRepository);
+        saveTags(newArticle, tagNameArray, tagRepository, tagReferRepository);
     }
 
     @Override
@@ -91,8 +90,7 @@ public class ArticleServiceImpl implements ArticleService {
         if (updateArticle != null) {
             tagReferRepository.deleteByReferId(updateArticle.getId());
             String[] tagNameArray = tagNames.split(",");
-            int cnt = 0;
-            saveTags(updateArticle, tagNameArray, cnt, tagRepository, tagReferRepository);
+            saveTags(updateArticle, tagNameArray, tagRepository, tagReferRepository);
         }
     }
 
@@ -120,7 +118,7 @@ public class ArticleServiceImpl implements ArticleService {
      *
      * @param article
      */
-    private void setArticleSummaryAndTxt(NBArticle article) {
+    private static void setArticleSummaryAndTxt(NBArticle article) {
         ParamService paramService = NBUtils.getBean(ParamService.class);
         int summaryLength = Integer.valueOf(paramService.getValueByName(NoteBlogV4.Param.ARTICLE_SUMMARY_WORDS_LENGTH));
         String clearContent = HtmlUtil.cleanHtmlTag(StrUtil.trim(article.getContent()));
@@ -140,7 +138,7 @@ public class ArticleServiceImpl implements ArticleService {
      *
      * @param article
      */
-    private void decorateArticle(NBArticle article) {
+    private static void decorateArticle(NBArticle article) {
         article.setPost(now());
         article.setView(randomInt(666, 1609));
         article.setApproveCnt(randomInt(6, 169));
@@ -160,11 +158,11 @@ public class ArticleServiceImpl implements ArticleService {
      *
      * @param updateArticle
      * @param tagNameArray
-     * @param cnt
      * @param tagRepository
      * @param tagReferRepository
      */
-    private static void saveTags(NBArticle updateArticle, String[] tagNameArray, int cnt, TagRepository tagRepository, TagReferRepository tagReferRepository) {
+    private static void saveTags(NBArticle updateArticle, String[] tagNameArray , TagRepository tagRepository, TagReferRepository tagReferRepository) {
+        int cnt = 0;
         for (String name : tagNameArray) {
             Example<NBTag> condition = Example.of(NBTag.builder().name(name).build());
             boolean isExist = tagRepository.count(condition) == 0;

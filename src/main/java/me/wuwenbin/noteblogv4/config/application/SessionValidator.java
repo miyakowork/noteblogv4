@@ -2,8 +2,6 @@ package me.wuwenbin.noteblogv4.config.application;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import me.wuwenbin.noteblogv4.config.application.NBContext;
-import me.wuwenbin.noteblogv4.config.application.NBSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -32,7 +30,7 @@ public class SessionValidator {
 
     @Scheduled(cron = "0 0/10 * * * ?")
     public void sessionValidate() {
-        log.info("validate session of application task...");
+        log.info("validate session in noteblog application task...");
         Enumeration<String> keys = nbContext.keys();
         while (keys.hasMoreElements()) {
             String uuid = keys.nextElement();

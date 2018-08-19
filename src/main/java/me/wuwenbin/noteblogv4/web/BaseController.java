@@ -184,6 +184,26 @@ public abstract class BaseController {
     }
 
     /**
+     * 没有判断的返回请求
+     *
+     * @param operation
+     * @param param
+     * @param ok
+     * @param err
+     * @param <T>
+     * @return
+     */
+    protected <T> NBR ajaxDone(Consumer<T> operation, T param, String ok, String err) {
+        try {
+            operation.accept(param);
+            return NBR.ok(ok);
+        } catch (Exception e) {
+            log.error("请求出现异常，异常信息：{}", e.getMessage());
+            return NBR.error(err);
+        }
+    }
+
+    /**
      * try catch的ajax处理
      *
      * @param id

@@ -105,9 +105,6 @@ public class ArticleController extends BaseController {
     public NBR articleCreate(@Valid NBArticle article, BindingResult result, String tagNames, @CookieValue(SESSION_ID_COOKIE) String uuid) {
         if (result.getErrorCount() == 0) {
             NBSysUser user = context.getSessionUser(uuid);
-            if (user == null) {
-                return NBR.error("用户未登录或登录超时！");
-            }
             article.setAuthorId(user.getId());
             articleService.createArticle(article, tagNames);
             return NBR.ok("发表文章成功！");
@@ -122,9 +119,6 @@ public class ArticleController extends BaseController {
     public NBR articleUpdate(@Valid NBArticle article, BindingResult result, String tagNames, @CookieValue(SESSION_ID_COOKIE) String uuid) {
         if (result.getErrorCount() == 0) {
             NBSysUser user = context.getSessionUser(uuid);
-            if (user == null) {
-                return NBR.error("用户未登录或登录超时！");
-            }
             article.setAuthorId(user.getId());
             articleService.updateArticle(article, tagNames);
             return NBR.ok("修改文章成功！");

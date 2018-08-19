@@ -21,10 +21,7 @@ $(function () {
             '/cate': {path: '/dictionary/cate', action: '/cate.js'},
             '/tag': {path: '/dictionary/tag', action: '/tag.js'},
             '/keyword': {path: '/dictionary/keyword', action: '/keyword.js'},
-            // 'note': {
-            //     url: urlPrefix + 'note',
-            //     controller: staticPrefix + '/note.js'
-            // },
+            '/note/post': {path: '/note/post', action: '/note.js'},
             // 'notes': {
             //     url: urlPrefix + 'note/index',
             //     controller: staticPrefix + '/notes.js'

@@ -18,6 +18,6 @@ public interface CateRepository extends JpaRepository<NBCate, Long> {
      * @param cate
      * @return
      */
-    @Query("SELECT COUNT(c) FROM NBCate c WHERE c.cnName = :#{#cate.cnName} OR c.name = :#{#cate.name}")
+    @Query("SELECT COUNT(c) FROM NBCate c WHERE c.cnName = :#{#cate.cnName} AND c.name = :#{#cate.name} AND c.fontIcon = :#{#cate.fontIcon}")
     long findCateCount(@Param("cate") NBCate cate);
 }
