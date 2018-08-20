@@ -134,7 +134,7 @@ public abstract class BaseController {
     protected NBR ajaxJsr303(List<FieldError> fieldErrors) {
         StringBuilder message = new StringBuilder();
         for (FieldError error : fieldErrors) {
-            message.append(error.getField()).append(":").append(error.getDefaultMessage());
+            message.append(error.getField()).append(":").append(error.getDefaultMessage()).append("<br/>");
         }
         return NBR.error(message.toString());
     }

@@ -161,20 +161,20 @@ public class ArticleServiceImpl implements ArticleService {
      * @param tagRepository
      * @param tagReferRepository
      */
-    private static void saveTags(NBArticle updateArticle, String[] tagNameArray , TagRepository tagRepository, TagReferRepository tagReferRepository) {
+    private static void saveTags(NBArticle updateArticle, String[] tagNameArray, TagRepository tagRepository, TagReferRepository tagReferRepository) {
         int cnt = 0;
         for (String name : tagNameArray) {
             Example<NBTag> condition = Example.of(NBTag.builder().name(name).build());
-            boolean isExist = tagRepository.count(condition) == 0;
+            boolean isExist = tagRepository.count(condition) > 0;
             long tagId = isExist ?
-                    tagRepository.save(NBTag.builder().name(name).build()).getId() :
-                    tagRepository.findByName(name).getId();
+                    tagRepository.findByName(name).getId() :
+                    tagRepository.save(NBTag.builder().name(name).build()).getId();
 
             tagReferRepository.save(
                     NBTagRefer.builder()
                             .referId(updateArticle.getId())
                             .tagId(tagId)
-                            .show(cnt < 4)
+                            .show(cnt <= 4)
                             .type(TagType.article.name()).build()
             );
             cnt++;

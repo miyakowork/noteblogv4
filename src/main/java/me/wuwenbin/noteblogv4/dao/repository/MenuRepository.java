@@ -2,9 +2,12 @@ package me.wuwenbin.noteblogv4.dao.repository;
 
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysMenu;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysMenu.MenuType;
+import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -55,4 +58,16 @@ public interface MenuRepository extends JpaRepository<NBSysMenu, Long> {
      * @return
      */
     NBSysMenu findByType(MenuType type);
+
+    /**
+     * 更新菜单的资源以及备注
+     *
+     * @param id
+     * @param remark
+     * @param resource
+     */
+    @Modifying
+    @Query("update NBSysMenu m set m.remark = ?2, m.resource = ?3 where m.id= ?1")
+    @Transactional(rollbackOn = Exception.class)
+    void updateResourceById(Long id, String remark, NBSysResource resource);
 }

@@ -18,18 +18,12 @@ $(function () {
             '/settings/mail': {path: '/settings/mail'},
             '/settings/profile': {path: '/settings/profile', action: "/profile.js"},
             '/settings/qrcode': {path: '/settings/qrcode', action: "/qrcode.js"},
-            '/cate': {path: '/dictionary/cate', action: '/cate.js'},
-            '/tag': {path: '/dictionary/tag', action: '/tag.js'},
-            '/keyword': {path: '/dictionary/keyword', action: '/keyword.js'},
-            '/note/post': {path: '/note/post', action: '/note.js'},
-            // 'notes': {
-            //     url: urlPrefix + 'note/index',
-            //     controller: staticPrefix + '/notes.js'
-            // },
-            // 'note_edit': {
-            //     url: urlPrefix + 'note/edit',
-            //     controller: staticPrefix + '/note_edit.js'
-            // },
+            '/dictionary/cate': {path: '/dictionary/cate', action: '/cate.js'},
+            '/dictionary/tag': {path: '/dictionary/tag', action: '/tag.js'},
+            '/dictionary/keyword': {path: '/dictionary/keyword', action: '/keyword.js'},
+            '/note/post': {path: '/note/post', action: '/note_post.js'},
+            '/note': {path: '/note', action: '/note_list.js'},
+            '/note/edit': {path: '/note/edit', action: '/note_edit.js'},
             // 'file': {
             //     url: urlPrefix + 'file',
             //     controller: staticPrefix + '/file.js'
@@ -37,10 +31,6 @@ $(function () {
             // 'about': {
             //     url: urlPrefix + 'about',
             //     controller: staticPrefix + '/about.js'
-            // },
-            // 'qrcode': {
-            //     url: urlPrefix + 'settings/qrcode',
-            //     controller: staticPrefix + '/qrcode.js'
             // },
             // 'comment': {
             //     url: urlPrefix + 'comment',

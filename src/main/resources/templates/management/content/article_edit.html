@@ -14,7 +14,7 @@
     <div class="layui-row">
         <div id="article-post" class="layui-col-sm12">
             <div class="layui-card">
-                <div class="layui-card-header layui-elip">开始书写一篇新的文章</div>
+                <div class="layui-card-header layui-elip">修改文章</div>
                 <div class="layui-card-body">
                     <div class="layui-form">
                         <input name="id" type="hidden" th:value="${editArticle.id}" required lay-required>
@@ -89,7 +89,6 @@
                                           th:field="${editArticle.content}"></textarea>
                             </div>
                         </div>
-                        <!--此处id和name不能随意改-->
                         <textarea id="editormd-markdown-doc" name="editormd-markdown-doc"
                                   style="display:none;"></textarea>
                         <textarea id="editormd-html-code" name="editormd-html-code" style="display:none;"></textarea>

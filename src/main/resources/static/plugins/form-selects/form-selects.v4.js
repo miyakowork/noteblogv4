@@ -564,7 +564,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 innerHTML: item[ajaxConfig.keyName],
                 value: item[ajaxConfig.keyVal],
                 sel: item[ajaxConfig.keySel],
-                //FIXME:此处增加一个属性 selected
+                //XXX:此处增加一个属性 selected
                 selected: item[ajaxConfig.keySel],
                 disabled: item[ajaxConfig.keyDis],
                 type: item.type,
@@ -613,7 +613,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 //如果不存在, 则创建
                 var val = fs.config.create(id, inputValue);
                 if (temp[0]) {
-                    //FIXME:此处增加判断以便操作tag
+                    //XXX:此处增加判断以便操作tag
                     if (window.BMY.valIsName) {
                         temp.attr('lay-value', inputValue);
                     } else {
@@ -1058,7 +1058,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         if (!val) return;
         var tips = 'fsw="' + NAME + '"';
         var _ref;
-        //FIXME:此处增加判断参数，以便操作标签
+        //XXX:此处增加判断参数，以便操作标签
         if (window.BMY.valIsName) {
             _ref = [$('<span ' + tips + ' value="' + val.name + '"><font ' + tips + '>' + val.name + '</font></span>'), $('<i ' + tips + ' class="iconfont icon-close"></i>')];
         } else {

@@ -167,4 +167,17 @@ var BMY = {
     , startsWith: function (str, prefix) {
         return str.slice(0, prefix.length) === prefix;
     }
+
+    , refreshLayUIComponent: function () {
+        //layui中的form和element的刷新
+        if (window._layform) {
+            window._layform.render();
+        }
+        if (window._layelem) {
+            window._layelem.render();
+        }
+        if (window._laySelect) {
+            window._laySelect.render();
+        }
+    }
 };

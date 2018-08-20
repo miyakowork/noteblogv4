@@ -9,6 +9,7 @@ import me.wuwenbin.noteblogv4.dao.repository.CateRepository;
 import me.wuwenbin.noteblogv4.exception.ArticleFetchFailedException;
 import me.wuwenbin.noteblogv4.model.entity.NBArticle;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
+import me.wuwenbin.noteblogv4.model.pojo.framework.LayuiTable;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import me.wuwenbin.noteblogv4.model.pojo.framework.Pagination;
 import me.wuwenbin.noteblogv4.model.pojo.vo.NBArticleVO;
@@ -90,11 +91,8 @@ public class ArticleController extends BaseController {
     @RequestMapping(value = "/article/list", method = RequestMethod.GET)
     @NBAuth(value = "management:article:list_data", remark = "博文管理页面中的数据接口", group = AJAX)
     @ResponseBody
-    public Object articleList(Pagination<NBArticleVO> pagination, String title, @CookieValue(SESSION_ID_COOKIE) String uuid) {
+    public LayuiTable<NBArticleVO> articleList(Pagination<NBArticleVO> pagination, String title, @CookieValue(SESSION_ID_COOKIE) String uuid) {
         NBSysUser user = context.getSessionUser(uuid);
-        if (user == null) {
-            return NBR.error("用户未登录或登录超时！");
-        }
         Page<NBArticleVO> page = articleService.findPageInfo(pagination, title, user.getId());
         return layuiTable(page);
     }
@@ -128,9 +126,9 @@ public class ArticleController extends BaseController {
     }
 
 
-    @RequestMapping("/article/edit/appreciable/{id}")
+    @RequestMapping("/article/update/appreciable/{id}")
     @ResponseBody
-    @NBAuth(value = "management:article:edit_appreciable", remark = "修改文章的可赞赏状态", group = AJAX)
+    @NBAuth(value = "management:article:update_appreciable", remark = "修改文章的可赞赏状态", group = AJAX)
     public NBR appreciable(@PathVariable("id") Long id, Boolean appreciable) {
         return ajaxDone(
                 () -> articleRepository.updateAppreciableById(appreciable, id) == 1
@@ -138,9 +136,9 @@ public class ArticleController extends BaseController {
         );
     }
 
-    @RequestMapping("/article/edit/commented/{id}")
+    @RequestMapping("/article/update/commented/{id}")
     @ResponseBody
-    @NBAuth(value = "management:article:edit_commented", remark = "修改文章的可评论状态", group = AJAX)
+    @NBAuth(value = "management:article:update_commented", remark = "修改文章的可评论状态", group = AJAX)
     public NBR commented(@PathVariable("id") Long id, Boolean commented) {
         return ajaxDone(
                 () -> articleRepository.updateCommentedById(commented, id) == 1
@@ -148,9 +146,9 @@ public class ArticleController extends BaseController {
         );
     }
 
-    @RequestMapping("/article/edit/top/{id}")
+    @RequestMapping("/article/update/top/{id}")
     @ResponseBody
-    @NBAuth(value = "management:article:edit_top", remark = "修改文章的置顶状态", group = AJAX)
+    @NBAuth(value = "management:article:update_top", remark = "修改文章的置顶状态", group = AJAX)
     public NBR top(@PathVariable("id") Long id, Boolean top) {
         return ajaxDone(
                 () -> articleService.updateTopById(id, top)

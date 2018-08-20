@@ -18,7 +18,7 @@ layui.use(['element', 'form', 'layer', 'formSelects'], function () {
     });
 
 
-    var post = function (data, msg) {
+    var post = function (data) {
         //markdown文本
         data.field.mdContent = editorMd.getMarkdown();
         //html文本
@@ -29,7 +29,11 @@ layui.use(['element', 'form', 'layer', 'formSelects'], function () {
             , dataType: "json"
             , data: data.field
             , success: function (json) {
-                BMY.okMsgHandle(json, msg)
+                BMY.msgHandle(json, function () {
+                    if (json.code === 200) {
+                        location.hash = vipspa.stringifyDefault("/note");
+                    }
+                })
             }
         });
     };
@@ -37,8 +41,8 @@ layui.use(['element', 'form', 'layer', 'formSelects'], function () {
 
     //监听提交
     form.on('submit(noteSubmit)', function (data) {
-        post(data, "发布笔记成功！");
-        location.hash = vipspa.stringifyDefault("/notes");
+        post(data);
+
         return false;
     });
 
@@ -85,7 +89,7 @@ $(function () {
             }
         });
     });
-})
+});
 
 
 

@@ -95,7 +95,7 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
         if (nbParam == null || StringUtils.isEmpty(nbParam.getValue()) || paramRepository.count() == 1) {
             setUpAppInitialSettings();
             setUpAppInitialText();
-            log.info("「笔记博客」App 初始化完毕！");
+            log.info("「笔记博客」App 参数初始化完毕！");
         } else {
             log.info("「笔记博客」App 已经完成初始化，略过初始化步骤。");
         }

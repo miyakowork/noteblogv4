@@ -28,7 +28,10 @@
 
 .layui-logo span:nth-of-type(2) {font-style: normal !important;}
 .layui-layout-admin .layui-body {bottom: 45px;}
-.layui-side-menu .layui-nav .layui-nav-item > a {padding-left: 20px;}
+
+.layui-side-menu .layui-nav .layui-nav-item > a {
+    padding-left: 45px;
+}
 .layui-side-menu .layui-nav .layui-nav-item a > i {margin-right: 10px;}
 .layui-nav.layui-layout-right {padding-right: 20px;}
 .layadmin-tips .layui-text {width: 80%;max-width: 500px;}

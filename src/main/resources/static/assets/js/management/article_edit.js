@@ -8,6 +8,7 @@ $(function () {
         formSelects = layui.formSelects;
         element.render();
         form.render();
+        window._laySelect = formSelects;
 
 
         formSelects.config('tags', {
@@ -16,7 +17,7 @@ $(function () {
         });
 
         formSelects.data('tags', 'server', {
-            url: BMY.url.prefix + '/article/edit/tags?id='+articleId
+            url: BMY.url.prefix + '/article/edit/tags?id=' + articleId
         });
 
         formSelects.maxTips('tags', function () {
@@ -56,7 +57,7 @@ $(function () {
         });
 
         form.on('submit(draftSubmit)', function (data) {
-            post(data, true, "修改草成功，保存草稿！");
+            post(data, true, "修改成功，保存草稿！");
             return false;
         });
 
@@ -97,36 +98,28 @@ $(function () {
                             ]
                         },
                         pluginPath: '/static/plugins/editormd/plugins/',
-                        markdown: mdContents,
+                        markdown: mdNoteContent,
                         path: '/static/plugins/editormd/lib/',
-                        placeholder:
-                            '请在此书写你的内容',
-                        saveHTMLToTextarea:
-                            true,
-                        imageUpload:
-                            true,
-                        imageFormats:
-                            ["jpg", "jpeg", "gif", "png", "bmp"],
+                        placeholder: '请在此书写你的内容',
+                        saveHTMLToTextarea: true,
+                        imageUpload: true,
+                        imageFormats: ["jpg", "jpeg", "gif", "png", "bmp"],
                         imageUploadURL:
                             BMY.url.prefix + "/upload/editorMD?reqType=lay",
                         onfullscreen:
-
                             function () {
                                 $(".layui-header").css("z-index", "-1");
                                 $("#left-menu").css("z-index", "-1");
                                 $(".layui-form-item>label,.layui-form-item>div:not(#content-editor)").css("z-index", -1);
                                 $(".layui-card").css("z-index", "-1");
-                            }
-
-                        ,
+                            },
                         onfullscreenExit: function () {
                             $(".layui-header").css("z-index", "999");
                             $("#left-menu").css("z-index", "999");
                             $(".layui-form-item>label,.layui-form-item>div:not(#content-editor)").css("z-index", "");
                             $(".layui-card").css("z-index", "999");
                         }
-                    })
-                    ;
+                    });
                 });
             }
             else if (data.value === "html") {

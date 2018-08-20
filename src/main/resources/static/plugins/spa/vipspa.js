@@ -185,13 +185,8 @@
                 } catch (e) {
                     var container = $(vipspa.mainView);
                     container.html(data);
-                    //layui中的form和element的刷新
-                    if (window._layform) {
-                        window._layform.render();
-                    }
-                    if (window._layelem) {
-                        window._layelem.render();
-                    }
+                    //刷新layui的动态组件
+                    BMY.refreshLayUIComponent();
                     if (routerItem.action !== undefined) {
                         loadScript(vipspa.baseStatic + routerItem.action);
                     }
@@ -221,6 +216,7 @@
     function loadScript(src, callback) {
         var script = document.createElement('script'),
             loaded;
+        script.charset = "UTF-8";
         script.setAttribute('src', src);
         script.onreadystatechange = script.onload = function () {
             script.onreadystatechange = null;

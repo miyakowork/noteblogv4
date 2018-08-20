@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -36,12 +37,13 @@ public class NBNote implements Serializable {
     @NotEmpty
     private String title;
 
-    @Column(length = 999)
+    @Column(columnDefinition = "text")
     private String clearContent;
 
+    @Column(columnDefinition = "text")
     private String mdContent;
 
-    @Column(length = 999, nullable = false)
+    @Column(nullable = false, columnDefinition = "text")
     @NotEmpty
     private String content;
 
@@ -55,7 +57,9 @@ public class NBNote implements Serializable {
 
     @Column(nullable = false)
     @Builder.Default
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime post = now();
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime modify;
 }

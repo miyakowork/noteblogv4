@@ -4,22 +4,29 @@
     <div class="layui-card-header">
         <span class="layui-breadcrumb">
             <a href="/management/index">首页</a>
-            <a><cite>发布内容</cite></a>
-            <a><cite>笔记随写</cite></a>
+            <!--suppress HtmlUnknownAnchorTarget -->
+            <a href="#/note">笔记管理</a>
+            <a><cite>编辑随笔</cite></a>
         </span>
     </div>
 </div>
-<div class="layui-fluid layadmin-container" id="NB-note-post-tab">
+<div class="layui-fluid layadmin-container" id="NB-note-edit-tab">
     <div class="layui-row">
         <div id="article-post" class="layui-col-sm12">
             <div class="layui-card">
-                <div class="layui-card-header layui-elip">书写你的随笔</div>
+                <div class="layui-card-header layui-elip">修改你的笔记</div>
                 <div class="layui-card-body">
                     <div class="layui-form">
+                        <input type="hidden" th:value="${editNote.id}" name="id">
+                        <input type="hidden" th:value="${editNote.show}" name="show">
+                        <input type="hidden" th:value="${editNote.top}" name="top">
+                        <input type="hidden" th:value="${#temporals.format(editNote.post, 'yyyy-MM-dd HH:mm:ss')}"
+                               name="post">
                         <div class="layui-form-item layui-col-sm8">
                             <label class="layui-form-label">标题</label>
                             <div class="layui-input-block">
                                 <input type="text" name="title" required lay-verify="required" placeholder="请输入标题"
+                                       th:value="${editNote.title}"
                                        autocomplete="off" class="layui-input">
                             </div>
                         </div>
@@ -57,4 +64,8 @@
         </div>
     </div>
 </div>
+<script th:inline="javascript">
+    var mdNoteContent = [[${editNote.mdContent}]];
+    var noteId = [[${editNote.id}]]
+</script>
 

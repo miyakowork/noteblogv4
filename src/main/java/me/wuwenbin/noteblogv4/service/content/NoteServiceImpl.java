@@ -9,6 +9,9 @@ import me.wuwenbin.noteblogv4.model.entity.NBTag;
 import me.wuwenbin.noteblogv4.model.entity.NBTagRefer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -65,6 +68,21 @@ public class NoteServiceImpl implements NoteService {
         }
     }
 
+    @Override
+    public Page<NBNote> findNotePage(Pageable pageable, String title, String clearContent) {
+        if (StringUtils.isEmpty(title) && StringUtils.isEmpty(clearContent)) {
+            return noteRepository.findAll(pageable);
+        } else {
+            Example<NBNote> tagExample = Example.of(
+                    NBNote.builder().clearContent(clearContent == null ? "" : clearContent).title(title == null ? "" : title).build(),
+                    ExampleMatcher.matching()
+                            .withMatcher("clearContent", ExampleMatcher.GenericPropertyMatcher::contains)
+                            .withMatcher("title", ExampleMatcher.GenericPropertyMatcher::contains)
+                            .withIgnoreCase());
+            return noteRepository.findAll(tagExample, pageable);
+        }
+    }
+
     /**
      * 装饰note
      *
@@ -94,16 +112,16 @@ public class NoteServiceImpl implements NoteService {
         int cnt = 0;
         for (String name : tagNameArray) {
             Example<NBTag> condition = Example.of(NBTag.builder().name(name).build());
-            boolean isExist = tagRepository.count(condition) == 0;
+            boolean isExist = tagRepository.count(condition) > 0;
             long tagId = isExist ?
-                    tagRepository.save(NBTag.builder().name(name).build()).getId() :
-                    tagRepository.findByName(name).getId();
+                    tagRepository.findByName(name).getId() :
+                    tagRepository.save(NBTag.builder().name(name).build()).getId();
 
             tagReferRepository.save(
                     NBTagRefer.builder()
                             .referId(noteId)
                             .tagId(tagId)
-                            .show(cnt < 4)
+                            .show(cnt <= 4)
                             .type(TagType.note.name()).build()
             );
             cnt++;

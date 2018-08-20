@@ -80,7 +80,7 @@ public class NBAuthAspect extends BaseController {
         try {
             NBSysUser user = NBUtils.getSessionUser();
             if (user != null) {
-                //FIXME:权限后续记得加上缓存
+                //TODO:权限后续记得加上缓存
                 List<NBSysResource> resources = permissionMapper.findResourcesByRoleId(user.getDefaultRoleId());
                 List<String> permissions = resources.stream().map(NBSysResource::getPermission).collect(Collectors.toList());
                 if (permissions.contains(nbAuth.value())) {

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -38,18 +39,20 @@ public interface ResourceRepository extends JpaRepository<NBSysResource, Long> {
     void updateByUrl(String name, String permission, NBSysResource.ResType type, String group, String url);
 
     /**
-     * 查询指定group的所有对象集合
-     *
-     * @param groupName
-     * @return
-     */
-    List<NBSysResource> findAllByGroup(String groupName);
-
-    /**
      * 根据资源类型查找
      *
      * @param type
+     * @param ids
      * @return
      */
-    List<NBSysResource> findAllByType(NBSysResource.ResType type);
+    @Query("SELECT r FROM NBSysResource r WHERE r.type = ?1 AND r.id IN ?2")
+    List<NBSysResource> findAllByTypeAndIdIn(NBSysResource.ResType type, Collection<Long> ids);
+
+    /**
+     * 根据url查找
+     *
+     * @param url
+     * @return
+     */
+    NBSysResource findByUrl(String url);
 }

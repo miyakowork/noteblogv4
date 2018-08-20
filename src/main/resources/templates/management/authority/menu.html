@@ -59,7 +59,7 @@
         el: "#NB-menu-tab",
         data: {
             roles: [[${roleList}]]
-            , selected: [[${roleList[0].id}]]
+            , selected: [[${roleId}]] || [[${roleList[0].id}]]
             , roleName: [[${roleList[0].cnName}]]
         },
         created: function () {
@@ -73,7 +73,7 @@
                 element.render();
 
                 // 渲染表格
-                treetable.render({
+                window._menuTable = treetable.render({
                     treeColIndex: 1,          // treetable新增参数
                     treeSpid: 0,             // treetable新增参数
                     treeIdName: 'id',       // treetable新增参数
@@ -141,7 +141,10 @@
                             })
                         });
                     } else if (obj.event === 'edit') {
-                        location.hash = vipspa.stringify('/menu/edit', {menuId: data.id});
+                        location.hash = vipspa.stringify('/menu/edit', {
+                            menuId: data.id,
+                            roleId: menuTabApp.selected
+                        });
                     }
                 });
 

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * created by Wuwenbin on 2018/8/2 at 20:35
+ *
  * @author wuwenbin
  */
 @Slf4j
@@ -39,9 +40,11 @@ public class HelloWorldListener implements ApplicationListener<ApplicationReadyE
 
 
     private void setFirstCategory() {
+        //TODO
     }
 
     private void setHelloWorldArticle() {
+        //TODO
     }
 
 }

@@ -79,11 +79,14 @@ public class AuthorityController extends BaseController {
      */
     @RequestMapping("/menu")
     @NBAuth(value = "permission:menu:router", remark = "菜单管理页面", type = ResType.NAV_LINK, group = Group.ROUTER)
-    public String menuIndex(Model model) {
+    public String menuIndex(Model model, Long roleId) {
         List<NBSysRole> roles = roleRepository.findAll();
         List<NBSysMenu> menus = menuRepository.findAll();
         model.addAttribute("roleList", roles);
         model.addAttribute("menuList", menus);
+        if (!StringUtils.isEmpty(roleId)) {
+            model.addAttribute("roleId", roleId);
+        }
         return "management/authority/menu";
     }
 
@@ -200,13 +203,16 @@ public class AuthorityController extends BaseController {
      */
     @RequestMapping("/menu/add")
     @NBAuth(value = "permission:menu:add", remark = "添加角色菜单界面", group = Group.ROUTER)
-    public String addMenu(Model model, String roleId, String parentId) {
+    public String addMenu(Model model, Long roleId, String parentId) {
         if (StringUtils.isEmpty(roleId)) {
             return NoteBlogV4.Session.ERROR_ROUTER;
         }
         model.addAttribute("roleId", roleId);
         model.addAttribute("parentId", parentId);
-        model.addAttribute("resources", resourceRepository.findAllByType(ResType.NAV_LINK));
+        List<Long> resIds = roleResourceRepository.findResourceIdByRoleId(roleId);
+        if (resIds != null && resIds.size() > 0) {
+            model.addAttribute("resources", resourceRepository.findAllByTypeAndIdIn(ResType.NAV_LINK, resIds));
+        }
         return "management/authority/menu_add";
     }
 
@@ -218,11 +224,14 @@ public class AuthorityController extends BaseController {
      */
     @RequestMapping("/menu/edit")
     @NBAuth(value = "permission:menu:edit", remark = "修改角色菜单界面", group = Group.ROUTER)
-    public String addMenu(Model model, Long menuId) {
-        if (StringUtils.isEmpty(menuId)) {
+    public String addMenu(Model model, Long menuId, Long roleId) {
+        if (StringUtils.isEmpty(menuId) || StringUtils.isEmpty(roleId)) {
             return NoteBlogV4.Session.ERROR_ROUTER;
         }
-        model.addAttribute("resources", resourceRepository.findAllByType(ResType.NAV_LINK));
+        List<Long> resIds = roleResourceRepository.findResourceIdByRoleId(roleId);
+        if (resIds != null && resIds.size() > 0) {
+            model.addAttribute("resources", resourceRepository.findAllByTypeAndIdIn(ResType.NAV_LINK, resIds));
+        }
         model.addAttribute("menu", menuRepository.getOne(menuId));
         return "management/authority/menu_edit";
     }

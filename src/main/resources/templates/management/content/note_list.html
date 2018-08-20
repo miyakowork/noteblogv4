@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="/static/plugins/form-selects/form-selects.v4.css">
+<div class="layui-card layadmin-tabs-card">
+    <div class="layui-card-header">
+        <span class="layui-breadcrumb">
+            <a href="/management/index">首页</a>
+            <a><cite>笔记管理</cite></a>
+        </span>
+    </div>
+</div>
+<div class="layui-fluid layadmin-container" id="NB-note-list-tab">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-sm12">
+            <div class="layui-card">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div id="user-table-search" class="layui-form">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">笔记标题：</label>
+                                <div class="layui-input-block">
+                                    <input class="layui-input" id="title-search" name="id" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">笔记内容：</label>
+                                <div class="layui-input-block">
+                                    <input class="layui-input" name="clearContent" id="content-search"
+                                           autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <button class="layui-btn layuiadmin-btn-forum-list" data-type="reload"><i
+                                        class="layui-icon layui-icon-search layuiadmin-button-btn"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-card-body">
+                    <table id="note-table" lay-filter="note"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="showTpl">
+    <input type="checkbox" name="show" value="{{d.id}}" lay-skin="switch" lay-text="显示|隐藏" lay-filter="show" {{ d.show==
+           true ? 'checked' : '' }}>
+</script>
+
+<script type="text/html" id="topTpl">
+    <input type="checkbox" name="top" value="{{d.id}}" lay-skin="switch" lay-text="置顶|顺序" lay-filter="top" {{ d.top==
+           true ? 'checked' : '' }}>
+</script>
+
+<script type="text/html" id="noteBar">
+    <a class="layui-btn layui-bg-blue layui-btn-sm" lay-event="detail"><i class="layui-icon">&#xe642;</i>编辑</a>
+    <a class="layui-btn layui-bg-red layui-btn-sm" lay-event="del"><i class="layui-icon">&#xe640;</i>删除</a>
+</script>

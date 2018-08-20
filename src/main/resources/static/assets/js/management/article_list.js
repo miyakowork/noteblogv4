@@ -92,21 +92,21 @@ layui.use(['form', 'table', 'element'], function () {
     });
 
     form.on('switch(appreciable)', function (obj) {
-        BMY.ajax(BMY.url.prefix + "/article/edit/appreciable/" + this.value, {appreciable: obj.elem.checked}, function (json) {
+        BMY.ajax(BMY.url.prefix + "/article/update/appreciable/" + this.value, {appreciable: obj.elem.checked}, function (json) {
             BMY.okMsgHandle(json);
             layer.tips('打赏：' + ((obj.elem.checked) ? "开启" : "关闭"), obj.othis);
         });
     });
 
     form.on('switch(commented)', function (obj) {
-        BMY.ajax(BMY.url.prefix + "/article/edit/commented/" + this.value, {commented: obj.elem.checked}, function (json) {
+        BMY.ajax(BMY.url.prefix + "/article/update/commented/" + this.value, {commented: obj.elem.checked}, function (json) {
             BMY.okMsgHandle(json);
             layer.tips('评论：' + ((obj.elem.checked) ? "开启" : "关闭"), obj.othis);
         });
     });
 
     form.on('checkbox(top)', function (obj) {
-        BMY.ajax(BMY.url.prefix + "/article/edit/top/" + this.value, {top: obj.elem.checked}, function (json) {
+        BMY.ajax(BMY.url.prefix + "/article/update/top/" + this.value, {top: obj.elem.checked}, function (json) {
             BMY.okMsgHandle(json);
             layer.tips(((obj.elem.checked) ? "已置顶" : "取消置顶"), obj.othis);
         });

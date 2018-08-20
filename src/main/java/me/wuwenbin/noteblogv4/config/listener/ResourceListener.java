@@ -8,7 +8,6 @@ import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.entity.NBParam;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource;
-import me.wuwenbin.noteblogv4.service.param.ParamService;
 import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -41,15 +40,12 @@ import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Init.INIT_STATUS;
 public class ResourceListener implements ApplicationListener<ContextRefreshedEvent> {
 
     private final NBContext context;
-    private final ParamService paramService;
     private final ParamRepository paramRepository;
 
     @Autowired
     public ResourceListener(NBContext context,
-                            ParamService paramService,
                             ParamRepository paramRepository) {
         this.context = context;
-        this.paramService = paramService;
         this.paramRepository = paramRepository;
     }
 
