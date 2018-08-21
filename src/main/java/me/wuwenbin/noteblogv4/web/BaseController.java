@@ -81,6 +81,7 @@ public abstract class BaseController {
 
     /**
      * 获取 jpa 的排序对象 sort
+     * 目前layui dataTable不支持多排序
      *
      * @param page
      * @param <T>

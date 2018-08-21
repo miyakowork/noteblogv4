@@ -6,6 +6,7 @@ import me.wuwenbin.noteblogv4.config.permission.NBAuth;
 import me.wuwenbin.noteblogv4.model.entity.NBUpload;
 import me.wuwenbin.noteblogv4.service.upload.UploadService;
 import me.wuwenbin.noteblogv4.util.NBUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +32,7 @@ public class UploadController {
 
     private UploadService<Void> uploadService;
 
+    @Autowired
     public UploadController() {
         this.uploadService = NBUtils.getUploadServiceByConfig();
     }

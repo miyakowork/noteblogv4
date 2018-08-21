@@ -14,6 +14,7 @@ import static java.time.LocalDateTime.now;
 
 /**
  * created by Wuwenbin on 2018/7/15 at 11:52
+ *
  * @author wuwenbin
  */
 @Data
@@ -34,6 +35,9 @@ public class NBComment implements Serializable {
 
     @Column(length = 11, nullable = false)
     private Long articleId;
+
+    @Column(length = 10000)
+    private String clearComment;
 
     @Column(length = 10000)
     private String comment;

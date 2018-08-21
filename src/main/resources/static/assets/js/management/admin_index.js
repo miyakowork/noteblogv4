@@ -17,6 +17,7 @@ $(function () {
 
     $body.on("click", "#left-menu-temp.side-shrink li.layui-nav-item", function () {
         $body.removeClass("layadmin-side-shrink");
+        $("#left-menu-temp").removeClass("side-shrink");
     });
 });
 

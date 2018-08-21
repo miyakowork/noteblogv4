@@ -30,8 +30,8 @@ public interface NoteBlogV4 {
         String INIT_MENU_LINK = "代码";
         String INIT_MENU_LINK_ICON = "fa fa-code";
         String INIT_MENU_MINE = "关于";
-        String INIT_ALIPAY = "/static/img/alipay.png";
-        String INIT_WECHAT_PAY = "/static/img/wechat.png";
+        String INIT_ALIPAY = "/static/assets/img/alipay.png";
+        String INIT_WECHAT_PAY = "/static/assets/img/wechat.png";
         String INIT_INFO_LABEL = "此处填写网站的一些信息";
         String INIT_COMMENT_WORD = "<span style=\"color:#FF5722;\">遵守国家法律法规，请勿回复无意义内容，请不要回复嵌套过多的楼层！</span>";
         String INIT_MESSAGE_PANEL_WORDS = "欢迎大家留言，有什么问题、建议、意见或者疑问可随时提出，qq群：697053454。<span style=\"color:red;\">请不要回复嵌套过多的楼层！</span>";

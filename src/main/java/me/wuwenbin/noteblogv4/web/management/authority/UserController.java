@@ -1,8 +1,6 @@
 package me.wuwenbin.noteblogv4.web.management.authority;
 
-import com.github.pagehelper.Page;
 import me.wuwenbin.noteblogv4.config.permission.NBAuth;
-import me.wuwenbin.noteblogv4.dao.mapper.UserMapper;
 import me.wuwenbin.noteblogv4.dao.repository.RoleRepository;
 import me.wuwenbin.noteblogv4.dao.repository.UserRepository;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResType;
@@ -14,6 +12,10 @@ import me.wuwenbin.noteblogv4.model.pojo.framework.Pagination;
 import me.wuwenbin.noteblogv4.service.users.UsersService;
 import me.wuwenbin.noteblogv4.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,14 +37,12 @@ public class UserController extends BaseController {
 
     private final UsersService usersService;
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
     private final RoleRepository roleRepository;
 
     @Autowired
-    public UserController(UsersService us, UserRepository ur, UserMapper um, RoleRepository rr) {
+    public UserController(UsersService us, UserRepository ur, RoleRepository rr) {
         this.usersService = us;
         this.userRepository = ur;
-        this.userMapper = um;
         this.roleRepository = rr;
     }
 
@@ -57,8 +57,10 @@ public class UserController extends BaseController {
     @ResponseBody
     @NBAuth(value = "management:user:table_list", remark = "用户信息分页数据", group = Group.AJAX)
     public LayuiTable<NBSysUser> userList(Pagination<NBSysUser> userPage, NBSysUser user) {
-        Page<NBSysUser> pageUser = usersService.findUserPage(userPage, user);
-        return layuiTable(pageUser);
+        Sort jpaSort = getJpaSort(userPage);
+        Pageable pageable = PageRequest.of(userPage.getPage() - 1, userPage.getPageSize(), jpaSort);
+        Page<NBSysUser> pageUser = usersService.findUserPage(pageable, user);
+        return layuiTable(pageUser, pageable);
     }
 
 

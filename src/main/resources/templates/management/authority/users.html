@@ -112,6 +112,7 @@
             keyName: 'cnName'
             , keyVal: 'id'
         });
+
         formSelects.data('roles', 'server', {
             url: BMY.url.prefix + '/users/roles/list'
         });
@@ -148,16 +149,31 @@
         });
 
         table.on('checkbox(user)', function (obj) {
-            var data = obj.data;
-            window._NB_users_userId = data.id;
-            $("#NB-users-tab-selected").text(data.username);
-            BMY.ajaxManagement("/users/roles/list", {userId: data.id}, function (data) {
-                var values = [];
-                for (var i = 0; i < data.length; i++) {
-                    values.push(data[i].name);
-                }
-                formSelects.value('roles', values);
-            })
+            if (obj.checked) {
+                var data = obj.data;
+                window._NB_users_userId = data.id;
+                $("#NB-users-tab-selected").text(data.username);
+                formSelects.config('roles', {
+                    keyName: 'cnName'
+                    , keyVal: 'id'
+                    , success: function () {
+                        BMY.ajaxManagement("/users/roles/list", {userId: data.id}, function (data) {
+                            var values = [];
+                            for (var i = 0; i < data.length; i++) {
+                                values.push(data[i].name);
+                            }
+                            formSelects.value('roles', values);
+                        });
+                    }
+                });
+                formSelects.data('roles', 'server', {
+                    url: BMY.url.prefix + '/users/roles/list'
+                });
+
+            } else {
+                formSelects.value('roles', []);
+                formSelects.render("roles");
+            }
         });
 
         //监听单元格编辑
