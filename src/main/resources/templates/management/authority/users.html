@@ -73,6 +73,7 @@
             , form = layui.form
             , formSelects = layui.formSelects;
         element.render();
+        formSelects.render();
 
 
         var userTable = table.render({
@@ -151,11 +152,11 @@
             window._NB_users_userId = data.id;
             $("#NB-users-tab-selected").text(data.username);
             BMY.ajaxManagement("/users/roles/list", {userId: data.id}, function (data) {
-                var vals = [];
+                var values = [];
                 for (var i = 0; i < data.length; i++) {
-                    vals.push(data[i].id);
+                    values.push(data[i].name);
                 }
-                formSelects.value('roles', vals);
+                formSelects.value('roles', values);
             })
         });
 

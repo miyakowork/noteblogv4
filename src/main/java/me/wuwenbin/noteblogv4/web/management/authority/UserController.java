@@ -79,7 +79,7 @@ public class UserController extends BaseController {
         if (StringUtils.isEmpty(userId)) {
             return roleRepository.findAll();
         } else {
-            return userMapper.findUserRoles(userId);
+            return roleRepository.findUserRoleIds(userId);
         }
     }
 

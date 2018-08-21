@@ -149,6 +149,7 @@
             , view = document.getElementById('left-menu-temp');
         laytpl(getTpl).render([[${menus}]], function (html) {
             view.innerHTML = html;
+            initLeftMenuCss(location.hash);
         });
 
         element.on('nav(nav-icon)', function (elem) {
@@ -160,13 +161,16 @@
                     $(elem).attr("lay-select", "");
                     if (windowWidth >= 993) {
                         $("body").removeClass("layadmin-side-spread-sm").addClass("layadmin-side-shrink");
+                        $("#left-menu-temp").addClass("side-shrink");
                     } else {
                         $("body").removeClass("layadmin-side-shrink").addClass("layadmin-side-spread-sm");
+                        $("#left-menu-temp").removeClass("side-shrink");
                     }
                     $(elem).find(".layui-icon").removeClass("layui-icon-spread-right").addClass("layui-icon-spread-left");
                 } else {
                     $(elem).removeAttr("lay-select");
                     $("body").removeClass("layadmin-side-shrink").removeClass("layadmin-side-spread-sm");
+                    $("#left-menu-temp").removeClass("side-shrink");
                     $(elem).find(".layui-icon").removeClass("layui-icon-spread-left").addClass("layui-icon-spread-right");
                 }
             }
@@ -176,15 +180,8 @@
         });
     });
 
-    $(function () {
-        $(window).resize(function () {
-            $("body").removeClass("layadmin-side-spread-sm").removeClass("layadmin-side-shrink");
-            $("a[layadmin-event=flexible]").removeClass("layui-icon-spread-left").addClass("layui-icon-spread-right");
-        });
-        $(".layadmin-body-shade").click(function () {
-            $(".layadmin-flexible>a").trigger("click");
-        })
-    })
+
 </script>
+<script src="/static/assets/js/management/admin_index.js"></script>
 </body>
 </html>

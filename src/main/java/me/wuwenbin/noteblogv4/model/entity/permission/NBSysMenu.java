@@ -56,7 +56,7 @@ public class NBSysMenu implements Serializable {
     @Builder.Default
     private Integer orderIndex = 0;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "resource_id")
     private NBSysResource resource;
 

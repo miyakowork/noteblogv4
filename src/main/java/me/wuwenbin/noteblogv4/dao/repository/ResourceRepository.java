@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -45,8 +44,8 @@ public interface ResourceRepository extends JpaRepository<NBSysResource, Long> {
      * @param ids
      * @return
      */
-    @Query("SELECT r FROM NBSysResource r WHERE r.type = ?1 AND r.id IN ?2")
-    List<NBSysResource> findAllByTypeAndIdIn(NBSysResource.ResType type, Collection<Long> ids);
+    @Query("SELECT r FROM NBSysResource r WHERE r.type = ?1 AND r.id IN (?2)")
+    List<NBSysResource> findAllByTypeAndIdIn(NBSysResource.ResType type, List<Long> ids);
 
     /**
      * 根据url查找

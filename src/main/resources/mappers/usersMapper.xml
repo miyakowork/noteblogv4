@@ -15,14 +15,6 @@
         </where>
     </select>
 
-    <!--根据用户id查询该用户的所有角色-->
-    <select id="findUserRoles" resultType="me.wuwenbin.noteblogv4.model.entity.permission.NBSysRole"
-            parameterType="long">
-        SELECT *
-        FROM sys_role
-        WHERE id IN (SELECT role_id FROM sys_user_role WHERE user_id = #{userId})
-    </select>
-
     <!--删除用户关联角色信息-->
     <delete id="deleteRolesByUserId" parameterType="long">
         DELETE

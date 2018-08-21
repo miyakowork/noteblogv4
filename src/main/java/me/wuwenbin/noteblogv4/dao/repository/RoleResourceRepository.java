@@ -21,6 +21,6 @@ public interface RoleResourceRepository extends JpaRepository<NBSysRoleResource,
      * @param roleId
      * @return
      */
-    @Query(nativeQuery = true, value = "SELECT resource_id FROM sys_role_resource WHERE role_id = :roleId")
+    @Query(nativeQuery = true, value = "SELECT CAST( resource_id AS SIGNED ) FROM sys_role_resource WHERE role_id = :roleId")
     List<Long> findResourceIdByRoleId(@Param("roleId") Long roleId);
 }

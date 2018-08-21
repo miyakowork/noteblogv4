@@ -32,7 +32,19 @@
 .layui-side-menu .layui-nav .layui-nav-item > a {
     padding-left: 45px;
 }
-.layui-side-menu .layui-nav .layui-nav-item a > i {margin-right: 10px;}
+
+.layui-side-menu .layui-nav .layui-nav-item a > i.layui-icon {
+    margin-right: 10px;
+}
+
+.layui-side-menu .layui-nav .layui-nav-item > a > i.fa {
+    position: absolute;
+    margin-right: 10px;
+    top: 50%;
+    left: 20px;
+    margin-top: -7px;
+    font-size: 15px;
+}
 .layui-nav.layui-layout-right {padding-right: 20px;}
 .layadmin-tips .layui-text {width: 80%;max-width: 500px;}
 

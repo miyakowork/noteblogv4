@@ -286,7 +286,7 @@ public class AuthorityController extends BaseController {
     @ResponseBody
     @NBAuth(value = "permission:menu:delete", remark = "删除角色菜单", group = Group.AJAX)
     @RequestMapping("/menu/delete")
-    public NBR createMenu(Long id) {
+    public NBR deleteMenu(Long id) {
         menuRepository.deleteById(id);
         return NBR.ok("删除菜单成功！");
     }
