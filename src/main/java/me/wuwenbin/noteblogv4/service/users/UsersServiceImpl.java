@@ -1,5 +1,6 @@
 package me.wuwenbin.noteblogv4.service.users;
 
+import me.wuwenbin.noteblogv4.dao.repository.RoleRepository;
 import me.wuwenbin.noteblogv4.dao.repository.UserRepository;
 import me.wuwenbin.noteblogv4.dao.repository.UserRoleRepository;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
@@ -13,21 +14,26 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.transaction.Transactional;
+
 /**
  * created by Wuwenbin on 2018/7/29 at 1:06
  *
  * @author wuwenbin
  */
 @Service
+@Transactional(rollbackOn = Exception.class)
 public class UsersServiceImpl implements UsersService {
 
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UsersServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository) {
+    public UsersServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -49,11 +55,25 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void updateUserRoles(Long userId, String roleIds) {
+    public void updateUserRoleIds(Long userId, String roleIds) {
         userRoleRepository.deleteRolesByUserId(userId);
         String[] roleIdArray = roleIds.split(",");
         for (String roleId : roleIdArray) {
             long rId = Long.parseLong(roleId);
+            UserRoleKey urk = new UserRoleKey();
+            urk.setUserId(userId);
+            urk.setRoleId(rId);
+            NBSysUserRole ur = NBSysUserRole.builder().pk(urk).build();
+            userRoleRepository.saveAndFlush(ur);
+        }
+    }
+
+    @Override
+    public void updateUserRolesStr(Long userId, String roleNames) {
+        userRoleRepository.deleteRolesByUserId(userId);
+        String[] roleNameArray = roleNames.split(",");
+        for (String roleName : roleNameArray) {
+            long rId = roleRepository.findByName(roleName).getId();
             UserRoleKey urk = new UserRoleKey();
             urk.setUserId(userId);
             urk.setRoleId(rId);

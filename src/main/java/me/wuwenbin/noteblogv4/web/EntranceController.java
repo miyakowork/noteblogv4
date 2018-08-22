@@ -6,13 +6,12 @@ import com.google.code.kaptcha.Constants;
 import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.config.permission.NBAuth;
 import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
-import me.wuwenbin.noteblogv4.dao.repository.RoleRepository;
 import me.wuwenbin.noteblogv4.dao.repository.UserRepository;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
-import me.wuwenbin.noteblogv4.model.entity.permission.NBSysRole;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
 import me.wuwenbin.noteblogv4.model.pojo.business.SimpleLoginData;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
+import me.wuwenbin.noteblogv4.service.authority.AuthorityService;
 import me.wuwenbin.noteblogv4.service.login.LoginService;
 import me.wuwenbin.noteblogv4.util.CookieUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,21 +38,21 @@ public class EntranceController {
 
     private final UserRepository userRepository;
     private final NBContext blogContext;
-    private final RoleRepository roleRepository;
     private final LoginService<SimpleLoginData> simpleLoginService;
     private final ParamRepository paramRepository;
+    private final AuthorityService authorityService;
 
     @Autowired
     public EntranceController(UserRepository userRepository,
                               NBContext blogContext,
-                              RoleRepository roleRepository,
-                              @Qualifier("simpleLogin") LoginService<SimpleLoginData> simpleLoginService, ParamRepository paramRepository) {
+                              @Qualifier("simpleLogin") LoginService<SimpleLoginData> simpleLoginService,
+                              ParamRepository paramRepository, AuthorityService authorityService) {
 
         this.userRepository = userRepository;
         this.blogContext = blogContext;
         this.simpleLoginService = simpleLoginService;
-        this.roleRepository = roleRepository;
         this.paramRepository = paramRepository;
+        this.authorityService = authorityService;
     }
 
     /**
@@ -95,13 +94,7 @@ public class EntranceController {
             if (u != null) {
                 return NBR.error("用户名已存在！");
             } else {
-                NBSysRole normalUserRole = roleRepository.findByName("ROLE_USER");
-                NBSysUser saveUser = NBSysUser.builder()
-                        .defaultRoleId(normalUserRole.getId())
-                        .nickname(nickname)
-                        .password(SecureUtil.md5(bmyPass))
-                        .username(bmyName).build();
-                userRepository.save(saveUser);
+                authorityService.userRegistration(nickname, bmyPass, bmyName);
                 return NBR.ok("保存成功！", NoteBlogV4.Session.LOGIN_URL);
             }
         }

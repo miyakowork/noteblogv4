@@ -66,6 +66,10 @@
            d.enable== true ? 'checked' : '' }}>
 </script>
 
+<script type="text/html" id="radioCheck">
+    <input type="radio" name="userRadioCheck" value="{{d.id}}" lay-even="userRadioCheck"/>
+</script>
+
 <script th:inline="javascript">
     layui.use(['form', 'table', 'element', 'formSelects'], function () {
         var table = layui.table
@@ -73,7 +77,7 @@
             , form = layui.form
             , formSelects = layui.formSelects;
         element.render();
-        formSelects.render();
+        // formSelects.render();
 
 
         var userTable = table.render({
@@ -86,7 +90,7 @@
             , cellMinWidth: 50
             , cols: [
                 [
-                    {type: 'checkbox', event: 'user-selected'},
+                    {title: ' ', toolbar: '#radioCheck', width: 50},
                     {
                         field: 'username', title: '账号', sort: true, templet: function (d) {
                             return d.username === '' || d.username === null ? '第三方注册' : d.username;
@@ -128,7 +132,8 @@
         });
         form.on('submit(submitUserRoles)', function (obj) {
             obj.field.userId = window._NB_users_userId;
-            BMY.ajaxManagement("/users/roles/update", obj.field, function (resp) {
+            obj.field.roleNames = obj.field.roleIds;
+            BMY.ajaxManagement("/users/roles/str/update", obj.field, function (resp) {
                 layer.msg(resp.message);
                 if (resp.code === 200) {
                     setTimeout(function () {
@@ -148,32 +153,27 @@
             });
         });
 
-        table.on('checkbox(user)', function (obj) {
-            if (obj.checked) {
-                var data = obj.data;
-                window._NB_users_userId = data.id;
-                $("#NB-users-tab-selected").text(data.username);
-                formSelects.config('roles', {
-                    keyName: 'cnName'
-                    , keyVal: 'id'
-                    , success: function () {
-                        BMY.ajaxManagement("/users/roles/list", {userId: data.id}, function (data) {
-                            var values = [];
-                            for (var i = 0; i < data.length; i++) {
-                                values.push(data[i].name);
-                            }
-                            formSelects.value('roles', values);
-                        });
-                    }
-                });
-                formSelects.data('roles', 'server', {
-                    url: BMY.url.prefix + '/users/roles/list'
-                });
+        layui.$("div.layui-card-body").on("click", "div.layui-form-radio", function () {
+            var _id = $(this).prev().val();
+            var _username = $(this).parents("td[data-field=0]").next().attr("data-content");
+            var data = {id: _id, username: _username};
+            window._NB_users_userId = data.id;
+            $("#NB-users-tab-selected").text(data.username);
+            $("div.xm-select-label").find("span[fsw=xm-select]").remove();
+            formSelects.value("roles", []);
+            formSelects.config('roles', {
+                keyName: 'cnName'
+                , keyVal: 'id'
+            });
 
-            } else {
-                formSelects.value('roles', []);
-                formSelects.render("roles");
-            }
+            BMY.ajaxManagement("/users/roles/list", {userId: data.id}, function (data) {
+                var values = [];
+                for (var i = 0; i < data.length; i++) {
+                    values.push(data[i].name);
+                }
+                formSelects.value('roles', values);
+            });
+
         });
 
         //监听单元格编辑
@@ -210,6 +210,5 @@
             active[type] ? active[type].call(this) : '';
         });
 
-    })
-    ;
+    });
 </script>

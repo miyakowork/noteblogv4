@@ -24,8 +24,17 @@ public interface UsersService {
      * 修改用户角色信息关联信息
      *
      * @param userId
-     * @param roleIds
+     * @param roleIds id形式
      * @return
      */
-    void updateUserRoles(Long userId, String roleIds);
+    void updateUserRoleIds(Long userId, String roleIds);
+
+    /**
+     * 修改用户角色信息关联信息
+     *
+     * @param userId
+     * @param roleIds name形式
+     * @return
+     */
+    void updateUserRolesStr(Long userId, String roleIds);
 }

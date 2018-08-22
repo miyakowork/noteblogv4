@@ -85,16 +85,30 @@ public class UserController extends BaseController {
         }
     }
 
-    @RequestMapping("/roles/update")
+    @RequestMapping("/roles/id/update")
     @ResponseBody
     @NBAuth(value = "management:user:role_update", remark = "修改用户的角色关联信息", group = Group.AJAX)
-    public NBR userRolesUpdate(Long userId, String roleIds) {
+    public NBR userRolesIdUpdate(Long userId, String roleIds) {
         if (StringUtils.isEmpty(roleIds)) {
             return NBR.error("角色信息为空，至少选择一个角色信息！");
         } else if (StringUtils.isEmpty(userId)) {
             return NBR.error("用户信息为空，请勾选用户！");
         } else {
-            usersService.updateUserRoles(userId, roleIds);
+            usersService.updateUserRoleIds(userId, roleIds);
+            return NBR.ok("更新用户角色信息成功！");
+        }
+    }
+
+    @RequestMapping("/roles/str/update")
+    @ResponseBody
+    @NBAuth(value = "management:user:role_update", remark = "修改用户的角色关联信息", group = Group.AJAX)
+    public NBR userRolesStrUpdate(Long userId, String roleNames) {
+        if (StringUtils.isEmpty(roleNames)) {
+            return NBR.error("角色信息为空，至少选择一个角色信息！");
+        } else if (StringUtils.isEmpty(userId)) {
+            return NBR.error("用户信息为空，请勾选用户！");
+        } else {
+            usersService.updateUserRolesStr(userId, roleNames);
             return NBR.ok("更新用户角色信息成功！");
         }
     }

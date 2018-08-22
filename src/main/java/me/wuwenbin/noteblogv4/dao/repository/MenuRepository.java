@@ -34,6 +34,14 @@ public interface MenuRepository extends JpaRepository<NBSysMenu, Long> {
     List<NBSysMenu> findAllByRoleId(long roleId);
 
     /**
+     * 查找某个菜单下的所有子菜单
+     *
+     * @param parentId
+     * @return
+     */
+    List<NBSysMenu> findAllByParentId(long parentId);
+
+    /**
      * 查找数据库中是否有根菜单
      *
      * @param parentId
@@ -70,4 +78,11 @@ public interface MenuRepository extends JpaRepository<NBSysMenu, Long> {
     @Query("update NBSysMenu m set m.remark = ?2, m.resource = ?3 where m.id= ?1")
     @Transactional(rollbackOn = Exception.class)
     void updateResourceById(Long id, String remark, NBSysResource resource);
+
+    /**
+     * 删除某个节点下的所有子菜单
+     *
+     * @param parentId
+     */
+    void deleteAllByParentId(Long parentId);
 }

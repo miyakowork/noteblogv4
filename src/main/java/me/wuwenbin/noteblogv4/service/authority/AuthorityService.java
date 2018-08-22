@@ -1,4 +1,4 @@
-package me.wuwenbin.noteblogv4.service.permission;
+package me.wuwenbin.noteblogv4.service.authority;
 
 import me.wuwenbin.noteblogv4.model.pojo.business.LayuiXTree;
 
@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author wuwenbin
  */
-public interface UserPermissionService {
+public interface AuthorityService {
 
 
     /**
@@ -28,4 +28,20 @@ public interface UserPermissionService {
      * @param email
      */
     void initMasterAccount(String username, String password, String email);
+
+    /**
+     * 删除相关id的菜单以及它的子菜单
+     *
+     * @param menuId
+     */
+    void deleteMenu(Long menuId);
+
+    /**
+     * 用户注册
+     *
+     * @param nickname
+     * @param pass
+     * @param username
+     */
+    void userRegistration(String nickname, String pass, String username);
 }

@@ -47,3 +47,8 @@ layui.use(['form', 'jquery'], function () {
     });
 
 });
+
+//验证码图片刷新
+function captchaRefresh(img) {
+    $(img).attr("src", "/image/code?t=" + Math.random());
+}

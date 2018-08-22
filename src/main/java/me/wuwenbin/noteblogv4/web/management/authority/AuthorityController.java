@@ -15,7 +15,7 @@ import me.wuwenbin.noteblogv4.model.entity.permission.NBSysRoleResource;
 import me.wuwenbin.noteblogv4.model.entity.permission.pk.RoleResourceKey;
 import me.wuwenbin.noteblogv4.model.pojo.framework.LayuiTable;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
-import me.wuwenbin.noteblogv4.service.permission.UserPermissionService;
+import me.wuwenbin.noteblogv4.service.authority.AuthorityService;
 import me.wuwenbin.noteblogv4.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,44 +39,34 @@ import java.util.List;
 public class AuthorityController extends BaseController {
 
     private final RoleRepository roleRepository;
-    private final UserPermissionService userPermissionService;
+    private final AuthorityService authorityService;
     private final RoleResourceRepository roleResourceRepository;
     private final PermissionMapper permissionMapper;
     private final MenuRepository menuRepository;
     private final ResourceRepository resourceRepository;
 
     @Autowired
-    public AuthorityController(RoleRepository rr, UserPermissionService ups,
+    public AuthorityController(RoleRepository rr, AuthorityService ups,
                                RoleResourceRepository rrr, PermissionMapper pm,
                                MenuRepository mr, ResourceRepository resR) {
         this.roleRepository = rr;
-        this.userPermissionService = ups;
+        this.authorityService = ups;
         this.roleResourceRepository = rrr;
         this.permissionMapper = pm;
         this.menuRepository = mr;
         this.resourceRepository = resR;
     }
 
-    /**
-     * 后台角色管理页面
-     *
-     * @param model
-     * @return
-     */
+
     @RequestMapping("/role")
-    @NBAuth(value = "permission:role:router", remark = "角色管理页面", type = ResType.NAV_LINK, group = Group.ROUTER)
+    @NBAuth(value = "permission:role:router", remark = "后台角色管理页面", type = ResType.NAV_LINK, group = Group.ROUTER)
     public String roleRouter(Model model) {
         List<NBSysRole> roles = roleRepository.findAll();
         model.addAttribute("roleList", roles);
         return "management/authority/role";
     }
 
-    /**
-     * 角色菜单管理页面
-     *
-     * @param model
-     * @return
-     */
+
     @RequestMapping("/menu")
     @NBAuth(value = "permission:menu:router", remark = "菜单管理页面", type = ResType.NAV_LINK, group = Group.ROUTER)
     public String menuIndex(Model model, Long roleId) {
@@ -90,26 +80,15 @@ public class AuthorityController extends BaseController {
         return "management/authority/menu";
     }
 
-    /**
-     * 后台角色管理页面的资源树请求地址
-     *
-     * @param roleId
-     * @return
-     */
+
     @RequestMapping("/resource/tree")
     @ResponseBody
     @NBAuth(value = "permission:role:resource_tree", remark = "后台角色管理页面的资源树", group = Group.AJAX)
     public NBR resourcesTree(Long roleId) {
-        return NBR.ok(userPermissionService.findResourceTreeByRoleId(roleId));
+        return NBR.ok(authorityService.findResourceTreeByRoleId(roleId));
     }
 
-    /**
-     * 更新角色所拥有的资源信息
-     *
-     * @param roleId
-     * @param resourceIds
-     * @return
-     */
+
     @RequestMapping("/update/role/resource")
     @ResponseBody
     @NBAuth(value = "permission:role:update_role_resource", remark = "更新角色所拥有的资源信息", group = Group.AJAX)
@@ -127,13 +106,7 @@ public class AuthorityController extends BaseController {
         return NBR.ok("更新角色资源权限成功！");
     }
 
-    /**
-     * 添加新角色操作
-     *
-     * @param role
-     * @param result
-     * @return
-     */
+
     @ResponseBody
     @RequestMapping("/role/create")
     @NBAuth(value = "permission:role:create", remark = "添加新角色操作", group = Group.AJAX)
@@ -146,12 +119,7 @@ public class AuthorityController extends BaseController {
         }
     }
 
-    /**
-     * 删除角色操作
-     *
-     * @param roleId
-     * @return
-     */
+
     @ResponseBody
     @RequestMapping("/role/delete")
     @NBAuth(value = "permission:role:delete", remark = "删除角色操作", group = Group.AJAX)
@@ -161,13 +129,6 @@ public class AuthorityController extends BaseController {
     }
 
 
-    /**
-     * 修改角色操作
-     *
-     * @param role
-     * @param result
-     * @return
-     */
     @ResponseBody
     @RequestMapping("/role/update")
     @NBAuth(value = "permission:role:update", remark = "修改角色操作", group = Group.AJAX)
@@ -180,12 +141,7 @@ public class AuthorityController extends BaseController {
         }
     }
 
-    /**
-     * 菜单管理界面
-     *
-     * @param roleId
-     * @return
-     */
+
     @RequestMapping("/menu/list")
     @ResponseBody
     @NBAuth(value = "permission:menu:table_list", remark = "菜单管理界面的菜单数据", group = Group.AJAX)
@@ -196,11 +152,6 @@ public class AuthorityController extends BaseController {
     }
 
 
-    /**
-     * 添加角色菜单界面
-     *
-     * @return
-     */
     @RequestMapping("/menu/add")
     @NBAuth(value = "permission:menu:add", remark = "添加角色菜单界面", group = Group.ROUTER)
     public String addMenu(Model model, Long roleId, String parentId) {
@@ -217,11 +168,6 @@ public class AuthorityController extends BaseController {
     }
 
 
-    /**
-     * 修改角色菜单界面
-     *
-     * @return
-     */
     @RequestMapping("/menu/edit")
     @NBAuth(value = "permission:menu:edit", remark = "修改角色菜单界面", group = Group.ROUTER)
     public String addMenu(Model model, Long menuId, Long roleId) {
@@ -236,13 +182,7 @@ public class AuthorityController extends BaseController {
         return "management/authority/menu_edit";
     }
 
-    /**
-     * 添加新角色菜单操作
-     *
-     * @param menu
-     * @param result
-     * @return
-     */
+
     @ResponseBody
     @NBAuth(value = "permission:menu:create", remark = "添加新角色菜单操作", group = Group.AJAX)
     @RequestMapping("/menu/create")
@@ -255,13 +195,7 @@ public class AuthorityController extends BaseController {
         }
     }
 
-    /**
-     * 修改角色菜单
-     *
-     * @param menu
-     * @param result
-     * @return
-     */
+
     @ResponseBody
     @NBAuth(value = "permission:menu:update", remark = "修改角色菜单", group = Group.AJAX)
     @RequestMapping("/menu/update")
@@ -277,17 +211,12 @@ public class AuthorityController extends BaseController {
         }
     }
 
-    /**
-     * 删除角色菜单
-     *
-     * @param id
-     * @return
-     */
+
     @ResponseBody
     @NBAuth(value = "permission:menu:delete", remark = "删除角色菜单", group = Group.AJAX)
     @RequestMapping("/menu/delete")
     public NBR deleteMenu(Long id) {
-        menuRepository.deleteById(id);
+        authorityService.deleteMenu(id);
         return NBR.ok("删除菜单成功！");
     }
 

@@ -1,17 +1,12 @@
-package me.wuwenbin.noteblogv4.service.permission;
+package me.wuwenbin.noteblogv4.service.authority;
 
 import cn.hutool.crypto.SecureUtil;
 import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.dao.mapper.PermissionMapper;
-import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
-import me.wuwenbin.noteblogv4.dao.repository.ResourceRepository;
-import me.wuwenbin.noteblogv4.dao.repository.UserRepository;
-import me.wuwenbin.noteblogv4.dao.repository.UserRoleRepository;
+import me.wuwenbin.noteblogv4.dao.repository.*;
 import me.wuwenbin.noteblogv4.exception.InitException;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
-import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource;
-import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
-import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUserRole;
+import me.wuwenbin.noteblogv4.model.entity.permission.*;
 import me.wuwenbin.noteblogv4.model.entity.permission.pk.UserRoleKey;
 import me.wuwenbin.noteblogv4.model.pojo.business.LayuiXTree;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,24 +24,29 @@ import java.util.function.Function;
  */
 @Service
 @Transactional(rollbackOn = Exception.class)
-public class UserPermissionServiceImpl implements UserPermissionService {
+public class AuthorityServiceImpl implements AuthorityService {
 
     private final ResourceRepository resourceRepository;
     private final PermissionMapper permissionMapper;
     private final UserRepository userRepository;
     private final ParamRepository paramRepository;
     private final UserRoleRepository userRoleRepository;
+    private final MenuRepository menuRepository;
     private final NBContext blogContext;
+    private final RoleRepository roleRepository;
+
 
     @Autowired
-    public UserPermissionServiceImpl(ResourceRepository resourceRepository,
-                                     PermissionMapper permissionMapper, NBContext blogContext, UserRepository userRepository, ParamRepository paramRepository, UserRoleRepository userRoleRepository) {
+    public AuthorityServiceImpl(ResourceRepository resourceRepository,
+                                PermissionMapper permissionMapper, NBContext blogContext, UserRepository userRepository, ParamRepository paramRepository, UserRoleRepository userRoleRepository, MenuRepository menuRepository, RoleRepository roleRepository) {
         this.resourceRepository = resourceRepository;
         this.permissionMapper = permissionMapper;
         this.blogContext = blogContext;
         this.userRepository = userRepository;
         this.paramRepository = paramRepository;
         this.userRoleRepository = userRoleRepository;
+        this.menuRepository = menuRepository;
+        this.roleRepository = roleRepository;
     }
 
 
@@ -83,6 +83,32 @@ public class UserPermissionServiceImpl implements UserPermissionService {
             urk.setUserId(u.getId());
             userRoleRepository.saveAndFlush(NBSysUserRole.builder().pk(urk).build());
         }
+    }
+
+    @Override
+    public void deleteMenu(Long menuId) {
+        List<NBSysMenu> sonMenus = menuRepository.findAllByParentId(menuId);
+        for (NBSysMenu sm : sonMenus) {
+            menuRepository.deleteAllByParentId(sm.getId());
+        }
+        menuRepository.deleteAllByParentId(menuId);
+        menuRepository.deleteById(menuId);
+    }
+
+    @Override
+    public void userRegistration(String nickname, String pass, String username) {
+        NBSysRole normalUserRole = roleRepository.findByName("ROLE_USER");
+        NBSysUser saveUser = NBSysUser.builder()
+                .defaultRoleId(normalUserRole.getId())
+                .nickname(nickname)
+                .avatar("/static/assets/img/favicon.png")
+                .password(SecureUtil.md5(pass))
+                .username(username).build();
+        userRepository.saveAndFlush(saveUser);
+        UserRoleKey urk = new UserRoleKey();
+        urk.setRoleId(normalUserRole.getId());
+        urk.setUserId(saveUser.getId());
+        userRoleRepository.saveAndFlush(NBSysUserRole.builder().pk(urk).enable(true).build());
     }
 
     /**

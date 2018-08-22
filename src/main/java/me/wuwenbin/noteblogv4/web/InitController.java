@@ -5,8 +5,8 @@ import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResType;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
+import me.wuwenbin.noteblogv4.service.authority.AuthorityService;
 import me.wuwenbin.noteblogv4.service.param.ParamService;
-import me.wuwenbin.noteblogv4.service.permission.UserPermissionService;
 import me.wuwenbin.noteblogv4.util.FontAwesomeUtil;
 import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +29,12 @@ public class InitController {
 
     private final ParamService paramService;
     private final ParamRepository paramRepository;
-    private final UserPermissionService userPermissionService;
+    private final AuthorityService authorityService;
 
     @Autowired
-    public InitController(ParamService paramService, UserPermissionService userPermissionService, ParamRepository paramRepository) {
+    public InitController(ParamService paramService, AuthorityService authorityService, ParamRepository paramRepository) {
         this.paramService = paramService;
-        this.userPermissionService = userPermissionService;
+        this.authorityService = authorityService;
         this.paramRepository = paramRepository;
     }
 
@@ -50,7 +50,7 @@ public class InitController {
     @ResponseBody
     public NBR initSubmit(HttpServletRequest request, String username, String password, String email) {
         paramService.saveInitParam(request.getParameterMap());
-        userPermissionService.initMasterAccount(username, password, email);
+        authorityService.initMasterAccount(username, password, email);
         paramRepository.updateValueByName(NoteBlogV4.Param.MAIL_SERVER_ACCOUNT, email);
         paramRepository.updateInitParam("1", "init_status");
         return NBR.ok("初始化设置成功！");
