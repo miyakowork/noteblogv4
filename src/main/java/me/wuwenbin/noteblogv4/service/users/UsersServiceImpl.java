@@ -49,6 +49,7 @@ public class UsersServiceImpl implements UsersService {
                     ExampleMatcher.matching()
                             .withMatcher("nickname", ExampleMatcher.GenericPropertyMatcher::contains)
                             .withMatcher("username", ExampleMatcher.GenericPropertyMatcher::contains)
+                            .withIgnorePaths("enable", "defaultRoleId", "create")
                             .withIgnoreCase());
             return userRepository.findAll(userExample, pageable);
         }

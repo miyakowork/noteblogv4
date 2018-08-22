@@ -135,11 +135,6 @@ body, input, button, textarea {
     background: #f8f8f8 !important;
     -webkit-appearance: none;
     border-radius: 0;
-    font-family: "Exo 2", "Trebuchet MS", "Helvetica", "Arial", 'PingFang SC', 'Hiragino Sans GB', 'STHeiti Light', 'Microsoft YaHei', 'SimHei', 'WenQuanYi Micro Hei', sans-serif;
-    letter-spacing: .04em;
-    line-height: 2.4em;
-    font-size: 15px;
-    color: #888;
 }
 
 body:before {

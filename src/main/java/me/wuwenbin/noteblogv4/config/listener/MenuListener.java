@@ -63,7 +63,7 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
                     }},
                     {"内容发布", "layui-icon layui-icon-edit", new String[][]{
                             {"/management/article/post", "发布文章", "fa fa-send-o"}
-                            , {"/management/note/post", "随即随笔", "fa fa-file-text-o"}
+                            , {"/management/note/post", "随记随笔", "fa fa-file-text-o"}
                     }},
                     {"内容管理", "layui-icon layui-icon-template-1", new String[][]{
                             {"/management/article", "文章管理", "fa fa-newspaper-o"}

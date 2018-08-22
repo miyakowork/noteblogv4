@@ -43,7 +43,7 @@
             , sw: BMY.getParam("s") !== undefined ? decodeURIComponent(BMY.getParam("s")) : BMY.getParam("s")
         },
         mounted: function () {
-            BMY.stickyIt()
+            BMY.stickyIt();
             BMY.affix = new hcSticky("#affix-side", {
                 stickTo: '#main-body'
                 , innerSticker: '#search-panel'
