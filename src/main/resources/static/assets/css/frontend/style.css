@@ -164,6 +164,24 @@ body:before {
     background-color: #333
 }
 
+::-webkit-scrollbar {
+    width: 9px;
+    height: 18px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #434A54;
+    height: 50px;
+    outline-offset: -2px;
+    outline: 2px solid #fff;
+    -webkit-border-radius: 4px;
+    border: 2px solid #fff;
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: #fff;
+    -webkit-border-radius: 0;
+}
 .text-center {
     text-align: center;
 }
@@ -185,9 +203,9 @@ body:before {
     -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, .5);
     box-shadow: 0 2px 8px rgba(0, 0, 0, .5);
     -webkit-box-sizing: border-box;
-    transition: box-shadow .5s ease-out;
-    -moz-transition: -webkit-box-shadow .5s ease-out;
-    -webkit-transition: -webkit-box-shadow .5s ease-out;
+    transition: box-shadow .3s linear;
+    -moz-transition: -webkit-box-shadow .3s linear;
+    -webkit-transition: -webkit-box-shadow .3s linear;
 }
 
 .layui-panel.layui-article {
@@ -224,14 +242,12 @@ body:before {
     padding-top: 32px;
 }
 
-.logo {
+.logo, .logo:hover {
     font-size: 20px;
     margin-left: 10%;
     font-family: Meiryo, arial, helvetica, sans-serif !important;
-}
-
-.logo:hover {
-    color: #333;
+    color: #F44336;
+    font-weight: 500;
 }
 
 .sum-font {
@@ -287,14 +303,14 @@ body:before {
 }
 
 .nav-btn a:hover, .nav-btn a.active {
-    color: #0e0e0e;
+    color: #F44336;
+    font-weight: 800;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    background: #dedede;
-    transition: background, color .1s ease, .3s ease;
-    -moz-transition: background, color .1s ease, .3s ease;
-    -webkit-transition: background, color .1s ease, .3s ease;
+    transition: background, color .2s ease, .3s ease;
+    -moz-transition: background, color .2s ease, .3s ease;
+    -webkit-transition: background, color .2s ease, .3s ease;
 }
 
 .nav-header .nav-btn {

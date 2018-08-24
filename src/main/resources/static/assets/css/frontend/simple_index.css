@@ -1,0 +1,36 @@
+#main-body.simple {
+    padding-top: 80px;
+}
+
+#main-body.simple .layui-elem-quote.simple-article {
+    border-left: none;
+    padding-left: 20%;
+    padding-right: 20%;
+    background: inherit;
+}
+
+#main-body.simple .layui-elem-quote.simple-article:not(:first-child) {
+    margin-top: 40px;
+}
+
+#main-body.simple .layui-elem-quote.simple-article:hover {
+    border-left: 5px solid rgba(244, 67, 54, 1);
+    background-color: #F2F2F2;
+    transition: all .3s ease-in, .3s ease-out;
+    -moz-transition: all .3s ease-in, .3s ease-out;
+    -webkit-transition: all .3s ease-in, .3s ease-out;
+}
+
+.logo > small {
+    display: none;
+    font-size: 12px;
+    margin-left: 10px;
+    letter-spacing: 5px;
+    color: #393D49;
+}
+
+@media screen and (min-width: 996px) {
+    .logo > small {
+        display: inline-block;
+    }
+}

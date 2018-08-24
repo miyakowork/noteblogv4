@@ -3,27 +3,42 @@
 <head>
     <meta th:replace="frontend/fragment/style"/>
     <title th:text="${settings.website_title}"></title>
+    <link href="/static/assets/css/frontend/simple_index.css" type="text/css" rel="stylesheet">
 </head>
 <body class="animated fadeIn">
 <div id="index-app">
     <bmy-header :params="params" :home="current"></bmy-header>
     <hr class="header-hr">
-    <bmy-block :quote="quote"></bmy-block>
-    <bmy-articles>
-        <bmy-list slot="list"></bmy-list>
-    </bmy-articles>
+    <!--<bmy-block :quote="quote"></bmy-block>-->
+    <bmy-simple-articles>
+        <!--<bmy-list slot="list"></bmy-list>-->
+        <template slot="list" v-for="n in 50">
+            <blockquote class="layui-elem-quote simple-article not-animated">
+                <div class="article-title">这个是文章的标题</div>
+                <div class="article-body">{{text}}</div>
+                <div class="article-footer">块脚</div>
+            </blockquote>
+        </template>
+    </bmy-simple-articles>
     <bmy-footer :words="params.footer_words"></bmy-footer>
 </div>
 <div th:replace="frontend/fragment/script"></div>
+<script src="/static/plugins/appear/jquery.appear.js" type="text/javascript"></script>
 <script th:inline="javascript">
     BMY.indexVM = new Vue({
         el: "#index-app",
         data: {
             articles: [[${articles}]]
-            , params: [[${settings}]]
-            , current: true
-            , su: [[${su}]]
-            , quote: {
+            ,
+            text: '                template-modules-jpa是一款基于spring的JdbcTemplate之上的一款高级组件，帮你轻松完成对数据的操作，无需额外编写dao，一个dao满足你所有需求。支持多数据源（多数据源也只需定义一个dao即可）。  无需高额学习成本，会sql即可。没有mybatis繁琐的xml配置，也没有Hib...\n'
+            ,
+            params: [[${settings}]]
+            ,
+            current: true
+            ,
+            su: [[${su}]]
+            ,
+            quote: {
                 showBlog: true
                 , showSearch: false
                 , showText: true
@@ -32,7 +47,8 @@
                 , showClock: true
                 , text: [[${settings.index_top_words}]]
             }
-            , sw: BMY.getParam("s") !== undefined ? decodeURIComponent(BMY.getParam("s")) : BMY.getParam("s")
+            ,
+            sw: BMY.getParam("s") !== undefined ? decodeURIComponent(BMY.getParam("s")) : BMY.getParam("s")
         },
         mounted: function () {
             BMY.stickyIt();
@@ -46,30 +62,13 @@
                         BMY.affix.destroy();
                     }
                 }
-            })
+            });
+
+            layui.$('.not-animated').appear(function () {
+                alert(this.innerHTML + "\n");
+            });
         }
     })
-
 </script>
-<!--<script>-->
-<!--layui.config({base: '/static/assets/js/frontend/'}).extend({-->
-<!--article: 'article'-->
-<!--});-->
-<!--layui.use(['laytpl', 'element', 'flow', 'article'], function () {-->
-<!--var flow = layui.flow;-->
-<!--var element = layui.element;-->
-<!--var laytpl = layui.laytpl;-->
-<!--var article = layui.article;-->
-
-<!--flow.load({-->
-<!--elem: '#article-list' //流加载容器-->
-<!--, done: function (page, next) { //执行下一页的回调-->
-<!--return article(page, next, laytpl);-->
-<!--}-->
-<!--});-->
-<!--});-->
-
-
-<!--</script>-->
 </body>
 </html>
