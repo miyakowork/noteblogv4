@@ -5,7 +5,7 @@
     <title th:text="${settings.website_title}"></title>
     <link href="/static/assets/css/frontend/simple_index.css" type="text/css" rel="stylesheet">
 </head>
-<body class="animated fadeIn">
+<body class="layui-anim layui-anim-fadein simple">
 <div id="index-app">
     <bmy-header :params="params" :home="current"></bmy-header>
     <hr class="header-hr">
@@ -13,7 +13,7 @@
     <bmy-simple-articles>
         <!--<bmy-list slot="list"></bmy-list>-->
         <template slot="list" v-for="n in 50">
-            <blockquote class="layui-elem-quote simple-article not-animated">
+            <blockquote class="layui-elem-quote simple-article layui-anim layui-anim-upbit">
                 <div class="article-title">这个是文章的标题</div>
                 <div class="article-body">{{text}}</div>
                 <div class="article-footer">块脚</div>
@@ -23,21 +23,15 @@
     <bmy-footer :words="params.footer_words"></bmy-footer>
 </div>
 <div th:replace="frontend/fragment/script"></div>
-<script src="/static/plugins/appear/jquery.appear.js" type="text/javascript"></script>
 <script th:inline="javascript">
     BMY.indexVM = new Vue({
         el: "#index-app",
         data: {
-            articles: [[${articles}]]
-            ,
-            text: '                template-modules-jpa是一款基于spring的JdbcTemplate之上的一款高级组件，帮你轻松完成对数据的操作，无需额外编写dao，一个dao满足你所有需求。支持多数据源（多数据源也只需定义一个dao即可）。  无需高额学习成本，会sql即可。没有mybatis繁琐的xml配置，也没有Hib...\n'
-            ,
-            params: [[${settings}]]
-            ,
-            current: true
-            ,
-            su: [[${su}]]
-            ,
+            articles: [[${articles}]],
+            text: '                template-modules-jpa是一款基于spring的JdbcTemplate之上的一款高级组件，帮你轻松完成对数据的操作，无需额外编写dao，一个dao满足你所有需求。支持多数据源（多数据源也只需定义一个dao即可）。  无需高额学习成本，会sql即可。没有mybatis繁琐的xml配置，也没有Hib...\n',
+            params: [[${settings}]],
+            current: true,
+            su: [[${su}]],
             quote: {
                 showBlog: true
                 , showSearch: false
@@ -46,29 +40,52 @@
                 , searchCount: 0
                 , showClock: true
                 , text: [[${settings.index_top_words}]]
-            }
-            ,
+            },
             sw: BMY.getParam("s") !== undefined ? decodeURIComponent(BMY.getParam("s")) : BMY.getParam("s")
         },
         mounted: function () {
-            BMY.stickyIt();
-            BMY.affix = new hcSticky("#affix-side", {
-                stickTo: '#main-body'
-                , innerSticker: '#search-panel'
-                , queries: {980: {disable: true}}
-                , top: 75
-                , onStart: function () {
-                    if (!BMY.sticky()) {
-                        BMY.affix.destroy();
-                    }
-                }
-            });
 
-            layui.$('.not-animated').appear(function () {
-                alert(this.innerHTML + "\n");
-            });
         }
     })
+
+
+    var justResult = $('#main-body').offset().top - $(window).scrollTop();
+    animateNav();
+    $(window).scroll(function () {
+        justResult = animateNav();
+    })
+
+
+    function animateNav() {
+        var result = $('#main-body').offset().top - $(window).scrollTop();
+        if (result >= -50) {
+            if (result >= justResult) {
+                $("body.simple .header").removeClass("header-small");
+                $("body.simple .nav-header").removeClass("nav-header-small");
+                $("body.simple .logo-over").addClass("nav-show");
+            } else {
+                $("body.simple .header").addClass("header-small");
+                $("body.simple .nav-header").addClass("nav-header-small");
+                $("body.simple .logo-over").removeClass("nav-show");
+            }
+        } else {
+            if (result <= justResult) {
+                $("body.simple .header").addClass("header-small");
+                $("body.simple .nav-header").addClass("nav-header-small");
+                $("body.simple .logo-over").removeClass("nav-show");
+            } else {
+                $("body.simple .header").removeClass("header-small");
+                $("body.simple .nav-header").removeClass("nav-header-small");
+                $("body.simple .logo-over").addClass("nav-show");
+            }
+        }
+        return result;
+    }
+
+    document.body.addEventListener('touchstart', function () {
+    });
+
+
 </script>
 </body>
 </html>

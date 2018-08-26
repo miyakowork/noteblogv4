@@ -239,6 +239,11 @@ public interface NoteBlogV4 {
         String PAGE_MODERN = "page_modern";
 
         /**
+         * 首页风格：简约/普通（simple/normal）
+         */
+        String INDEX_STYLE = "index_style";
+
+        /**
          * 博文首页分页的pageSize大小
          */
         String BLOG_INDEX_PAGE_SIZE = "blog_index_page_size";
@@ -331,6 +336,9 @@ public interface NoteBlogV4 {
         String PAGE_MODERN_BUTTON = "1";
 
         String DEFAULT_PAGE_SIZE = "10";
+
+        String INDEX_STYLE_SIMPLE = "simple";
+        String INDEX_STYLE_NORMAL = "normal";
     }
 
 }

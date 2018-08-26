@@ -182,6 +182,7 @@ body:before {
     background-color: #fff;
     -webkit-border-radius: 0;
 }
+
 .text-center {
     text-align: center;
 }
@@ -243,7 +244,7 @@ body:before {
 }
 
 .logo, .logo:hover {
-    font-size: 20px;
+    font-size: 22px;
     margin-left: 10%;
     font-family: Meiryo, arial, helvetica, sans-serif !important;
     color: #F44336;
@@ -252,6 +253,25 @@ body:before {
 
 .sum-font {
     color: #FF5722;
+}
+
+.simple .header {
+    background: #f8f8f8;
+    padding-bottom: 15px;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    -webkit-box-shadow: 0 1px 3px rgba(26, 26, 26, .15);
+    -moz-box-shadow: 0 1px 3px rgba(26, 26, 26, .15);
+    box-shadow: 0 1px 3px rgba(26, 26, 26, 0.15);
+    position: fixed;
+    width: 100%;
+    z-index: 19930916;
+    height: 80px !important;
+    transition: height .5s;
+    -moz-transition: height .5s; /* Firefox 4 */
+    -webkit-transition: height .5s; /* Safari 和 Chrome */
+    -o-transition: height .5s; /* Opera */
 }
 
 .header {
@@ -266,12 +286,40 @@ body:before {
     position: fixed;
     width: 100%;
     z-index: 19930916;
-    height: 47.5px;
+    height: 47px;
+    transition: height .5s;
+    -moz-transition: height .5s; /* Firefox 4 */
+    -webkit-transition: height .5s; /* Safari 和 Chrome */
+    -o-transition: height .5s; /* Opera */
+}
+
+.simple .header-small {
+    height: 47px !important;
+    transition: height .5s;
+    -moz-transition: height .5s; /* Firefox 4 */
+    -webkit-transition: height .5s; /* Safari 和 Chrome */
+    -o-transition: height .5s; /* Opera */
+}
+
+.simple .nav-header-small {
+    padding-top: 20px !important;
+    transition: padding-top .5s;
+    -moz-transition: padding-top .5s; /* Firefox 4 */
+    -webkit-transition: padding-top .5s; /* Safari 和 Chrome */
+    -o-transition: padding-top .5s; /* Opera */
 }
 
 .nav-header {
-    padding-top: 22px;
+    padding-top: 10px;
     background: #f8f8f8;
+    transition: padding-top .5s;
+    -moz-transition: padding-top .5s; /* Firefox 4 */
+    -webkit-transition: padding-top .5s; /* Safari 和 Chrome */
+    -o-transition: padding-top .5s; /* Opera */
+}
+
+.nav-show {
+    display: block !important;
 }
 
 .layui-nav-side {
@@ -304,13 +352,12 @@ body:before {
 
 .nav-btn a:hover, .nav-btn a.active {
     color: #F44336;
-    font-weight: 800;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    transition: background, color .2s ease, .3s ease;
-    -moz-transition: background, color .2s ease, .3s ease;
-    -webkit-transition: background, color .2s ease, .3s ease;
+    transition: color .2s ease, .3s ease;
+    -moz-transition: color .2s ease, .3s ease;
+    -webkit-transition: color .2s ease, .3s ease;
 }
 
 .nav-header .nav-btn {

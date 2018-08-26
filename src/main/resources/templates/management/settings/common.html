@@ -124,6 +124,20 @@
 
                     <div class="layui-form-item">
                         <div class="layui-inline">
+                            <label class="layui-form-label">首页风格</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="index_style" value="simple" title="简约风格"
+                                       lay-filter="index_style"
+                                       th:checked="${index_style eq 'simple'}">
+                                <input type="radio" name="index_style" value="normal" title="默认风格"
+                                       lay-filter="index_style"
+                                       th:checked="${index_style eq 'normal'}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
                             <label class="layui-form-label">文章数量</label>
                             <div class="layui-input-inline">
                                 <input type="number" name="blog_index_page_size" placeholder="请输入数字"
@@ -531,6 +545,16 @@
                     BMY.ajaxManagement("/settings/update", {
                         type: 'text'
                         , name: 'page_modern'
+                        , value: data.value
+                    }, function (json) {
+                        BMY.okMsgHandle(json)
+                    })
+                });
+
+                form.on('radio(index_style)', function (data) {
+                    BMY.ajaxManagement("/settings/update", {
+                        type: 'text'
+                        , name: 'index_style'
                         , value: data.value
                     }, function (json) {
                         BMY.okMsgHandle(json)
