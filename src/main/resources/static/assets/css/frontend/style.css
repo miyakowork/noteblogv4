@@ -267,7 +267,7 @@ body:before {
     position: fixed;
     width: 100%;
     z-index: 19930916;
-    height: 80px !important;
+    height: 60px !important;
     transition: height .5s;
     -moz-transition: height .5s; /* Firefox 4 */
     -webkit-transition: height .5s; /* Safari 和 Chrome */
@@ -286,7 +286,7 @@ body:before {
     position: fixed;
     width: 100%;
     z-index: 19930916;
-    height: 47px;
+    height: 42px;
     transition: height .5s;
     -moz-transition: height .5s; /* Firefox 4 */
     -webkit-transition: height .5s; /* Safari 和 Chrome */
@@ -294,7 +294,7 @@ body:before {
 }
 
 .simple .header-small {
-    height: 47px !important;
+    height: 42px !important;
     transition: height .5s;
     -moz-transition: height .5s; /* Firefox 4 */
     -webkit-transition: height .5s; /* Safari 和 Chrome */
@@ -302,7 +302,7 @@ body:before {
 }
 
 .simple .nav-header-small {
-    padding-top: 20px !important;
+    padding-top: 16px !important;
     transition: padding-top .5s;
     -moz-transition: padding-top .5s; /* Firefox 4 */
     -webkit-transition: padding-top .5s; /* Safari 和 Chrome */
@@ -310,7 +310,7 @@ body:before {
 }
 
 .nav-header {
-    padding-top: 10px;
+    padding-top: 22px;
     background: #f8f8f8;
     transition: padding-top .5s;
     -moz-transition: padding-top .5s; /* Firefox 4 */

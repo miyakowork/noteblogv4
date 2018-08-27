@@ -15,20 +15,12 @@ var template = {
         '    <div class="layui-container">' +
         '        <div class="layui-row nav-header">' +
         '            <div class="layui-col-xs9 layui-col-sm4">' +
-        '                   <div class="logo-over" style="display: none;">' +
-        '                   <a>Hi,请登录</a>' +
-        '                   <a>QQ登录</a>' +
-        '                   <a>我要注册</a>' +
-        '               </div>' +
         '                <a class="logo" href="/index"><i class="fa fa-graduation-cap"></i>&nbsp;{{params.website_logo_words}}</a><small>这是一个小标题</small>' +
         '                <h2 id="title" style="display: none;margin-left: 10%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;" v-if="st">{{title}}</h2>' +
         '            </div>' +
         '            <div class="layui-col-xs3 layui-col-sm-offset2 layui-col-sm4 layui-hide-md layui-hide-lg nav-btn">' +
         '                <a href="javascript:void(0);" id="side-nav"><i class="fa fa-navicon"></i> </a>' +
         '            </div>' +
-        '           <div class="layui-col-sm7 layui-hide layui-show-lg-inline-block layui-show-md-inline-block nav-btn">' +
-        '               <a>sdasdasdas</a>' +
-        '           </div>' +
         '            <div class="layui-col-sm7 layui-hide layui-show-lg-inline-block layui-show-md-inline-block nav-btn">' +
         '                <a href="/index" :class="{ active: home }"><i class="layui-icon">&#xe68e;</i> {{params.menu_home}}</a>' +
         '                <a href="/note" :class="{ active: note }"><i class="layui-icon">&#xe609;</i> {{params.menu_note}}</a>' +

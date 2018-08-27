@@ -1,11 +1,11 @@
 #main-body.simple {
-    padding-top: 80px;
+    padding-top: 100px;
 }
 
 .simple-article {
     border-left: none;
-    padding-left: 20%;
-    padding-right: 20%;
+    padding-left: 10%;
+    padding-right: 10%;
     background: inherit;
 }
 
@@ -19,18 +19,6 @@
     transition: border-left-width .3s ease-in, .3s ease-out;
     -moz-transition: border-left-width .3s ease-in, .3s ease-out;
     -webkit-transition: border-left-width .3s ease-in, .3s ease-out;
-}
-
-.logo-over {
-    margin-left: 10%;
-    margin-bottom: 10px;
-}
-.logo-over>a:hover{
-    color: #F44336;
-    cursor: pointer;
-}
-.logo-over>a:not(:last-child){
-    margin-right: 15px;
 }
 
 .logo + small {
@@ -47,4 +35,24 @@
     .logo + small {
         display: inline-block;
     }
+}
+
+.simple-article .article-title {
+    font-size: 16px;
+    width: 100%;
+    display: inline;
+}
+
+.simple-article .article-title a:hover {
+    color: #F44336;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    transition: color .2s ease, .3s ease;
+    -moz-transition: color .2s ease, .3s ease;
+    -webkit-transition: color .2s ease, .3s ease;
+}
+
+.simple-article .article-body {
+    line-height: 28px;
 }

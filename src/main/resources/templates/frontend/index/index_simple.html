@@ -14,7 +14,7 @@
         <!--<bmy-list slot="list"></bmy-list>-->
         <template slot="list" v-for="n in 50">
             <blockquote class="layui-elem-quote simple-article layui-anim layui-anim-upbit">
-                <div class="article-title">这个是文章的标题</div>
+                <div class="article-title center-to-head"><a href="">这个是文章的标题</a></div>
                 <div class="article-body">{{text}}</div>
                 <div class="article-footer">块脚</div>
             </blockquote>
@@ -46,14 +46,14 @@
         mounted: function () {
 
         }
-    })
+    });
 
 
     var justResult = $('#main-body').offset().top - $(window).scrollTop();
     animateNav();
     $(window).scroll(function () {
         justResult = animateNav();
-    })
+    });
 
 
     function animateNav() {
@@ -62,21 +62,17 @@
             if (result >= justResult) {
                 $("body.simple .header").removeClass("header-small");
                 $("body.simple .nav-header").removeClass("nav-header-small");
-                $("body.simple .logo-over").addClass("nav-show");
             } else {
-                $("body.simple .header").addClass("header-small");
                 $("body.simple .nav-header").addClass("nav-header-small");
-                $("body.simple .logo-over").removeClass("nav-show");
+                $("body.simple .header").addClass("header-small");
             }
         } else {
             if (result <= justResult) {
-                $("body.simple .header").addClass("header-small");
                 $("body.simple .nav-header").addClass("nav-header-small");
-                $("body.simple .logo-over").removeClass("nav-show");
+                $("body.simple .header").addClass("header-small");
             } else {
                 $("body.simple .header").removeClass("header-small");
                 $("body.simple .nav-header").removeClass("nav-header-small");
-                $("body.simple .logo-over").addClass("nav-show");
             }
         }
         return result;
