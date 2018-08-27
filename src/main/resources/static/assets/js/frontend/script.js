@@ -39,7 +39,7 @@ $(function ($) {
         $(".timeline-body").slideDown()
     });
 
-    $("#side-nav").click(function () {
+    $("#side-nav,#mobile-nav").click(function () {
         var $sideNav = $(".nav-header .layui-nav-side");
         if ($sideNav.css("width") !== "0px") {
             $sideNav.animate({
@@ -49,10 +49,11 @@ $(function ($) {
             $sideNav.animate({
                 width: "200px"
             }, 200);
+
             layer.open({
                 type: 1
                 , title: false
-                , shade: [0.6, '#f8f8f8']
+                , shade: [0.6, '#000000']
                 , shadeClose: true
                 , closeBtn: 0
             })

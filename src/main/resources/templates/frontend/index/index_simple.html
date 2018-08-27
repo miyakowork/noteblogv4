@@ -14,9 +14,17 @@
         <!--<bmy-list slot="list"></bmy-list>-->
         <template slot="list" v-for="n in 50">
             <blockquote class="layui-elem-quote simple-article layui-anim layui-anim-upbit">
-                <div class="article-title center-to-head"><a href="">这个是文章的标题</a></div>
-                <div class="article-body">{{text}}</div>
-                <div class="article-footer">块脚</div>
+                <div class="article-title center-to-head"><a href="">这个是文章的标题a a aa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></div>
+                <div class="article-title sm"><a href="">这个是文章的标题a a aa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></div>
+                <div class="article-body normal">{{text}}</div>
+                <div class="article-body sm">{{text2}}</div>
+                <div class="article-footer">
+                    <p>
+                        <span><i class="fa fa-thermometer-1"></i> 热度：<span>2653℃</span></span>
+                        <span><i class="fa fa-commenting-o"></i> <span>26</span>条评论</span>
+                        <span><i class="fa fa-clock-o"></i> 时间：<span class="detail-date">2018年8月27日 22:00:00</span><span class="simple-date">18/08/27 22:00</span></span>
+                    </p>
+                </div>
             </blockquote>
         </template>
     </bmy-simple-articles>
@@ -28,7 +36,9 @@
         el: "#index-app",
         data: {
             articles: [[${articles}]],
-            text: '                template-modules-jpa是一款基于spring的JdbcTemplate之上的一款高级组件，帮你轻松完成对数据的操作，无需额外编写dao，一个dao满足你所有需求。支持多数据源（多数据源也只需定义一个dao即可）。  无需高额学习成本，会sql即可。没有mybatis繁琐的xml配置，也没有Hib...\n',
+            text: '' +
+                ' 偶遇一个注入，权限还是蛮大的，至少执行cmdshell是没问题的，因为这是一台数据库服务器，和目标站是站库分离，又在内网中，所以没办法拿下shell。我想得到内网环境，继续内网渗透，可是在用sqlmap上传的过程中发现始终无法上传.......',
+            text2:'偶遇一个注入，权限还是蛮大的，至少执行cmdshell是没问题的，因为这是一台数据库服务器，和目标站是站库分离，又在内网中，所以没办法拿下shell。',
             params: [[${settings}]],
             current: true,
             su: [[${su}]],

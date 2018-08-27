@@ -321,12 +321,14 @@ body:before {
 .nav-show {
     display: block !important;
 }
-
+#mobile-nav .layui-this{
+    background-color: #F44336;
+}
 .layui-nav-side {
     z-index: 19891024;
     width: 0;
-    padding-top: 12px;
-    background: #eeeeee;
+    padding-top: 0;
+    background: #ffffff;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
@@ -363,6 +365,7 @@ body:before {
 .nav-header .nav-btn {
     text-align: right;
     float: right;
+    margin-top: 5px;
 }
 
 .clock {

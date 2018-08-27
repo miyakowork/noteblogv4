@@ -28,7 +28,7 @@ var template = {
         '                <a href="/search" :class="{ active: search }" target="_blank"><i class="layui-icon">&#xe615;</i> {{params.menu_search}}</a>' +
         '                <a v-show="params.menu_link_show == 1" :href="params.menu_link_href" target="_blank"><i :class="params.menu_link_icon" style="font-size: 16px;"></i> {{params.menu_link}}</a>' +
         '            </div>' +
-        '            <ul class="layui-nav layui-nav-tree layui-nav-side">' +
+        '            <ul class="layui-nav layui-nav-tree layui-nav-side" id="mobile-nav">' +
         '                <li class="layui-nav-item">' +
         '                   <a href="/index" :class="{ \'layui-this\': home }"><i class="layui-icon">&#xe68e;</i> {{params.menu_home}}</a>' +
         '                </li>' +

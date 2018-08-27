@@ -15,10 +15,11 @@
 
 .layui-elem-quote.simple-article:hover {
     border-left: 5px solid rgba(244, 67, 54, 1);
-    background-color: #F2F2F2;
+    background-color: rgb(248, 248, 248);
     transition: border-left-width .3s ease-in, .3s ease-out;
     -moz-transition: border-left-width .3s ease-in, .3s ease-out;
     -webkit-transition: border-left-width .3s ease-in, .3s ease-out;
+    box-shadow: 0 1px 3px rgba(26, 26, 26, 0.24);
 }
 
 .logo + small {
@@ -37,10 +38,24 @@
     }
 }
 
+.simple-article {
+    padding-bottom: 10px;
+    height: 155px;
+}
+
+.simple-article *:not(i) {
+    font-family: "Exo 2", "Trebuchet MS", "Helvetica", "Arial", 'PingFang SC', 'Hiragino Sans GB', 'STHeiti Light', 'Microsoft YaHei', 'SimHei', 'WenQuanYi Micro Hei', sans-serif !important;
+}
+
 .simple-article .article-title {
-    font-size: 16px;
+    font-size: 18px;
     width: 100%;
     display: inline;
+    font-weight: bolder;
+}
+
+.simple-article .article-title.sm {
+    display: none;
 }
 
 .simple-article .article-title a:hover {
@@ -54,5 +69,79 @@
 }
 
 .simple-article .article-body {
-    line-height: 28px;
+    margin-top: 10px;
+    color: #656D78;
+    font-size: 15px;
+    line-height: 32px;
+    word-wrap: break-word;
+    letter-spacing: .04em;
+}
+
+.simple-article .article-body.normal {
+    display: block;
+}
+
+.simple-article .article-body.sm {
+    display: none;
+}
+
+.simple-article .simple-date {
+    display: none;
+}
+
+.simple-article .article-footer {
+    bottom: 10px;
+    position: fixed;
+    display: inline-block;
+    color: #888;
+}
+
+.simple-article .article-footer p > span {
+    margin-right: 15px;
+}
+
+@media screen and (max-width: 767px) {
+    #main-body.simple {
+        padding-top: 80px;
+    }
+
+    .simple-article .article-title {
+        font-size: 14px;
+    }
+
+    .simple-article .article-title.center-to-head {
+        display: none;
+    }
+
+    .simple-article .article-title.sm {
+        display: inline-block;
+    }
+
+
+    .simple-article .article-body {
+        margin-top: 5px;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .simple-article .article-body.sm {
+        display: block;
+    }
+
+    .simple-article .article-body.normal {
+        display: none;
+    }
+
+    .simple-article .detail-date {
+        display: none;
+    }
+
+    .simple-article .simple-date {
+        display: inline-block;
+    }
+
+    .simple-article .article-footer {
+        bottom: 5px;
+        font-size: 11px;
+    }
 }
