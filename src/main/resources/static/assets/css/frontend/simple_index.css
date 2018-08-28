@@ -81,6 +81,11 @@
     display: block;
 }
 
+.simple-article .article-body > a:hover {
+    color: #F44336;
+
+}
+
 .simple-article .article-body.sm {
     display: none;
 }
@@ -116,7 +121,6 @@
     .simple-article .article-title.sm {
         display: inline-block;
     }
-
 
     .simple-article .article-body {
         margin-top: 5px;
