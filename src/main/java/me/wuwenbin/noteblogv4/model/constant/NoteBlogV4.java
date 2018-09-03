@@ -22,9 +22,11 @@ public interface NoteBlogV4 {
 
         String INIT_WEBSITE_TILE = "笔记博客";
         String INIT_WEBSITE_LOGO_WORDS = "logo处文字";
+        String INIT_WEBSITE_LOGO_SMALL_WORDS = "这是一个小标题";
         String INIT_FOOTER_WORDS = "此处一般可写一些备案号之类的文字";
         String INIT_INDEX_TOP_WORDS = "写下你的座右铭吧";
         String INIT_MENU_HOME = "主页";
+        String INIT_MENU_PROJECT = "作品";
         String INIT_MENU_NOTE = "笔记";
         String INIT_MENU_SEARCH = "搜索";
         String INIT_MENU_LINK = "代码";
@@ -97,6 +99,11 @@ public interface NoteBlogV4 {
         String MENU_HOME = "menu_home";
 
         /**
+         * 我的项目导航
+         */
+        String MENU_PROJECT = "menu_project";
+        String MENU_PROJECT_SHOW = "menu_project_show";
+        /**
          * 导航菜单_笔记
          */
         String MENU_NOTE = "menu_note";
@@ -138,6 +145,11 @@ public interface NoteBlogV4 {
          * 网站logo的文字
          */
         String WEBSITE_LOGO_WORDS = "website_logo_words";
+
+        /**
+         * 网站logo的文字旁的小字
+         */
+        String WEBSITE_LOGO_SMALL_WORDS = "website_logo_small_words";
 
         /**
          * 评论置顶公告

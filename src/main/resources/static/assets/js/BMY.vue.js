@@ -48,6 +48,45 @@ var template = {
         '        </div>' +
         '    </div>' +
         '</div>'
+    , headerNoTxt:
+        '<div class="header mini">' +
+        '    <div class="layui-container">' +
+        '        <div class="layui-row nav-header">' +
+        '            <div class="layui-col-xs9 layui-col-sm4">' +
+        '                <a class="logo" href="/index"><i class="fa fa-graduation-cap"></i>&nbsp;{{params.website_logo_words}}</a><small>{{params.website_logo_small_words}}</small>' +
+        '                <h2 id="title" style="display: none;margin-left: 10%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;" v-if="st">{{title}}</h2>' +
+        '            </div>' +
+        '            <div class="layui-col-xs3 layui-col-sm-offset2 layui-col-sm4 layui-hide-md layui-hide-lg nav-btn">' +
+        '                <a href="javascript:void(0);" id="side-nav"><i class="fa fa-navicon"></i> </a>' +
+        '            </div>' +
+        '            <div class="layui-col-sm5 layui-hide layui-show-lg-inline-block layui-show-md-inline-block nav-btn right">' +
+        '                <a href="/index" :class="{ active: home }" :data-title="params.menu_home"><i class="layui-icon layui-icon-home"></i> </a>' +
+        '                <a v-show="params.menu_note_show == 1" href="/note" :class="{ active: note }" :data-title="params.menu_note"><i class="layui-icon layui-icon-form" style="font-size: 19px !important;"></i> </a>' +
+        '                <a v-show="params.menu_project_show == 1" href="/project" :class="{ active: project }" :data-title="params.menu_project"><i class="layui-icon layui-icon-app"></i> </a>' +
+        '                <a v-show="params.menu_profile_show == 1" href="/profile" :class="{ active: mine }" :data-title="params.menu_mine"><i class="layui-icon layui-icon-user"></i> </a>' +
+        '                <a v-show="params.menu_search_show == 1" href="/search" :class="{ active: search }" :data-title="params.menu_search" target="_blank"><i class="layui-icon layui-icon-search"></i></a>' +
+        '                <a v-show="params.menu_link_show == 1" :href="params.menu_link_href" target="_blank" :data-title="params.menu_link"><i :class="params.menu_link_icon" style="font-size: 16px;"></i></a>' +
+        '            </div>' +
+        '            <ul class="layui-nav layui-nav-tree layui-nav-side" id="mobile-nav">' +
+        '                <li class="layui-nav-item">' +
+        '                   <a href="/index" :class="{ \'layui-this\': home }"><i class="layui-icon">&#xe68e;</i> {{params.menu_home}}</a>' +
+        '                </li>' +
+        '                <li class="layui-nav-item">' +
+        '                   <a href="/note" :class="{ \'layui-this\': note }"><i class="layui-icon">&#xe609;</i> {{params.menu_note}}</a>' +
+        '                </li>' +
+        '                <li class="layui-nav-item">' +
+        '                   <a href="/profile" :class="{ \'layui-this\': mine }"><i class="layui-icon">&#xe715;</i> {{params.menu_mine}}</a>' +
+        '                </li>' +
+        '                <li class="layui-nav-item">' +
+        '                   <a href="/search" :class="{ \'layui-this\': search }"><i class="layui-icon">&#xe615;</i> {{params.menu_search}}</a>' +
+        '                </li>' +
+        '                <li class="layui-nav-item" v-if="params.menu_link_show == 1">' +
+        '                     <a :href="params.menu_link_href" target="_blank"><i :class="params.menu_link_icon" style="font-size: 15px;"></i> {{params.menu_link}}</a>' +
+        '                </li>' +
+        '            </ul>' +
+        '        </div>' +
+        '    </div>' +
+        '</div>'
     , block:
         '<div class="layui-container" style="margin-top: 70px;">' +
         '        <blockquote class="layui-elem-quote">' +
@@ -379,6 +418,77 @@ var template = {
 Vue.component('bmy-footer', {
     template: template.footer
     , props: ['words']
+});
+
+Vue.component('bmy-header-mini', {
+    template: template.headerNoTxt
+    , props: {
+        params: {
+            type: Object
+            , default: {}
+        }
+        , home: {
+            type: Boolean
+            , default: false
+        }
+        , note: {
+            type: Boolean
+            , default: false
+        }
+        , mine: {
+            type: Boolean
+            , default: false
+        }
+        , project: {
+            type: Boolean
+            , default: false
+        }
+        , search: {
+            type: Boolean
+            , default: false
+        }
+        , st: {
+            type: Boolean
+            , default: false
+        }
+        , title: {
+            type: String
+            , default: ""
+        }
+    }
+    , data: function () {
+        return {
+            show: false
+        }
+    }
+    , methods: {
+        headerScroll: function () {
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+            this.show = scrollTop > 175;
+            if (this.st) {
+                $("a.logo").removeClass("flipInX");
+                var minWidth = $("#blog-info").find(".layui-article:eq(0)>.layui-colla-item").width();
+                minWidth = minWidth <= 400 ? 280 : minWidth;
+                $("#title").css("min-width", minWidth).css("font-weight", "500");
+                if (this.show) {
+                    $(".logo").slideUp("fast", function () {
+                        $("#title").slideDown("fast");
+                    })
+                } else {
+                    $("#title").slideUp("fast", function () {
+                        $(".logo").slideDown("fast");
+                    })
+                }
+            }
+            if ($(".logo").is(":visible") && $("#title").is(":visible")) {
+                $(".logo").hide();
+            }
+        }
+    }
+    , mounted: function () {
+        window.addEventListener("scroll", this.headerScroll);
+        // layui.$()
+    }
 });
 
 Vue.component('bmy-header', {

@@ -180,6 +180,7 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
                 {FOOTER_WORDS, INIT_FOOTER_WORDS, "页脚的文字", "10"},
                 {INDEX_TOP_WORDS, INIT_INDEX_TOP_WORDS, "首页置顶文字", "10"},
                 {MENU_HOME, INIT_MENU_HOME, "导航菜单_首页", "10"},
+                {MENU_PROJECT, INIT_MENU_PROJECT, "导航菜单_我的作品", "10"},
                 {MENU_NOTE, INIT_MENU_NOTE, "导航菜单_笔记", "10"},
                 {MENU_LINK, INIT_MENU_LINK, "导航菜单_额外的链接", "10"},
                 {MENU_LINK_ICON, INIT_MENU_LINK_ICON, "导航菜单_额外的链接的字体图标logo", "10"},
@@ -190,6 +191,7 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
                 {INFO_LABEL, INIT_INFO_LABEL, "信息板内容", "10"},
                 {MENU_SEARCH, INIT_MENU_SEARCH, "导航菜单_搜索", "10"},
                 {WEBSITE_LOGO_WORDS, INIT_WEBSITE_LOGO_WORDS, "网站logo的文字", "10"},
+                {WEBSITE_LOGO_SMALL_WORDS, INIT_WEBSITE_LOGO_SMALL_WORDS, "网站logo的文字旁的小字", "10"},
                 {COMMENT_NOTICE, INIT_COMMENT_WORD, "评论置顶公告", "10"},
                 {MESSAGE_PANEL_WORDS, INIT_MESSAGE_PANEL_WORDS, "留言板的提示信息文字", "10"},
                 {QINIU_DOMAIN, StrUtil.EMPTY, "七牛云文件服务器域名", "10"},
@@ -209,6 +211,7 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
         String[][] settings = new String[][]{
                 {ALL_COMMENT_OPEN, INIT_SURE, "是否全局开放评论", "10"},
                 {MENU_NOTE_SHOW, INIT_SURE, "导航菜单_笔记是否显示，默认显示", "10"},
+                {MENU_PROJECT_SHOW, INIT_NOT, "导航菜单_我的作品是否显示，默认不显示", "10"},
                 {MENU_MINE_SHOW, INIT_SURE, "导航菜单_关于我是否显示，默认显示", "10"},
                 {MENU_SEARCH_SHOW, INIT_SURE, "导航菜单_搜索是否显示，默认显示", "10"},
                 {MENU_LINK_SHOW, INIT_NOT, "是否显示额外的导航链接（譬如github）", "10"},

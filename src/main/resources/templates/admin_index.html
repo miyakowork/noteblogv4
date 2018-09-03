@@ -149,7 +149,7 @@
             , view = document.getElementById('left-menu-temp');
         laytpl(getTpl).render([[${menus}]], function (html) {
             view.innerHTML = html;
-            initLeftMenuCss(location.hash);
+            initLeftMenuCss(location.hash, element);
         });
 
         element.on('nav(nav-icon)', function (elem) {

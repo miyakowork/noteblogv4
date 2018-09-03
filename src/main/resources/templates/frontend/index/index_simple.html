@@ -7,11 +7,9 @@
 </head>
 <body class="layui-anim layui-anim-fadein simple">
 <div id="index-app">
-    <bmy-header :params="params" :home="current"></bmy-header>
+    <bmy-header-mini :params="params" :home="current"></bmy-header-mini>
     <hr class="header-hr">
-    <!--<bmy-block :quote="quote"></bmy-block>-->
     <bmy-simple-articles>
-        <!--<bmy-list slot="list"></bmy-list>-->
         <template slot="list" v-for="n in 50">
             <blockquote class="layui-elem-quote simple-article layui-anim layui-anim-upbit">
                 <div class="article-title center-to-head"><a href="">这个是文章的标题a a aa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></div>

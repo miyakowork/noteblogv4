@@ -49,6 +49,18 @@
 
                 <div class="layui-form-item">
                     <div class="layui-inline">
+                        <label class="layui-form-label">网站小标题</label>
+                        <div class="layui-input-inline" style="width: 350px;">
+                            <input type="text" name="website_logo_small_words" placeholder="请输入文本"
+                                   th:value="${website_logo_small_words}" autocomplete="off" class="layui-input"></div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn-sm layui-btn" lay-submit lay-filter="settings">提交</button>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
                         <label class="layui-form-label">页眉文本</label>
                         <div class="layui-input-inline" style="width: 450px;">
                             <input type="text" name="index_top_words"
@@ -302,6 +314,29 @@
 
                     <div class="layui-form-item">
                         <div class="layui-inline">
+                            <label class="layui-form-label">作品导航</label>
+                            <div class="layui-input-inline">
+                                <input type="checkbox" name="menu_project_show" lay-skin="switch" lay-text="开启|关闭"
+                                       lay-filter="switchFilter" th:checked="${menu_project_show eq '1'}">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">开启则在导航栏中显示我的作品导航按钮链接</div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" id="project-nav" v-show="projectShow">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">作品名称</label>
+                            <div class="layui-input-inline" style="width: 250px;">
+                                <input type="text" name="menu_project" placeholder="请输入文本"
+                                       th:value="${menu_project}" autocomplete="off" class="layui-input"></div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn-sm layui-btn" lay-submit lay-filter="settings">提交</button>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
                             <label class="layui-form-label">关于导航</label>
                             <div class="layui-input-inline">
                                 <input type="checkbox" name="menu_mine_show" lay-skin="switch" lay-text="开启|关闭"
@@ -460,6 +495,7 @@
             , openMessage: [[${is_open_message eq '1'}]]
             , linkShow: [[${menu_link_show eq '1'}]]
             , noteShow: [[${menu_note_show eq '1'}]]
+            , projectShow: [[${menu_project_show eq '1'}]]
             , aboutShow: [[${menu_mine_show eq '1'}]]
             , searchShow: [[${menu_search_show eq '1'}]]
             , qqLoginOpen: [[${qq_login eq '1'}]]
@@ -496,6 +532,9 @@
                             }
                             else if (name === 'menu_mine_show') {
                                 settingsApp.aboutShow = data.elem.checked;
+                            }
+                            else if (name === 'menu_project_show') {
+                                settingsApp.projectShow = data.elem.checked;
                             }
                             else if (name === 'menu_search_show') {
                                 settingsApp.searchShow = data.elem.checked;

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta th:replace="frontend/fragment/style"/>
-    <title th:text="${indexVo.settings.website_title}"></title>
+    <title th:text="${settings.website_title}"></title>
 </head>
 <body class="animated fadeIn">
 <div id="index-app">
@@ -25,20 +25,20 @@
     BMY.indexVM = new Vue({
         el: "#index-app",
         data: {
-            params: [[${indexVo.settings}]]
-            , cates: [[${indexVo.cateList}]]
-            , articles: [[${indexVo.randomArticles}]]
-            , tabs: [[${indexVo.tagList}]]
+            params: [[${settings}]]
+            , cates: [[${cateList}]]
+            // , articles: [[${indexVo.randomArticles}]]
+            // , tabs: [[${indexVo.tagList}]]
             , current: true
             , su: [[${su}]]
             , quote: {
                 showBlog: true
                 , showSearch: false
                 , showText: true
-                , blogCount: [[${indexVo.blogCount}]]
+                , blogCount: [[${articleCount}]]
                 , searchCount: 0
                 , showClock: true
-                , text: [[${indexVo.settings.index_top_words}]]
+                , text: [[${settings.index_top_words}]]
             }
             , sw: BMY.getParam("s") !== undefined ? decodeURIComponent(BMY.getParam("s")) : BMY.getParam("s")
         },

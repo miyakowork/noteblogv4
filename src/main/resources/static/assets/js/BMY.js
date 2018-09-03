@@ -92,7 +92,7 @@ var BMY = {
                 '   <p style="text-align: center;" class="layui-admin-mt10">支付宝</p>' +
                 '</div> ' +
                 '<div class="layui-col-md6">' +
-                '   <img src="/static/assets/img/wecaht.png" style="width: 250px;height: 250px;">' +
+                '   <img src="/static/assets/img/wechat.png" style="width: 250px;height: 250px;">' +
                 '   <p style="text-align: center;" class="layui-admin-mt10">微信</p>' +
                 '</div>' +
                 '</div>'

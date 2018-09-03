@@ -21,11 +21,12 @@ $(function () {
     });
 });
 
-function initLeftMenuCss(hash) {
+function initLeftMenuCss(hash, layuiElement) {
+    layuiElement.render();
     if ($("#left-menu-temp").find(".layui-this").length === 0) {
-        var $lia = $("li.layui-nav-item>a[href='" + hash + "']");
-        var $lidda = $("li.layui-nav-item>dl>dd>a[href='" + hash + "']");
-        var $lidddda = $("li.layui-nav-item>dl>dd>dl>dd>a[href='" + hash + "']");
+        var $lia = $("#left-menu-temp li.layui-nav-item>a[href='" + hash + "']");
+        var $lidda = $("#left-menu-temp li.layui-nav-item>dl>dd>a[href='" + hash + "']");
+        var $lidddda = $("#left-menu-temp li.layui-nav-item>dl>dd>dl>dd>a[href='" + hash + "']");
         if ($lia.length > 0) {
             $lia.parents("li.layui-nav-item").addClass("layui-this");
         }
