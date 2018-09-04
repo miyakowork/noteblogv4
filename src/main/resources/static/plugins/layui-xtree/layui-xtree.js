@@ -124,7 +124,7 @@ layuiXtree.prototype.CreateCkAll = function () {
 layuiXtree.prototype.dataBind = function (d) {
     var _this = this;
     if (d.length > 0) {
-        for (i in d) {
+        for (var i = 0; i < d.length; i++) {
             var xtree_isend = '';
             var xtree_ischecked = '';
             var xtree_isdisabled = d[i].disabled ? ' disabled="disabled" ' : '';
