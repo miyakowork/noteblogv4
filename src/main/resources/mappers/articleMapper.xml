@@ -13,9 +13,4 @@
         </where>
     </select>
 
-    <!--查找出最大的 top 值-->
-    <select id="findMaxTop" resultType="java.lang.Integer">
-        SELECT MAX(top)
-        FROM nb_article
-    </select>
 </mapper>

@@ -45,6 +45,7 @@ public class IndexController {
         model.addAttribute("settings", settingsMap);
         model.addAttribute("articleCount", articleRepository.count());
         model.addAttribute("cateList", cateRepository.findAll());
+        model.addAttribute("articles");
         if (StringUtils.isEmpty(style)) {
             throw new RuntimeException("首页风格未设定！");
         } else {

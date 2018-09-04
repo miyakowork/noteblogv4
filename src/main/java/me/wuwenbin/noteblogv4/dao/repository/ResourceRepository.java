@@ -54,4 +54,15 @@ public interface ResourceRepository extends JpaRepository<NBSysResource, Long> {
      * @return
      */
     NBSysResource findByUrl(String url);
+
+
+    /**
+     * 根据角色id查找资源
+     *
+     * @param roleId
+     * @return
+     */
+    @Query(nativeQuery = true, value = " SELECT r.* FROM sys_resource r WHERE r.id IN" +
+            " (SELECT rr.resource_id FROM sys_role_resource rr WHERE rr.role_id = ?1)")
+    List<NBSysResource> findResourcesByRoleId(long roleId);
 }

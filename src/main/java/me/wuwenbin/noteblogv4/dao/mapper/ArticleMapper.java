@@ -24,10 +24,4 @@ public interface ArticleMapper {
      */
     Page<NBArticleVO> findPageInfo(Pagination<NBArticleVO> pagination, @Param("title") String title, @Param("authorId") Long authorId);
 
-    /**
-     * 查找出最大的 top 值
-     *
-     * @return
-     */
-    int findMaxTop();
 }

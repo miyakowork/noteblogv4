@@ -48,7 +48,6 @@ public class AdminKeywordController extends BaseController {
     @NBAuth(value = "management:keyword:list", remark = "关键字管理分页数据", group = AJAX)
     public LayuiTable<NBKeyword> keywordList(Pagination<NBKeyword> keywordPagination) {
         Sort sort = getJpaSort(keywordPagination);
-        //jpa分页是从0开始
         Pageable pageable = PageRequest.of(keywordPagination.getPage() - 1, keywordPagination.getLimit(), sort);
         Page<NBKeyword> page = keywordRepository.findAll(pageable);
         return layuiTable(page, pageable);

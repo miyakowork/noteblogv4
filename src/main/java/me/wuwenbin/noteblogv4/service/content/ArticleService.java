@@ -1,9 +1,8 @@
 package me.wuwenbin.noteblogv4.service.content;
 
-import com.github.pagehelper.Page;
 import me.wuwenbin.noteblogv4.model.entity.NBArticle;
-import me.wuwenbin.noteblogv4.model.pojo.framework.Pagination;
-import me.wuwenbin.noteblogv4.model.pojo.vo.NBArticleVO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * created by Wuwenbin on 2018/8/5 at 20:08
@@ -32,12 +31,13 @@ public interface ArticleService {
     /**
      * 查找文章分页信息，可带查询
      *
-     * @param articlePage
+     * @param pageable
      * @param title
      * @param authorId
      * @return
      */
-    Page<NBArticleVO> findPageInfo(Pagination<NBArticleVO> articlePage, String title, Long authorId);
+//    Page<NBArticleVO> findPageInfo(Pagination<NBArticleVO> articlePage, String title, Long authorId);
+    Page<NBArticle> findPageInfo(Pageable pageable, String title, Long authorId);
 
     /**
      * 修改文章的 top 值

@@ -38,4 +38,5 @@ public interface TagRepository extends JpaRepository<NBTag, Long> {
                     "        GROUP BY a.`name`")
     List<Object[]> findTagListSelected(Long referId, String type);
 
+
 }

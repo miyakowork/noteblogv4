@@ -6,8 +6,8 @@ import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
-import me.wuwenbin.noteblogv4.dao.mapper.TagMapper;
 import me.wuwenbin.noteblogv4.dao.repository.CateRepository;
+import me.wuwenbin.noteblogv4.dao.repository.TagRepository;
 import me.wuwenbin.noteblogv4.model.entity.NBCate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,7 +52,7 @@ public class NoteBlogV4ApplicationTests {
     }
 
     @Autowired
-    private TagMapper tagMapper;
+    private TagRepository tagRepository;
 
     @Autowired
     private CateRepository cateRepository;

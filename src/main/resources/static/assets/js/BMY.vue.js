@@ -60,12 +60,30 @@ var template = {
         '                <a href="javascript:void(0);" id="side-nav"><i class="fa fa-navicon"></i> </a>' +
         '            </div>' +
         '            <div class="layui-col-sm5 layui-hide layui-show-lg-inline-block layui-show-md-inline-block nav-btn right">' +
-        '                <a href="/index" :class="{ active: home }" :data-title="params.menu_home"><i class="layui-icon layui-icon-home"></i> </a>' +
-        '                <a v-show="params.menu_note_show == 1" href="/note" :class="{ active: note }" :data-title="params.menu_note"><i class="layui-icon layui-icon-form" style="font-size: 19px !important;"></i> </a>' +
-        '                <a v-show="params.menu_project_show == 1" href="/project" :class="{ active: project }" :data-title="params.menu_project"><i class="layui-icon layui-icon-app"></i> </a>' +
-        '                <a v-show="params.menu_profile_show == 1" href="/profile" :class="{ active: mine }" :data-title="params.menu_mine"><i class="layui-icon layui-icon-user"></i> </a>' +
-        '                <a v-show="params.menu_search_show == 1" href="/search" :class="{ active: search }" :data-title="params.menu_search" target="_blank"><i class="layui-icon layui-icon-search"></i></a>' +
-        '                <a v-show="params.menu_link_show == 1" :href="params.menu_link_href" target="_blank" :data-title="params.menu_link"><i :class="params.menu_link_icon" style="font-size: 16px;"></i></a>' +
+        '                <a id="ass" href="/index" :class="{ active: home }" :data-title="params.menu_home">' +
+        '                       <i class="layui-icon layui-icon-home"></i> ' +
+        '                       <span>{{params.menu_home}}</span>' +
+        '                   </a>' +
+        '                <a v-show="params.menu_note_show == 1" href="/note" :class="{ active: note }" :data-title="params.menu_note">' +
+        '                       <i class="layui-icon layui-icon-form" style="font-size: 19px !important;"></i> ' +
+        '                       <span>{{params.menu_note}}</span>' +
+        '               </a>' +
+        '                <a v-show="params.menu_project_show == 1" href="/project" :class="{ active: project }" :data-title="params.menu_project">' +
+        '                       <i class="layui-icon layui-icon-app"></i> ' +
+        '                       <span>{{params.menu_project}}</span>' +
+        '                   </a>' +
+        '                <a v-show="params.menu_profile_show == 1" href="/profile" :class="{ active: mine }" :data-title="params.menu_mine">' +
+        '                       <i class="layui-icon layui-icon-user"></i> ' +
+        '                       <span>{{params.menu_mine}}</span>' +
+        '               </a>' +
+        '                <a v-show="params.menu_search_show == 1" href="/search" :class="{ active: search }" :data-title="params.menu_search" target="_blank">' +
+        '<i class="layui-icon layui-icon-search"></i> ' +
+        '                       <span>{{params.menu_search}}</span>' +
+        '               </a>' +
+        '                <a v-show="params.menu_link_show == 1" :href="params.menu_link_href" target="_blank" :data-title="params.menu_link">' +
+        '                       <i :class="params.menu_link_icon" style="font-size: 16px;"></i> ' +
+        '                       <span>{{params.menu_link}}</span>' +
+        '               </a>' +
         '            </div>' +
         '            <ul class="layui-nav layui-nav-tree layui-nav-side" id="mobile-nav">' +
         '                <li class="layui-nav-item">' +
@@ -487,7 +505,6 @@ Vue.component('bmy-header-mini', {
     }
     , mounted: function () {
         window.addEventListener("scroll", this.headerScroll);
-        // layui.$()
     }
 });
 

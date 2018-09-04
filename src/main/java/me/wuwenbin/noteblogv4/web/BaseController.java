@@ -6,6 +6,7 @@ import me.wuwenbin.noteblogv4.model.pojo.framework.LayuiTable;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import me.wuwenbin.noteblogv4.model.pojo.framework.Pagination;
 import me.wuwenbin.noteblogv4.util.NBUtils;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.StringUtils;
@@ -103,6 +104,19 @@ public abstract class BaseController {
             }
         }
         return Sort.unsorted();
+    }
+
+    /**
+     * 通过封装的Page获取JPA的Page
+     *
+     * @param page
+     * @param <T>
+     * @return
+     */
+    protected <T> Pageable getPageable(Pagination<T> page) {
+        Sort sort = this.getJpaSort(page);
+        //jpa分页是从0开始
+        return PageRequest.of(page.getPage() - 1, page.getLimit(), sort);
     }
 
     protected boolean isAjax(HttpServletRequest request) {

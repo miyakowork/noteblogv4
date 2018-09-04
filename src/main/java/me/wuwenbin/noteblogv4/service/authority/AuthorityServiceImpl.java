@@ -2,7 +2,6 @@ package me.wuwenbin.noteblogv4.service.authority;
 
 import cn.hutool.crypto.SecureUtil;
 import me.wuwenbin.noteblogv4.config.application.NBContext;
-import me.wuwenbin.noteblogv4.dao.mapper.PermissionMapper;
 import me.wuwenbin.noteblogv4.dao.repository.*;
 import me.wuwenbin.noteblogv4.exception.InitException;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
@@ -27,7 +26,6 @@ import java.util.function.Function;
 public class AuthorityServiceImpl implements AuthorityService {
 
     private final ResourceRepository resourceRepository;
-    private final PermissionMapper permissionMapper;
     private final UserRepository userRepository;
     private final ParamRepository paramRepository;
     private final UserRoleRepository userRoleRepository;
@@ -38,9 +36,10 @@ public class AuthorityServiceImpl implements AuthorityService {
 
     @Autowired
     public AuthorityServiceImpl(ResourceRepository resourceRepository,
-                                PermissionMapper permissionMapper, NBContext blogContext, UserRepository userRepository, ParamRepository paramRepository, UserRoleRepository userRoleRepository, MenuRepository menuRepository, RoleRepository roleRepository) {
+                                NBContext blogContext, UserRepository userRepository,
+                                ParamRepository paramRepository, UserRoleRepository userRoleRepository,
+                                MenuRepository menuRepository, RoleRepository roleRepository) {
         this.resourceRepository = resourceRepository;
-        this.permissionMapper = permissionMapper;
         this.blogContext = blogContext;
         this.userRepository = userRepository;
         this.paramRepository = paramRepository;
@@ -53,7 +52,7 @@ public class AuthorityServiceImpl implements AuthorityService {
     @Override
     public List<LayuiXTree> findResourceTreeByRoleId(long roleId) {
         List<NBSysResource> all = resourceRepository.findAll();
-        List<NBSysResource> hasResources = permissionMapper.findResourcesByRoleId(roleId);
+        List<NBSysResource> hasResources = resourceRepository.findResourcesByRoleId(roleId);
         List<LayuiXTree> treeList = new ArrayList<>(all.size());
         treeList.addAll(transTo(all, NBSysResource::getName, NBSysResource::getId, NBSysResource::getPermission, hasResources::contains, res -> false));
         return LayuiXTree.buildByRecursive(treeList);

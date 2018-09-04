@@ -23,4 +23,12 @@ public interface RoleResourceRepository extends JpaRepository<NBSysRoleResource,
      */
     @Query(nativeQuery = true, value = "SELECT CAST( resource_id AS SIGNED ) FROM sys_role_resource WHERE role_id = :roleId")
     List<Long> findResourceIdByRoleId(@Param("roleId") Long roleId);
+
+    /**
+     * 删除角色资源关系
+     *
+     * @param roleId
+     */
+    @Query(nativeQuery = true, value = "DELETE FROM sys_role_resource WHERE role_id = ?1")
+    void deleteRrByRoleId(long roleId);
 }

@@ -2,8 +2,6 @@ package me.wuwenbin.noteblogv4.service.content;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HtmlUtil;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import me.wuwenbin.noteblogv4.dao.mapper.ArticleMapper;
 import me.wuwenbin.noteblogv4.dao.repository.ArticleRepository;
@@ -12,18 +10,25 @@ import me.wuwenbin.noteblogv4.dao.repository.TagRepository;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.constant.TagType;
 import me.wuwenbin.noteblogv4.model.entity.NBArticle;
+import me.wuwenbin.noteblogv4.model.entity.NBCate;
 import me.wuwenbin.noteblogv4.model.entity.NBTag;
 import me.wuwenbin.noteblogv4.model.entity.NBTagRefer;
-import me.wuwenbin.noteblogv4.model.pojo.framework.Pagination;
-import me.wuwenbin.noteblogv4.model.pojo.vo.NBArticleVO;
 import me.wuwenbin.noteblogv4.service.param.ParamService;
 import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 import static cn.hutool.core.util.RandomUtil.randomInt;
 import static java.time.LocalDateTime.now;
@@ -94,17 +99,45 @@ public class ArticleServiceImpl implements ArticleService {
         }
     }
 
+//    @Override
+//    public Page<NBArticleVO> findPageInfo(Pagination<NBArticleVO> articlePage, String title, Long authorId) {
+//        PageHelper.startPage(articlePage.getPage(), articlePage.getLimit(), articlePage.getOrderBy());
+//        return articleMapper.findPageInfo(articlePage, title, authorId);
+//    }
+
+
     @Override
-    public Page<NBArticleVO> findPageInfo(Pagination<NBArticleVO> articlePage, String title, Long authorId) {
-        PageHelper.startPage(articlePage.getPage(), articlePage.getLimit(), articlePage.getOrderBy());
-        return articleMapper.findPageInfo(articlePage, title, authorId);
+    public Page<NBArticle> findPageInfo(Pageable pageable, String title, Long authorId) {
+//        if (StringUtils.isEmpty(title) && StringUtils.isEmpty(authorId)) {
+        return articleRepository.findAll((Specification<NBArticle>) (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (title != null && StrUtil.isNotEmpty(title)) {
+                predicates.add(criteriaBuilder.like(root.get("title"), "%" + title + "%"));
+            }
+            if (authorId != null) {
+                predicates.add(criteriaBuilder.equal(root.get("authorId"), authorId));
+            }
+            Join<NBArticle, NBCate> cateCnNameJoin = root.join(root.getModel().getSingularAttribute("cate", NBCate.class), JoinType.LEFT);
+            predicates.add(criteriaBuilder.equal(cateCnNameJoin.get("id").as(Long.class), root.get("cateId")));
+            Predicate[] pres = new Predicate[predicates.size()];
+            return query.where(predicates.toArray(pres)).getRestriction();
+        }, pageable);
+//        } else {
+//            Example<NBNote> tagExample = Example.of(
+//                    NBNote.builder().clearContent(clearContent == null ? "" : clearContent).title(title == null ? "" : title).build(),
+//                    ExampleMatcher.matching()
+//                            .withMatcher("clearContent", ExampleMatcher.GenericPropertyMatcher::contains)
+//                            .withMatcher("title", ExampleMatcher.GenericPropertyMatcher::contains)
+//                            .withIgnoreCase());
+//            return noteRepository.findAll(tagExample, pageable);
+//        }
     }
 
     @Override
     @Transactional(rollbackOn = Exception.class)
     public boolean updateTopById(long articleId, boolean top) {
         if (top) {
-            int maxTop = articleMapper.findMaxTop();
+            int maxTop = articleRepository.findMaxTop();
             return articleRepository.updateTopById(maxTop + 1, articleId) == 1;
         } else {
             int currentTop = articleRepository.getOne(articleId).getTop();

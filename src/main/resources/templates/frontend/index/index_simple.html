@@ -53,7 +53,6 @@
             sw: BMY.getParam("s") !== undefined ? decodeURIComponent(BMY.getParam("s")) : BMY.getParam("s")
         },
         mounted: function () {
-
         }
     });
 
@@ -87,9 +86,22 @@
         return result;
     }
 
+    //让手机端也有hover的类似效果
     document.body.addEventListener('touchstart', function () {
     });
 
+    $(function () {
+        var __navBtnAIndex;
+        $(".simple .nav-btn a[data-title]").hover(function () {
+            var that = this;
+            __navBtnAIndex = window.layer.tips($(this).attr("data-title"), that, {
+                tips: [3, '#F44336'],
+                zIndex: 19930917
+            });
+        }, function () {
+            window.layer.close(__navBtnAIndex);
+        })
+    })
 
 </script>
 </body>

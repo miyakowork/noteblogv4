@@ -1,21 +1,22 @@
 package me.wuwenbin.noteblogv4.web.management.content;
 
-import com.github.pagehelper.Page;
 import me.wuwenbin.noteblogv4.config.application.NBContext;
 import me.wuwenbin.noteblogv4.config.permission.NBAuth;
-import me.wuwenbin.noteblogv4.dao.mapper.TagMapper;
 import me.wuwenbin.noteblogv4.dao.repository.ArticleRepository;
 import me.wuwenbin.noteblogv4.dao.repository.CateRepository;
 import me.wuwenbin.noteblogv4.exception.ArticleFetchFailedException;
+import me.wuwenbin.noteblogv4.model.constant.TagType;
 import me.wuwenbin.noteblogv4.model.entity.NBArticle;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
 import me.wuwenbin.noteblogv4.model.pojo.framework.LayuiTable;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import me.wuwenbin.noteblogv4.model.pojo.framework.Pagination;
-import me.wuwenbin.noteblogv4.model.pojo.vo.NBArticleVO;
 import me.wuwenbin.noteblogv4.service.content.ArticleService;
+import me.wuwenbin.noteblogv4.service.content.TagService;
 import me.wuwenbin.noteblogv4.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -44,15 +45,15 @@ public class ArticleController extends BaseController {
     private final NBContext context;
     private final ArticleService articleService;
     private final ArticleRepository articleRepository;
-    private final TagMapper tagMapper;
+    private final TagService tagService;
 
     @Autowired
-    public ArticleController(CateRepository cateRepository, NBContext context, ArticleService articleService, ArticleRepository articleRepository, TagMapper tagMapper) {
+    public ArticleController(CateRepository cateRepository, NBContext context, ArticleService articleService, ArticleRepository articleRepository, TagService tagService) {
         this.cateRepository = cateRepository;
         this.context = context;
         this.articleService = articleService;
         this.articleRepository = articleRepository;
-        this.tagMapper = tagMapper;
+        this.tagService = tagService;
     }
 
     @RequestMapping("/article/post")
@@ -84,17 +85,19 @@ public class ArticleController extends BaseController {
         if (StringUtils.isEmpty(id)) {
             return NBR.custom(-1);
         } else {
-            return NBR.custom(0, tagMapper.findTagNamesByArticleId(id));
+            return NBR.custom(0, tagService.findSelectedTagsByReferId(id, TagType.article));
         }
     }
 
     @RequestMapping(value = "/article/list", method = RequestMethod.GET)
     @NBAuth(value = "management:article:list_data", remark = "博文管理页面中的数据接口", group = AJAX)
     @ResponseBody
-    public LayuiTable<NBArticleVO> articleList(Pagination<NBArticleVO> pagination, String title, @CookieValue(SESSION_ID_COOKIE) String uuid) {
+    public LayuiTable<NBArticle> articleList(Pagination<NBArticle> pagination, String title, @CookieValue(SESSION_ID_COOKIE) String uuid) {
         NBSysUser user = context.getSessionUser(uuid);
-        Page<NBArticleVO> page = articleService.findPageInfo(pagination, title, user.getId());
-        return layuiTable(page);
+//        Page<NBArticleVO> page = articleService.findPageInfo(pagination, title, user.getId());
+        Pageable pageable = getPageable(pagination);
+        Page<NBArticle> page = articleService.findPageInfo(pageable, title, user.getId());
+        return layuiTable(page, pageable);
     }
 
     @RequestMapping("/article/create")

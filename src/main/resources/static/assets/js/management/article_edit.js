@@ -27,6 +27,7 @@ $(function () {
 
         var post = function (data, draft, msg) {
             data.field.draft = draft;
+            data.field.cate = data.field.cateId;
             if (data.field.editor === 'html') {
                 data.field.mdContent = "";
                 data.field.content = editor.html();

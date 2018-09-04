@@ -2,7 +2,7 @@ package me.wuwenbin.noteblogv4.config.permission;
 
 import cn.hutool.core.util.ArrayUtil;
 import lombok.extern.slf4j.Slf4j;
-import me.wuwenbin.noteblogv4.dao.mapper.PermissionMapper;
+import me.wuwenbin.noteblogv4.dao.repository.ResourceRepository;
 import me.wuwenbin.noteblogv4.exception.UnauthorizedRoleException;
 import me.wuwenbin.noteblogv4.exception.UserNotLoginException;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource;
@@ -39,11 +39,11 @@ import java.util.stream.Collectors;
 @Component
 public class NBAuthAspect extends BaseController {
 
-    private final PermissionMapper permissionMapper;
+    private final ResourceRepository resourceRepository;
 
     @Autowired
-    public NBAuthAspect(PermissionMapper permissionMapper) {
-        this.permissionMapper = permissionMapper;
+    public NBAuthAspect(ResourceRepository resourceRepository) {
+        this.resourceRepository = resourceRepository;
     }
 
     /**
@@ -81,7 +81,7 @@ public class NBAuthAspect extends BaseController {
             NBSysUser user = NBUtils.getSessionUser();
             if (user != null) {
                 //TODO:权限后续记得加上缓存
-                List<NBSysResource> resources = permissionMapper.findResourcesByRoleId(user.getDefaultRoleId());
+                List<NBSysResource> resources = resourceRepository.findResourcesByRoleId(user.getDefaultRoleId());
                 List<String> permissions = resources.stream().map(NBSysResource::getPermission).collect(Collectors.toList());
                 if (permissions.contains(nbAuth.value())) {
                     log.info("验证权限通过，放行...");

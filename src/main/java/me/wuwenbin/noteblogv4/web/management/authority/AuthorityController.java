@@ -2,7 +2,6 @@ package me.wuwenbin.noteblogv4.web.management.authority;
 
 import me.wuwenbin.noteblogv4.config.permission.NBAuth;
 import me.wuwenbin.noteblogv4.config.permission.NBAuth.Group;
-import me.wuwenbin.noteblogv4.dao.mapper.PermissionMapper;
 import me.wuwenbin.noteblogv4.dao.repository.MenuRepository;
 import me.wuwenbin.noteblogv4.dao.repository.ResourceRepository;
 import me.wuwenbin.noteblogv4.dao.repository.RoleRepository;
@@ -41,18 +40,16 @@ public class AuthorityController extends BaseController {
     private final RoleRepository roleRepository;
     private final AuthorityService authorityService;
     private final RoleResourceRepository roleResourceRepository;
-    private final PermissionMapper permissionMapper;
     private final MenuRepository menuRepository;
     private final ResourceRepository resourceRepository;
 
     @Autowired
     public AuthorityController(RoleRepository rr, AuthorityService ups,
-                               RoleResourceRepository rrr, PermissionMapper pm,
+                               RoleResourceRepository rrr,
                                MenuRepository mr, ResourceRepository resR) {
         this.roleRepository = rr;
         this.authorityService = ups;
         this.roleResourceRepository = rrr;
-        this.permissionMapper = pm;
         this.menuRepository = mr;
         this.resourceRepository = resR;
     }
@@ -93,7 +90,7 @@ public class AuthorityController extends BaseController {
     @ResponseBody
     @NBAuth(value = "permission:role:update_role_resource", remark = "更新角色所拥有的资源信息", group = Group.AJAX)
     public NBR updateRoleResource(Long roleId, @RequestParam(value = "resourceIds[]", required = false) Long[] resourceIds) {
-        permissionMapper.deleteRrByRoleId(roleId);
+        roleResourceRepository.deleteRrByRoleId(roleId);
         if (resourceIds != null && resourceIds.length > 0) {
             for (Long resource : resourceIds) {
                 if (!StringUtils.isEmpty(resource)) {

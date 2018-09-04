@@ -52,6 +52,10 @@ public class NBArticle implements Serializable {
     @NotNull(message = "文章必须属于一个分类下")
     private Long cateId;
 
+    @ManyToOne
+    @JoinColumn(name = "cate_refer_id")
+    private NBCate cate;
+
     private String cover;
 
     @Column(length = 300)
@@ -61,15 +65,15 @@ public class NBArticle implements Serializable {
     @NotEmpty(message = "文章内容不能为空")
     private String content;
 
-    @Column(columnDefinition = "text", nullable = false)
+    @Column(columnDefinition = "text")
     @Builder.Default
     private String mdContent = "";
 
-    @Column(columnDefinition = "text", nullable = false)
+    @Column(columnDefinition = "text")
     @Builder.Default
     private String textContent = "";
 
-    @Column(length = 11, nullable = false, updatable = false)
+    @Column(length = 11, updatable = false)
     private Long authorId;
 
     @Column(nullable = false, updatable = false)
