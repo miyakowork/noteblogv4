@@ -3,7 +3,6 @@ package me.wuwenbin.noteblogv4.service.content;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HtmlUtil;
 import lombok.extern.slf4j.Slf4j;
-import me.wuwenbin.noteblogv4.dao.mapper.ArticleMapper;
 import me.wuwenbin.noteblogv4.dao.repository.ArticleRepository;
 import me.wuwenbin.noteblogv4.dao.repository.TagReferRepository;
 import me.wuwenbin.noteblogv4.dao.repository.TagRepository;
@@ -45,14 +44,12 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
     private final TagReferRepository tagReferRepository;
     private final TagRepository tagRepository;
-    private final ArticleMapper articleMapper;
 
     @Autowired
-    public ArticleServiceImpl(ArticleRepository articleRepository, TagReferRepository tagReferRepository, TagRepository tagRepository, ArticleMapper articleMapper) {
+    public ArticleServiceImpl(ArticleRepository articleRepository, TagReferRepository tagReferRepository, TagRepository tagRepository) {
         this.articleRepository = articleRepository;
         this.tagReferRepository = tagReferRepository;
         this.tagRepository = tagRepository;
-        this.articleMapper = articleMapper;
     }
 
     @Override
@@ -99,16 +96,8 @@ public class ArticleServiceImpl implements ArticleService {
         }
     }
 
-//    @Override
-//    public Page<NBArticleVO> findPageInfo(Pagination<NBArticleVO> articlePage, String title, Long authorId) {
-//        PageHelper.startPage(articlePage.getPage(), articlePage.getLimit(), articlePage.getOrderBy());
-//        return articleMapper.findPageInfo(articlePage, title, authorId);
-//    }
-
-
     @Override
     public Page<NBArticle> findPageInfo(Pageable pageable, String title, Long authorId) {
-//        if (StringUtils.isEmpty(title) && StringUtils.isEmpty(authorId)) {
         return articleRepository.findAll((Specification<NBArticle>) (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (title != null && StrUtil.isNotEmpty(title)) {
@@ -122,15 +111,6 @@ public class ArticleServiceImpl implements ArticleService {
             Predicate[] pres = new Predicate[predicates.size()];
             return query.where(predicates.toArray(pres)).getRestriction();
         }, pageable);
-//        } else {
-//            Example<NBNote> tagExample = Example.of(
-//                    NBNote.builder().clearContent(clearContent == null ? "" : clearContent).title(title == null ? "" : title).build(),
-//                    ExampleMatcher.matching()
-//                            .withMatcher("clearContent", ExampleMatcher.GenericPropertyMatcher::contains)
-//                            .withMatcher("title", ExampleMatcher.GenericPropertyMatcher::contains)
-//                            .withIgnoreCase());
-//            return noteRepository.findAll(tagExample, pageable);
-//        }
     }
 
     @Override

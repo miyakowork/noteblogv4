@@ -40,7 +40,7 @@ public class IndexController {
     public String index(Model model) {
         List<NBParam> params = paramRepository.findAllByLevelGreaterThanEqual(10);
         Map<String, Object> settingsMap = params.stream().collect(Collectors.toMap(NBParam::getName, NBParam::getValue));
-        String style = settingsMap.get(NoteBlogV4.Param.INDEX_STYLE).toString();
+        Object style = settingsMap.get(NoteBlogV4.Param.INDEX_STYLE);
         String pageModern = settingsMap.get(NoteBlogV4.Param.PAGE_MODERN).toString();
         model.addAttribute("settings", settingsMap);
         model.addAttribute("articleCount", articleRepository.count());
@@ -49,7 +49,7 @@ public class IndexController {
         if (StringUtils.isEmpty(style)) {
             throw new RuntimeException("首页风格未设定！");
         } else {
-            if (INDEX_STYLE_SIMPLE.equalsIgnoreCase(style)) {
+            if (INDEX_STYLE_SIMPLE.equalsIgnoreCase(style.toString())) {
                 return "frontend/index/index_simple";
             } else if (PAGE_MODERN_DEFAULT.equalsIgnoreCase(pageModern)) {
                 return "frontend/index/index_flow";

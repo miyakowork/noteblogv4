@@ -36,10 +36,10 @@ public class NBComment implements Serializable {
     @Column(length = 11, nullable = false)
     private Long articleId;
 
-    @Column(length = 10000)
+    @Column(columnDefinition = "text")
     private String clearComment;
 
-    @Column(length = 10000)
+    @Column(columnDefinition = "text")
     private String comment;
 
     @Builder.Default

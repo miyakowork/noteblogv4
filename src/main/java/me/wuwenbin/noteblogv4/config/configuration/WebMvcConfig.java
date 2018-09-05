@@ -73,9 +73,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> containerCustomizer() {
         return container -> container.addErrorPages(
-                new ErrorPage(HttpStatus.NOT_FOUND, "/error?errorCode=404")
-                , new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error?errorCode=500")
-                , new ErrorPage(Throwable.class, "/error?errorCode=500")
+                new ErrorPage(HttpStatus.NOT_FOUND, "/error?errorCode=404"),
+                new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error?errorCode=500"),
+                new ErrorPage(Throwable.class, "/error?errorCode=500")
         );
     }
 
