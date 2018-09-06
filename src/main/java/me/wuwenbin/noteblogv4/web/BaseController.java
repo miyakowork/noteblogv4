@@ -2,9 +2,12 @@ package me.wuwenbin.noteblogv4.web;
 
 import com.github.pagehelper.Page;
 import lombok.extern.slf4j.Slf4j;
+import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
+import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.pojo.framework.LayuiTable;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import me.wuwenbin.noteblogv4.model.pojo.framework.Pagination;
+import me.wuwenbin.noteblogv4.util.CacheUtils;
 import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+
+import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.ParamValue.STYLE_NORMAL;
+import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.ParamValue.STYLE_SIMPLE;
 
 /**
  * created by Wuwenbin on 2018/7/17 at 17:09
@@ -36,6 +42,29 @@ public abstract class BaseController {
         String bathPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/";
         log.info("当前域名：[{}]", bathPath);
         return bathPath;
+    }
+
+    protected static String handleStyle(String simple, Supplier<String> normalOrOther, ParamRepository paramRepository) {
+        Object style = CacheUtils.getParamCache().get(NoteBlogV4.Param.BLOG_STYLE);
+        if (style == null) {
+            style = paramRepository.findByName(NoteBlogV4.Param.BLOG_STYLE).getValue();
+            CacheUtils.getParamCache().put(NoteBlogV4.Param.BLOG_STYLE, style);
+        }
+        if (style == null) {
+            throw new RuntimeException("页面风格未设定！");
+        } else {
+            if (STYLE_SIMPLE.equalsIgnoreCase(style.toString())) {
+                return simple;
+            } else if (STYLE_NORMAL.equalsIgnoreCase(style.toString())) {
+                return normalOrOther.get();
+            } else {
+                return "redirect:/error?errorCode=404";
+            }
+        }
+    }
+
+    protected static String handleStyle(String simple, String normal, ParamRepository paramRepository) {
+        return handleStyle(simple, () -> normal, paramRepository);
     }
 
     /**

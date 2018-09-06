@@ -253,7 +253,7 @@ public interface NoteBlogV4 {
         /**
          * 首页风格：简约/普通（simple/normal）
          */
-        String INDEX_STYLE = "index_style";
+        String BLOG_STYLE = "index_style";
 
         /**
          * 博文首页分页的pageSize大小
@@ -349,8 +349,8 @@ public interface NoteBlogV4 {
 
         String DEFAULT_PAGE_SIZE = "10";
 
-        String INDEX_STYLE_SIMPLE = "simple";
-        String INDEX_STYLE_NORMAL = "normal";
+        String STYLE_SIMPLE = "simple";
+        String STYLE_NORMAL = "normal";
     }
 
 }

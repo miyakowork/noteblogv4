@@ -1,0 +1,35 @@
+
+.logo, .logo:hover {
+    font-family: "Exo 2", "Trebuchet MS", "Helvetica", "Arial", 'PingFang SC', 'Hiragino Sans GB', 'STHeiti Light', 'Microsoft YaHei', 'SimHei', 'WenQuanYi Micro Hei', sans-serif !important;
+    letter-spacing: .04em;
+    font-weight: lighter;
+}
+
+.logo + small {
+    display: none;
+    font-size: 12px;
+    margin-left: 10px;
+    letter-spacing: 3px;
+    color: #393D49;
+    cursor: text;
+    user-select: text;
+}
+
+.header.mini .nav-btn a {
+    margin-left: 5px !important;
+}
+
+.header.mini .nav-btn a > .layui-icon {
+    font-size: 18px !important;
+    font-weight: lighter !important;
+}
+
+.header.mini .right .layui-icon {
+    font-weight: bolder;
+}
+
+@media screen and (min-width: 996px) {
+    .logo + small {
+        display: inline-block;
+    }
+}

@@ -38,5 +38,17 @@ public interface TagRepository extends JpaRepository<NBTag, Long> {
                     "        GROUP BY a.`name`")
     List<Object[]> findTagListSelected(Long referId, String type);
 
+    /**
+     * 查询文章的标签
+     *
+     * @param referId
+     * @param show
+     * @return
+     */
+    @Query(nativeQuery = true,
+            value = "SELECT * FROM nb_tag WHERE  id IN" +
+                    " (SELECT tag_id FROM nb_tag_refer WHERE refer_id =?1 AND `show`= ?2 AND type = 'article')")
+    List<NBTag> findArticleTags(long referId, boolean show);
+
 
 }

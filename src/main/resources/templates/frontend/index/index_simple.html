@@ -3,6 +3,7 @@
 <head>
     <meta th:replace="frontend/fragment/style"/>
     <title th:text="${settings.website_title}"></title>
+    <link href="/static/assets/css/frontend/simple.css" type="text/css" rel="stylesheet">
     <link href="/static/assets/css/frontend/simple_index.css" type="text/css" rel="stylesheet">
 </head>
 <body class="layui-anim layui-anim-fadein simple">
@@ -12,8 +13,13 @@
     <bmy-simple-articles>
         <template slot="list" v-for="n in 50">
             <blockquote class="layui-elem-quote simple-article layui-anim layui-anim-upbit">
-                <div class="article-title center-to-head"><a href="">这个是文章的标题a a aa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></div>
-                <div class="article-title sm"><a href="">这个是文章的标题a a aa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></div>
+                <div class="article-title center-to-head"><span class="layui-badge"
+                                                                style="background: #F44336;">置顶</span><span
+                        class="layui-badge layui-bg-cyan">分类名</span>
+                    <a href="">这个是文章的标题a a aa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></div>
+                <div class="article-title sm"><span class="layui-badge"
+                                                    style="background: #F44336;">置顶</span><span
+                        class="layui-badge layui-bg-cyan">分类名</span><a href="">这个是文章的标题a a aa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></div>
                 <div class="article-body normal">{{text}}<a href="/index">...</a></div>
                 <div class="article-body sm">{{text2}}<a href="/index">...</a></div>
                 <div class="article-footer">

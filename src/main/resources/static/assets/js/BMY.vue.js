@@ -303,6 +303,70 @@ var template = {
         '       </div>' +
         '   </div>' +
         '</div>'
+
+    , articlePageMini:
+        '<div id="blog-body" class="layui-container simple">' +
+        '   <div class="layui-row layui-col-space10">' +
+        '       <div id="blog-info" class="layui-col-md12">' +
+        '           <div class="layui-collapse layui-panel layui-article">' +
+        '               <div class="layui-colla-item">' +
+        '                   <div class="layui-colla-content layui-show layui-article">' +
+        '                       <fieldset class="layui-elem-field layui-field-title layui-article-page-title">' +
+        '                           <legend class="center-to-head" align="center">{{article.title}}</legend>' +
+        '                       </fieldset>' +
+        '                       <div class="layui-text layui-blog-body">' +
+        '                           <div class="layui-row">' +
+        '                               <div class="layui-col-md6 layui-col-md-offset3 text-center blog-base-info">' +
+        '                                   <span><i class="fa fa-clock-o"></i> {{postDate}}</span>' +
+        '                                   <span><i class="fa fa-user-o"></i> <span style="color: #FF5722;">{{author}}</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-renzhengkaobei"></use></svg></span>' +
+        '                                   <span><i class="fa fa-comment-o"></i> {{comments}}</span>' +
+        '                                   <span><i class="fa fa-eye"></i> {{article.views}}</span>' +
+        '                               </div>' +
+        '                           </div>' +
+        '                           <hr>' +
+        '                           <div class="content detail" v-html="article.content"></div>' +
+        '                       </div>' +
+        '                       <div class="layui-row text-center layui-mt20">' +
+        '                           <div v-if="article.appreciable" class="layui-btn layui-btn-warm layui-hide layui-show-md-inline-block" @click="money(alipay,wechat)"><i class="fa fa-rmb"></i> 打赏</div>' +
+        '                           <div class="layui-btn" @click="emotion()"><i class="fa fa-thumbs-o-up"></i> 赞 ({{approve}})</div>' +
+        '                       </div>' +
+        '                       <div class="layui-row layui-mt20">' +
+        '                           <blockquote class="layui-elem-quote text-center " style="border: none;">' +
+        '                               <span class="layui-show-md-inline-block layui-hide">文章出处：{{name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;' +
+        '                               <span class="layui-show-md-inline-block layui-hide">文章地址：{{url}}</span>&nbsp;&nbsp;&nbsp;&nbsp;' +
+        '                               <span>转载注明下哦！o(≧v≦)o~~</span>' +
+        '                           </blockquote>' +
+        '                       </div>' +
+        '                       <div class="layui-row layui-mt20">' +
+        '                           <p class="blog-tags">' +
+        '                           标签：' +
+        '                               <template v-for="t in tags">' +
+        '                                   <span>{{t.name}}</span>' +
+        '                               </template>' +
+        '                           </p>' +
+        '                       </div>' +
+        '                       <div class="layui-row layui-col-space20 layui-mt20 article-page-similar">' +
+        '                           <p>相似文章：</p>' +
+        '                           <hr>' +
+        '                           <ul>' +
+        '                               <template v-for="(a,index) in similars">' +
+        '                                   <li><a :href="\'/article/\'+a.id" class="layui-word-aux"><i class="fa fa-circle-thin"></i>&nbsp;&nbsp;{{a.title}}</a> </li>' +
+        '                               </template>' +
+        '                           </ul>' +
+        '                       </div>' +
+        '                   </div>' +
+        '               </div>' +
+        '           </div>' +
+        '           <div class="layui-collapse layui-panel layui-article">' +
+        '               <slot name="post"></slot>' +
+        '           </div>' +
+        '           <div class="layui-collapse layui-panel layui-article">' +
+        '               <slot name="comment"></slot>' +
+        '           </div>' +
+        '       </div>' +
+        '   </div>' +
+        '</div>'
+
     , similar:
         '<div class="layui-tab layui-tab-card layui-similar">' +
         '   <div class="layui-tab-content select-none">' +
@@ -690,6 +754,69 @@ Vue.component('bmy-tab', {
 
 Vue.component('bmy-article-page', {
     template: template.articlePage
+    , data: function () {
+        return {
+            approve: 0
+        }
+    }
+    , props: ['article', 'author', 'name', 'comments', 'tags', 'similars', "alipay", "wechat", "su"]
+    , computed: {
+        postDate: function () {
+            return BMY.dateFormatter(this.article.post, "-");
+        }
+        , url: function () {
+            return location.href;
+        }
+    }
+    , mounted: function () {
+        this.approve = this.article.approveCnt
+    }
+    , methods: {
+        money: function (alipay, wechat) {
+            alipay = alipay === null || alipay === undefined || alipay === "" ? "/static/assets/img/noqrcode.jpg" : alipay;
+            wechat = wechat === null || wechat === undefined || wechat === "" ? "/static/assets/img/noqrcode.jpg" : wechat;
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 0,
+                area: ['640px', '300px'],
+                shadeClose: true,
+                skin: 'text-center',
+                content:
+                    '<div class="layui-fluid">' +
+                    '   <div class="layui-row layui-mt20">' +
+                    '       <div class="layui-col-md6">' +
+                    '           <img src="' + wechat + '" style="height: 250px;width: 250px;">' +
+                    '           <p class="text-center">微信</p>' +
+                    '       </div>' +
+                    '       <div class="layui-col-md6">' +
+                    '           <img src="' + alipay + '" style="height: 250px;width: 250px;">' +
+                    '           <p class="text-center">支付宝</p>' +
+                    '       </div>' +
+                    '   </div> ' +
+                    '</div>'
+            });
+        }
+        , emotion: function () {
+            var that = this;
+            var uid = that.su !== null ? that.su.id : "guest";
+            if (BMY.getCookie("article::" + that.article.id + "::" + uid) != null) {
+                layer.msg("近期您已经点过赞，感谢您的支持！");
+            } else {
+                $.post("/article/approve", {articleId: this.article.id}, function (json) {
+                    if (json.code === BMY.status.ok) {
+                        BMY.setCookie("article::" + that.article.id + "::" + uid, "noteblog system");
+                        that.approve++;
+                        layer.msg("谢谢您的支持！");
+                    }
+                })
+            }
+        }
+    }
+});
+
+Vue.component('bmy-article-page-mini', {
+    template: template.articlePageMini
     , data: function () {
         return {
             approve: 0

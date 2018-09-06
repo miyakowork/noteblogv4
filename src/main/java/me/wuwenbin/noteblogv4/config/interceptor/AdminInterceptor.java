@@ -56,15 +56,17 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
     }
 
     static void handleAjaxRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //用户未登录或登录时效过期，请重新登录！
+        final String message = "\u7528\u6237\u672a\u767b\u5f55\u6216\u767b\u5f55\u65f6\u6548\u8fc7\u671f\uff0c\u8bf7\u91cd\u65b0\u767b\u5f55\uff01";
+        response.setHeader("Content-type", "text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
         if (NBUtils.isRouterRequest(request)) {
-            response.setCharacterEncoding("UTF-8");
             JSONObject jsonObject = JSONUtil.createObj();
-            jsonObject.putAll(NBR.custom(-1, "用户未登录或登录时效过期，请重新登录！", NoteBlogV4.Session.LOGIN_URL));
+            jsonObject.putAll(NBR.custom(-1, message, NoteBlogV4.Session.LOGIN_URL));
             response.getWriter().write(jsonObject.toString());
         } else if (NBUtils.isAjaxRequest(request) && !NBUtils.isRouterRequest(request)) {
-            response.setCharacterEncoding("UTF-8");
             JSONObject jsonObject = JSONUtil.createObj();
-            jsonObject.putAll(NBR.error("用户未登录或登录时效过期，请重新登录！", NoteBlogV4.Session.LOGIN_URL));
+            jsonObject.putAll(NBR.custom(-1, message, NoteBlogV4.Session.LOGIN_URL));
             response.getWriter().write(jsonObject.toString());
         } else {
             response.sendRedirect(NoteBlogV4.Session.LOGIN_URL);

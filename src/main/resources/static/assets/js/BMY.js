@@ -181,3 +181,14 @@ var BMY = {
         }
     }
 };
+
+/**
+ * 全局登录超时判断
+ */
+$(document).ajaxComplete(function (event, xhr, options) {
+    if (xhr && xhr.responseJSON && xhr.responseJSON.code) {
+        if (xhr.responseJSON.code === -1) {
+            location.href = xhr.responseJSON.data;
+        }
+    }
+});
