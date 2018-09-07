@@ -8,7 +8,7 @@
 </head>
 <body class="layui-anim layui-anim-fadein simple">
 <div id="index-app">
-    <bmy-header-mini :params="params" :home="current"></bmy-header-mini>
+    <bmy-header-mini :params="params" :home="current" :bodyId="bodyId"></bmy-header-mini>
     <hr class="header-hr">
     <bmy-simple-articles>
         <template slot="list" v-for="n in 50">
@@ -47,6 +47,7 @@
             params: [[${settings}]],
             current: true,
             su: [[${su}]],
+            bodyId: "main-body",
             quote: {
                 showBlog: true
                 , showSearch: false
@@ -63,51 +64,9 @@
     });
 
 
-    var justResult = $('#main-body').offset().top - $(window).scrollTop();
-    animateNav();
-    $(window).scroll(function () {
-        justResult = animateNav();
-    });
-
-
-    function animateNav() {
-        var result = $('#main-body').offset().top - $(window).scrollTop();
-        if (result >= -50) {
-            if (result >= justResult) {
-                $("body.simple .header").removeClass("header-small");
-                $("body.simple .nav-header").removeClass("nav-header-small");
-            } else {
-                $("body.simple .nav-header").addClass("nav-header-small");
-                $("body.simple .header").addClass("header-small");
-            }
-        } else {
-            if (result <= justResult) {
-                $("body.simple .nav-header").addClass("nav-header-small");
-                $("body.simple .header").addClass("header-small");
-            } else {
-                $("body.simple .header").removeClass("header-small");
-                $("body.simple .nav-header").removeClass("nav-header-small");
-            }
-        }
-        return result;
-    }
-
     //让手机端也有hover的类似效果
     document.body.addEventListener('touchstart', function () {
     });
-
-    $(function () {
-        var __navBtnAIndex;
-        $(".simple .nav-btn a[data-title]").hover(function () {
-            var that = this;
-            __navBtnAIndex = window.layer.tips($(this).attr("data-title"), that, {
-                tips: [3, '#F44336'],
-                zIndex: 19930917
-            });
-        }, function () {
-            window.layer.close(__navBtnAIndex);
-        })
-    })
 
 </script>
 </body>

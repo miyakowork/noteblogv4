@@ -3,6 +3,7 @@ package me.wuwenbin.noteblogv4.service.settings;
 import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
 import me.wuwenbin.noteblogv4.model.entity.NBParam;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
+import me.wuwenbin.noteblogv4.util.CacheUtils;
 import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.util.StringUtils;
@@ -26,6 +27,7 @@ public interface SettingsService {
      * @return
      */
     default NBR update(String name, String value, Supplier<NBR> supplier) {
+        CacheUtils.getParamCache().clear();
         if (StringUtils.isEmpty(name)) {
             return NBR.error("参数 key 不能为空！");
         } else {

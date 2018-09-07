@@ -53,7 +53,7 @@ var template = {
         '    <div class="layui-container">' +
         '        <div class="layui-row nav-header">' +
         '            <div class="layui-col-xs9 layui-col-sm4">' +
-        '                <a class="logo" href="/index"><i class="fa fa-graduation-cap"></i>&nbsp;{{params.website_logo_words}}</a><small>{{params.website_logo_small_words}}</small>' +
+        '                <a class="logo" href="/index"><i class="fa fa-graduation-cap"></i>&nbsp;{{params.website_logo_words}}</a><small v-show="showSmall">{{params.website_logo_small_words}}</small>' +
         '                <h2 id="title" style="display: none;margin-left: 10%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;" v-if="st">{{title}}</h2>' +
         '            </div>' +
         '            <div class="layui-col-xs3 layui-col-sm-offset2 layui-col-sm4 layui-hide-md layui-hide-lg nav-btn">' +
@@ -249,7 +249,7 @@ var template = {
         '                                   <span><i class="fa fa-clock-o"></i> {{postDate}}</span>' +
         '                                   <span><i class="fa fa-user-o"></i> <span style="color: #FF5722;">{{author}}</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-renzhengkaobei"></use></svg></span>' +
         '                                   <span><i class="fa fa-comment-o"></i> {{comments}}</span>' +
-        '                                   <span><i class="fa fa-eye"></i> {{article.views}}</span>' +
+        '                                   <span><i class="fa fa-eye"></i> {{article.view}}</span>' +
         '                               </div>' +
         '                           </div>' +
         '                           <hr>' +
@@ -320,11 +320,12 @@ var template = {
         '                                   <span><i class="fa fa-clock-o"></i> {{postDate}}</span>' +
         '                                   <span><i class="fa fa-user-o"></i> <span style="color: #FF5722;">{{author}}</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-renzhengkaobei"></use></svg></span>' +
         '                                   <span><i class="fa fa-comment-o"></i> {{comments}}</span>' +
-        '                                   <span><i class="fa fa-eye"></i> {{article.views}}</span>' +
+        '                                   <span><i class="fa fa-eye"></i> {{article.view}}</span>' +
         '                               </div>' +
         '                           </div>' +
         '                           <hr>' +
-        '                           <div class="content detail" v-html="article.content"></div>' +
+        '                           <div id="doc-content" class="content detail layui-col-sm12"></div>' +
+        '                           <div id="custom-toc-container" style="margin-left: 15px;display: none;"></div>' +
         '                       </div>' +
         '                       <div class="layui-row text-center layui-mt20">' +
         '                           <div v-if="article.appreciable" class="layui-btn layui-btn-warm layui-hide layui-show-md-inline-block" @click="money(alipay,wechat)"><i class="fa fa-rmb"></i> 打赏</div>' +
@@ -537,6 +538,14 @@ Vue.component('bmy-header-mini', {
             type: String
             , default: ""
         }
+        , bodyid: {
+            type: String
+            , default: "main-body"
+        },
+        showSmall: {
+            type: Boolean
+            , default: true
+        }
     }
     , data: function () {
         return {
@@ -565,10 +574,32 @@ Vue.component('bmy-header-mini', {
             if ($(".logo").is(":visible") && $("#title").is(":visible")) {
                 $(".logo").hide();
             }
+        },
+        miniHeader: function () {
+            var $body = $("#" + this.bodyid);
+            window._justResult = $body.offset().top - $(window).scrollTop();
+            BMY.animateNav($body);
+            $(window).scroll(function () {
+                window._justResult = BMY.animateNav($body);
+            });
+        },
+        miniHeaderNavBtn: function () {
+            var __navBtnAIndex;
+            $(".simple .nav-btn a[data-title]").hover(function () {
+                var that = this;
+                __navBtnAIndex = window.layer.tips($(this).attr("data-title"), that, {
+                    tips: [3, '#F44336'],
+                    zIndex: 19930917
+                });
+            }, function () {
+                window.layer.close(__navBtnAIndex);
+            })
         }
     }
     , mounted: function () {
         window.addEventListener("scroll", this.headerScroll);
+        this.miniHeader();
+        this.miniHeaderNavBtn();
     }
 });
 
@@ -830,9 +861,28 @@ Vue.component('bmy-article-page-mini', {
         , url: function () {
             return location.href;
         }
+        , articleContent: function () {
+            if (this.article.mdContent && this.article.mdContent !== "") {
+
+            }
+        }
     }
     , mounted: function () {
-        this.approve = this.article.approveCnt
+        this.approve = this.article.approveCnt;
+        editormd.markdownToHTML("doc-content", {
+            markdown: this.article.mdContent,//+ "\r\n" + $("#append-test").text(),
+            //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
+            htmlDecode: "style,script,iframe",  // you can filter tags decode
+            tocContainer: "#custom-toc-container", // 自定义 ToC 容器层
+            //gfm             : false,
+            //tocDropdown     : true,
+            markdownSourceCode: false, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
+            emoji: false,
+            taskList: true,
+            tex: true,  // 默认不解析
+            flowChart: true,  // 默认不解析
+            sequenceDiagram: true// 默认不解析
+        });
     }
     , methods: {
         money: function (alipay, wechat) {

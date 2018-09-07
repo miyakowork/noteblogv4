@@ -769,3 +769,27 @@ p.blog-tags > span:hover {
 #affix-side {
     -webkit-transform: translateZ(0);
 }
+
+#custom-toc-container > ul {
+    padding: 0 0 0 15px !important;
+    list-style-type: disc !important;
+    text-overflow: ellipsis;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+#custom-toc-container ul li {
+    margin-top: 0 !important;
+    list-style-type: disc !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#custom-toc-container ul li a {
+    color: #333;
+    text-decoration: none;
+}
+
+#custom-toc-container ul li a:hover {
+    color: #F44336;
+}

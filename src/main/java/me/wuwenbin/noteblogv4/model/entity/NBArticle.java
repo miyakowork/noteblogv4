@@ -61,15 +61,15 @@ public class NBArticle implements Serializable {
     @Column(length = 300)
     private String summary;
 
-    @Column(columnDefinition = "text", nullable = false)
+    @Column(columnDefinition = "mediumtext", nullable = false)
     @NotEmpty(message = "文章内容不能为空")
     private String content;
 
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = "mediumtext")
     @Builder.Default
     private String mdContent = "";
 
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = "mediumtext")
     @Builder.Default
     private String textContent = "";
 

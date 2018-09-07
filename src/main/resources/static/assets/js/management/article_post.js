@@ -28,7 +28,8 @@ layui.use(['element', 'form', 'layer', 'upload', 'formSelects'], function () {
         }
         if (data.field.editor === 'markdown') {
             data.field.mdContent = editorMd.getMarkdown();
-            data.field.content = editorMd.getHTML();
+            // data.field.content = editorMd.getHTML();
+            data.field.content = editorMd.getPreviewedHTML();
         }
         data.field.cover = $("#coverImg").find("img").attr("src") || "";
 
@@ -96,6 +97,11 @@ layui.use(['element', 'form', 'layer', 'upload', 'formSelects'], function () {
                     path: '/static/plugins/editormd/lib/',
                     placeholder: '请在此书写你的内容',
                     saveHTMLToTextarea: true,
+                    searchReplace: true,
+                    taskList: true,
+                    tex: true,// 开启科学公式TeX语言支持，默认关闭
+                    flowChart: true,//开启流程图支持，默认关闭
+                    sequenceDiagram: true,//开启时序/序列图支持，默认关闭,
                     imageUpload: true,
                     imageFormats: ["jpg", "jpeg", "gif", "png", "bmp"],
                     imageUploadURL: BMY.url.prefix + "/upload/editorMD?reqType=lay",
@@ -201,6 +207,11 @@ $(function () {
             path: '/static/plugins/editormd/lib/',
             placeholder: '请在此书写你的内容',
             saveHTMLToTextarea: true,
+            searchReplace: true,
+            taskList: true,
+            tex: true,// 开启科学公式TeX语言支持，默认关闭
+            flowChart: true,//开启流程图支持，默认关闭
+            sequenceDiagram: true,//开启时序/序列图支持，默认关闭,
             imageUpload: true,
             imageFormats: ["jpg", "jpeg", "gif", "png", "bmp"],
             imageUploadURL: BMY.url.prefix + "/upload/editorMD?reqType=lay",

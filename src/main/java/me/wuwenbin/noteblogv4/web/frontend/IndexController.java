@@ -4,16 +4,11 @@ import me.wuwenbin.noteblogv4.dao.repository.ArticleRepository;
 import me.wuwenbin.noteblogv4.dao.repository.CateRepository;
 import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
-import me.wuwenbin.noteblogv4.model.entity.NBParam;
 import me.wuwenbin.noteblogv4.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.ParamValue.PAGE_MODERN_BUTTON;
 import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.ParamValue.PAGE_MODERN_DEFAULT;
@@ -39,10 +34,7 @@ public class IndexController extends BaseController {
 
     @RequestMapping(value = {"", "/index"})
     public String index(Model model) {
-        List<NBParam> params = paramRepository.findAllByLevelGreaterThanEqual(10);
-        Map<String, Object> settingsMap = params.stream().collect(Collectors.toMap(NBParam::getName, NBParam::getValue));
-        String pageModern = settingsMap.get(NoteBlogV4.Param.PAGE_MODERN).toString();
-        model.addAttribute("settings", settingsMap);
+        String pageModern = paramRepository.findByName(NoteBlogV4.Param.PAGE_MODERN).getValue();
         model.addAttribute("articleCount", articleRepository.count());
         model.addAttribute("cateList", cateRepository.findAll());
         model.addAttribute("articles");

@@ -69,7 +69,12 @@ var BMY = {
     , dateFormatter: function (date) {
         if (date.indexOf("T") > -1) {
             var temp = date.split("T");
-            return temp[0] + " " + temp[1];
+            var t = temp[0] + " " + temp[1];
+            if (t.indexOf(".") > -1) {
+                return t.substring(0, t.indexOf("."));
+            } else {
+                return t;
+            }
         }
         return date;
     }
@@ -180,8 +185,41 @@ var BMY = {
             window._laySelect.render();
         }
     }
-};
 
+    , animateNav: function ($body) {
+        var result = $body.offset().top - $(window).scrollTop();
+        if (result >= -50) {
+            if (result >= window._justResult) {
+                $("body.simple .header").removeClass("header-small");
+                $("body.simple .nav-header").removeClass("nav-header-small");
+            } else {
+                $("body.simple .nav-header").addClass("nav-header-small");
+                $("body.simple .header").addClass("header-small");
+            }
+        } else {
+            if (result <= window._justResult) {
+                $("body.simple .nav-header").addClass("nav-header-small");
+                $("body.simple .header").addClass("header-small");
+            } else {
+                $("body.simple .header").removeClass("header-small");
+                $("body.simple .nav-header").removeClass("nav-header-small");
+            }
+        }
+        return result;
+    }
+
+    //设备检测
+    , detectmob: function () {
+        return !!(navigator.userAgent.match(/Android/i)
+            || navigator.userAgent.match(/webOS/i)
+            || navigator.userAgent.match(/iPhone/i)
+            || navigator.userAgent.match(/iPad/i)
+            || navigator.userAgent.match(/iPod/i)
+            || navigator.userAgent.match(/BlackBerry/i)
+            || navigator.userAgent.match(/Windows Phone/i));
+
+    }
+};
 /**
  * 全局登录超时判断
  */

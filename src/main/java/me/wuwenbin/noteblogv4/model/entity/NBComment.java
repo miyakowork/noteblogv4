@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -56,4 +57,8 @@ public class NBComment implements Serializable {
     @Column(nullable = false, length = 1, columnDefinition = "tinyint(1)")
     @Builder.Default
     private Boolean enable = TRUE;
+
+    @ManyToOne
+    @JoinColumn(name = "user_refer_id")
+    private NBSysUser user;
 }

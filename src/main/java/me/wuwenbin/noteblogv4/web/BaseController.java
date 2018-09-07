@@ -45,17 +45,17 @@ public abstract class BaseController {
     }
 
     protected static String handleStyle(String simple, Supplier<String> normalOrOther, ParamRepository paramRepository) {
-        Object style = CacheUtils.getParamCache().get(NoteBlogV4.Param.BLOG_STYLE);
-        if (style == null) {
+        String style = CacheUtils.getParamCache().get(NoteBlogV4.Param.BLOG_STYLE, String.class);
+        if (StringUtils.isEmpty(style)) {
             style = paramRepository.findByName(NoteBlogV4.Param.BLOG_STYLE).getValue();
             CacheUtils.getParamCache().put(NoteBlogV4.Param.BLOG_STYLE, style);
         }
-        if (style == null) {
+        if (StringUtils.isEmpty(style)) {
             throw new RuntimeException("页面风格未设定！");
         } else {
-            if (STYLE_SIMPLE.equalsIgnoreCase(style.toString())) {
+            if (STYLE_SIMPLE.equalsIgnoreCase(style)) {
                 return simple;
-            } else if (STYLE_NORMAL.equalsIgnoreCase(style.toString())) {
+            } else if (STYLE_NORMAL.equalsIgnoreCase(style)) {
                 return normalOrOther.get();
             } else {
                 return "redirect:/error?errorCode=404";

@@ -26,7 +26,11 @@ layui.use(['form', 'table', 'element'], function () {
                     return '<a href="/article/' + d.id + '" class="layui-blue" target="_blank">' + d.title + '</a>';
                 }
             }
-            , {field: 'cnName', title: '分类'}
+            , {
+                field: 'cate', title: '分类', templet: function (d) {
+                    return d.cate.cnName;
+                }
+            }
             , {
                 field: 'post', title: '发布时间', minWidth: 200, sort: true, templet: function (d) {
                     return BMY.dateFormatter(d.post);
