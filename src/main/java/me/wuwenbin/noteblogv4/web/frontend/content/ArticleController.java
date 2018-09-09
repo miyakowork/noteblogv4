@@ -53,10 +53,6 @@ public class ArticleController extends BaseController {
         model.addAttribute("tags", tagRepository.findArticleTags(aId, true));
         model.addAttribute("author", userRepository.getOne(fetchArticle.get().getAuthorId()).getNickname());
         model.addAttribute("comments", commentService.findPageInfo(getPageable(pagination), commentBO));
-        return handleStyle(
-                "frontend/content/article_simple",
-                "frontend/content/article_normal",
-                paramRepository
-        );
+        return "frontend/content/article";
     }
 }
