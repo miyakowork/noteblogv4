@@ -1,6 +1,7 @@
 package me.wuwenbin.noteblogv4.service.content;
 
 import me.wuwenbin.noteblogv4.model.entity.NBArticle;
+import me.wuwenbin.noteblogv4.model.pojo.bo.ArticleQueryBO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -36,8 +37,16 @@ public interface ArticleService {
      * @param authorId
      * @return
      */
-//    Page<NBArticleVO> findPageInfo(Pagination<NBArticleVO> articlePage, String title, Long authorId);
     Page<NBArticle> findPageInfo(Pageable pageable, String title, Long authorId);
+
+    /**
+     * 前端博客页面的文章分页信息
+     *
+     * @param pageable
+     * @param articleQueryBO
+     * @return
+     */
+    Page<NBArticle> findBlogArticles(Pageable pageable, ArticleQueryBO articleQueryBO);
 
     /**
      * 修改文章的 top 值

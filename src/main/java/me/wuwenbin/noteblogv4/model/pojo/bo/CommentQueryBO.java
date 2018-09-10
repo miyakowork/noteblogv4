@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 @ToString
 @Data
-public class CommentBO implements Serializable {
+public class CommentQueryBO implements Serializable {
     private Long articleId;
     private String clearComment;
     private String ipCnAddr;

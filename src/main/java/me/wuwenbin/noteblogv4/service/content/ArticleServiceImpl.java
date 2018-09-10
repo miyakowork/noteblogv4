@@ -12,12 +12,11 @@ import me.wuwenbin.noteblogv4.model.entity.NBArticle;
 import me.wuwenbin.noteblogv4.model.entity.NBCate;
 import me.wuwenbin.noteblogv4.model.entity.NBTag;
 import me.wuwenbin.noteblogv4.model.entity.NBTagRefer;
+import me.wuwenbin.noteblogv4.model.pojo.bo.ArticleQueryBO;
 import me.wuwenbin.noteblogv4.service.param.ParamService;
 import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -111,6 +110,24 @@ public class ArticleServiceImpl implements ArticleService {
             Predicate[] pres = new Predicate[predicates.size()];
             return query.where(predicates.toArray(pres)).getRestriction();
         }, pageable);
+    }
+
+
+    @Override
+    public Page<NBArticle> findBlogArticles(Pageable pageable, ArticleQueryBO articleQueryBO) {
+        String searchStr = articleQueryBO.getSearchStr() == null ? "" : articleQueryBO.getSearchStr();
+        NBArticle prob = NBArticle.builder().textContent(searchStr)
+                .title(searchStr).build();
+        if (articleQueryBO.getCateId() != null) {
+            prob.setCateId(articleQueryBO.getCateId());
+        }
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withMatcher("title", ExampleMatcher.GenericPropertyMatcher::contains)
+                .withMatcher("textContent", ExampleMatcher.GenericPropertyMatcher::contains)
+                .withIgnorePaths("post", "modify", "view", "approveCnt", "commented", "mdContent", "appreciable", "draft", "top")
+                .withIgnoreNullValues();
+        Example<NBArticle> articleExample = Example.of(prob, matcher);
+        return articleRepository.findAll(articleExample, pageable);
     }
 
     @Override

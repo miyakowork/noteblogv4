@@ -94,7 +94,6 @@ public class ArticleController extends BaseController {
     @ResponseBody
     public LayuiTable<NBArticle> articleList(Pagination<NBArticle> pagination, String title, @CookieValue(SESSION_ID_COOKIE) String uuid) {
         NBSysUser user = context.getSessionUser(uuid);
-//        Page<NBArticleVO> page = articleService.findPageInfo(pagination, title, user.getId());
         Pageable pageable = getPageable(pagination);
         Page<NBArticle> page = articleService.findPageInfo(pageable, title, user.getId());
         return layuiTable(page, pageable);

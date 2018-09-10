@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import me.wuwenbin.noteblogv4.dao.repository.CommentRepository;
 import me.wuwenbin.noteblogv4.model.entity.NBComment;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
-import me.wuwenbin.noteblogv4.model.pojo.bo.CommentBO;
+import me.wuwenbin.noteblogv4.model.pojo.bo.CommentQueryBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,20 +33,20 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Page<NBComment> findPageInfo(Pageable pageable, CommentBO commentBO) {
+    public Page<NBComment> findPageInfo(Pageable pageable, CommentQueryBO commentQueryBO) {
         return commentRepository.findAll((Specification<NBComment>) (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
-            if (commentBO.getArticleId() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("articleId"), commentBO.getArticleId()));
+            if (commentQueryBO.getArticleId() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("articleId"), commentQueryBO.getArticleId()));
             }
-            if (commentBO.getUserId() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("userId"), commentBO.getUserId()));
+            if (commentQueryBO.getUserId() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("userId"), commentQueryBO.getUserId()));
             }
-            if (commentBO.getClearComment() != null && StrUtil.isNotEmpty(commentBO.getClearComment())) {
-                predicates.add(criteriaBuilder.like(root.get("clearComment"), "%" + commentBO.getClearComment() + "%"));
+            if (commentQueryBO.getClearComment() != null && StrUtil.isNotEmpty(commentQueryBO.getClearComment())) {
+                predicates.add(criteriaBuilder.like(root.get("clearComment"), "%" + commentQueryBO.getClearComment() + "%"));
             }
-            if (commentBO.getIpCnAddr() != null && StrUtil.isNotEmpty(commentBO.getIpCnAddr())) {
-                predicates.add(criteriaBuilder.like(root.get("ipCnAddr"), "%" + commentBO.getIpCnAddr() + "%"));
+            if (commentQueryBO.getIpCnAddr() != null && StrUtil.isNotEmpty(commentQueryBO.getIpCnAddr())) {
+                predicates.add(criteriaBuilder.like(root.get("ipCnAddr"), "%" + commentQueryBO.getIpCnAddr() + "%"));
             }
             Join<NBComment, NBSysUser> userJoin = root.join(root.getModel().getSingularAttribute("user", NBSysUser.class), JoinType.LEFT);
             predicates.add(criteriaBuilder.equal(userJoin.get("id").as(Long.class), root.get("userId")));

@@ -48,15 +48,6 @@
             current: true,
             su: [[${su}]],
             bodyId: "main-body",
-            quote: {
-                showBlog: true
-                , showSearch: false
-                , showText: true
-                , blogCount: 0
-                , searchCount: 0
-                , showClock: true
-                , text: [[${settings.index_top_words}]]
-            },
             sw: BMY.getParam("s") !== undefined ? decodeURIComponent(BMY.getParam("s")) : BMY.getParam("s")
         },
         mounted: function () {

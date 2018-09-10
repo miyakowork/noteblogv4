@@ -1,13 +1,12 @@
 package me.wuwenbin.noteblogv4.web.frontend.content;
 
 import me.wuwenbin.noteblogv4.dao.repository.ArticleRepository;
-import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
 import me.wuwenbin.noteblogv4.dao.repository.TagRepository;
 import me.wuwenbin.noteblogv4.dao.repository.UserRepository;
 import me.wuwenbin.noteblogv4.exception.ArticleFetchFailedException;
 import me.wuwenbin.noteblogv4.model.entity.NBArticle;
 import me.wuwenbin.noteblogv4.model.entity.NBComment;
-import me.wuwenbin.noteblogv4.model.pojo.bo.CommentBO;
+import me.wuwenbin.noteblogv4.model.pojo.bo.CommentQueryBO;
 import me.wuwenbin.noteblogv4.model.pojo.framework.Pagination;
 import me.wuwenbin.noteblogv4.service.content.CommentService;
 import me.wuwenbin.noteblogv4.web.BaseController;
@@ -29,30 +28,27 @@ import java.util.Optional;
 public class ArticleController extends BaseController {
 
     private final ArticleRepository articleRepository;
-    private final ParamRepository paramRepository;
     private final TagRepository tagRepository;
     private final UserRepository userRepository;
-    @Autowired
-    private CommentService commentService;
+    private final CommentService commentService;
 
     @Autowired
     public ArticleController(ArticleRepository articleRepository,
-                             ParamRepository paramRepository,
                              TagRepository tagRepository,
-                             UserRepository userRepository) {
+                             UserRepository userRepository, CommentService commentService) {
         this.articleRepository = articleRepository;
-        this.paramRepository = paramRepository;
         this.tagRepository = tagRepository;
         this.userRepository = userRepository;
+        this.commentService = commentService;
     }
 
     @RequestMapping("/{aId}")
-    public String article(@PathVariable("aId") Long aId, Model model, Pagination<NBComment> pagination, CommentBO commentBO) {
+    public String article(@PathVariable("aId") Long aId, Model model, Pagination<NBComment> pagination, CommentQueryBO commentQueryBO) {
         Optional<NBArticle> fetchArticle = articleRepository.findById(aId);
         model.addAttribute("article", fetchArticle.orElseThrow(() -> new ArticleFetchFailedException("未找到相关id的文章！")));
         model.addAttribute("tags", tagRepository.findArticleTags(aId, true));
         model.addAttribute("author", userRepository.getOne(fetchArticle.get().getAuthorId()).getNickname());
-        model.addAttribute("comments", commentService.findPageInfo(getPageable(pagination), commentBO));
+        model.addAttribute("comments", commentService.findPageInfo(getPageable(pagination), commentQueryBO));
         return "frontend/content/article";
     }
 }
