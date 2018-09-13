@@ -17,6 +17,9 @@
 
         <bmy-comment v-show="params.all_comment_open == 1 && article.commented" slot="post" :id="article.id"
                      :su="su"></bmy-comment>
+
+        <bmy-similar :articles="similars" slot="similar"></bmy-similar>
+
         <bmy-comment-list slot="comment" :comments="comments" :tips="params.comment_notice"
                           :re="params.all_comment_open == 1 && article.commented"></bmy-comment-list>
 
@@ -36,16 +39,11 @@
 <script src="/static/plugins/editormd/lib/sequence-diagram.min.js"></script>
 <script src="/static/plugins/editormd/editormd.min.js"></script>
 <script th:inline="javascript">
-    layui.use(['layedit', 'laypage', 'code', 'element', 'layer'], function () {
-        BMY.layedit = layui.layedit;
-        BMY.laypage = layui.laypage;
-        BMY.element = layui.element;
-        BMY.layer = layui.layer;
-        BMY.editor = BMY.layedit.build('comment-input', {
-            tool: ['face', '|', 'left', 'center', 'right', 'link', 'unlink']
-            , height: 150
-        });
-        BMY.laypage.render({
+    layui.use(['layedit', 'laypage', 'code'], function () {
+        var layedit = layui.layedit;
+        var laypage = layui.laypage;
+
+        laypage.render({
             elem: $(".comment-page")
             , count: [[${comments.totalElements}]]
             , layout: ['prev', 'next']
@@ -72,30 +70,36 @@
                 , tags: [[${tags}]]
                 , author: [[${author}]]
                 , cates: [[${cateList}]]
-                , articles: [[${articles}]]
-                , similars: [[${similars}]]
+                , similars: [[${similarArticles}]]
                 , su: [[${su}]]
                 , showInfoLabel: false
                 , comments: [[${comments}]]
             }
             , mounted: function () {
+                var that = this;
                 if (!BMY.detectmob()) {
-                    BMY.layer.open({
-                        type: 1
-                        , title: '文章目录'
-                        , area: ['200px', '400px']
-                        , maxmin: true
-                        , shade: 0
-                        , offset: 'r'
-                        , content: $("#custom-toc-container")
-                        , zIndex: 19930917
-                    });
+                    var mdContent = that.article.mdContent;
+                    if (mdContent.indexOf('[TOC]') > -1 || mdContent.indexOf('[TOCM]') > -1) {
+                        layer.open({
+                            type: 1
+                            , title: '文章目录'
+                            , area: ['200px', '400px']
+                            , maxmin: true
+                            , shade: 0
+                            , offset: 'r'
+                            , content: $("#custom-toc-container")
+                            , zIndex: 19930917
+                        });
+                    }
                 }
+                layedit.build('comment-input', {
+                    tool: ['face', '|', 'left', 'center', 'right', 'link', 'unlink']
+                    , height: 150
+                });
             }
         });
     });
-
-
 </script>
+
 </body>
 </html>

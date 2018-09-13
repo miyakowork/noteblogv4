@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * created by Wuwenbin on 2018/7/15 at 12:52
@@ -86,4 +88,31 @@ public interface ArticleRepository extends JpaRepository<NBArticle, Long>, JpaSp
     @Query(nativeQuery = true, value = "SELECT MAX(top)FROM nb_article ")
     int findMaxTop();
 
+    /**
+     * 根据文章自定义链接查找文章对象
+     *
+     * @param urlSeq
+     * @return
+     */
+    Optional<NBArticle> findNBArticleByUrlSequence(String urlSeq);
+
+    /**
+     * 查找相似的文章
+     *
+     * @param cateId
+     * @param limit
+     * @return
+     */
+    @Query(nativeQuery = true, value = "SELECT id,title FROM nb_article WHERE cate_id = ?1 ORDER BY rand() LIMIT ?2")
+    List<NBArticle> findSimilarArticles(long cateId, int limit);
+
+    /**
+     * 更新文章点赞数
+     *
+     * @param articleId
+     * @return
+     * @throws Exception
+     */
+    @Query(nativeQuery = true, value = "UPDATE nb_article SET approve_cnt = approve_cnt + 1 WHERE id = ?1")
+    int updateApproveCntById(long articleId);
 }
