@@ -1,6 +1,6 @@
 package me.wuwenbin.noteblogv4.config.application;
 
-import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,7 +31,7 @@ import static java.time.LocalDateTime.now;
 public class NBSession implements Serializable {
 
     @Builder.Default
-    private String id = RandomUtil.randomUUID();
+    private String id = IdUtil.randomUUID();
     private String host;
     @Builder.Default
     private LocalDateTime startTimestamp = now();

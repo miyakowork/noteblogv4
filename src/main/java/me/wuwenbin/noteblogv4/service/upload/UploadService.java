@@ -1,7 +1,7 @@
 package me.wuwenbin.noteblogv4.service.upload;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.IdUtil;
 import me.wuwenbin.noteblogv4.model.constant.Upload;
 import me.wuwenbin.noteblogv4.model.constant.Upload.Method;
 import me.wuwenbin.noteblogv4.model.entity.NBUpload;
@@ -59,7 +59,7 @@ public interface UploadService<T> {
         String fileName = fileObj.getOriginalFilename();
         //扩展名，包括点符号
         String ext = fileName.substring(Objects.requireNonNull(fileName).lastIndexOf("."));
-        String newFileName = RandomUtil.randomUUID().concat(ext);
+        String newFileName = IdUtil.randomUUID().concat(ext);
         String prefix = NBUtils.getBean(Environment.class).getProperty("noteblog.upload.path");
         String datePrefix = LocalDate.now().toString();
         String completePrefix = prefix + uploadPathPre + "/" + datePrefix + "/";

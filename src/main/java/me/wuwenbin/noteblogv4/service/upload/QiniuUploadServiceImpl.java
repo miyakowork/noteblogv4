@@ -1,6 +1,6 @@
 package me.wuwenbin.noteblogv4.service.upload;
 
-import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -109,7 +109,7 @@ public class QiniuUploadServiceImpl implements UploadService<Object> {
      */
     private Response doUpload(MultipartFile file, String uptoken) {
         try {
-            String resId = RandomUtil.randomUUID();
+            String resId = IdUtil.randomUUID();
             String fileName = file.getOriginalFilename();
             assert fileName != null;
             //构造一个带指定Zone对象的配置类

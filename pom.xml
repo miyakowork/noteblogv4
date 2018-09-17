@@ -23,7 +23,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <druid.starter>1.1.10</druid.starter>
-        <hutool.version>4.1.2</hutool.version>
+        <hutool.version>4.1.13</hutool.version>
         <mybatis-starter.version>1.3.2</mybatis-starter.version>
         <mybatis-pagehelper.version>1.2.5</mybatis-pagehelper.version>
         <cssparser.version>0.9.25</cssparser.version>
