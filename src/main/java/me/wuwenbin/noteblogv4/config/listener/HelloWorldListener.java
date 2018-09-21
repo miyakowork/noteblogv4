@@ -69,6 +69,7 @@ public class HelloWorldListener implements ApplicationListener<ApplicationReadyE
                 .content(text)
                 .textContent(text)
                 .cate(cateRepository.getOne(cateId))
+                .summary(text)
                 .title(title).build();
         articleRepository.save(helloWorldArticle);
     }

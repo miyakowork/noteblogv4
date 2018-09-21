@@ -133,12 +133,7 @@ var template = {
         '            </div>' +
         '        </div>' +
         '    </div>'
-    , simpleArticles:
-        '<div id="main-body" class="layui-container simple">' +
-        '        <div class="layui-row layui-col-space10">' +
-        '            <slot name="list"></slot>' +
-        '        </div>' +
-        '    </div>'
+
     , article:
         '<div id="article-list" class="layui-col-md9"></div>'
     , info:
@@ -693,7 +688,6 @@ Vue.component('bmy-block', {
 });
 
 Vue.component('bmy-articles', {template: template.articles});
-Vue.component('bmy-simple-articles', {template: template.simpleArticles});
 Vue.component('bmy-list', {
     template: template.article
     , props: ['item', 'tags']

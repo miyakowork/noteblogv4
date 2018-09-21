@@ -82,13 +82,13 @@ public class IndexController extends BaseController {
         Map<Long, String> articleAuthorNames = page.getContent().stream()
                 .collect(toMap(
                         NBArticle::getId,
-                        article -> userRepository.getOne(article.getId()).getNickname()
+                        article -> userRepository.getOne(article.getAuthorId()).getNickname()
                 ));
         Map<String, Object> resultMap = new HashMap<>(2);
         resultMap.put("pageArticle", page);
         resultMap.put("articleComments", commentCounts);
-        resultMap.put("articleAuthors",articleAuthorNames);
-        return NBR.ok(resultMap);
+        resultMap.put("articleAuthors", articleAuthorNames);
+        return NBR.ok("获取成功", resultMap);
     }
 
 }

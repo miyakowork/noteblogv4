@@ -10,29 +10,31 @@
 <div id="index-app">
     <bmy-header-mini :params="params" :home="current" :bodyId="bodyId"></bmy-header-mini>
     <hr class="header-hr">
-    <bmy-simple-articles>
-        <template slot="list" v-for="n in 50">
-            <blockquote class="layui-elem-quote simple-article layui-anim layui-anim-upbit">
-                <div class="article-title center-to-head"><span class="layui-badge"
-                                                                style="background: #F44336;">置顶</span><span
-                        class="layui-badge layui-bg-cyan">分类名</span>
-                    <a href="">这个是文章的标题a a aa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></div>
-                <div class="article-title sm"><span class="layui-badge"
-                                                    style="background: #F44336;">置顶</span><span
-                        class="layui-badge layui-bg-cyan">分类名</span><a href="">这个是文章的标题a a aa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></div>
-                <div class="article-body normal">{{text}}<a href="/index">...</a></div>
-                <div class="article-body sm">{{text2}}<a href="/index">...</a></div>
-                <div class="article-footer">
-                    <p>
-                        <span><i class="fa fa-thermometer-1"></i> 热度：<span>2653℃</span></span>
-                        <span><i class="fa fa-commenting-o"></i> <span>26</span>条评论</span>
-                        <span><i class="fa fa-clock-o"></i> 时间：<span class="detail-date">2018年8月27日 22:00:00</span><span
-                                class="simple-date">18/08/27 22:00</span></span>
-                    </p>
-                </div>
-            </blockquote>
-        </template>
-    </bmy-simple-articles>
+    <div id="main-body" class="layui-container simple">
+        <div class="layui-row layui-col-space10" id="article-simple-list">
+        </div>
+    </div>
+    <!--<template slot="list" v-for="n in 50">-->
+    <!--<blockquote class="layui-elem-quote simple-article layui-anim layui-anim-upbit">-->
+    <!--<div class="article-title center-to-head"><span class="layui-badge"-->
+    <!--style="background: #F44336;">置顶</span><span-->
+    <!--class="layui-badge layui-bg-cyan">分类名</span>-->
+    <!--<a href="">这个是文章的标题a a aa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></div>-->
+    <!--<div class="article-title sm"><span class="layui-badge"-->
+    <!--style="background: #F44336;">置顶</span><span-->
+    <!--class="layui-badge layui-bg-cyan">分类名</span><a href="">这个是文章的标题a a aa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></div>-->
+    <!--<div class="article-body normal">{{text}}<a href="/index">...</a></div>-->
+    <!--<div class="article-body sm">{{text2}}<a href="/index">...</a></div>-->
+    <!--<div class="article-footer">-->
+    <!--<p>-->
+    <!--<span><i class="fa fa-thermometer-1"></i> 热度：<span>2653℃</span></span>-->
+    <!--<span><i class="fa fa-commenting-o"></i> <span>26</span>条评论</span>-->
+    <!--<span><i class="fa fa-clock-o"></i> 时间：<span class="detail-date">2018年8月27日 22:00:00</span><span-->
+    <!--class="simple-date">18/08/27 22:00</span></span>-->
+    <!--</p>-->
+    <!--</div>-->
+    <!--</blockquote>-->
+    <!--</template>-->
     <bmy-footer :words="params.footer_words"></bmy-footer>
 </div>
 <div th:replace="frontend/fragment/script"></div>
@@ -57,6 +59,24 @@
     //让手机端也有hover的类似效果
     document.body.addEventListener('touchstart', function () {
     });
+</script>
+<script>
+    layui.config({base: '/static/assets/js/frontend/'}).extend({
+        article: 'article_simple'
+    });
+    layui.use(['laytpl', 'element', 'flow', 'article_simple'], function () {
+        var flow = layui.flow;
+        var element = layui.element;
+        var laytpl = layui.laytpl;
+        var articleSimple = layui.article_simple;
+        flow.load({
+            elem: '#article-simple-list' //流加载容器
+            , done: function (page, next) { //执行下一页的回调
+                return articleSimple(page, next, laytpl);
+            }
+        });
+    });
+
 
 </script>
 </body>
