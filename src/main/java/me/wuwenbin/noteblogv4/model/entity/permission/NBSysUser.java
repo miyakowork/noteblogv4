@@ -1,6 +1,7 @@
 package me.wuwenbin.noteblogv4.model.entity.permission;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +25,7 @@ import static java.time.LocalDateTime.now;
 @AllArgsConstructor
 @Table(name = "sys_user")
 @NoArgsConstructor
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer","handler"})
 public class NBSysUser implements Serializable {
 
     @Id

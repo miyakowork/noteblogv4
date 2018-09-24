@@ -53,7 +53,7 @@ public class CommentController extends BaseController {
         return ajaxDone(
                 () -> initSure.equals(paramRepository.findByName(ALL_COMMENT_OPEN).getValue()) && articleRepository.getOne(comment.getArticleId()).getCommented(),
                 () -> {
-                    if (bindingResult.hasErrors()) {
+                    if (!bindingResult.hasErrors()) {
                         comment.setIpAddr(NBUtils.getRemoteAddress(request));
                         comment.setIpCnAddr(NBUtils.getIpCnInfo(NBUtils.getIpInfo(comment.getIpAddr())));
                         comment.setUserAgent(request.getHeader("user-agent"));

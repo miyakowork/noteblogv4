@@ -252,7 +252,7 @@ var template = {
         '                       </div>' +
         '                       <div class="layui-row text-center layui-mt20">' +
         '                           <div v-if="article.appreciable" class="layui-btn layui-btn-warm layui-hide layui-show-md-inline-block" @click="money(alipay,wechat)"><i class="fa fa-rmb"></i> 打赏</div>' +
-        '                           <div class="layui-btn" @click="emotion()"><i class="fa fa-thumbs-o-up"></i> 赞 ({{approve}})</div>' +
+        '                           <div class="layui-btn layui-btn-danger" @click="emotion()"><i class="fa fa-thumbs-o-up"></i> 赞 ({{approve}})</div>' +
         '                       </div>' +
         '                       <div class="layui-row layui-mt20">' +
         '                           <blockquote class="layui-elem-quote text-center " style="border: none;">' +
@@ -324,7 +324,7 @@ var template = {
         '                       </div>' +
         '                       <div class="layui-row text-center layui-mt20">' +
         '                           <div v-if="article.appreciable" class="layui-btn layui-btn-warm layui-hide layui-show-md-inline-block" @click="money(alipay,wechat)"><i class="fa fa-rmb"></i> 打赏</div>' +
-        '                           <div class="layui-btn" @click="emotion()"><i class="fa fa-thumbs-o-up"></i> 赞 ({{approve}})</div>' +
+        '                           <div class="layui-btn layui-btn-danger" @click="emotion()"><i class="fa fa-thumbs-o-up"></i> 赞 ({{approve}})</div>' +
         '                       </div>' +
         '                       <div class="layui-row layui-mt20">' +
         '                           <blockquote class="layui-elem-quote text-center " style="border: none;">' +
@@ -383,7 +383,7 @@ var template = {
         '                   <label for="comment-input"></label>' +
         '                       <textarea id="comment-input" style="display: none;"></textarea>' +
         '               </div>' +
-        '               <button v-if="su != null" class="layui-btn layui-btn-sm" style="float: right;width: 120px;" @click="submit(id)" >发表</button>' +
+        '               <button v-if="su != null" class="layui-btn-danger layui-btn layui-btn-sm" style="float: right;width: 120px;" @click="submit(id)" >发表</button>' +
         '               <a v-if="su == null" class="layui-btn layui-btn-sm" style="float: right;width: 120px;"  href="/login" target="_blank" @click="beforeLogin();" id="beforeLogin"><i class="fa fa-qq"></i> 请先登录</a>' +
         '           </fieldset>' +
         '       </div>' +
@@ -399,7 +399,7 @@ var template = {
         '                   <label for="comment-input"></label>' +
         '                       <textarea id="comment-input" style="display: none;"></textarea>' +
         '               </div>' +
-        '               <button v-if="su != null" class="layui-btn layui-btn-sm" style="float: right;width: 120px;" @click="submit()" >发表</button>' +
+        '               <button v-if="su != null" class="layui-btn layui-btn-sm layui-btn-danger" style="float: right;width: 120px;" @click="submit()" >发表</button>' +
         '               <a v-if="su == null" class="layui-btn layui-btn-sm" style="float: right;width: 120px;"  href="/api/qq" target="_blank" @click="beforeLogin();" id="beforeLogin"><i class="fa fa-qq"></i> 请先登录</a>' +
         '           </fieldset>' +
         '       </div>' +
@@ -413,8 +413,46 @@ var template = {
         '               <legend>网友评论・留言区</legend>' +
         '               <div class="layui-field-box comment">' +
         '                   <p v-if="comments.totalCount == 0" class="text-center">暂无评论</p>' +
-        '                   <blockquote class="layui-elem-quote layui-mt20" v-html="tips"></blockquote>' +
+        '                   <blockquote class="layui-elem-quote layui-mt20" style="border-left: 5px solid #F44336;" v-html="tips"></blockquote>' +
         '                   <template v-for="c in comments.result">' +
+        '                       <div class="layui-row comment-block" v-if="c.enable">' +
+        '                           <div class="layui-row">' +
+        '                               <div class="layui-col-md1 layui-col-xs1 comment-avatar">' +
+        '                                   <img class="layui-circle" :src="c.avatar">' +
+        '                               </div>' +
+        '                               <div class="layui-col-md10 layui-col-xs9" style="border-bottom: 1px dotted #dbdbdb;padding-bottom: 10px;">' +
+        '                                   <i class="fa fa-user-o"></i> <span class="comment-user" :style="masterColor(c.userId)">{{c.nickname}}&nbsp;<svg v-if="c.userId==1" class="icon" aria-hidden="true"><use xlink:href="#icon-renzhengkaobei"></use></svg>&nbsp;&nbsp;</span><small><i class="fa fa-location-arrow"></i> {{c.ipCnAddr}}网友</small><br/>' +
+        '                                   <i class="fa fa-clock-o"></i> <span class="comment-datetime">{{postDt(c.post)}}</span>' +
+        '                               </div>' +
+        '                               <div class="layui-row comment-block-content">' +
+        '                                   <p  v-html="c.comment"></p>' +
+        '                               </div>' +
+        '                               <div class="layui-row" style="text-align: right;" v-show="re">' +
+        '                                    <a @click="reback(c.nickname,c.comment);" style="cursor: pointer;"> <i class="fa fa-comment"></i> 回复</a>' +
+        '                               </div>' +
+        '                           </div>' +
+        '                       </div>' +
+        '                       <hr>' +
+        '                   </template>' +
+        '                   <div class="row">' +
+        '                       <p class="comment-page"></p>' +
+        '                   </div>' +
+        '               </div>' +
+        '           </fieldset>' +
+        '       </div>' +
+        '   </div>' +
+        '</div>'
+
+    , simpleCommentArea:
+        '<div class="layui-collapse layui-panel layui-article" id="ca">' +
+        '   <div class="layui-colla-item">' +
+        '       <div class="layui-colla-content layui-show layui-article comment">' +
+        '           <fieldset class="layui-elem-field layui-field-title">' +
+        '               <legend>网友评论・留言区</legend>' +
+        '               <div class="layui-field-box comment">' +
+        '                   <p v-if="comments.totalCount == 0" class="text-center">暂无评论</p>' +
+        '                   <blockquote class="layui-elem-quote layui-mt20" style="border-left: 5px solid #F44336;" v-html="tips"></blockquote>' +
+        '                   <template v-for="c in comments.result.content">' +
         '                       <div class="layui-row comment-block" v-if="c.enable">' +
         '                           <div class="layui-row">' +
         '                               <div class="layui-col-md1 layui-col-xs1 comment-avatar">' +
@@ -949,12 +987,14 @@ Vue.component('bmy-comment', {
                 $.post("/token/comment/sub", {
                     articleId: articleId,
                     userId: this.su.id,
+                    user: this.su.id,
+                    enable: true,
                     comment: comment
                 }, function (resp) {
                     layer.msg(resp.message);
                     setTimeout(function () {
                         if (resp.code === BMY.status.ok) {
-                            location.href = "/article/" + articleId + "?t_" + new Date().getTime() + "#ca"
+                            location.href = "/article/" + articleId + "?_" + new Date().getTime() + "#ca"
                         }
                     }, 1000);
                 });
@@ -1026,7 +1066,43 @@ Vue.component('bmy-comment-list', {
             return id === 1 ? "color:#FF5722;" : "";
         }
         , postDt: function (d) {
-            return BMY.dateFormatter(d, "/");
+            return BMY.wholeCnDate(d);
+        }
+        , reback: function (name, content) {
+            BMY.tempHtml =
+                '<blockquote class="layui-elem-quote layui-quote-nm">' +
+                '   <a href="javascript:;" class="re">回复@' + name + '</a>：' + content +
+                '</blockquote>';
+            BMY.tempHtml2 =
+                '<a href="javascript:;" class="re">回复@' + name + '</a>：';
+            $(window.frames["LAY_layedit_1"].document).find("body").html(BMY.tempHtml2);
+            location.href = "#cta";
+        }
+    }
+});
+
+Vue.component('bmy-simple-comment-list', {
+    template: template.simpleCommentArea
+    , props: {
+        comments: {
+            type: Object
+            , default: {}
+        }
+        , tips: {
+            type: String
+            , default: {}
+        }
+        , re: {
+            type: Boolean
+            , default: false
+        }
+    }
+    , methods: {
+        masterColor: function (id) {
+            return id === 1 ? "color:#FF5722;" : "";
+        }
+        , postDt: function (d) {
+            return BMY.wholeCnDate(d);
         }
         , reback: function (name, content) {
             BMY.tempHtml =

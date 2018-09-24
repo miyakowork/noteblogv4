@@ -40,7 +40,7 @@
 <script src="/static/plugins/editormd/editormd.min.js"></script>
 <script th:inline="javascript">
     layui.use(['layedit', 'laypage', 'code'], function () {
-        var layedit = layui.layedit;
+        var layedit = BMY.layedit = layui.layedit;
         var laypage = layui.laypage;
 
         laypage.render({
@@ -92,7 +92,7 @@
                         });
                     }
                 }
-                layedit.build('comment-input', {
+                BMY.editor = layedit.build('comment-input', {
                     tool: ['face', '|', 'left', 'center', 'right', 'link', 'unlink']
                     , height: 150
                 });

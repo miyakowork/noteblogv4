@@ -115,4 +115,29 @@ public interface ArticleRepository extends JpaRepository<NBArticle, Long>, JpaSp
      */
     @Query(nativeQuery = true, value = "UPDATE nb_article SET approve_cnt = approve_cnt + 1 WHERE id = ?1")
     int updateApproveCntById(long articleId);
+
+    /**
+     * 更新浏览量
+     *
+     * @param articleId
+     * @return
+     * @throws Exception
+     */
+    @Query("UPDATE NBArticle a SET a.view = a.view + 1 WHERE a.id = ?1")
+    @Modifying
+    @Transactional(rollbackOn = Exception.class)
+    void updateViewsById(long articleId)  ;
+
+
+    /**
+     * 更新浏览量
+     *
+     * @param urlSeq
+     * @return
+     * @throws Exception
+     */
+    @Query("UPDATE NBArticle a SET a.view = a.view + 1 WHERE a.urlSequence = ?1")
+    @Modifying
+    @Transactional(rollbackOn = Exception.class)
+    void updateViewsBySeq(String urlSeq);
 }

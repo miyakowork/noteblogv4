@@ -131,7 +131,7 @@ a:hover {
 }
 
 /*website style*/
-body, input, button, textarea {
+body, input, textarea {
     background: #f8f8f8 !important;
     -webkit-appearance: none;
     border-radius: 0;

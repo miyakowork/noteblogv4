@@ -38,16 +38,16 @@ public class IndexController extends BaseController {
     private final CateRepository cateRepository;
     private final ArticleService articleService;
     private final CommentRepository commentRepository;
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public IndexController(ParamRepository paramRepository, ArticleRepository articleRepository, CateRepository cateRepository, ArticleService articleService, CommentRepository commentRepository) {
+    public IndexController(ParamRepository paramRepository, ArticleRepository articleRepository, CateRepository cateRepository, ArticleService articleService, CommentRepository commentRepository, UserRepository userRepository) {
         this.paramRepository = paramRepository;
         this.articleRepository = articleRepository;
         this.cateRepository = cateRepository;
         this.articleService = articleService;
         this.commentRepository = commentRepository;
+        this.userRepository = userRepository;
     }
 
     @RequestMapping(value = {"", "/index"})

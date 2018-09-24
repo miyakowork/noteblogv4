@@ -100,7 +100,7 @@ $(function () {
                             ]
                         },
                         pluginPath: '/static/plugins/editormd/plugins/',
-                        markdown: mdNoteContent,
+                        markdown: mdContents,
                         path: '/static/plugins/editormd/lib/',
                         placeholder: '请在此书写你的内容',
                         saveHTMLToTextarea: true,

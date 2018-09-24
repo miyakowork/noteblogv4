@@ -12,17 +12,33 @@ var ani_ =
     '       <span class="layui-badge" style="background: #F44336;">置顶</span>' +
     '       {{# } }}' +
     '       <span class="layui-badge layui-bg-cyan">{{ item.cate.cnName }}</span>' +
+    '       {{# if(item.urlSequence != null && item.urlSequence !=""){ }}' +
+    '       <a href="/article/u/{{ item.urlSequence }}">{{ item.title }}</a>' +
+    '       {{# }else{ }}' +
     '       <a href="/article/{{ item.id }}">{{ item.title }}</a>' +
+    '       {{# } }}' +
     '   </div>' +
     '   <div class="article-title sm">' +
     '       {{# if(item.top){ }}' +
     '       <span class="layui-badge" style="background: #F44336;">置顶</span>' +
     '       {{# } }}' +
     '       <span class="layui-badge layui-bg-cyan">{{ item.cate.name }}</span>' +
+    '       {{# if(item.urlSequence != null && item.urlSequence !=""){ }}' +
+    '       <a href="/article/u/{{ item.urlSequence }}">{{ item.title }}</a>' +
+    '       {{# }else{ }}' +
     '       <a href="/article/{{ item.id }}">{{ item.title }}</a>' +
+    '       {{# } }}' +
     '   </div>' +
+    '       {{# if(item.urlSequence != null && item.urlSequence !=""){ }}' +
+    '   <div class="article-body normal">{{ item.summary }}<a href="/article/u/{{ item.urlSequence }}">...</a></div>' +
+    '       {{# }else{ }}' +
     '   <div class="article-body normal">{{ item.summary }}<a href="/article/{{ item.id }}">...</a></div>' +
+    '       {{# } }}' +
+    '       {{# if(item.urlSequence != null && item.urlSequence !=""){ }}' +
+    '   <div class="article-body sm">{{ item.summary }}<a href="/article/u/{{ item.urlSequence }}">...</a></div>' +
+    '       {{# }else{ }}' +
     '   <div class="article-body sm">{{ item.summary }}<a href="/article/{{ item.id }}">...</a></div>' +
+    '       {{# } }}' +
     '   <div class="article-footer">' +
     '       <p>' +
     '           <span><i class="fa fa-thermometer-1"></i> 热度：<span>{{ item.view }}℃</span></span>' +
