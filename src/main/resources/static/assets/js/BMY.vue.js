@@ -452,11 +452,11 @@ var template = {
         '               <div class="layui-field-box comment">' +
         '                   <p v-if="comments.totalCount == 0" class="text-center">暂无评论</p>' +
         '                   <blockquote class="layui-elem-quote layui-mt20" style="border-left: 5px solid #F44336;" v-html="tips"></blockquote>' +
-        '                   <template v-for="c in comments.result.content">' +
+        '                   <template v-for="c in comments.content">' +
         '                       <div class="layui-row comment-block" v-if="c.enable">' +
         '                           <div class="layui-row">' +
         '                               <div class="layui-col-md1 layui-col-xs1 comment-avatar">' +
-        '                                   <img class="layui-circle" :src="c.avatar">' +
+        '                                   <img class="layui-circle" :src="c.user.avatar">' +
         '                               </div>' +
         '                               <div class="layui-col-md10 layui-col-xs9" style="border-bottom: 1px dotted #dbdbdb;padding-bottom: 10px;">' +
         '                                   <i class="fa fa-user-o"></i> <span class="comment-user" :style="masterColor(c.userId)">{{c.nickname}}&nbsp;<svg v-if="c.userId==1" class="icon" aria-hidden="true"><use xlink:href="#icon-renzhengkaobei"></use></svg>&nbsp;&nbsp;</span><small><i class="fa fa-location-arrow"></i> {{c.ipCnAddr}}网友</small><br/>' +

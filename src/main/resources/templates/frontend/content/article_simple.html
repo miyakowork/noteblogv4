@@ -20,8 +20,8 @@
 
         <bmy-similar :articles="similars" slot="similar"></bmy-similar>
 
-        <bmy-comment-list slot="comment" :comments="comments" :tips="params.comment_notice"
-                          :re="params.all_comment_open == 1 && article.commented"></bmy-comment-list>
+        <bmy-simple-comment-list slot="comment" :comments="comments" :tips="params.comment_notice"
+                          :re="params.all_comment_open == 1 && article.commented"></bmy-simple-comment-list>
 
     </bmy-article-page-mini>
 
