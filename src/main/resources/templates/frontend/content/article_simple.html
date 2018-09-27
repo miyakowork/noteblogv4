@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta th:replace="frontend/fragment/style"/>
     <title th:text="${article.title}"></title>
@@ -21,7 +21,7 @@
         <bmy-similar :articles="similars" slot="similar"></bmy-similar>
 
         <bmy-simple-comment-list slot="comment" :comments="comments" :tips="params.comment_notice"
-                          :re="params.all_comment_open == 1 && article.commented"></bmy-simple-comment-list>
+                                 :re="params.all_comment_open == 1 && article.commented"></bmy-simple-comment-list>
 
     </bmy-article-page-mini>
 
@@ -43,22 +43,6 @@
         var layedit = BMY.layedit = layui.layedit;
         var laypage = layui.laypage;
 
-        laypage.render({
-            elem: $(".comment-page")
-            , count: [[${comments.totalElements}]]
-            , layout: ['prev', 'next']
-            , jump: function (obj, first) {
-                if (!first) {
-                    layer.msg('第 ' + obj.curr + ' 页');
-                    $.post("/article/comments", {
-                        id: BMY.articleVM.article.id
-                        , pageNo: obj.curr
-                    }, function (cs) {
-                        BMY.articleVM.comments = cs;
-                    })
-                }
-            }
-        });
         BMY.articleVM = new Vue({
             el: "#article-app",
             data: {
@@ -96,6 +80,24 @@
                     tool: ['face', '|', 'left', 'center', 'right', 'link', 'unlink']
                     , height: 150
                 });
+            }
+        });
+
+        laypage.render({
+            elem: $(".comment-page")
+            , count: [[${comments.totalElements}]]
+            , layout: ['prev', 'next']
+            , jump: function (obj, first) {
+                if (!first) {
+                    layer.msg('第 ' + obj.curr + ' 页评论');
+                    $.post("/article/comments", {
+                        articleId: BMY.articleVM.article.id
+                        , page: obj.curr
+                        , limit: 10
+                    }, function (cs) {
+                        BMY.articleVM.comments = cs;
+                    })
+                }
             }
         });
     });

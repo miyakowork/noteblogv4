@@ -67,7 +67,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new SessionInterceptor(blogContext)).addPathPatterns("/management/**", "/token/**");
         registry.addInterceptor(new AdminInterceptor(blogContext)).addPathPatterns("/management/**");
         registry.addInterceptor(new ThemeHandlerInterceptor(paramRepository))
-                .addPathPatterns("/article/**", "/a/**");
+                .addPathPatterns("/article/**", "/a/**").excludePathPatterns("/article/comments");
 
     }
 

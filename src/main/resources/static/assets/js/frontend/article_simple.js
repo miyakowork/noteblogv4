@@ -22,7 +22,7 @@ var ani_ =
     '       {{# if(item.top){ }}' +
     '       <span class="layui-badge" style="background: #F44336;">置顶</span>' +
     '       {{# } }}' +
-    '       <span class="layui-badge layui-bg-cyan">{{ item.cate.name }}</span>' +
+    '       <span class="layui-badge layui-bg-cyan">{{ item.cate.cnName }}</span>' +
     '       {{# if(item.urlSequence != null && item.urlSequence !=""){ }}' +
     '       <a href="/article/u/{{ item.urlSequence }}">{{ item.title }}</a>' +
     '       {{# }else{ }}' +
@@ -35,9 +35,9 @@ var ani_ =
     '   <div class="article-body normal">{{ item.summary }}<a href="/article/{{ item.id }}">...</a></div>' +
     '       {{# } }}' +
     '       {{# if(item.urlSequence != null && item.urlSequence !=""){ }}' +
-    '   <div class="article-body sm">{{ item.summary }}<a href="/article/u/{{ item.urlSequence }}">...</a></div>' +
+    '   <div class="article-body sm">{{ item.summary.substring(0,item.summary.length/2) }}<a href="/article/u/{{ item.urlSequence }}">...</a></div>' +
     '       {{# }else{ }}' +
-    '   <div class="article-body sm">{{ item.summary }}<a href="/article/{{ item.id }}">...</a></div>' +
+    '   <div class="article-body sm">{{ lenStat(item.summary) }}<a href="/article/{{ item.id }}">...</a></div>' +
     '       {{# } }}' +
     '   <div class="article-footer">' +
     '       <p>' +
@@ -53,6 +53,25 @@ var ani_ =
     '   </div>' +
     '</blockquote>' +
     '{{# });  }}';
+
+function isChinese(str) {  //判断是不是中文
+    var reCh = /[u00-uff]/;
+    return !reCh.test(str);
+}
+
+function lenStat(target) {
+    var strlen = 0; //初始定义长度为0
+    var txtval = $.trim(target);
+    for (var i = 0; i < txtval.length; i++) {
+        if (isChinese(txtval.charAt(i)) === true) {
+            strlen = strlen + 2;//中文为2个字符
+        } else {
+            strlen = strlen + 1;//英文一个字符
+        }
+    }
+    strlen = Math.ceil(strlen / 2);//中英文相加除2取整数
+    return strlen;
+}
 
 function nextPage(page, next, tpl) {
     var s = BMY.getParam("s");

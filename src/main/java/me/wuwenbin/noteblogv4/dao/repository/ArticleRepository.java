@@ -103,7 +103,7 @@ public interface ArticleRepository extends JpaRepository<NBArticle, Long>, JpaSp
      * @param limit
      * @return
      */
-    @Query(nativeQuery = true, value = "SELECT id,title FROM nb_article WHERE cate_id = ?1 ORDER BY rand() LIMIT ?2")
+    @Query(nativeQuery = true, value = "SELECT * FROM nb_article WHERE cate_id = ?1 ORDER BY rand() LIMIT ?2")
     List<NBArticle> findSimilarArticles(long cateId, int limit);
 
     /**

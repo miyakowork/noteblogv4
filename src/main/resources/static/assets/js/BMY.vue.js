@@ -319,7 +319,8 @@ var template = {
         '                               </div>' +
         '                           </div>' +
         '                           <hr>' +
-        '                           <div id="doc-content" class="content detail layui-col-sm12"></div>' +
+        '                           <div id="doc-content" class="content detail layui-col-sm12" v-if="!isRichTxt" style="margin-bottom: 20px;"></div>' +
+        '                           <div id="doc-content1" class="content detail layui-col-sm12" v-if="isRichTxt" v-html="article.content" style="margin-bottom: 20px;"></div>' +
         '                           <div id="custom-toc-container" style="margin-left: 15px;display: none;"></div>' +
         '                       </div>' +
         '                       <div class="layui-row text-center layui-mt20">' +
@@ -466,7 +467,7 @@ var template = {
         '                                   <p  v-html="c.comment"></p>' +
         '                               </div>' +
         '                               <div class="layui-row" style="text-align: right;" v-show="re">' +
-        '                                    <a @click="reback(c.nickname,c.comment);" style="cursor: pointer;"> <i class="fa fa-comment"></i> 回复</a>' +
+        '                                    <a @click="reback(c.user.nickname,c.comment);" style="cursor: pointer;"> <i class="fa fa-comment"></i> 回复</a>' +
         '                               </div>' +
         '                           </div>' +
         '                       </div>' +
@@ -893,10 +894,8 @@ Vue.component('bmy-article-page-mini', {
         , url: function () {
             return location.href;
         }
-        , articleContent: function () {
-            if (this.article.mdContent && this.article.mdContent !== "") {
-
-            }
+        , isRichTxt: function () {
+            return this.article.mdContent == null || this.article.mdContent === "";
         }
     }
     , mounted: function () {
@@ -994,7 +993,7 @@ Vue.component('bmy-comment', {
                     layer.msg(resp.message);
                     setTimeout(function () {
                         if (resp.code === BMY.status.ok) {
-                            location.href = "/article/" + articleId + "?_" + new Date().getTime() + "#ca"
+                            location.href = "/article/" + articleId + "?_" + new Date().getTime() + "#cta"
                         }
                     }, 1000);
                 });

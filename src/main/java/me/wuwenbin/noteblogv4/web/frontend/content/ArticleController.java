@@ -50,6 +50,8 @@ public class ArticleController extends BaseController {
         model.addAttribute("article", fetchArticle.orElseThrow(() -> new ArticleFetchFailedException("未找到相关文章！")));
         model.addAttribute("tags", tagRepository.findArticleTags(aId, true));
         model.addAttribute("author", userRepository.getOne(fetchArticle.get().getAuthorId()).getNickname());
+        commentQueryBO.setArticleId(aId);
+        pagination.setLimit(10);
         model.addAttribute("comments", commentService.findPageInfo(getPageable(pagination), commentQueryBO));
         model.addAttribute("similarArticles", articleRepository.findSimilarArticles(fetchArticle.get().getCateId(), 6));
         return "frontend/content/article";
@@ -63,6 +65,8 @@ public class ArticleController extends BaseController {
         model.addAttribute("article", article);
         model.addAttribute("tags", tagRepository.findArticleTags(article.getId(), true));
         model.addAttribute("author", userRepository.getOne(article.getAuthorId()).getNickname());
+        commentQueryBO.setArticleId(article.getId());
+        pagination.setLimit(10);
         model.addAttribute("comments", commentService.findPageInfo(getPageable(pagination), commentQueryBO));
         model.addAttribute("similarArticles", articleRepository.findSimilarArticles(article.getCateId(), 6));
         return "frontend/content/article";

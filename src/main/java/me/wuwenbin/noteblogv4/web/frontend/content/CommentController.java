@@ -2,6 +2,7 @@ package me.wuwenbin.noteblogv4.web.frontend.content;
 
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HtmlUtil;
 import me.wuwenbin.noteblogv4.dao.repository.ArticleRepository;
 import me.wuwenbin.noteblogv4.dao.repository.CommentRepository;
 import me.wuwenbin.noteblogv4.dao.repository.KeywordRepository;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Param.ALL_COMMENT_OPEN;
@@ -58,6 +60,8 @@ public class CommentController extends BaseController {
                         comment.setIpCnAddr(NBUtils.getIpCnInfo(NBUtils.getIpInfo(comment.getIpAddr())));
                         comment.setUserAgent(request.getHeader("user-agent"));
                         comment.setComment(NBUtils.stripSqlXSS(comment.getComment()));
+                        comment.setPost(LocalDateTime.now());
+                        comment.setClearComment(HtmlUtil.cleanHtmlTag(comment.getComment()));
                         List<NBKeyword> keywords = keywordRepository.findAll();
                         keywords.forEach(kw -> comment.setComment(comment.getComment().replace(kw.getWords(), StrUtil.repeat("*", kw.getWords().length()))));
                         return ajaxDone(commentRepository::save, comment, "发表评论成功", "发表评论失败");
