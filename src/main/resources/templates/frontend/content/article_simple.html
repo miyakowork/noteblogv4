@@ -26,6 +26,7 @@
     </bmy-article-page-mini>
 
     <bmy-footer :words="params.footer_words"></bmy-footer>
+    <bottom-nav :params="params" :layui-element="elem"></bottom-nav>
 </div>
 
 <div th:replace="frontend/fragment/script"></div>
@@ -39,9 +40,10 @@
 <script src="/static/plugins/editormd/lib/sequence-diagram.min.js"></script>
 <script src="/static/plugins/editormd/editormd.min.js"></script>
 <script th:inline="javascript">
-    layui.use(['layedit', 'laypage', 'code'], function () {
+    layui.use(['layedit', 'laypage', 'code', 'element'], function () {
         var layedit = BMY.layedit = layui.layedit;
         var laypage = layui.laypage;
+        var element = layui.element;
 
         BMY.articleVM = new Vue({
             el: "#article-app",
@@ -58,6 +60,7 @@
                 , su: [[${su}]]
                 , showInfoLabel: false
                 , comments: [[${comments}]]
+                , elem: element
             }
             , mounted: function () {
                 var that = this;
@@ -72,7 +75,7 @@
                             , shade: 0
                             , offset: 'r'
                             , content: $("#custom-toc-container")
-                            , zIndex: 19930917
+                            , zIndex: (19930916 + 1)
                         });
                     }
                 }
@@ -80,6 +83,7 @@
                     tool: ['face', '|', 'left', 'center', 'right', 'link', 'unlink']
                     , height: 150
                 });
+
             }
         });
 

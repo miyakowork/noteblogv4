@@ -239,6 +239,16 @@ $(document).ajaxComplete(function (event, xhr, options) {
     }
 });
 
+function hideOpen(e) {
+    $(e).hide();
+    $("#side-nav-close").show();
+}
+
+function hideClose(e) {
+    $(e).hide();
+    $("#side-nav-open").show();
+}
+
 Date.prototype.format = function (format) {
     var date = {
         "M+": this.getMonth() + 1,
@@ -259,7 +269,7 @@ Date.prototype.format = function (format) {
         }
     }
     return format;
-}
+};
 Date.daysInMonth = function (year, month) {
     if (month == 1) {
         if (year % 4 == 0 && year % 100 != 0)

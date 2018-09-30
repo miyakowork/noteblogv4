@@ -39,7 +39,7 @@ $(function ($) {
         $(".timeline-body").slideDown()
     });
 
-    $("#side-nav,#mobile-nav").click(function () {
+    $("#mobile-nav").click(function () {
         var $sideNav = $(".nav-header .layui-nav-side");
         if ($sideNav.css("width") !== "0px") {
             $sideNav.animate({

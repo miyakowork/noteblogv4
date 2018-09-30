@@ -10,7 +10,8 @@ var template = {
         '       </div>' +
         '   </div> ' +
         '</div>'
-    , header:
+    ,
+    header:
         '<div class="header">' +
         '    <div class="layui-container">' +
         '        <div class="layui-row nav-header">' +
@@ -48,7 +49,8 @@ var template = {
         '        </div>' +
         '    </div>' +
         '</div>'
-    , headerNoTxt:
+    ,
+    headerNoTxt:
         '<div class="header mini">' +
         '    <div class="layui-container">' +
         '        <div class="layui-row nav-header">' +
@@ -57,7 +59,8 @@ var template = {
         '                <h2 id="title" style="display: none;margin-left: 10%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;" v-if="st">{{title}}</h2>' +
         '            </div>' +
         '            <div class="layui-col-xs3 layui-col-sm-offset2 layui-col-sm4 layui-hide-md layui-hide-lg nav-btn">' +
-        '                <a href="javascript:void(0);" id="side-nav"><i class="fa fa-navicon"></i> </a>' +
+        '                <a href="javascript:void(0);" id="side-nav-open" onclick="hideOpen(this)" data-pushbar-target="bottomNav"><i class="fa fa-navicon"></i> </a>' +
+        '                <a href="javascript:void(0);" id="side-nav-close" onclick="hideClose(this)" style="display: none;" data-pushbar-close><i class="fa fa-times" style="font-size: 18px;"></i> </a>' +
         '            </div>' +
         '            <div class="layui-col-sm5 layui-hide layui-show-lg-inline-block layui-show-md-inline-block nav-btn right">' +
         '                <a id="ass" href="/index" :class="{ active: home }" :data-title="params.menu_home">' +
@@ -77,7 +80,7 @@ var template = {
         '                       <span>{{params.menu_mine}}</span>' +
         '               </a>' +
         '                <a v-show="params.menu_search_show == 1" href="/search" :class="{ active: search }" :data-title="params.menu_search" target="_blank">' +
-        '<i class="layui-icon layui-icon-search"></i> ' +
+        '                       <i class="layui-icon layui-icon-search"></i> ' +
         '                       <span>{{params.menu_search}}</span>' +
         '               </a>' +
         '                <a v-show="params.menu_link_show == 1" :href="params.menu_link_href" target="_blank" :data-title="params.menu_link">' +
@@ -105,7 +108,8 @@ var template = {
         '        </div>' +
         '    </div>' +
         '</div>'
-    , block:
+    ,
+    block:
         '<div class="layui-container" style="margin-top: 70px;">' +
         '        <blockquote class="layui-elem-quote">' +
         '            <template v-if="quote.showBlog">博文统计：共【<span class="sum-font">{{quote.blogCount}}</span>】篇；</template>' +
@@ -118,7 +122,8 @@ var template = {
         '            </div>' +
         '        </blockquote>' +
         '    </div>'
-    , articles:
+    ,
+    articles:
         '<div id="main-body" class="layui-container">' +
         '        <div class="layui-row layui-col-space10">' +
         '            <slot name="list"></slot>' +
@@ -134,9 +139,11 @@ var template = {
         '        </div>' +
         '    </div>'
 
-    , article:
+    ,
+    article:
         '<div id="article-list" class="layui-col-md9"></div>'
-    , info:
+    ,
+    info:
         '<div class="layui-tab layui-tab-card">' +
         '   <ul class="layui-tab-title select-none">' +
         '       <template v-if="order == 1">' +
@@ -189,7 +196,8 @@ var template = {
         '       </template>' +
         '   </div>' +
         '</div>'
-    , search:
+    ,
+    search:
         '<div id="search-panel" class="layui-tab layui-tab-card">' +
         '   <div class="layui-tab-content select-none">' +
         '       <p class="title">搜索库 <small style="float: right;"><a href="/search" target="_blank"><i>前往 <i class="fa fa-angle-double-right"></i></i></a></small> </p>' +
@@ -198,7 +206,8 @@ var template = {
         '           placeholder="键入Enter键以搜索" autocomplete="off" class="layui-input search-box">' +
         '   </div>' +
         '</div>'
-    , cate:
+    ,
+    cate:
         '<div class="layui-tab layui-tab-card layui-article-cate">' +
         '   <div class="layui-tab-content select-none">' +
         '       <p class="title">分类堆</p>' +
@@ -208,7 +217,8 @@ var template = {
         '       </template>' +
         '   </div> ' +
         '</div>'
-    , random:
+    ,
+    random:
         '<div class="layui-tab layui-tab-card layui-master-recommend">' +
         '   <div class="layui-tab-content select-none">' +
         '       <p class="title">博文栈</p>' +
@@ -218,7 +228,8 @@ var template = {
         '       </template>' +
         '   </div> ' +
         '</div>'
-    , tab:
+    ,
+    tab:
         '<div class="layui-tab layui-tab-card layui-tags">' +
         '   <div class="layui-tab-content select-none">' +
         '       <p class="title">标签页</p>' +
@@ -228,7 +239,8 @@ var template = {
         '       </template>' +
         '   </div> ' +
         '</div>'
-    , articlePage:
+    ,
+    articlePage:
         '<div id="blog-body" class="layui-container">' +
         '   <div class="layui-row layui-col-space10">' +
         '       <div id="blog-info" class="layui-col-md9">' +
@@ -299,7 +311,8 @@ var template = {
         '   </div>' +
         '</div>'
 
-    , articlePageMini:
+    ,
+    articlePageMini:
         '<div id="blog-body" class="layui-container simple">' +
         '   <div class="layui-row layui-col-space10">' +
         '       <div id="blog-info" class="layui-col-md12">' +
@@ -364,7 +377,8 @@ var template = {
         '   </div>' +
         '</div>'
 
-    , similar:
+    ,
+    similar:
         '<div class="layui-tab layui-tab-card layui-similar">' +
         '   <div class="layui-tab-content select-none">' +
         '       <p class="title">相似文章</p>' +
@@ -374,7 +388,8 @@ var template = {
         '       </template>' +
         '   </div> ' +
         '</div>'
-    , comment:
+    ,
+    comment:
         '<div id="cta" class="layui-collapse layui-panel layui-article">' +
         '   <div class="layui-colla-item">' +
         '       <div class="layui-colla-content layui-show layui-article comment">' +
@@ -390,7 +405,8 @@ var template = {
         '       </div>' +
         '   </div>' +
         '</div>'
-    , messageComment:
+    ,
+    messageComment:
         '<div id="cta" class="layui-collapse layui-panel layui-article">' +
         '   <div class="layui-colla-item">' +
         '       <div class="layui-colla-content layui-show layui-article comment">' +
@@ -406,7 +422,8 @@ var template = {
         '       </div>' +
         '   </div>' +
         '</div>'
-    , commentArea:
+    ,
+    commentArea:
         '<div class="layui-collapse layui-panel layui-article" id="ca">' +
         '   <div class="layui-colla-item">' +
         '       <div class="layui-colla-content layui-show layui-article comment">' +
@@ -444,7 +461,8 @@ var template = {
         '   </div>' +
         '</div>'
 
-    , simpleCommentArea:
+    ,
+    simpleCommentArea:
         '<div class="layui-collapse layui-panel layui-article" id="ca">' +
         '   <div class="layui-colla-item">' +
         '       <div class="layui-colla-content layui-show layui-article comment">' +
@@ -481,7 +499,8 @@ var template = {
         '       </div>' +
         '   </div>' +
         '</div>'
-    , notePage:
+    ,
+    notePage:
         '<div id="note-body" class="layui-container">' +
         '   <div id="note-operate" class="layui-row">' +
         '       <div class="layui-col-lg4 layui-col-md4 layui-col-sm5 layui-col-xs12 animated fadeInUp">' +
@@ -509,7 +528,8 @@ var template = {
         '        </li>' +
         '   </ul>' +
         '</div>'
-    , messagePage:
+    ,
+    messagePage:
         '<div id="msg-body" class="layui-container">' +
         '   <div class="layui-row layui-col-space10">' +
         '       <div id="msg-info" class="layui-col-md9 animated fadeInUp">' +
@@ -530,11 +550,68 @@ var template = {
         '       </div>' +
         '   </div>' +
         '</div>'
+
+    ,
+    bottomNav: '' +
+        '<div data-pushbar-id="bottomNav" class="pushbar from_bottom">' +
+        '    <div class="layui-container" style="padding-top: 20px;padding-bottom: 15px;">' +
+        '        <fieldset class="layui-elem-field layui-field-title">' +
+        '            <legend style="text-align: center;font-size: 16px;">导航按钮</legend>' +
+        '        </fieldset>' +
+        '        <p class="layui-breadcrumb" lay-separator="|" style="text-align: center;margin-top: 10px;">' +
+        '          <a href="/index">{{params.menu_home}}</a>' +
+        '          <a href="/note" v-if="params.menu_note_show == 1">{{params.menu_note}}</a>' +
+        '          <a href="/project" v-if="params.menu_project_show == 1">{{params.menu_project}}</a>' +
+        '          <a href="/profile" v-if="params.menu_mine_show == 1">{{params.menu_mine}}</a>' +
+        '          <a href="/search" v-if="params.menu_search_show == 1">{{params.menu_search}}</a>' +
+        '          <a href="/link" v-if="params.menu_link_show == 1">{{params.menu_link}}</a>' +
+        '        </p>\n' +
+        '        <ul class="layui-timeline" style="margin-top: 10px;padding-top: 15px;border-top: 1px dotted #EEEEEE;">' +
+        '            <li class="layui-timeline-item">' +
+        '                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>' +
+        '                <div class="layui-timeline-content layui-text">' +
+        '                    <h3 class="layui-timeline-title" style="font-size: 16px;">博客信息</h3>' +
+        '                    <p style="padding-bottom: 5px;">笔记博客（NoteLofter）：是专门为 Java 程序员提供的一套开源的笔记/博客平台，同时也可作为初学者的上手学习项目。</p>' +
+        '                    <p style="border-top: 1px solid #f5f5f5;padding-top: 5px;padding-bottom: 5px;">' +
+        '                        交流讨论：<i class="fa fa-qq"></i>' +
+        '                        <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=7bd7c01acf4e6124bfaab5a6d10504b917d5292f029b66887d00006a16a00930">' +
+        '                            697053454' +
+        '                        </a>。' +
+        '                    </p>' +
+        '                    <p style="border-top:1px solid #F5F5F5;padding-top: 5px;">' +
+        '                        项目源码：<i class="fa fa-github-alt"></i>' +
+        '                        <a target="_blank" href="https://github.com/miyakowork/noteblogv4">miyakowork/noteblogv4</a>。' +
+        '                    </p>' +
+        '                </div>' +
+        '            </li>' +
+        '            <li class="layui-timeline-item">' +
+        '                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>' +
+        '                <div class="layui-timeline-content layui-text">' +
+        '                    <h3 class="layui-timeline-title" style="font-size: 16px;">作者</a> </h3>' +
+        '                    <p>电子邮箱：<i class="fa fa-envelope"></i> <a href="#">wuwenbinwork#163.com</p>' +
+        '                    <p>个人网站：<i class="fa fa-link"></i> <a href="https://wuwenbin.me">https://wuwenbin.me</p>' +
+        '                </div>' +
+        '            </li>' +
+        '        </ul>' +
+        '    </div>' +
+        '</div>'
 };
 
 Vue.component('bmy-footer', {
     template: template.footer
     , props: ['words']
+});
+
+Vue.component('bottom-nav', {
+    template: template.bottomNav
+    , props: ['params', 'layuiElement']
+    , mounted: function () {
+        this.layuiElement.render();
+        new Pushbar({
+            blur: true,
+            overlay: true
+        });
+    }
 });
 
 Vue.component('bmy-header-mini', {

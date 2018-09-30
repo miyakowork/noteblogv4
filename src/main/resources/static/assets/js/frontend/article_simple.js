@@ -9,9 +9,9 @@ var ani_ =
     '<blockquote class="layui-elem-quote simple-article layui-anim layui-anim-upbit">' +
     '   <div class="article-title center-to-head">' +
     '       {{# if(item.top){ }}' +
-    '       <span class="layui-badge" style="background: #F44336;">置顶</span>' +
+    '       <span class="layui-badge  layui-bg-cyan">置顶</span>' +
     '       {{# } }}' +
-    '       <span class="layui-badge layui-bg-cyan">{{ item.cate.cnName }}</span>' +
+    '       <span class="layui-badge" style="background: #F44336;">{{ item.cate.cnName }}</span>' +
     '       {{# if(item.urlSequence != null && item.urlSequence !=""){ }}' +
     '       <a href="/article/u/{{ item.urlSequence }}">{{ item.title }}</a>' +
     '       {{# }else{ }}' +
@@ -20,9 +20,9 @@ var ani_ =
     '   </div>' +
     '   <div class="article-title sm">' +
     '       {{# if(item.top){ }}' +
-    '       <span class="layui-badge" style="background: #F44336;">置顶</span>' +
+    '       <span class="layui-badge layui-bg-cyan">置顶</span>' +
     '       {{# } }}' +
-    '       <span class="layui-badge layui-bg-cyan">{{ item.cate.cnName }}</span>' +
+    '       <span class="layui-badge" style="background: #F44336;">{{ item.cate.cnName }}</span>' +
     '       {{# if(item.urlSequence != null && item.urlSequence !=""){ }}' +
     '       <a href="/article/u/{{ item.urlSequence }}">{{ item.title }}</a>' +
     '       {{# }else{ }}' +
@@ -35,9 +35,9 @@ var ani_ =
     '   <div class="article-body normal">{{ item.summary }}<a href="/article/{{ item.id }}">...</a></div>' +
     '       {{# } }}' +
     '       {{# if(item.urlSequence != null && item.urlSequence !=""){ }}' +
-    '   <div class="article-body sm">{{ item.summary.substring(0,item.summary.length/2) }}<a href="/article/u/{{ item.urlSequence }}">...</a></div>' +
+    '   <div class="article-body sm">{{  item.summary.substring(0,Math.ceil(lenStat(item.summary)/2))  }}<a href="/article/u/{{ item.urlSequence }}">...</a></div>' +
     '       {{# }else{ }}' +
-    '   <div class="article-body sm">{{ lenStat(item.summary) }}<a href="/article/{{ item.id }}">...</a></div>' +
+    '   <div class="article-body sm">{{ item.summary.substring(0,Math.ceil(lenStat(item.summary)/2)) }}<a href="/article/{{ item.id }}">...</a></div>' +
     '       {{# } }}' +
     '   <div class="article-footer">' +
     '       <p>' +
@@ -64,12 +64,12 @@ function lenStat(target) {
     var txtval = $.trim(target);
     for (var i = 0; i < txtval.length; i++) {
         if (isChinese(txtval.charAt(i)) === true) {
-            strlen = strlen + 2;//中文为2个字符
+            strlen = strlen + 0.5;//中文为2个字符
         } else {
             strlen = strlen + 1;//英文一个字符
         }
     }
-    strlen = Math.ceil(strlen / 2);//中英文相加除2取整数
+    // strlen = Math.ceil(strlen / 2);//中英文相加除2取整数
     return strlen;
 }
 
