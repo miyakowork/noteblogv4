@@ -11,6 +11,7 @@ import me.wuwenbin.noteblogv4.exception.MethodNotMatchException;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.constant.Upload;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
+import me.wuwenbin.noteblogv4.model.pojo.business.Base64MultipartFile;
 import me.wuwenbin.noteblogv4.model.pojo.business.IpInfo;
 import me.wuwenbin.noteblogv4.service.param.ParamService;
 import me.wuwenbin.noteblogv4.service.upload.UploadService;
@@ -21,9 +22,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
+import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -383,6 +387,32 @@ public class NBUtils implements ApplicationContextAware {
      */
     public static String stripSqlXSS(String value) {
         return stripXSS(stripSqlInjection(value));
+    }
+
+    /**
+     * base64转multipart file
+     *
+     * @param base64
+     * @return
+     */
+    public static MultipartFile base64ToMultipartFile(String base64) {
+        try {
+            String[] baseStrs = base64.split(",");
+
+            BASE64Decoder decoder = new BASE64Decoder();
+            byte[] b;
+            b = decoder.decodeBuffer(baseStrs[1]);
+            for (int i = 0; i < b.length; ++i) {
+                if (b[i] < 0) {
+                    b[i] += 256;
+                }
+            }
+            return new Base64MultipartFile(b, baseStrs[0]);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     @Override

@@ -3978,8 +3978,10 @@
     // You can custom KaTeX load url.
     editormd.katexURL = {
         // css: "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min",
-        css: "//cdn.bootcss.com/KaTeX/0.3.0/katex.min",
-        js: "//cdn.bootcss.com/KaTeX/0.3.0/katex.min"
+        // css: "//cdn.bootcss.com/KaTeX/0.3.0/katex.min",
+        css: "/static/plugins/katex/katex-0.3.0.min",
+        // js: "//cdn.bootcss.com/KaTeX/0.3.0/katex.min"
+        js: "/static/plugins/katex/katex-0.3.0.min"
         // js: "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min"
     };
 

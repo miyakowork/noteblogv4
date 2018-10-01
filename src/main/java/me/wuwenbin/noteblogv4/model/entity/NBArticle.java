@@ -76,7 +76,7 @@ public class NBArticle implements Serializable {
     @Column(length = 11, updatable = false)
     private Long authorId;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, length = 0)
     @Builder.Default
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime post = now();

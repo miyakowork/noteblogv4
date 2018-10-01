@@ -16,7 +16,10 @@ import me.wuwenbin.noteblogv4.model.pojo.bo.ArticleQueryBO;
 import me.wuwenbin.noteblogv4.service.param.ParamService;
 import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -121,10 +124,11 @@ public class ArticleServiceImpl implements ArticleService {
         if (articleQueryBO.getCateId() != null) {
             prob.setCateId(articleQueryBO.getCateId());
         }
+        prob.setDraft(false);
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withMatcher("title", ExampleMatcher.GenericPropertyMatcher::contains)
                 .withMatcher("textContent", ExampleMatcher.GenericPropertyMatcher::contains)
-                .withIgnorePaths("post", "modify", "view", "approveCnt", "commented", "mdContent", "appreciable", "draft", "top")
+                .withIgnorePaths("post", "modify", "view", "approveCnt", "commented", "mdContent", "appreciable", "top")
                 .withIgnoreNullValues();
         Example<NBArticle> articleExample = Example.of(prob, matcher);
         return articleRepository.findAll(articleExample, pageable);

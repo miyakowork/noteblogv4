@@ -12,6 +12,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 /**
  * created by Wuwenbin on 2018/8/2 at 20:35
  *
@@ -70,6 +72,7 @@ public class HelloWorldListener implements ApplicationListener<ApplicationReadyE
                 .textContent(text)
                 .cate(cateRepository.getOne(cateId))
                 .summary(text)
+                .post(LocalDateTime.now())
                 .title(title).build();
         articleRepository.save(helloWorldArticle);
     }
