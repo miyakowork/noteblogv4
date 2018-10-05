@@ -75,16 +75,17 @@ var BMY = {
             } else {
                 return t;
             }
+        }else {
+            return "1993-09-16T08:59:00.166";
         }
-        return date;
     }
 
     , wholeCnDate: function (date) {
-        return new Date(BMY.dateFormatter(date)).format('yyyy年MM月dd日 HH:mm:ss');
+        return new Date(date).format('yyyy年MM月dd日 HH:mm:ss');
     }
 
     , simpleDate: function (date) {
-        return new Date(BMY.dateFormatter(date)).format("MM/dd HH:mm");
+        return new Date(date).format("MM/dd HH:mm");
     }
 
     , coffee4Me: function () {

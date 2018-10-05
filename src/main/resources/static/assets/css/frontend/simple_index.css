@@ -17,6 +17,15 @@
 .simple-article:not(:first-child) {
     margin-top: 40px;
 }
+@media screen and (max-width: 425px){
+    .simple-article:not(:first-child) {
+        margin-top: 10px;
+        border-top: 1px dashed #e3e3e3;
+    }
+    .simple-article{
+        height: 135px !important;
+    }
+}
 
 .layui-elem-quote.simple-article:hover {
     border-left: 5px solid rgba(244, 67, 54, 1);
