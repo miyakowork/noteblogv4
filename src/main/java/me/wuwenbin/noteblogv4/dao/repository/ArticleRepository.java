@@ -114,6 +114,8 @@ public interface ArticleRepository extends JpaRepository<NBArticle, Long>, JpaSp
      * @throws Exception
      */
     @Query(nativeQuery = true, value = "UPDATE nb_article SET approve_cnt = approve_cnt + 1 WHERE id = ?1")
+    @Modifying
+    @Transactional(rollbackOn = Exception.class)
     int updateApproveCntById(long articleId);
 
     /**
@@ -126,7 +128,7 @@ public interface ArticleRepository extends JpaRepository<NBArticle, Long>, JpaSp
     @Query("UPDATE NBArticle a SET a.view = a.view + 1 WHERE a.id = ?1")
     @Modifying
     @Transactional(rollbackOn = Exception.class)
-    void updateViewsById(long articleId)  ;
+    void updateViewsById(long articleId);
 
 
     /**
