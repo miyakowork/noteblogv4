@@ -26,9 +26,11 @@ $(function () {
 
 
         var post = function (data, draft, msg) {
-            console.log(data.field)
+            console.log(data.field);
             data.field.draft = draft;
             data.field.cate = data.field.cateId;
+            data.field.tagNames = $("div.xm-input.xm-select").attr("title");
+            alert(data.field.tagNames);
             if (data.field.editor === 'html') {
                 data.field.mdContent = "";
                 data.field.content = editor.html();

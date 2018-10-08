@@ -313,7 +313,7 @@ var template = {
 
     ,
     articlePageMini:
-        '<div id="blog-body" class="layui-container simple">' +
+        '<div id="blog-body" class="layui-container simple animated fadeInUp">' +
         '   <div class="layui-row layui-col-space10">' +
         '       <div id="blog-info" class="layui-col-md12">' +
         '           <div class="layui-collapse layui-panel layui-article">' +

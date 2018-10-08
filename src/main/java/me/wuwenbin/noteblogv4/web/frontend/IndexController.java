@@ -10,9 +10,7 @@ import me.wuwenbin.noteblogv4.model.pojo.framework.Pagination;
 import me.wuwenbin.noteblogv4.service.content.ArticleService;
 import me.wuwenbin.noteblogv4.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,7 +70,11 @@ public class IndexController extends BaseController {
     @RequestMapping(value = {"/next", "/index/next"})
     @ResponseBody
     public NBR nextPageArticle(Pagination<NBArticle> pagination, ArticleQueryBO articleQueryBO) {
-        Pageable pageable = getPageable(pagination);
+        Map<String, String> orders = new HashMap<>(2);
+        orders.put("top", "desc");
+        orders.put("post", "desc");
+        Sort sort = getJpaSortWithOther(pagination, orders);
+        Pageable pageable = PageRequest.of(pagination.getPage() - 1, pagination.getLimit(), sort);
         Page<NBArticle> page = articleService.findBlogArticles(pageable, articleQueryBO);
         Map<Long, Long> commentCounts = page.getContent().stream()
                 .collect(toMap(
