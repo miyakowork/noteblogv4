@@ -400,7 +400,7 @@ var template = {
         '                       <textarea id="comment-input" style="display: none;"></textarea>' +
         '               </div>' +
         '               <button v-if="su != null" class="layui-btn-danger layui-btn layui-btn-sm" style="float: right;width: 120px;" @click="submit(id)" >发表</button>' +
-        '               <a v-if="su == null" class="layui-btn layui-btn-sm" style="float: right;width: 120px;"  href="/login" target="_blank" @click="beforeLogin();" id="beforeLogin"><i class="fa fa-qq"></i> 请先登录</a>' +
+        '               <a v-if="su == null" class="layui-btn layui-btn-sm" style="float: right;width: 120px;background-color: #f44336;"  href="/login" target="_blank" @click="beforeLogin();" id="beforeLogin"><i class="fa fa-qq"></i> 请先登录</a>' +
         '           </fieldset>' +
         '       </div>' +
         '   </div>' +
@@ -417,7 +417,7 @@ var template = {
         '                       <textarea id="comment-input" style="display: none;"></textarea>' +
         '               </div>' +
         '               <button v-if="su != null" class="layui-btn layui-btn-sm layui-btn-danger" style="float: right;width: 120px;" @click="submit()" >发表</button>' +
-        '               <a v-if="su == null" class="layui-btn layui-btn-sm" style="float: right;width: 120px;"  href="/api/qq" target="_blank" @click="beforeLogin();" id="beforeLogin"><i class="fa fa-qq"></i> 请先登录</a>' +
+        '               <a v-if="su == null" class="layui-btn layui-btn-sm" style="float: right;width: 120px;background-color: #f44336;"  href="/api/qq" target="_blank" @click="beforeLogin();" id="beforeLogin"><i class="fa fa-qq"></i> 请先登录</a>' +
         '           </fieldset>' +
         '       </div>' +
         '   </div>' +
@@ -566,7 +566,7 @@ var template = {
         '          <a href="/search" v-if="params.menu_search_show == 1">{{params.menu_search}}</a>' +
         '          <a href="/link" v-if="params.menu_link_show == 1">{{params.menu_link}}</a>' +
         '        </p>\n' +
-        '        <ul class="layui-timeline" style="margin-top: 10px;padding-top: 15px;border-top: 1px dotted #EEEEEE;">' +
+        '        <ul class="layui-timeline" style="margin-top: 10px;padding-top: 15px;margin-bottom: 30px;border-top: 1px dotted #EEEEEE;">' +
         '            <li class="layui-timeline-item">' +
         '                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>' +
         '                <div class="layui-timeline-content layui-text">' +
