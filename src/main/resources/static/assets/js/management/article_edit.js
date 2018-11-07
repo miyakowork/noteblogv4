@@ -30,7 +30,7 @@ $(function () {
             data.field.draft = draft;
             data.field.cate = data.field.cateId;
             data.field.tagNames = $("div.xm-input.xm-select").attr("title");
-            alert(data.field.tagNames);
+            // alert(data.field.tagNames);
             if (data.field.editor === 'html') {
                 data.field.mdContent = "";
                 data.field.content = editor.html();
