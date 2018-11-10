@@ -6,7 +6,7 @@
 </head>
 <body class="animated fadeIn">
 <div id="note-app">
-    <bmy-header :params="params" :note="current"></bmy-header>
+    <bmy-header-mini :params="params" :st="false" :bodyid="bodyId" :show-small="false" :note="current"></bmy-header-mini>
     <hr class="header-hr">
     <bmy-block :quote="quote"></bmy-block>
     <bmy-notes :sw="sw" :su="su"></bmy-notes>
@@ -18,7 +18,8 @@
     BMY.noteVm = new Vue({
         el: "#note-app",
         data: {
-            params: [[${settings}]]
+            bodyId:"note-body"
+            , params: [[${settings}]]
             , su: [[${su}]]
             , current: true
             , quote: {

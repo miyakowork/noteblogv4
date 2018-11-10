@@ -221,6 +221,9 @@ public class NBUtils implements ApplicationContextAware {
      */
     public static String getIpCnInfo(IpInfo ipInfo) {
         String undefined = "x";
+        if (ipInfo == null || ipInfo.getData() == null) {
+            return "未知位置";
+        }
         boolean isLocal = ipInfo.getData().getIp().contains("127.0.0.1") || ipInfo.getData().getIp().contains("localhost");
         String temp = ipInfo.getData().getCountry() + ipInfo.getData().getRegion() + ipInfo.getData().getCity();
         if (!ipInfo.getData().getCounty().toLowerCase().contains(undefined) && !isLocal) {

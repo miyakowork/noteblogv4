@@ -377,7 +377,7 @@ body:before {
 }
 
 .clock-font {
-    color: #009688;
+    color: rgba(244, 67, 54, 1);
 }
 
 .header-hr {

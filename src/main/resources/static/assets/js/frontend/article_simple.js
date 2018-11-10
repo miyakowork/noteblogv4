@@ -6,7 +6,7 @@ layui.define(function (exports) {
 
 var ani_ =
     '{{# layui.each(d.pageArticle.content, function(index, item){ }}' +
-    '<blockquote class="layui-elem-quote simple-article layui-anim layui-anim-upbit">' +
+    '<blockquote class="layui-elem-quote simple-article layui-anim layui-anim-upbit layui-row layui-col-space15"><div class="layui-col-xs12 layui-col-sm10">' +
     '   <div class="article-title center-to-head">' +
     '       {{# if(item.top){ }}' +
     '       <span class="layui-badge  layui-bg-cyan">置顶</span>' +
@@ -51,7 +51,7 @@ var ani_ =
     '           <span><i class="fa fa-clock-o"></i> 时间：<span class="detail-date">{{ BMY.wholeCnDate(item.post) }}</span><span class="simple-date">{{ BMY.simpleDate(item.post) }}</span></span>' +
     '       </p>' +
     '   </div>' +
-    '</blockquote>' +
+    '</div><div class="layui-hide-xs layui-col-sm2"><img class="simple-article-cover" src="{{item.cover}}"></div> </blockquote>' +
     '{{# });  }}';
 
 function isChinese(str) {  //判断是不是中文

@@ -110,8 +110,8 @@ var template = {
         '</div>'
     ,
     block:
-        '<div class="layui-container" style="margin-top: 70px;">' +
-        '        <blockquote class="layui-elem-quote">' +
+        '<div class="layui-container" style="margin-top: 90px;">' +
+        '        <blockquote class="layui-elem-quote" style="border-left: 5px solid rgba(244, 67, 54, 1);">' +
         '            <template v-if="quote.showBlog">博文统计：共【<span class="sum-font">{{quote.blogCount}}</span>】篇；</template>' +
         '            <template v-if="quote.showNote">笔记统计：共【<span class="sum-font">{{quote.noteCount}}</span>】条；</template>' +
         '            <template v-if="quote.showFile">资源统计：共【<span class="sum-font">{{quote.fileCount}}</span>】条；</template>' +

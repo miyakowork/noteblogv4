@@ -10,6 +10,7 @@
 <div id="index-app">
     <bmy-header-mini :params="params" :home="current" :bodyId="bodyId"></bmy-header-mini>
     <hr class="header-hr">
+    <bmy-block :quote="quote"></bmy-block>
     <div id="main-body" class="layui-container simple">
         <div class="layui-row layui-col-space10" id="article-simple-list">
         </div>
@@ -34,22 +35,33 @@
         BMY.indexVM = new Vue({
             el: "#index-app",
             data: {
-                params: [[${settings}]],
+                params: [[${settings}]]
+                , quote: {
+                    showText: true
+                    , showBlog: true
+                    , showSearch: false
+                    , searchCount: 0
+                    , blogCount: 111
+                    , text: [[${settings.index_top_words}]]
+                },
                 current: true,
                 su: [[${su}]],
                 bodyId: "main-body",
                 sw: BMY.getParam("s") !== undefined ? decodeURIComponent(BMY.getParam("s")) : BMY.getParam("s"),
                 elem: element
-            }, mounted: function () {
+            }, mounted:
 
-                flow.load({
-                    elem: '#article-simple-list' //流加载容器
-                    , done: function (page, next) { //执行下一页的回调
-                        return articleSimple(page, next, laytpl);
-                    }
-                });
-            }
-        });
+                function () {
+
+                    flow.load({
+                        elem: '#article-simple-list' //流加载容器
+                        , done: function (page, next) { //执行下一页的回调
+                            return articleSimple(page, next, laytpl);
+                        }
+                    });
+                }
+        })
+        ;
 
     });
 

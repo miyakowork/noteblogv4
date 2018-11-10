@@ -1,13 +1,23 @@
 #main-body.simple {
-    padding-top: 100px;
+    padding-top: 20px;
     padding-bottom: 50px;
 }
 
 .simple-article {
     border-left: none;
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 2%;
+    padding-right: 2%;
     background: inherit;
+}
+
+.simple-article .simple-article-cover {
+    width: 100%;
+    display: block;
+    padding: 7px;
+    border: 1px solid #dedede;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+    border-radius: 4px;
+    margin-top: 15px;
 }
 
 .simple-article .article-title span {
@@ -17,19 +27,21 @@
 .simple-article:not(:first-child) {
     margin-top: 40px;
 }
-@media screen and (max-width: 425px){
+
+@media screen and (max-width: 425px) {
     .simple-article:not(:first-child) {
         margin-top: 10px;
         border-top: 1px dashed #e3e3e3;
     }
-    .simple-article{
+
+    .simple-article {
         height: 135px !important;
     }
 }
 
 .layui-elem-quote.simple-article:hover {
     border-left: 5px solid rgba(244, 67, 54, 1);
-    background-color: rgb(248, 248, 248);
+    background-color: rgb(253, 253, 253);
     transition: border-left-width .3s ease-in, .3s ease-out;
     -moz-transition: border-left-width .3s ease-in, .3s ease-out;
     -webkit-transition: border-left-width .3s ease-in, .3s ease-out;
@@ -37,7 +49,7 @@
 }
 
 .simple-article {
-    padding-bottom: 10px;
+    padding-bottom: 15px;
     height: 155px;
 }
 
@@ -134,7 +146,7 @@
 
 @media screen and (max-width: 767px) {
     #main-body.simple {
-        padding-top: 80px;
+        padding-top: 10px;
     }
 
     .simple-article .article-title {
