@@ -21,7 +21,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -29,7 +32,6 @@ import java.util.Optional;
 
 import static me.wuwenbin.noteblogv4.config.permission.NBAuth.Group.AJAX;
 import static me.wuwenbin.noteblogv4.config.permission.NBAuth.Group.ROUTER;
-import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Session.SESSION_ID_COOKIE;
 import static me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResType.NAV_LINK;
 import static me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResType.OTHER;
 
@@ -76,7 +78,7 @@ public class NoteController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @NBAuth(value = "management:note:list_data", remark = "随笔管理页面中的数据接口", group = AJAX)
     @ResponseBody
-    public LayuiTable<NBNote> articleList(Pagination<NBNote> notePagination, String title, String clearContent, @CookieValue(SESSION_ID_COOKIE) String uuid) {
+    public LayuiTable<NBNote> noteList(Pagination<NBNote> notePagination, String title, String clearContent) {
         Sort sort = getJpaSort(notePagination);
         Pageable pageable = PageRequest.of(notePagination.getPage() - 1, notePagination.getLimit(), sort);
         Page<NBNote> jpaPage = noteService.findNotePage(pageable, title, clearContent);
@@ -142,7 +144,7 @@ public class NoteController extends BaseController {
     @NBAuth(value = "management:note:update_top", remark = "修改笔记的置顶状态", group = AJAX)
     public NBR top(@PathVariable("id") Long id, Boolean top) {
         return ajaxDone(
-                () -> noteRepository.save(NBNote.builder().id(id).top(top).build()) != null
+                () -> noteRepository.updateNoteTopStatus(id, top) == 1
                 , () -> "修改置顶状态"
         );
     }
@@ -150,9 +152,9 @@ public class NoteController extends BaseController {
     @RequestMapping("/update/show/{id}")
     @ResponseBody
     @NBAuth(value = "management:note:update_show", remark = "修改笔记的显隐状态", group = AJAX)
-    public NBR show(@PathVariable("id") Long id, Boolean top) {
+    public NBR show(@PathVariable("id") Long id, Boolean show) {
         return ajaxDone(
-                () -> noteRepository.save(NBNote.builder().id(id).show(top).build()) != null
+                () -> noteRepository.updateNoteShowStatus(id, show) == 1
                 , () -> "修改显示状态"
         );
     }

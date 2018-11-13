@@ -23,6 +23,10 @@ a:hover {
     color: #F44336 !important;
 }
 
+.layui-timeline-axis, .layui-breadcrumb a:hover {
+    color: #F44336 !important;
+}
+
 /*responsive style*/
 @media screen and (min-width: 1440px) {
     .layui-container {

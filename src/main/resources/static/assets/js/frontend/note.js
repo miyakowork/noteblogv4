@@ -32,14 +32,15 @@ function nextShare(cover, page, next, tpl) { //执行下一页的回调
         t: s,
         cc: s,
     }, function (json) {
+        debugger
         if (json.code === BMY.status.ok) {
-            tpl(shares).render(json.data, function (html) {
+            tpl(shares).render(json.data.content, function (html) {
                 cover.slideUp();
-                next(html + shareEnds, json.data.hasNext)
+                next(html + shareEnds, !json.data.last)
             });
             if (s !== "" && s !== undefined && s !== null) {
                 BMY.noteVm.quote.showSearch = true;
-                BMY.noteVm.quote.searchCount = json.data.totalCount;
+                BMY.noteVm.quote.searchCount = json.data.totalElements;
             }
             $(window).resize();
         }
@@ -47,5 +48,6 @@ function nextShare(cover, page, next, tpl) { //执行下一页的回调
 }
 
 function noteTitle(note) {
-    return BMY.dateFormatter(note.post, "/", false) + "&nbsp;<i class=\"fa fa-hand-grab-o \"></i> " + note.title;
+    debugger
+    return BMY.dateFormatter(note.post) + "&nbsp;<i class=\"fa fa-hand-grab-o \"></i> " + note.title;
 }

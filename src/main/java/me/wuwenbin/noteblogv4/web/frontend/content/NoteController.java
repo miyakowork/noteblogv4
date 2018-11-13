@@ -44,9 +44,9 @@ public class NoteController extends BaseController {
 
     @PostMapping("/next")
     @ResponseBody
-    public NBR next(Pagination<NBNote> pagination, String title, String clearContent) {
+    public NBR next(Pagination<NBNote> pagination, String t, String cc) {
         Pageable pageable = getPageable(pagination);
-        Page<NBNote> notePage = noteService.findNotePage(pageable, title, clearContent);
+        Page<NBNote> notePage = noteService.findNotePage(pageable, t, cc);
         return NBR.ok("获取成功", notePage);
     }
 }

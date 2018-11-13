@@ -75,7 +75,7 @@ public class NoteServiceImpl implements NoteService {
         } else {
             Example<NBNote> tagExample = Example.of(
                     NBNote.builder().clearContent(clearContent == null ? "" : clearContent).title(title == null ? "" : title).build(),
-                    ExampleMatcher.matching()
+                    ExampleMatcher.matchingAny()
                             .withMatcher("clearContent", ExampleMatcher.GenericPropertyMatcher::contains)
                             .withMatcher("title", ExampleMatcher.GenericPropertyMatcher::contains)
                             .withIgnoreCase());
