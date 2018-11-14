@@ -505,7 +505,7 @@ var template = {
         '   <div id="note-operate" class="layui-row">' +
         '       <div class="layui-col-lg4 layui-col-md4 layui-col-sm5 layui-col-xs12 animated fadeInUp">' +
         '           <input name="words" v-model="words" @keyup.enter="searchAll"  :value="sw" @input="updateValue($event.target.value)" ' +
-        '                       placeholder="敲入关键字，按Enter键搜索" autocomplete="off" class="layui-input search-box" style="height: 35px; ">' +
+        '                       placeholder="输入关键字，按Enter/回车键搜索" autocomplete="off" class="layui-input search-box" style="height: 35px; ">' +
         '       </div>' +
         '       <div class="layui-col-lg-offset4 layui-col-lg4 layui-col-md-offset4 layui-col-md4 layui-col-sm-offset3 layui-col-sm4 layui-hide-xs" style="text-align: right;">' +
         '           <div class="layui-btn-group">' +

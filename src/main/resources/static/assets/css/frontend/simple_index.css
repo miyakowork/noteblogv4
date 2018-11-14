@@ -188,3 +188,7 @@
         font-size: 11px;
     }
 }
+
+#note-app code {
+    font-family: "Meiryo", "Meiryo UI", "Consolas", "Monaco", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
+}

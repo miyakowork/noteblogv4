@@ -5,7 +5,7 @@ layui.define(function (exports) {
 });
 
 var shares =
-    "{{# layui.each(d.result, function(index, item){ }}" +
+    "{{# layui.each(d.content, function(index, item){ }}" +
     "<li class=\"layui-timeline-item animated slideInUp\">" +
     "   <i class=\"layui-icon layui-timeline-axis\">&#xe63f;</i>" +
     "   <div class=\"layui-timeline-content layui-text\">" +
@@ -32,9 +32,8 @@ function nextShare(cover, page, next, tpl) { //执行下一页的回调
         t: s,
         cc: s,
     }, function (json) {
-        debugger
         if (json.code === BMY.status.ok) {
-            tpl(shares).render(json.data.content, function (html) {
+            tpl(shares).render(json.data, function (html) {
                 cover.slideUp();
                 next(html + shareEnds, !json.data.last)
             });
@@ -48,6 +47,5 @@ function nextShare(cover, page, next, tpl) { //执行下一页的回调
 }
 
 function noteTitle(note) {
-    debugger
     return BMY.dateFormatter(note.post) + "&nbsp;<i class=\"fa fa-hand-grab-o \"></i> " + note.title;
 }

@@ -8,15 +8,14 @@ import me.wuwenbin.noteblogv4.model.entity.NBNote;
 import me.wuwenbin.noteblogv4.model.entity.NBTag;
 import me.wuwenbin.noteblogv4.model.entity.NBTagRefer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * created by Wuwenbin on 2018/8/18 at 10:34
@@ -71,15 +70,23 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public Page<NBNote> findNotePage(Pageable pageable, String title, String clearContent) {
         if (StringUtils.isEmpty(title) && StringUtils.isEmpty(clearContent)) {
-            return noteRepository.findAll(pageable);
+            NBNote nbNote = new NBNote();
+            nbNote.setShow(true);
+            Example<NBNote> example = Example.of(nbNote);
+            return noteRepository.findAll(example, pageable);
         } else {
-            Example<NBNote> tagExample = Example.of(
-                    NBNote.builder().clearContent(clearContent == null ? "" : clearContent).title(title == null ? "" : title).build(),
+            NBNote nbNote = new NBNote();
+            nbNote.setClearContent(clearContent == null ? "" : clearContent);
+            nbNote.setTitle(title == null ? "" : title);
+            Example<NBNote> noteExample = Example.of(nbNote,
                     ExampleMatcher.matchingAny()
                             .withMatcher("clearContent", ExampleMatcher.GenericPropertyMatcher::contains)
                             .withMatcher("title", ExampleMatcher.GenericPropertyMatcher::contains)
                             .withIgnoreCase());
-            return noteRepository.findAll(tagExample, pageable);
+            Page<NBNote> p = noteRepository.findAll(noteExample, pageable);
+            List<NBNote> nbNotes = p.getContent().stream().filter(NBNote::getShow).collect(Collectors.toList());
+            Page<NBNote> p2 = new PageImpl<>(nbNotes, pageable, nbNotes.size());
+            return p2;
         }
     }
 

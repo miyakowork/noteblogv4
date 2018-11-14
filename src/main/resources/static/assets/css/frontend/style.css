@@ -23,7 +23,9 @@ a:hover {
     color: #F44336 !important;
 }
 
-.layui-timeline-axis, .layui-breadcrumb a:hover {
+.layui-timeline-axis,
+.layui-breadcrumb a:hover,
+.layui-timeline-title:hover {
     color: #F44336 !important;
 }
 
@@ -136,7 +138,7 @@ a:hover {
 
 /*website style*/
 body, input, textarea {
-    background: #f8f8f8 !important;
+    background: #F2F2F2 !important;
     -webkit-appearance: none;
     border-radius: 0;
 }
@@ -241,6 +243,7 @@ body:before {
     padding-bottom: 15px;
     height: 70px;
     background: #eeeeee;
+    border-top: 1px solid rgba(204, 204, 204, 0.45);
 }
 
 .bottom-nav .copyright {
@@ -260,7 +263,7 @@ body:before {
 }
 
 .simple .header {
-    background: #f8f8f8;
+    background: #F2F2F2;
     padding-bottom: 15px;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -315,7 +318,7 @@ body:before {
 
 .nav-header {
     padding-top: 22px;
-    background: #f8f8f8;
+    background: #F2F2F2;
     transition: padding-top .5s;
     -moz-transition: padding-top .5s; /* Firefox 4 */
     -webkit-transition: padding-top .5s; /* Safari 和 Chrome */
@@ -355,7 +358,7 @@ body:before {
     border-radius: 4px;
     padding: 5px;
     margin-left: 18px;
-    background: #f8f8f8;
+    background: #F2F2F2;
     font-weight: 800;
 }
 
@@ -552,7 +555,7 @@ body:before {
     padding: 10px;
     bottom: auto;
     top: 10px;
-    background: #f8f8f8;
+    background: #F2F2F2;
 }
 
 #note-body .sticky {
