@@ -9,13 +9,18 @@ import me.wuwenbin.noteblogv4.service.content.NoteService;
 import me.wuwenbin.noteblogv4.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * created by Wuwenbin on 2018/2/9 at 14:14
@@ -45,7 +50,11 @@ public class NoteController extends BaseController {
     @PostMapping("/next")
     @ResponseBody
     public NBR next(Pagination<NBNote> pagination, String t, String cc) {
-        Pageable pageable = getPageable(pagination);
+        Map<String, String> orders = new HashMap<>(2);
+        orders.put("top", "desc");
+        orders.put("post", "desc");
+        Sort sort = getJpaSortWithOther(pagination, orders);
+        Pageable pageable = PageRequest.of(pagination.getPage() - 1, pagination.getLimit(), sort);
         Page<NBNote> notePage = noteService.findNotePage(pageable, t, cc);
         return NBR.ok("获取成功", notePage);
     }

@@ -142,4 +142,13 @@ public interface ArticleRepository extends JpaRepository<NBArticle, Long>, JpaSp
     @Modifying
     @Transactional(rollbackOn = Exception.class)
     void updateViewsBySeq(String urlSeq);
+
+    /**
+     * 随机n篇文章
+     *
+     * @param limit
+     * @return
+     */
+    @Query(nativeQuery = true, value = "select * from nb_article ORDER BY rand() LIMIT ?1")
+    List<NBArticle> findRandomArticles(int limit);
 }

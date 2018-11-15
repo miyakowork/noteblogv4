@@ -4,10 +4,12 @@ import me.wuwenbin.noteblogv4.dao.repository.*;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.entity.NBArticle;
 import me.wuwenbin.noteblogv4.model.entity.NBComment;
+import me.wuwenbin.noteblogv4.model.entity.NBTag;
 import me.wuwenbin.noteblogv4.model.pojo.bo.ArticleQueryBO;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import me.wuwenbin.noteblogv4.model.pojo.framework.Pagination;
 import me.wuwenbin.noteblogv4.service.content.ArticleService;
+import me.wuwenbin.noteblogv4.service.content.TagService;
 import me.wuwenbin.noteblogv4.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.util.stream.Collectors.toMap;
@@ -37,15 +40,19 @@ public class IndexController extends BaseController {
     private final ArticleService articleService;
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
+    private final TagService tagService;
+    private final TagRepository tagRepository;
 
     @Autowired
-    public IndexController(ParamRepository paramRepository, ArticleRepository articleRepository, CateRepository cateRepository, ArticleService articleService, CommentRepository commentRepository, UserRepository userRepository) {
+    public IndexController(ParamRepository paramRepository, ArticleRepository articleRepository, CateRepository cateRepository, ArticleService articleService, CommentRepository commentRepository, UserRepository userRepository, TagService tagService, TagRepository tagRepository) {
         this.paramRepository = paramRepository;
         this.articleRepository = articleRepository;
         this.cateRepository = cateRepository;
         this.articleService = articleService;
         this.commentRepository = commentRepository;
         this.userRepository = userRepository;
+        this.tagService = tagService;
+        this.tagRepository = tagRepository;
     }
 
     @RequestMapping(value = {"", "/index"})
@@ -56,6 +63,8 @@ public class IndexController extends BaseController {
         return handleStyle(
                 "frontend/index/index_simple",
                 () -> {
+                    model.addAttribute("randomArticles", articleRepository.findRandomArticles(10));
+                    model.addAttribute("tagList", tagService.findTagsTab());
                     if (PAGE_MODERN_DEFAULT.equalsIgnoreCase(pageModern)) {
                         return "frontend/index/index_flow";
                     } else if (PAGE_MODERN_BUTTON.equalsIgnoreCase(pageModern)) {
@@ -86,10 +95,16 @@ public class IndexController extends BaseController {
                         NBArticle::getId,
                         article -> userRepository.getOne(article.getAuthorId()).getNickname()
                 ));
-        Map<String, Object> resultMap = new HashMap<>(2);
+        Map<Long, List<NBTag>> articleTagsMap = page.getContent().stream()
+                .collect(toMap(
+                        NBArticle::getId,
+                        article -> tagRepository.findArticleTags(article.getId(), true)
+                ));
+        Map<String, Object> resultMap = new HashMap<>(4);
         resultMap.put("pageArticle", page);
         resultMap.put("articleComments", commentCounts);
         resultMap.put("articleAuthors", articleAuthorNames);
+        resultMap.put("articleTagsMap", articleTagsMap);
         return NBR.ok("获取成功", resultMap);
     }
 

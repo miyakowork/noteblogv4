@@ -55,7 +55,7 @@ var ani_ =
     '   </div>' +
     '</div>' +
     '<div class="layui-hide-xs layui-hide-sm layui-show-md-inline-block layui-col-md2">' +
-    '   <img class="simple-article-cover" src="{{item.cover}}">' +
+    '   <a target="_blank" href="/article/{{item.id}}"><img class="simple-article-cover" src="{{item.cover}}" ></a> ' +
     '</div> ' +
     '</blockquote>' +
     '</div>' +

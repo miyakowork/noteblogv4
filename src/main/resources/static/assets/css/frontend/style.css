@@ -138,7 +138,7 @@ a:hover {
 
 /*website style*/
 body, input, textarea {
-    background: #F2F2F2 !important;
+    background: #F8F8F8 !important;
     -webkit-appearance: none;
     border-radius: 0;
 }
@@ -263,7 +263,7 @@ body:before {
 }
 
 .simple .header {
-    background: #F2F2F2;
+    background: #F8F8F8;
     padding-bottom: 15px;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -282,7 +282,7 @@ body:before {
 }
 
 .header {
-    background: #f8f8f8;
+    background: #F8F8F8;
     padding-bottom: 15px;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -318,7 +318,7 @@ body:before {
 
 .nav-header {
     padding-top: 22px;
-    background: #F2F2F2;
+    background: #F8F8F8;
     transition: padding-top .5s;
     -moz-transition: padding-top .5s; /* Firefox 4 */
     -webkit-transition: padding-top .5s; /* Safari 和 Chrome */
@@ -332,6 +332,7 @@ body:before {
 #mobile-nav .layui-this {
     background-color: #F44336;
 }
+
 
 .layui-nav-side {
     z-index: 19891024;
@@ -358,7 +359,7 @@ body:before {
     border-radius: 4px;
     padding: 5px;
     margin-left: 18px;
-    background: #F2F2F2;
+    background: #F8F8F8;
     font-weight: 800;
 }
 
@@ -640,7 +641,7 @@ body:before {
 }
 
 .layui-timeline-axis {
-    background: #F8F8F8;
+    background: #F2F2F2;
 }
 
 .comment-block > .layui-row {
@@ -700,7 +701,7 @@ p.blog-tags > span:hover {
 }
 
 #search-main table {
-    background-color: #f8f8f8;
+    background-color: #F2F2F2;
 }
 
 #search-main table tr:hover {

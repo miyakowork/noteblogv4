@@ -19,6 +19,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -28,10 +29,7 @@ import sun.misc.BASE64Decoder;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static java.util.regex.Pattern.*;
@@ -418,6 +416,26 @@ public class NBUtils implements ApplicationContextAware {
         }
 
     }
+
+
+    public static Map<String, Object> toLowerKeyMap(Map<String, Object> originMap) {
+        if (CollectionUtils.isEmpty(originMap)) {
+            return null;
+        }
+        Map<String, Object> newMap = new TreeMap<>();
+        originMap.forEach((k, v) -> newMap.put(k.toLowerCase(), v));
+        return newMap;
+    }
+
+    public static List<Map<String, Object>> toLowerKeyListMap(List<Map<String, Object>> originListMap) {
+        if (CollectionUtils.isEmpty(originListMap)) {
+            return null;
+        }
+        List<Map<String, Object>> newListMap = new LinkedList<>();
+        originListMap.forEach(m -> newListMap.add(toLowerKeyMap(m)));
+        return newListMap;
+    }
+
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

@@ -47,5 +47,9 @@ function nextShare(cover, page, next, tpl) { //执行下一页的回调
 }
 
 function noteTitle(note) {
-    return BMY.dateFormatter(note.post) + "&nbsp;<i class=\"fa fa-hand-grab-o \"></i> " + note.title;
+    return "<i class=\"fa fa-hand-grab-o \"></i> "
+        + note.title
+        + "<small style='margin-left: 10px;font-style: italic;color: #cccccc;'>"
+        + BMY.dateFormatter(note.post)
+        + "</small>";
 }
