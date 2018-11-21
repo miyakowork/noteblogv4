@@ -293,7 +293,7 @@ body:before {
     position: fixed;
     width: 100%;
     z-index: 19930916;
-    height: 42px;
+    height: 52px;
     transition: height .5s;
     -moz-transition: height .5s; /* Firefox 4 */
     -webkit-transition: height .5s; /* Safari 和 Chrome */
@@ -332,7 +332,6 @@ body:before {
 #mobile-nav .layui-this {
     background-color: #F44336;
 }
-
 
 .layui-nav-side {
     z-index: 19891024;
@@ -400,7 +399,7 @@ body:before {
 }
 
 .loading {
-    color: #009688;
+    color: #F44336;
 }
 
 .operation > * {
@@ -437,7 +436,7 @@ body:before {
 }
 
 .tags > span:hover {
-    color: #009688;
+    color: #F44336;
     transition: color .5s ease-out;
     -moz-transition: color .5s ease-out;
     -webkit-transition: color .5s ease-out;
@@ -651,12 +650,13 @@ body:before {
 
 .layui-tags span.layui-badge-rim {
     margin-right: 5px;
+    margin-bottom: 5px;
 }
 
 .layui-tags span.layui-badge-rim:hover {
     cursor: pointer;
     border: 1px solid #2F4056;
-    color: #009688;
+    color: #F44336;
     transition: border, color .5s ease-out, .5s ease-out;
     -moz-transition: border, color .5s ease-out, .5s ease-out;
     -webkit-transition: border, color .5s ease-out, .5s ease-out;
@@ -672,11 +672,17 @@ body:before {
     color: #009688;
 }
 
+.layui-master-recommend p:not(:first-child),
+.layui-article-cate p:not(:first-child),
+.layui-similar p:not(:first-child) {
+    margin-bottom: 5px;
+}
+
 .layui-master-recommend p:not(:first-child) a:hover,
 .layui-article-cate p:not(:first-child) a:hover,
 .layui-similar p:not(:first-child) a:hover {
     cursor: pointer;
-    color: #009688;
+    color: #F44336;
 }
 
 .blog-tags {
@@ -745,7 +751,7 @@ p.blog-tags > span:hover {
 }
 
 .article-page-similar a:hover {
-    color: #009688 !important;
+    color: #f44336 !important;
 }
 
 #timeline pre.layui-code code {

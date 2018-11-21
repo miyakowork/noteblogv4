@@ -32,14 +32,14 @@ var ani_ =
     '       {{# } }}' +
     '   </div>' +
     '       {{# if(item.urlSequence != null && item.urlSequence !=""){ }}' +
-    '   <div class="article-body normal">{{ item.summary }}<a href="/article/u/{{ item.urlSequence }}">...</a></div>' +
+    '   <div class="article-body normal" style="text-indent: 35px;">{{ item.summary }}<a href="/article/u/{{ item.urlSequence }}">...</a></div>' +
     '       {{# }else{ }}' +
-    '   <div class="article-body normal">{{ item.summary }}<a href="/article/{{ item.id }}">...</a></div>' +
+    '   <div class="article-body normal" style="text-indent: 35px;">{{ item.summary }}<a href="/article/{{ item.id }}">...</a></div>' +
     '       {{# } }}' +
     '       {{# if(item.urlSequence != null && item.urlSequence !=""){ }}' +
-    '   <div class="article-body sm">{{  item.summary.substring(0,Math.ceil(lenStat(item.summary)/2))  }}<a href="/article/u/{{ item.urlSequence }}">...</a></div>' +
+    '   <div class="article-body sm" style="text-indent: 35px;">{{  item.summary.substring(0,Math.ceil(lenStat(item.summary)/2))  }}<a href="/article/u/{{ item.urlSequence }}">...</a></div>' +
     '       {{# }else{ }}' +
-    '   <div class="article-body sm">{{ item.summary.substring(0,Math.ceil(lenStat(item.summary)/2)) }}<a href="/article/{{ item.id }}">...</a></div>' +
+    '   <div class="article-body sm" style="text-indent: 35px;">{{ item.summary.substring(0,Math.ceil(lenStat(item.summary)/2)) }}<a href="/article/{{ item.id }}">...</a></div>' +
     '       {{# } }}' +
     '   <div class="article-footer">' +
     '       <p>' +

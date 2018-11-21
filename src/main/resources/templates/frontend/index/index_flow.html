@@ -4,9 +4,9 @@
     <meta th:replace="frontend/fragment/style"/>
     <title th:text="${settings.website_title}"></title>
 </head>
-<body class="animated fadeIn">
+<body class="layui-anim layui-anim-fadein simple">
 <div id="index-app">
-    <bmy-header :params="params" :home="current"></bmy-header>
+    <bmy-header-mini :params="params" :home="current" :bodyId="bodyId"></bmy-header-mini>
     <hr class="header-hr">
     <bmy-block :quote="quote"></bmy-block>
     <bmy-articles>
@@ -15,65 +15,60 @@
                   :order="params.info_panel_order"></bmy-info>
         <bmy-search :sw="sw" slot="search"></bmy-search>
         <bmy-cate :cates="cates" slot="cate"></bmy-cate>
-        <!--<bmy-random :articles="articles" slot="random"></bmy-random>-->
-        <!--<bmy-tab :tabs="tabs" slot="tab"></bmy-tab>-->
+        <bmy-random :articles="articles" slot="random"></bmy-random>
+        <bmy-tab :tabs="tabs" slot="tab"></bmy-tab>
     </bmy-articles>
     <bmy-footer :words="params.footer_words"></bmy-footer>
+    <bottom-nav :params="params" :layui-element="elem"></bottom-nav>
 </div>
 <div th:replace="frontend/fragment/script"></div>
 <script th:inline="javascript">
-    BMY.indexVM = new Vue({
-        el: "#index-app",
-        data: {
-            params: [[${settings}]]
-            , cates: [[${cateList}]]
+    //让手机端也有hover的类似效果
+    document.body.addEventListener('touchstart', function () {
+    });
 
-            , current: true
-            , su: [[${su}]]
-            , quote: {
-                showBlog: true
-                , showSearch: false
-                , showText: true
-                , blogCount: [[${articleCount}]]
-                , searchCount: 0
-                , showClock: true
-                , text: [[${settings.index_top_words}]]
-            }
-            , sw: BMY.getParam("s") !== undefined ? decodeURIComponent(BMY.getParam("s")) : BMY.getParam("s")
-        },
-        mounted: function () {
-            BMY.stickyIt();
-            BMY.affix = new hcSticky("#affix-side", {
-                stickTo: '#main-body'
-                , innerSticker: '#search-panel'
-                , queries: {980: {disable: true}}
-                , top: 75
-                , onStart: function () {
-                    if (!BMY.sticky()) {
-                        BMY.affix.destroy();
-                    }
-                }
-            })
-        }
-    })
-
-</script>
-<script>
     layui.config({base: '/static/assets/js/frontend/'}).extend({
         article: 'article'
-    });
-    layui.use(['laytpl', 'element', 'flow', 'article'], function () {
+    }).use(['laytpl', 'element', 'flow', 'article'], function () {
         var flow = layui.flow;
         var element = layui.element;
         var laytpl = layui.laytpl;
         var article = layui.article;
 
-        flow.load({
-            elem: '#article-list' //流加载容器
-            , done: function (page, next) { //执行下一页的回调
-                return article(page, next, laytpl);
-            }
-        });
+        BMY.indexVM = new Vue({
+            el: "#index-app",
+            data: {
+                params: [[${settings}]]
+                , cates: [[${cateList}]]
+                , articles: [[${randomArticles}]]
+                , tabs: [[${tagList}]]
+                , current: true
+                , su: [[${su}]]
+                , bodyId: "main-body"
+                , quote: {
+                    showText: true
+                    , showBlog: true
+                    , showSearch: false
+                    , searchCount: 0
+                    , blogCount: [[${articleCount}]]
+                    , text: [[${settings.index_top_words}]]
+                },
+                sw: BMY.getParam("s") !== undefined ? decodeURIComponent(BMY.getParam("s")) : BMY.getParam("s"),
+                elem: element
+            }, mounted:
+
+                function () {
+
+                    flow.load({
+                        elem: '#article-list' //流加载容器
+                        , done: function (page, next) { //执行下一页的回调
+                            return article(page, next, laytpl);
+                        }
+                    });
+                }
+        })
+        ;
+
     });
 
 

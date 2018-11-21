@@ -1,6 +1,7 @@
 package me.wuwenbin.noteblogv4.web.frontend.content;
 
 import me.wuwenbin.noteblogv4.dao.repository.ArticleRepository;
+import me.wuwenbin.noteblogv4.dao.repository.CateRepository;
 import me.wuwenbin.noteblogv4.dao.repository.TagRepository;
 import me.wuwenbin.noteblogv4.dao.repository.UserRepository;
 import me.wuwenbin.noteblogv4.exception.ArticleFetchFailedException;
@@ -32,15 +33,17 @@ public class ArticleController extends BaseController {
     private final TagRepository tagRepository;
     private final UserRepository userRepository;
     private final CommentService commentService;
+    private final CateRepository cateRepository;
 
     @Autowired
     public ArticleController(ArticleRepository articleRepository,
                              TagRepository tagRepository,
-                             UserRepository userRepository, CommentService commentService) {
+                             UserRepository userRepository, CommentService commentService, CateRepository cateRepository) {
         this.articleRepository = articleRepository;
         this.tagRepository = tagRepository;
         this.userRepository = userRepository;
         this.commentService = commentService;
+        this.cateRepository = cateRepository;
     }
 
     @RequestMapping("/{aId}")
@@ -54,6 +57,8 @@ public class ArticleController extends BaseController {
         pagination.setLimit(10);
         model.addAttribute("comments", commentService.findPageInfo(getPageable(pagination), commentQueryBO));
         model.addAttribute("similarArticles", articleRepository.findSimilarArticles(fetchArticle.get().getCateId(), 6));
+        //normal型页面
+        model.addAttribute("cateList", cateRepository.findAll());
         return "frontend/content/article";
     }
 

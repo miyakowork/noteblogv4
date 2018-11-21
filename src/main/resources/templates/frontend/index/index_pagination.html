@@ -6,7 +6,7 @@
 </head>
 <body class="animated fadeIn">
 <div id="index-app">
-    <bmy-header :params="params" :home="current"></bmy-header>
+    <bmy-header :params="params" :home="current" bodyid="bodyId"></bmy-header>
     <hr class="header-hr">
     <bmy-block :quote="quote"></bmy-block>
     <bmy-articles>
@@ -31,6 +31,7 @@
             , tabs: [[${tagList}]]
             , current: true
             , su: [[${su}]]
+            , bodyId: "main-body"
             , quote: {
                 showBlog: true
                 , showSearch: false

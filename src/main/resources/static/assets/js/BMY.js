@@ -75,7 +75,7 @@ var BMY = {
             } else {
                 return t;
             }
-        }else {
+        } else {
             return "1993-09-16T08:59:00.166";
         }
     }
@@ -227,6 +227,38 @@ var BMY = {
             || navigator.userAgent.match(/BlackBerry/i)
             || navigator.userAgent.match(/Windows Phone/i));
 
+    }
+    ,
+    isChinese: function (str) {  //判断是不是中文
+        var reCh = /[u00-uff]/;
+        return !reCh.test(str);
+    }
+
+    , lenStat: function (target) {
+        var strlen = 0; //初始定义长度为0
+        var txtval = $.trim(target);
+        for (var i = 0; i < txtval.length; i++) {
+            if (BMY.isChinese(txtval.charAt(i)) === true) {
+                strlen = strlen + 0.5;//中文为2个字符
+            } else {
+                strlen = strlen + 1;//英文一个字符
+            }
+        }
+        // strlen = Math.ceil(strlen / 2);//中英文相加除2取整数
+        return strlen;
+    }
+    , lenStat2: function (target) {
+        var strlen = 0; //初始定义长度为0
+        var txtval = $.trim(target);
+        for (var i = 0; i < txtval.length; i++) {
+            if (BMY.isChinese(txtval.charAt(i)) === true) {
+                strlen = strlen + 1;//中文为2个字符
+            } else {
+                strlen = strlen + 0.5;//英文一个字符
+            }
+        }
+        // strlen = Math.ceil(strlen / 2);//中英文相加除2取整数
+        return strlen;
     }
 };
 /**

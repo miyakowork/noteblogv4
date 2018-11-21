@@ -16,7 +16,7 @@ var template = {
         '    <div class="layui-container">' +
         '        <div class="layui-row nav-header">' +
         '            <div class="layui-col-xs9 layui-col-sm4">' +
-        '                <a class="logo" href="/index"><i class="fa fa-graduation-cap"></i>&nbsp;{{params.website_logo_words}}</a><small>这是一个小标题</small>' +
+        '                <a class="logo" href="/index"><i class="fa fa-graduation-cap"></i>&nbsp;{{params.website_logo_words}}</a>' +
         '                <h2 id="title" style="display: none;margin-left: 10%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;" v-if="st">{{title}}</h2>' +
         '            </div>' +
         '            <div class="layui-col-xs3 layui-col-sm-offset2 layui-col-sm4 layui-hide-md layui-hide-lg nav-btn">' +
@@ -224,7 +224,7 @@ var template = {
         '       <p class="title">博文栈</p>' +
         '       <hr>' +
         '       <template v-for="r in articles">' +
-        '           <p><a :href="\'/article/\'+r.id">{{r.title}}</a> </p>' +
+        '           <p><a :href="\'/article/\'+r.id">{{subTitle(r.title)}}</a> </p>' +
         '       </template>' +
         '   </div> ' +
         '</div>'
@@ -384,7 +384,7 @@ var template = {
         '       <p class="title">相似文章</p>' +
         '       <hr>' +
         '       <template v-for="a in articles">' +
-        '           <p><a :href="\'/article/\'+a.id">{{a.title}}</a> </p>' +
+        '           <p><a :href="\'/article/\'+a.id">{{subTitle(a.title)}}</a> </p>' +
         '       </template>' +
         '   </div> ' +
         '</div>'
@@ -881,6 +881,12 @@ Vue.component('bmy-cate', {
 Vue.component('bmy-random', {
     template: template.random
     , props: ['articles']
+    , methods: {
+        subTitle: function (title) {
+            var len = 21;
+            return BMY.lenStat2(title) < len ? title : title.substring(0, len).concat("...");
+        }
+    }
 });
 
 Vue.component('bmy-tab', {
@@ -1039,6 +1045,12 @@ Vue.component('bmy-article-page-mini', {
 Vue.component('bmy-similar', {
     template: template.similar
     , props: ['articles']
+    , methods: {
+        subTitle: function (title) {
+            var len = 21;
+            return BMY.lenStat2(title) < len ? title : title.substring(0, len).concat("...");
+        }
+    }
 });
 
 Vue.component('bmy-comment', {

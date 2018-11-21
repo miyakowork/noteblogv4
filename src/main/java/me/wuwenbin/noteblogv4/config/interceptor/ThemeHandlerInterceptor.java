@@ -23,7 +23,7 @@ public class ThemeHandlerInterceptor extends BaseController implements HandlerIn
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
         String view = modelAndView.getViewName();
         String simpleView = view + "_simple";
         String normalView = view + "_normal";

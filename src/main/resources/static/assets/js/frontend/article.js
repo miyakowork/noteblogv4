@@ -11,7 +11,7 @@ var ani =
     '       <div class="layui-colla-content layui-show layui-article">' +
     '           <fieldset class="layui-elem-field layui-field-title">' +
     '               <legend class="center-to-head">' +
-    '                   <span class="layui-badge layui-bg-green"> {{ item.cate.cnName }}</span>' +
+    '                   <span class="layui-badge" style="background: #F44336;"> {{ item.cate.cnName }}</span>' +
     '                   {{# if(item.top){ }}' +
     '                   <span class="layui-badge layui-bg-cyan"> 置顶</span>' +
     '                   {{# } }}' +
