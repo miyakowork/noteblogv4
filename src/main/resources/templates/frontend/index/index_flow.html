@@ -55,9 +55,7 @@
                 },
                 sw: BMY.getParam("s") !== undefined ? decodeURIComponent(BMY.getParam("s")) : BMY.getParam("s"),
                 elem: element
-            }, mounted:
-
-                function () {
+            }, mounted: function () {
 
                     flow.load({
                         elem: '#article-list' //流加载容器
@@ -65,6 +63,20 @@
                             return article(page, next, laytpl);
                         }
                     });
+
+                BMY.stickyIt();
+                BMY.affix = new hcSticky("#affix-side", {
+                    stickTo: '#main-body'
+                    , innerSticker: '#search-panel'
+                    , queries: {980: {disable: true}}
+                    , top: 75
+                    , onStart: function () {
+                        if (!BMY.sticky()) {
+                            BMY.affix.destroy();
+                        }
+                    }
+                })
+
                 }
         })
         ;

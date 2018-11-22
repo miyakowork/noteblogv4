@@ -72,8 +72,7 @@ function nextPage(page, next, tpl) {
     $.post("/next", {
         limit: 10,
         page: page,
-        title: s,
-        textContent: s,
+        searchStr: s,
         cateId: c,
         tagSearch: t
     }, function (json) {
@@ -98,5 +97,5 @@ function nextPage(page, next, tpl) {
 function searchTag(span) {
     var s = $(span).text();
     s = s.substring(1);
-    location.href = "/index?s=" + s + "&t=" + s
+    location.href = "/index?t=" + s;
 }

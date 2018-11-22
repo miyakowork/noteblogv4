@@ -12,17 +12,12 @@
     <bmy-article-page-mini :article="article" :author="author" :comments="comments.totalElements"
                            :name="params.website_title" :tags="tags" :similars="similars"
                            :alipay="params.alipay" :wechat="params.wechat_pay" :su="su">
-
         <bmy-comment v-show="params.all_comment_open == 1 && article.commented" slot="post" :id="article.id"
                      :su="su"></bmy-comment>
-
         <bmy-similar :articles="similars" slot="similar"></bmy-similar>
-
         <bmy-simple-comment-list slot="comment" :comments="comments" :tips="params.comment_notice"
                                  :re="params.all_comment_open == 1 && article.commented"></bmy-simple-comment-list>
-
     </bmy-article-page-mini>
-
     <bmy-footer :words="params.footer_words"></bmy-footer>
     <bottom-nav :params="params" :layui-element="elem"></bottom-nav>
 </div>

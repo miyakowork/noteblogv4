@@ -79,7 +79,7 @@ var template = {
         '                       <i class="layui-icon layui-icon-user"></i> ' +
         '                       <span>{{params.menu_mine}}</span>' +
         '               </a>' +
-        '                <a v-show="params.menu_search_show == 1" href="/search" :class="{ active: search }" :data-title="params.menu_search" target="_blank">' +
+        '                <a v-show="params.menu_search_show == 1" style="cursor:pointer;" @click="searchDialog" :class="{ active: search }" :data-title="params.menu_search" target="_blank">' +
         '                       <i class="layui-icon layui-icon-search"></i> ' +
         '                       <span>{{params.menu_search}}</span>' +
         '               </a>' +
@@ -200,7 +200,7 @@ var template = {
     search:
         '<div id="search-panel" class="layui-tab layui-tab-card">' +
         '   <div class="layui-tab-content select-none">' +
-        '       <p class="title">搜索库 <small style="float: right;"><a href="/search" target="_blank"><i>前往 <i class="fa fa-angle-double-right"></i></i></a></small> </p>' +
+        '       <p class="title">搜索库 <small style="float: right;"><a style="cursor: pointer;" @click="aboutSearch" target="_blank"><i>关于 <i class="fa fa-info-circle"></i></i></a></small> </p>' +
         '       <hr>' +
         '       <input name="words" v-model="words" @keyup.enter="searchAll" :value="sw" @input="updateValue($event.target.value)" ' +
         '           placeholder="键入Enter键以搜索" autocomplete="off" class="layui-input search-box">' +
@@ -212,6 +212,7 @@ var template = {
         '   <div class="layui-tab-content select-none">' +
         '       <p class="title">分类堆</p>' +
         '       <hr>' +
+        '       <p><a href="/index?c="><i class="layui-icon">&#xe60a;</i> 全部</a> </p>' +
         '       <template v-for="c in cates">' +
         '           <p><a :href="cateUrl(c)"><i class="layui-icon">&#xe60a;</i> {{c.cnName}}</a></p>' +
         '       </template>' +
@@ -313,7 +314,7 @@ var template = {
 
     ,
     articlePageMini:
-        '<div id="blog-body" class="layui-container simple animated fadeInUp">' +
+        '<div id="blog-body" class="layui-container simple animated fadeInUp" style="margin-top: 100px;">' +
         '   <div class="layui-row layui-col-space10">' +
         '       <div id="blog-info" class="layui-col-md12">' +
         '           <div class="layui-collapse layui-panel layui-article">' +
@@ -706,6 +707,21 @@ Vue.component('bmy-header-mini', {
                 window.layer.close(__navBtnAIndex);
             })
         }
+        , searchDialog: function () {
+            //搜索
+            layer.open({
+                type: 1
+                , title: false
+                , closeBtn: false
+                //,shade: [0.1, '#fff']
+                , shadeClose: true
+                , maxWidth: 10000
+                , skin: 'fly-layer-search'
+                , content: ['<form action="/index" method="get">'
+                    , '<input autocomplete="off" placeholder="搜索内容，回车跳转" type="text" name="s">'
+                    , '</form>'].join('')
+            })
+        }
     }
     , mounted: function () {
         window.addEventListener("scroll", this.headerScroll);
@@ -865,6 +881,9 @@ Vue.component('bmy-search', {
             s = s !== undefined ? s : "";
             location.href = s === "" ? "/" : "/index?s=" + s;
         }
+        , aboutSearch: function () {
+            layer.msg("仅做标题和文章原始内容关键字匹配，tag搜索不包含在内！");
+        }
     }
 });
 
@@ -894,7 +913,7 @@ Vue.component('bmy-tab', {
     , props: ['tabs']
     , methods: {
         find: function (name) {
-            location.href = "/index?s=" + name + "&t=" + name;
+            location.href = "/index?t=" + name;
         }
     }
 });

@@ -85,8 +85,7 @@ public class NoteServiceImpl implements NoteService {
                             .withIgnoreCase());
             Page<NBNote> p = noteRepository.findAll(noteExample, pageable);
             List<NBNote> nbNotes = p.getContent().stream().filter(NBNote::getShow).collect(Collectors.toList());
-            Page<NBNote> p2 = new PageImpl<>(nbNotes, pageable, nbNotes.size());
-            return p2;
+            return new PageImpl<>(nbNotes, pageable, nbNotes.size());
         }
     }
 

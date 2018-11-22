@@ -38,4 +38,13 @@ public interface TagReferRepository extends JpaRepository<NBTagRefer, Long> {
             "FROM nb_tag_refer ttr LEFT JOIN nb_tag tt ON tt.id = ttr.tag_id " +
             "GROUP BY ttr.tag_id ORDER BY cnt DESC LIMIT 30")
     List<Object[]> findTagsTab();
+
+    /**
+     * 根据tag参考类型和tagId查找对应的tag参照对象集合
+     *
+     * @param tagId
+     * @param type
+     * @return
+     */
+    List<NBTagRefer> findByTagIdAndType(Long tagId, String type);
 }

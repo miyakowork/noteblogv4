@@ -46,7 +46,7 @@
     /*transition: border-left-width .3s ease-in, .3s ease-out;*/
     /*-moz-transition: border-left-width .3s ease-in, .3s ease-out;*/
     /*-webkit-transition: border-left-width .3s ease-in, .3s ease-out;*/
-    /*box-shadow: 0 1px 3px rgba(26, 26, 26, 0.24);*/
+    box-shadow: 0 2px 5px rgba(26, 26, 26, 0.4);
 }
 
 .layui-elem-quote.simple-article {

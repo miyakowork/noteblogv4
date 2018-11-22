@@ -8,7 +8,11 @@ var ani_ =
     '{{# layui.each(d.pageArticle.content, function(index, item){ }}' +
     '<div class="layui-container">' +
     '<blockquote class="layui-elem-quote simple-article layui-anim layui-anim-upbit layui-row layui-col-space15">' +
+    '       {{# if(item.cover != null && item.cover !=""){ }}' +
     '<div class="layui-col-xs12 layui-col-sm12 layui-col-md10">' +
+    '       {{# }else{ }}' +
+    '<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">' +
+    '       {{# } }}' +
     '   <div class="article-title center-to-head">' +
     '       {{# if(item.top){ }}' +
     '       <span class="layui-badge  layui-bg-cyan">置顶</span>' +
@@ -54,9 +58,11 @@ var ani_ =
     '       </p>' +
     '   </div>' +
     '</div>' +
+    '       {{# if(item.cover != null && item.cover !=""){ }}' +
     '<div class="layui-hide-xs layui-hide-sm layui-show-md-inline-block layui-col-md2">' +
     '   <a target="_blank" href="/article/{{item.id}}"><img class="simple-article-cover" src="{{item.cover}}" ></a> ' +
     '</div> ' +
+    '       {{# } }}' +
     '</blockquote>' +
     '</div>' +
     '{{# });  }}';
@@ -87,8 +93,7 @@ function nextPage(page, next, tpl) {
     $.post("/next", {
         limit: 10,
         page: page,
-        title: s,
-        textContent: s,
+        searchStr: s,
         cateId: c,
         tagSearch: t
     }, function (json) {
@@ -114,5 +119,5 @@ function nextPage(page, next, tpl) {
 function searchTag(span) {
     var s = $(span).text();
     s = s.substring(1);
-    location.href = "/index?s=" + s + "&t=" + s
+    location.href = "/index?t=" + s;
 }

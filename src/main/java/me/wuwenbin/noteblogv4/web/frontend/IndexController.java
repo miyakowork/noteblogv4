@@ -44,7 +44,10 @@ public class IndexController extends BaseController {
     private final TagRepository tagRepository;
 
     @Autowired
-    public IndexController(ParamRepository paramRepository, ArticleRepository articleRepository, CateRepository cateRepository, ArticleService articleService, CommentRepository commentRepository, UserRepository userRepository, TagService tagService, TagRepository tagRepository) {
+    public IndexController(ParamRepository paramRepository,
+                           ArticleRepository articleRepository, CateRepository cateRepository,
+                           ArticleService articleService, CommentRepository commentRepository,
+                           UserRepository userRepository, TagService tagService, TagRepository tagRepository) {
         this.paramRepository = paramRepository;
         this.articleRepository = articleRepository;
         this.cateRepository = cateRepository;

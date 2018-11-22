@@ -151,4 +151,15 @@ public interface ArticleRepository extends JpaRepository<NBArticle, Long>, JpaSp
      */
     @Query(nativeQuery = true, value = "select * from nb_article ORDER BY rand() LIMIT ?1")
     List<NBArticle> findRandomArticles(int limit);
+
+    /**
+     * 查找在此id集合中的文章集合对象
+     *
+     * @param articleIds
+     * @param start
+     * @param pageSize
+     * @return
+     */
+    @Query(nativeQuery = true, value = "select * from nb_article where id in (?1) limit ?2,?3")
+    List<NBArticle> findByIdIn(List<Long> articleIds, int start, int pageSize);
 }

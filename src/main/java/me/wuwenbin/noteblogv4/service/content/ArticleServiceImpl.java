@@ -1,7 +1,9 @@
 package me.wuwenbin.noteblogv4.service.content;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.URLUtil;
 import cn.hutool.http.HtmlUtil;
+import com.github.pagehelper.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import me.wuwenbin.noteblogv4.dao.repository.ArticleRepository;
 import me.wuwenbin.noteblogv4.dao.repository.TagReferRepository;
@@ -16,12 +18,10 @@ import me.wuwenbin.noteblogv4.model.pojo.bo.ArticleQueryBO;
 import me.wuwenbin.noteblogv4.service.param.ParamService;
 import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.Join;
@@ -33,6 +33,7 @@ import java.util.List;
 
 import static cn.hutool.core.util.RandomUtil.randomInt;
 import static java.time.LocalDateTime.now;
+import static java.util.stream.Collectors.toList;
 
 /**
  * created by Wuwenbin on 2018/8/5 at 20:09
@@ -118,20 +119,35 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Page<NBArticle> findBlogArticles(Pageable pageable, ArticleQueryBO articleQueryBO) {
-        String searchStr = articleQueryBO.getSearchStr() == null ? "" : articleQueryBO.getSearchStr();
-        NBArticle prob = NBArticle.builder().textContent(searchStr)
-                .title(searchStr).build();
-        if (articleQueryBO.getCateId() != null) {
-            prob.setCateId(articleQueryBO.getCateId());
+        if (StringUtil.isEmpty(articleQueryBO.getTagSearch())) {
+            String searchStr = articleQueryBO.getSearchStr() == null ? "" : articleQueryBO.getSearchStr();
+            NBArticle prob = NBArticle.builder().textContent(searchStr)
+                    .title(searchStr).build();
+            if (articleQueryBO.getCateId() != null) {
+                prob.setCateId(articleQueryBO.getCateId());
+            }
+            prob.setDraft(false);
+            ExampleMatcher matcher = ExampleMatcher.matchingAny()
+                    .withMatcher("title", ExampleMatcher.GenericPropertyMatcher::contains)
+                    .withMatcher("textContent", ExampleMatcher.GenericPropertyMatcher::contains)
+                    .withIgnorePaths("post", "modify", "view", "approveCnt", "commented", "mdContent", "appreciable", "top", "draft")
+                    .withIgnoreNullValues();
+            Example<NBArticle> articleExample = Example.of(prob, matcher);
+            Page<NBArticle> page = articleRepository.findAll(articleExample, pageable);
+            List<NBArticle> result = page.getContent().stream().filter(article -> !article.getDraft()).collect(toList());
+            return new PageImpl<>(result, pageable, result.size());
+        } else {
+            String tag = NBUtils.stripXSS(URLUtil.decode(articleQueryBO.getTagSearch(), "UTF-8"));
+            long tagId = tagRepository.findByName(tag).getId();
+            List<NBTagRefer> tagRefers = tagReferRepository.findByTagIdAndType(tagId, "article");
+            List<Long> articleIds = tagRefers.stream().map(NBTagRefer::getReferId).distinct().collect(toList());
+            if (CollectionUtils.isEmpty(articleIds)) {
+                return Page.empty(pageable);
+            } else {
+                List<NBArticle> articles = articleRepository.findByIdIn(articleIds, pageable.getPageNumber(), pageable.getPageSize());
+                return new PageImpl<>(articles, pageable, articles.size());
+            }
         }
-        prob.setDraft(false);
-        ExampleMatcher matcher = ExampleMatcher.matching()
-                .withMatcher("title", ExampleMatcher.GenericPropertyMatcher::contains)
-                .withMatcher("textContent", ExampleMatcher.GenericPropertyMatcher::contains)
-                .withIgnorePaths("post", "modify", "view", "approveCnt", "commented", "mdContent", "appreciable", "top")
-                .withIgnoreNullValues();
-        Example<NBArticle> articleExample = Example.of(prob, matcher);
-        return articleRepository.findAll(articleExample, pageable);
     }
 
     @Override

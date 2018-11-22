@@ -685,6 +685,23 @@ body:before {
     color: #F44336;
 }
 
+.fly-layer-search input {
+    height: 75px;
+    line-height: 75px;
+    width: 500px;
+    padding: 0 15px;
+    font-size: 20px;
+    border: none 0;
+    background: none;
+    border-radius: 10px;
+}
+
+#article-simple-list > .layui-container {
+    margin-bottom: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
 .blog-tags {
     text-align: center;
 }
