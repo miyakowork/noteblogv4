@@ -718,7 +718,7 @@ Vue.component('bmy-header-mini', {
                 , maxWidth: 10000
                 , skin: 'fly-layer-search'
                 , content: ['<form action="/index" method="get">'
-                    , '<input autocomplete="off" placeholder="搜索内容，回车跳转" type="text" name="s">'
+                    , '<input autocomplete="off" placeholder="搜索文章，回车跳转" type="text" name="s">'
                     , '</form>'].join('')
             })
         }

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta th:replace="frontend/fragment/style"/>
+    <title>关于</title>
+</head>
+<body class="animated fadeIn simple">
+<div id="profile-app">
+    <bmy-header-mini :params="params" :st="false" :bodyid="bodyId" :show-small="false"
+                     :note="current"></bmy-header-mini>
+    <hr class="header-hr">
+    <div id="profile-body" class="layui-container">
+        <p class="profile-title">个人简介</p>
+        <p class="profile-img">
+            <img class="layui-circle" src="">
+        </p>
+        <p></p>
+    </div>
+    <bmy-footer :words="params.footer_words"></bmy-footer>
+    <bottom-nav :params="params" :layui-element="elem"></bottom-nav>
+</div>
+<div th:replace="frontend/fragment/script"></div>
+<script src="/static/assets/js/frontend/svg.js"></script>
+<script th:inline="javascript">
+    layui.use(['laytpl', 'element'], function () {
+        var element = layui.element;
+
+        BMY.noteVm = new Vue({
+            el: "#profile-app",
+            data: {
+                bodyId: "profile-body"
+                , params: [[${settings}]]
+                , su: [[${su}]]
+                , current: true
+                , elem: element
+            }
+        });
+    });
+</script>
+</body>
+</html>

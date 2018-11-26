@@ -81,7 +81,7 @@ public class NBPanel implements Serializable {
         /**
          * 友情链接面板
          */
-        linkPanel("友链群", 6);
+        linkPanel("友链区", 6);
 
         private String titleName;
         private int order;
