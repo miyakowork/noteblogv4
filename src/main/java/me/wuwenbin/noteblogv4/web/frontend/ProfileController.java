@@ -2,6 +2,7 @@ package me.wuwenbin.noteblogv4.web.frontend;
 
 import me.wuwenbin.noteblogv4.web.BaseController;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -12,4 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/profile")
 public class ProfileController extends BaseController {
+
+    @RequestMapping
+    public String profile(Model model) {
+        return "frontend/profile";
+    }
 }
