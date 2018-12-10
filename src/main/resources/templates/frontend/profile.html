@@ -3,39 +3,87 @@
 <head>
     <meta th:replace="frontend/fragment/style"/>
     <title>关于</title>
+    <style>
+        #profile-body {
+            min-height: 660px;
+            margin-top: 100px;
+        }
+
+        .layui-tab-brief > .layui-tab-title .layui-this,
+        .layui-tab-brief > .layui-tab-more li.layui-this:after, .layui-tab-brief > .layui-tab-title .layui-this:after {
+            color: #F44336;
+            border-bottom-color: #F44336;
+        }
+    </style>
 </head>
-<body class="animated fadeIn simple">
+<body class="layui-anim layui-anim-fade simple">
 <div id="profile-app">
     <bmy-header-mini :params="params" :st="false" :bodyid="bodyId" :show-small="false"
-                     :note="current"></bmy-header-mini>
+                     :mine="current"></bmy-header-mini>
     <hr class="header-hr">
     <div id="profile-body" class="layui-container">
-        <p class="profile-title">个人简介</p>
-        <p class="profile-img">
-            <img class="layui-circle" src="">
-        </p>
-        <p></p>
+        <div class="layui-tab layui-tab-brief" lay-filter="mine-tab">
+            <ul class="layui-tab-title">
+                <template v-for="(about,index) in abouts">
+                    <li :class="liStyle(index)"><i :class="iStyle(about.tab)"></i> {{about.name}}</li>
+                </template>
+            </ul>
+            <div class="layui-tab-content">
+                <template v-for="(about,index) in abouts">
+                    <div class="layui-tab-item" :class="{'layui-show': index == 0,'layui-text': index!=0}"
+                         v-html="about.content"></div>
+                </template>
+            </div>
+        </div>
     </div>
     <bmy-footer :words="params.footer_words"></bmy-footer>
     <bottom-nav :params="params" :layui-element="elem"></bottom-nav>
 </div>
 <div th:replace="frontend/fragment/script"></div>
-<script src="/static/assets/js/frontend/svg.js"></script>
 <script th:inline="javascript">
-    layui.use(['laytpl', 'element'], function () {
-        var element = layui.element;
-
-        BMY.noteVm = new Vue({
+    layui.use('element', function () {
+        BMY.aboutVm = new Vue({
             el: "#profile-app",
             data: {
-                bodyId: "profile-body"
-                , params: [[${settings}]]
+                params: [[${settings}]]
                 , su: [[${su}]]
                 , current: true
-                , elem: element
+                , bodyId: "profile-body"
+                , elem: layui.element
+                , quote: {
+                    showText: true
+                    , text:
+                        '<span class="layui-breadcrumb">\n' +
+                        '        <a href="">网站首页</a>\n' +
+                        '        <a href="">博客文章</a>\n' +
+                        '        <a><cite>关于网站・博客・关于我</cite></a>\n' +
+                        '     </span>'
+                }
+                , abouts: [[${abouts}]]
             }
-        });
-    });
+            , methods: {
+                liStyle: function (index) {
+                    if (index === 0) {
+                        return "layui-this";
+                    }
+                }
+                , iStyle: function (tab) {
+                    if (tab === "about_me") {
+                        return "fa fa-user";
+                    }
+                    if (tab === "about_blog") {
+                        return "fa fa-book";
+                    }
+                    if (tab === "about_website") {
+                        return "fa fa-chrome";
+                    }
+                }
+            }, mounted: function () {
+                bottomNav();
+            }
+        })
+    })
+
 </script>
 </body>
 </html>
