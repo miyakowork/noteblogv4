@@ -57,12 +57,12 @@
                 elem: element
             }, mounted: function () {
 
-                    flow.load({
-                        elem: '#article-list' //流加载容器
-                        , done: function (page, next) { //执行下一页的回调
-                            return article(page, next, laytpl);
-                        }
-                    });
+                flow.load({
+                    elem: '#article-list' //流加载容器
+                    , done: function (page, next) { //执行下一页的回调
+                        return article(page, next, laytpl);
+                    }
+                });
 
                 BMY.stickyIt();
                 BMY.affix = new hcSticky("#affix-side", {
@@ -76,11 +76,8 @@
                         }
                     }
                 })
-
-                }
-        })
-        ;
-
+            }
+        });
     });
 
 
