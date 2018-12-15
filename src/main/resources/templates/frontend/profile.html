@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta th:replace="frontend/fragment/style"/>
-    <title>关于</title>
+    <title th:text="${settings.menu_mine}"></title>
     <style>
         #profile-body {
             min-height: 660px;
@@ -50,15 +50,6 @@
                 , current: true
                 , bodyId: "profile-body"
                 , elem: layui.element
-                , quote: {
-                    showText: true
-                    , text:
-                        '<span class="layui-breadcrumb">\n' +
-                        '        <a href="">网站首页</a>\n' +
-                        '        <a href="">博客文章</a>\n' +
-                        '        <a><cite>关于网站・博客・关于我</cite></a>\n' +
-                        '     </span>'
-                }
                 , abouts: [[${abouts}]]
             }
             , methods: {
