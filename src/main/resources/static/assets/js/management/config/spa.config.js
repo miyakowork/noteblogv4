@@ -15,6 +15,7 @@ $(function () {
             '/article/post': {path: '/article/post', action: '/article_post.js'},
             '/article/edit': {path: '/article/edit', action: '/article_edit.js'},
             '/settings/common': {path: '/settings/common'},
+            '/settings/theme': {path: '/settings/theme'},
             '/settings/mail': {path: '/settings/mail'},
             '/settings/profile': {path: '/settings/profile', action: "/profile.js"},
             '/settings/qrcode': {path: '/settings/qrcode', action: "/qrcode.js"},

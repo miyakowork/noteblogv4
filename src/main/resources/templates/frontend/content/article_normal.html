@@ -6,7 +6,8 @@
 </head>
 <body class="layui-anim layui-anim-fadein simple">
 <div id="article-app">
-    <bmy-header-mini :params="params" :st="st" :title="title" :bodyid="bodyId" :show-small="false"></bmy-header-mini>
+    <bmy-header-mini :params="params" :st="st" :title="title" :bodyid="bodyId" :show-small="false"
+                     :home="current"></bmy-header-mini>
     <hr class="header-hr">
     <bmy-block :quote="quote"></bmy-block>
     <bmy-article-page :article="article" :author="author" :comments="comments.totalElements"
@@ -65,6 +66,7 @@
                 params: [[${settings}]]
                 , article: [[${article}]]
                 , st: true
+                , current: true
                 , title: [[${article.title}]]
                 , tags: [[${tags}]]
                 , author: [[${author}]]

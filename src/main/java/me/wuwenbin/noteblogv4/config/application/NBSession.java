@@ -49,6 +49,7 @@ public class NBSession implements Serializable {
 
     private static HttpServletRequest getRequest() {
         ServletRequestAttributes ra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        assert ra != null;
         return ra.getRequest();
     }
 

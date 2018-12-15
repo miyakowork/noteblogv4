@@ -7,7 +7,8 @@
 </head>
 <body class="layui-anim layui-anim-fadein simple">
 <div id="article-app">
-    <bmy-header-mini :params="params" :st="st" :title="title" :bodyid="bodyId" :show-small="false"></bmy-header-mini>
+    <bmy-header-mini :params="params" :st="st" :title="title" :bodyid="bodyId" :show-small="false"
+                     :home="current"></bmy-header-mini>
     <hr class="header-hr">
     <bmy-article-page-mini :article="article" :author="author" :comments="comments.totalElements"
                            :name="params.website_title" :tags="tags" :similars="similars"
@@ -45,6 +46,7 @@
                 , bodyId: "blog-body"
                 , article: [[${article}]]
                 , st: true
+                , current: true
                 , title: [[${article.title}]]
                 , tags: [[${tags}]]
                 , author: [[${author}]]

@@ -171,7 +171,7 @@ var template = {
         '               <a href="/token/logout" style="font-size: 14px;">' +
         '                   <img id="logout" @mouseover="tipsOver()" @mouseout="tipsOut()" style="height: 45px;width: 45px;border: 1px solid #ccc;" class="layui-circle" :src="su != null ?su.avatar:\'\'">&nbsp;&nbsp;欢迎你，{{su.nickname}}！' +
         '               </a>' +
-        '               &nbsp;<a v-if="su !=null && su.dri == 1" href="/management/index" target="_blank" class="layui-text">后台管理 <i class="fa fa-angle-double-right"></i> </a>' +
+        '               &nbsp;<a v-if="su !=null && su.dri == 1" href="/management/index" target="_blank" class="layui-text" style="font-style: italic;color: #F44336;">后台管理 </a>' +
         '           </p>' +
         '       </div>' +
         '       </template>' +
@@ -187,7 +187,7 @@ var template = {
         '               <a href="/token/logout" style="font-size: 14px;">' +
         '                   <img id="logout" @mouseover="tipsOver()" @mouseout="tipsOut()" style="height: 45px;width: 45px;" class="layui-circle" :src="su != null ?su.avatar:\'\'">&nbsp;&nbsp;欢迎你，{{su.nickname}}！' +
         '               </a>' +
-        '               &nbsp;<a v-if="su !=null && su.dri == 1" href="/management/index" target="_blank" class="layui-text">后台管理 <i class="fa fa-angle-double-right"></i> </a>' +
+        '               &nbsp;<a v-if="su !=null && su.dri == 1" href="/management/index" target="_blank" class="layui-text" style="font-style: italic;color: #F44336;">后台管理 </a>' +
         '           </p>' +
         '       </div>' +
         '       <div class="layui-tab-item layui-text" v-html="utext" v-show="info">' +
@@ -432,7 +432,7 @@ var template = {
         '               <legend>网友评论・留言区</legend>' +
         '               <div class="layui-field-box comment">' +
         '                   <p v-if="comments.totalCount == 0" class="text-center">暂无评论</p>' +
-        '                   <blockquote class="layui-elem-quote layui-mt20" style="border-left: 5px solid #F44336;" v-html="tips"></blockquote>' +
+        '                   <blockquote class="layui-elem-quote layui-mt20" style="border-left: 5px solid #F44336;color: #FF5722;" v-html="tips"></blockquote>' +
         '                   <template v-for="c in comments.result">' +
         '                       <div class="layui-row comment-block" v-if="c.enable">' +
         '                           <div class="layui-row">' +

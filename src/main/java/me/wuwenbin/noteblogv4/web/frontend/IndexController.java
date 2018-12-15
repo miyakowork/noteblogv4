@@ -4,6 +4,7 @@ import me.wuwenbin.noteblogv4.dao.repository.*;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.entity.NBArticle;
 import me.wuwenbin.noteblogv4.model.entity.NBComment;
+import me.wuwenbin.noteblogv4.model.entity.NBParam;
 import me.wuwenbin.noteblogv4.model.entity.NBTag;
 import me.wuwenbin.noteblogv4.model.pojo.bo.ArticleQueryBO;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
@@ -86,7 +87,12 @@ public class IndexController extends BaseController {
         orders.put("top", "desc");
         orders.put("post", "desc");
         Sort sort = getJpaSortWithOther(pagination, orders);
-        Pageable pageable = PageRequest.of(pagination.getPage() - 1, pagination.getLimit(), sort);
+        NBParam pageParam = paramRepository.findByName(NoteBlogV4.Param.BLOG_INDEX_PAGE_SIZE);
+        NBParam modernParam = paramRepository.findByName(NoteBlogV4.Param.PAGE_MODERN);
+        int modern = Integer.valueOf(modernParam.getValue());
+        int pageSize = Integer.valueOf(pageParam.getValue());
+        pageSize = modern == 0 ? pageSize > 0 ? pageSize : pagination.getLimit() : pagination.getLimit();
+        Pageable pageable = PageRequest.of(pagination.getPage() - 1, pageSize, sort);
         Page<NBArticle> page = articleService.findBlogArticles(pageable, articleQueryBO);
         Map<Long, Long> commentCounts = page.getContent().stream()
                 .collect(toMap(

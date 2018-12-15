@@ -1,0 +1,362 @@
+<style>
+    .switch .layui-form-item {
+        margin-bottom: 0;
+    }
+</style>
+<div class="layui-card layadmin-tabs-card">
+    <div class="layui-card-header">
+        <span class="layui-breadcrumb">
+            <a href="/management/index">首页</a>
+            <a><cite>偏好设置</cite></a>
+            <a><cite>网站风格设置</cite></a>
+        </span>
+    </div>
+</div>
+<div class="layui-fluid layadmin-container" id="NB-settings-tab">
+    <div class="layui-row layui-col-space10 layui-form">
+
+        <div class="layui-card">
+            <div class="layui-card-header">网站风格设置</div>
+            <div class="layui-card-body">
+
+                <div class="layui-form-item">
+
+                    <fieldset class="layui-elem-field layui-field-title">
+                        <legend>网站样式设置</legend>
+                    </fieldset>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">分页模式</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="page_modern" value="0" title="流式加载"
+                                       lay-filter="page_modern"
+                                       th:checked="${page_modern eq '0'}">
+                                <input type="radio" name="page_modern" value="1" title="按钮加载"
+                                       lay-filter="page_modern"
+                                       th:checked="${page_modern eq '1'}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">首页风格</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="index_style" value="simple" title="简约风格"
+                                       lay-filter="index_style"
+                                       th:checked="${index_style eq 'simple'}">
+                                <input type="radio" name="index_style" value="normal" title="默认风格"
+                                       lay-filter="index_style"
+                                       th:checked="${index_style eq 'normal'}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">文章数量</label>
+                            <div class="layui-input-inline">
+                                <input type="number" name="blog_index_page_size" placeholder="请输入数字"
+                                       th:value="${blog_index_page_size}"
+                                       autocomplete="off" class="layui-input"></div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn-sm layui-btn" lay-submit lay-filter="settings">提交</button>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">摘要字数</label>
+                            <div class="layui-input-inline">
+                                <input type="number" name="article_summary_words_length" placeholder="请输入文章摘要显示的字数"
+                                       th:value="${article_summary_words_length}"
+                                       autocomplete="off" class="layui-input"></div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn-sm layui-btn" lay-submit lay-filter="settings">提交</button>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">开启访问统计</label>
+                            <div class="layui-input-inline">
+                                <input type="checkbox" name="statistic_analysis" lay-skin="switch" lay-text="开启|关闭"
+                                       lay-filter="switchFilter" th:checked="${statistic_analysis eq '1'}">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">是否开启访问统计，开启可能会增加服务器资源开销</div>
+                        </div>
+                    </div>
+
+
+
+                    <fieldset class="layui-elem-field layui-field-title">
+                        <legend>导航栏设置</legend>
+                    </fieldset>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">额外链接</label>
+                            <div class="layui-input-inline">
+                                <input type="checkbox" name="menu_link_show" lay-skin="switch" lay-text="开启|关闭"
+                                       lay-filter="switchFilter" th:checked="${menu_link_show eq '1'}">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">开启显示则可以在导航栏设置额外的一个链接</div>
+                        </div>
+                    </div>
+
+                    <div id="extra-link" class="layui-form-item" v-show="linkShow">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">额外链接</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="menu_link_icon" th:value="${menu_link_icon}"
+                                       placeholder="font-awesome字体图标" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-input-inline">
+                                <input type="text" name="menu_link" placeholder="请输入文本" th:value="${menu_link}"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-input-inline" style="width: 400px;">
+                                <input type="text" name="menu_link_href" placeholder="请输入链接url"
+                                       th:value="${menu_link_href}"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn-sm layui-btn" lay-submit lay-filter="link">提交</button>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">主页名称</label>
+                            <div class="layui-input-inline" style="width: 250px;">
+                                <input type="text" name="menu_home" placeholder="请输入文本"
+                                       th:value="${menu_home}" autocomplete="off" class="layui-input"></div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn-sm layui-btn" lay-submit lay-filter="settings">提交</button>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">笔记导航</label>
+                            <div class="layui-input-inline">
+                                <input type="checkbox" name="menu_note_show" lay-skin="switch" lay-text="开启|关闭"
+                                       lay-filter="switchFilter" th:checked="${menu_note_show eq '1'}">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">开启则在导航栏中显示笔记导航按钮链接</div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" id="note-nav" v-show="noteShow">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">笔记名称</label>
+                            <div class="layui-input-inline" style="width: 250px;">
+                                <input type="text" name="menu_note" placeholder="请输入文本"
+                                       th:value="${menu_note}" autocomplete="off" class="layui-input"></div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn-sm layui-btn" lay-submit lay-filter="settings">提交</button>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">作品导航</label>
+                            <div class="layui-input-inline">
+                                <input type="checkbox" name="menu_project_show" lay-skin="switch" lay-text="开启|关闭"
+                                       lay-filter="switchFilter" th:checked="${menu_project_show eq '1'}">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">开启则在导航栏中显示我的作品导航按钮链接</div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" id="project-nav" v-show="projectShow">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">作品名称</label>
+                            <div class="layui-input-inline" style="width: 250px;">
+                                <input type="text" name="menu_project" placeholder="请输入文本"
+                                       th:value="${menu_project}" autocomplete="off" class="layui-input"></div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn-sm layui-btn" lay-submit lay-filter="settings">提交</button>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">关于导航</label>
+                            <div class="layui-input-inline">
+                                <input type="checkbox" name="menu_mine_show" lay-skin="switch" lay-text="开启|关闭"
+                                       lay-filter="switchFilter" th:checked="${menu_mine_show eq '1'}">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">开启则显示关于我的导航按钮链接</div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" id="about-nav" v-show="aboutShow">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">关于名称</label>
+                            <div class="layui-input-inline" style="width: 250px;">
+                                <input type="text" name="menu_mine" placeholder="请输入文本"
+                                       th:value="${menu_mine}" autocomplete="off" class="layui-input"></div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn-sm layui-btn" lay-submit lay-filter="settings">提交</button>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">搜索导航</label>
+                            <div class="layui-input-inline">
+                                <input type="checkbox" name="menu_search_show" lay-skin="switch" lay-text="开启|关闭"
+                                       lay-filter="switchFilter" th:checked="${menu_search_show eq '1'}">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">开启则显示搜索的导航按钮链接</div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" id="search-nav" v-show="searchShow">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">搜索名称</label>
+                            <div class="layui-input-inline" style="width: 250px;">
+                                <input type="text" name="menu_search" placeholder="请输入文本"
+                                       th:value="${menu_search}" autocomplete="off" class="layui-input"></div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn-sm layui-btn" lay-submit lay-filter="settings">提交</button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<script th:inline="javascript">
+    var settingsApp = new Vue({
+        el: "#NB-settings-tab"
+        , data: {
+            openComment: [[${all_comment_open eq '1'}]]
+            , openMessage: [[${is_open_message eq '1'}]]
+            , linkShow: [[${menu_link_show eq '1'}]]
+            , noteShow: [[${menu_note_show eq '1'}]]
+            , projectShow: [[${menu_project_show eq '1'}]]
+            , aboutShow: [[${menu_mine_show eq '1'}]]
+            , searchShow: [[${menu_search_show eq '1'}]]
+            , qqLoginOpen: [[${qq_login eq '1'}]]
+            , qiniuOpen: [[${is_open_oss_upload eq '1'}]]
+        }
+        , mounted: function () {
+            layui.use(['form', 'element'], function () {
+                var element = layui.element
+                    , form = layui.form;
+                element.render();
+                form.render();
+
+                form.on('switch(switchFilter)', function (data) {
+                    var status = data.elem.checked ? 1 : 0;
+                    var name = $(data.elem).attr("name");
+                    BMY.ajaxManagement("/settings/update", {
+                        type: "switch"
+                        , name: name
+                        , value: status
+                    }, function (resp) {
+                        if (resp.code === BMY.status.ok) {
+                            layer.tips('修改成功！', data.othis);
+                            if (name === 'all_comment_open') {
+                                settingsApp.openComment = data.elem.checked;
+                            }
+                            else if (name === 'is_open_message') {
+                                settingsApp.openMessage = data.elem.checked;
+                            }
+                            else if (name === 'menu_link_show') {
+                                settingsApp.linkShow = data.elem.checked;
+                            }
+                            else if (name === 'menu_note_show') {
+                                settingsApp.noteShow = data.elem.checked;
+                            }
+                            else if (name === 'menu_mine_show') {
+                                settingsApp.aboutShow = data.elem.checked;
+                            }
+                            else if (name === 'menu_project_show') {
+                                settingsApp.projectShow = data.elem.checked;
+                            }
+                            else if (name === 'menu_search_show') {
+                                settingsApp.searchShow = data.elem.checked;
+                            }
+                            else if (name === 'qq_login') {
+                                settingsApp.qqLoginOpen = data.elem.checked;
+                            }
+                            else if (name === 'is_open_oss_upload') {
+                                settingsApp.qiniuOpen = data.elem.checked;
+                            }
+                        }
+                    })
+                });
+
+                form.on('submit(settings)', function (data) {
+                    var $this = $(data.elem);
+                    var $data = $this.parent(".layui-inline").prev(".layui-inline").find("input.layui-input:eq(0)");
+                    var name = $data.attr("name");
+                    name = name === undefined ? $this.parent(".layui-inline").prev(".layui-input-inline").find("textarea").attr("name") : name;
+                    var value = $data.val();
+                    value = value === undefined ? $this.parent(".layui-inline").prev(".layui-input-inline").find("textarea").val() : value;
+                    BMY.ajaxManagement("/settings/update", {
+                        type: 'text',
+                        name: name,
+                        value: value
+                    }, function (json) {
+                        BMY.okMsgHandle(json);
+                    });
+                    return false;
+                });
+
+                form.on('submit(link)', function () {
+                    var value = $("input[name=menu_link_icon]").val();
+                    value = value + "," + $("input[name=menu_link]").val();
+                    value = value + "," + $("input[name=menu_link_href]").val();
+                    BMY.ajaxManagement("/settings/update", {
+                        type: 'text',
+                        name: 'menu_link_icon',
+                        value: value
+                    }, function (json) {
+                        BMY.okMsgHandle(json);
+                    });
+                    return false;
+                });
+
+                form.on('radio(page_modern)', function (data) {
+                    BMY.ajaxManagement("/settings/update", {
+                        type: 'text'
+                        , name: 'page_modern'
+                        , value: data.value
+                    }, function (json) {
+                        BMY.okMsgHandle(json)
+                    })
+                });
+
+                form.on('radio(index_style)', function (data) {
+                    BMY.ajaxManagement("/settings/update", {
+                        type: 'text'
+                        , name: 'index_style'
+                        , value: data.value
+                    }, function (json) {
+                        BMY.okMsgHandle(json)
+                    })
+                });
+
+            });
+        }
+    })
+</script>
+

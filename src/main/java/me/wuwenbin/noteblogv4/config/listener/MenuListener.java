@@ -77,6 +77,7 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
                     {"偏好设置", "layui-icon layui-icon-set", new String[][]{
                             {"/management/settings/qrcode", "二维码设置", "fa fa-qrcode"}
                             , {"/management/settings/common", "网站基本设置", "fa fa-cogs"}
+                            , {"/management/settings/theme", "网站风格设置", "fa fa-cog"}
                             , {"/management/settings/profile", "个人资料", "fa fa-address-card-o"}
                             , {"/management/settings/mail", "邮件服务器", "fa fa-server"}
                     }}

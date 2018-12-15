@@ -62,6 +62,15 @@ public class SettingsController extends BaseController {
         return "/management/settings/common";
     }
 
+    @RequestMapping("/settings/theme")
+    @NBAuth(value = "management:settings:theme", remark = "网站风格设置界面", group = ROUTER, type = NAV_LINK)
+    public String settingTheme(Model model) {
+        List<NBParam> params = paramRepository.findAllByLevelGreaterThanEqual(9);
+        Map<String, Object> attributeMap = params.stream().collect(Collectors.toMap(NBParam::getName, NBParam::getValue));
+        model.addAllAttributes(attributeMap);
+        return "/management/settings/theme";
+    }
+
     @RequestMapping("/settings/mail")
     @NBAuth(value = "management:settings:mail", remark = "网站发送邮件服务器设置", group = ROUTER, type = NAV_LINK)
     public String settingsMail(Model model) {
