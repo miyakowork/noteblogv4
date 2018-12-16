@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  * @author wuwenbin
  */
-@Controller
+@Controller("frontProfileController")
 @RequestMapping("/profile")
 public class ProfileController extends BaseController {
 
