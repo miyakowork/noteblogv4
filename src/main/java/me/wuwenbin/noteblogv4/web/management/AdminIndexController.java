@@ -8,10 +8,7 @@ import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResType;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
 import me.wuwenbin.noteblogv4.model.pojo.business.MenuTree;
 import me.wuwenbin.noteblogv4.util.NBUtils;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,14 +25,7 @@ import static me.wuwenbin.noteblogv4.config.permission.NBAuth.Group;
  */
 @Controller
 @RequestMapping("/management")
-public class AdminIndexController implements ApplicationContextAware {
-
-    private ApplicationContext applicationContext;
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
+public class AdminIndexController {
 
     private final ArticleRepository articleRepository;
     private final MenuRepository menuRepository;

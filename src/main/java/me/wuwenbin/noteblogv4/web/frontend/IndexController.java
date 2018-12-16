@@ -91,7 +91,7 @@ public class IndexController extends BaseController {
         NBParam modernParam = paramRepository.findByName(NoteBlogV4.Param.PAGE_MODERN);
         int modern = Integer.valueOf(modernParam.getValue());
         int pageSize = Integer.valueOf(pageParam.getValue());
-        pageSize = modern == 0 ? pageSize > 0 ? pageSize : pagination.getLimit() : pagination.getLimit();
+        pageSize = modern == 0 ? pageSize > 10 ? pageSize : pagination.getLimit() : pagination.getLimit();
         Pageable pageable = PageRequest.of(pagination.getPage() - 1, pageSize, sort);
         Page<NBArticle> page = articleService.findBlogArticles(pageable, articleQueryBO);
         Map<Long, Long> commentCounts = page.getContent().stream()
