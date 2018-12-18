@@ -83,7 +83,7 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
                     }},
                     {"个人内容", "layui-icon layui-icon-diamond", new String[][]{
                             {"/management/profile", "关于内容", "fa fa-hdd-o"}
-                            , {"/management/project", "资源项目分享", "fa fa-laptop"}
+//                            , {"/management/project", "资源项目分享", "fa fa-laptop"}
                     }}
 
             };

@@ -16,8 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.WebUtils;
 
@@ -120,7 +120,7 @@ public class SettingsController extends BaseController {
         return settingsService.updateMailConfig(WebUtils.getParametersStartingWith(request, ""));
     }
 
-    @PostMapping("/settings/profile/update")
+    @RequestMapping(value = "/settings/profile/update", method = RequestMethod.POST)
     @NBAuth(value = "management:settings:profile_update", remark = "网站管理员修改操作", group = AJAX)
     @ResponseBody
     public NBR updateProfile(String nickname, String email, String password1, String password2, @CookieValue(SESSION_ID_COOKIE) String uuid, String avatar) {

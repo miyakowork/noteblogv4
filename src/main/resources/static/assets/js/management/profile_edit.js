@@ -9,7 +9,9 @@ $(function () {
 
         var post = function (data) {
             //markdown文本
-            data.field.content = editorMd.getMarkdown();
+            data.field.mdContent = editorMd.getMarkdown();
+            //html文本
+            data.field.content = editorMd.getHTML();
             $.ajax({
                 type: "post"
                 , url: BMY.url.prefix + "/profile/update"

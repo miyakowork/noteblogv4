@@ -6,21 +6,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * 关于我/网站的的数据库实体类
- * created by Wuwenbin on 2018/1/20 at 16:53
+ * created by Wuwenbin on 2018/12/18 at 23:09
  * @author wuwenbin
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "nb_about")
+@Table(name = "nb_project")
 @Entity
 @Builder
-public class NBAbout implements Serializable {
+public class NBProject implements Serializable {
 
     /**
      * 主键id
@@ -31,18 +30,14 @@ public class NBAbout implements Serializable {
     @Column(updatable = false, nullable = false, length = 11)
     private Long id;
 
-    @Column(length = 50)
-    private String tab;
+    @Column(length = 11, nullable = false)
+    @NotNull(message = "项目必须属于一个分类下")
+    private Long cateId;
 
-    @Column(length = 50)
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "cate_refer_id")
+    private NBProjectCate projectCate;
 
-    @Column(nullable = false, columnDefinition = "text")
-    @NotEmpty
-    private String content;
-
-    @Column(nullable = false, columnDefinition = "text")
-    @NotEmpty
-    private String mdContent;
+    private String cover;
 
 }
