@@ -25,6 +25,9 @@ $(function () {
             '/note/post': {path: '/note/post', action: '/note_post.js'},
             '/note': {path: '/note', action: '/note_list.js'},
             '/note/edit': {path: '/note/edit', action: '/note_edit.js'},
+            '/profile/add': {path: '/profile/add', action: '/profile_post.js'},
+            '/profile': {path: '/profile', action: '/profile_list.js'},
+            '/profile/edit': {path: '/profile/edit', action: '/profile_edit.js'},
             // 'file': {
             //     url: urlPrefix + 'file',
             //     controller: staticPrefix + '/file.js'

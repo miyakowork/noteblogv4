@@ -3,6 +3,7 @@ package me.wuwenbin.noteblogv4.web.management;
 import cn.hutool.core.util.StrUtil;
 import me.wuwenbin.noteblogv4.config.permission.NBAuth;
 import me.wuwenbin.noteblogv4.dao.repository.ProfileRepository;
+import me.wuwenbin.noteblogv4.exception.NoteFetchFailedException;
 import me.wuwenbin.noteblogv4.model.entity.NBAbout;
 import me.wuwenbin.noteblogv4.model.pojo.framework.LayuiTable;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
@@ -11,15 +12,18 @@ import me.wuwenbin.noteblogv4.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 import static me.wuwenbin.noteblogv4.config.permission.NBAuth.Group.AJAX;
 import static me.wuwenbin.noteblogv4.config.permission.NBAuth.Group.ROUTER;
 import static me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResType.NAV_LINK;
+import static me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResType.OTHER;
 
 /**
  * created by Wuwenbin on 2018/12/16 at 13:15
@@ -27,7 +31,7 @@ import static me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResTy
  * @author wuwenbin
  */
 @Controller
-@RequestMapping("/management")
+@RequestMapping("/management/profile")
 public class ProfileController extends BaseController {
 
     private final ProfileRepository profileRepository;
@@ -40,7 +44,21 @@ public class ProfileController extends BaseController {
     @RequestMapping
     @NBAuth(value = "management:profile:page", remark = "关于tab内容管理页面", group = ROUTER, type = NAV_LINK)
     public String profile() {
-        return "management/profile";
+        return "management/profile/profile_list";
+    }
+
+    @RequestMapping("/add")
+    @NBAuth(value = "management:profile:add", remark = "添加tab页面", type = NAV_LINK, group = ROUTER)
+    public String notePost() {
+        return "management/profile/profile_post";
+    }
+
+    @RequestMapping("/edit")
+    @NBAuth(value = "management:profile:edit", remark = "tab内容编辑页面", type = OTHER, group = ROUTER)
+    public String edit(Model model, Long id) {
+        Optional<NBAbout> note = profileRepository.findById(id);
+        model.addAttribute("editAbout", note.orElseThrow(NoteFetchFailedException::new));
+        return "management/profile/profile_edit";
     }
 
     @RequestMapping("/list")

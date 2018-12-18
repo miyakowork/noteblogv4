@@ -80,7 +80,12 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
                             , {"/management/settings/theme", "网站风格设置", "fa fa-cog"}
                             , {"/management/settings/profile", "个人资料", "fa fa-address-card-o"}
                             , {"/management/settings/mail", "邮件服务器", "fa fa-server"}
+                    }},
+                    {"个人内容", "layui-icon layui-icon-diamond", new String[][]{
+                            {"/management/profile", "关于内容", "fa fa-hdd-o"}
+                            , {"/management/project", "资源项目分享", "fa fa-laptop"}
                     }}
+
             };
 
             setUpMenuSystem(folderMenus);

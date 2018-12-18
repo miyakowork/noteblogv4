@@ -1,0 +1,38 @@
+<div class="layui-card layadmin-tabs-card">
+    <div class="layui-card-header">
+            <span class="layui-breadcrumb">
+                <a href="/management/index">首页</a>
+                <a><cite>关于内容</cite></a>
+            </span>
+    </div>
+</div>
+<div class="layui-fluid layadmin-container" id="NB-profile-list-tab">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-sm12">
+            <div class="layui-card">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="profileTable">
+                        <button class="layui-btn layui-btn-sm" data-type="addProfile"><i
+                                class="layui-icon">&#xe654;</i>
+                            新增关于tab内容
+                        </button>
+                    </div>
+                </div>
+                <div class="layui-card-body">
+                    <table class="layui-hide" id="profile-table" lay-filter="profile"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(".layui-btn[data-type=addProfile]").on("click", function () {
+        location.hash = vipspa.stringifyDefault("/profile/add");
+    });
+</script>
+
+<script type="text/html" id="profileTableBar">
+    <a class="layui-btn layui-bg-blue layui-btn-sm" lay-event="detail"><i class="layui-icon">&#xe642;</i>编辑</a>
+    <a class="layui-btn layui-bg-red layui-btn-sm" lay-event="del"><i class="layui-icon">&#xe640;</i>删除</a>
+</script>

@@ -1,0 +1,58 @@
+<link rel="stylesheet" type="text/css" href="/static/plugins/editormd/css/editormd.min.css">
+<link rel="stylesheet" href="/static/plugins/form-selects/form-selects.v4.css">
+<div class="layui-card layadmin-tabs-card">
+    <div class="layui-card-header">
+        <span class="layui-breadcrumb">
+            <a href="/management/index">首页</a>
+            <a><cite>关于内容</cite></a>
+            <a><cite>添加新的tab内容</cite></a>
+        </span>
+    </div>
+</div>
+<div class="layui-fluid layadmin-container" id="profile-post-tab">
+    <div class="layui-row">
+        <div id="article-post" class="layui-col-sm12">
+            <div class="layui-card">
+                <div class="layui-card-header layui-elip">添加新的tab</div>
+                <div class="layui-card-body">
+                    <div class="layui-form">
+                        <div class="layui-form-item layui-col-sm8">
+                            <label class="layui-form-label">tab名称</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="tab" required lay-verify="required"
+                                       placeholder="请输入tab名称，用于url区分路径的"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item layui-col-sm8">
+                            <label class="layui-form-label">中文名称</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="name" required lay-verify="required"
+                                       placeholder="请输入中文名称，用于显示在页面上的tab"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">内容</label>
+                            <div class="layui-input-block" id="profile-content-editor" style="max-width: 1366px;">
+                                <textarea id="profile-editormd-markdown-doc" name="editormd-markdown-doc"
+                                          style="display:none;"></textarea>
+                                <textarea id="profile-editormd-html-code" name="editormd-html-code"
+                                          style="display:none;"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="profilePostSubmit">提交</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
