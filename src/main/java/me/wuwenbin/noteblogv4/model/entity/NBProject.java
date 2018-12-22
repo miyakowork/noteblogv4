@@ -8,9 +8,11 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * created by Wuwenbin on 2018/12/18 at 23:09
+ *
  * @author wuwenbin
  */
 @Data
@@ -38,6 +40,13 @@ public class NBProject implements Serializable {
     @JoinColumn(name = "cate_refer_id")
     private NBProjectCate projectCate;
 
+    @Column(nullable = false)
     private String cover;
+
+    private LocalDateTime post;
+
+    private String description;
+
+    private String url;
 
 }

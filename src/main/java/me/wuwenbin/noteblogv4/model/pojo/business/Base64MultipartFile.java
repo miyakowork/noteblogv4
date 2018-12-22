@@ -7,6 +7,7 @@ import java.io.*;
 /**
  * 基于base64数据的multipart file
  * created by Wuwenbin on 2018/10/1 at 9:20
+ * @author wuwenbin
  */
 public class Base64MultipartFile implements MultipartFile {
 
