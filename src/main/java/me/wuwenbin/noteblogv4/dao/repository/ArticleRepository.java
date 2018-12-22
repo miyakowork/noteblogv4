@@ -26,6 +26,14 @@ public interface ArticleRepository extends JpaRepository<NBArticle, Long>, JpaSp
     long countByUrlSequence(String urlSequence);
 
     /**
+     * 根据draft变量计算文章数量
+     *
+     * @param draft
+     * @return
+     */
+    long countByDraft(boolean draft);
+
+    /**
      * 更新 appreciable 状态
      *
      * @param appreciable

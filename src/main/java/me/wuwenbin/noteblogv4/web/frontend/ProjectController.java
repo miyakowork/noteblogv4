@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  * @author wuwenbin
  */
-@Controller
+@Controller("frontProjectController")
 @RequestMapping("/project")
 public class ProjectController extends BaseController {
 

@@ -62,7 +62,7 @@ public class IndexController extends BaseController {
     @RequestMapping(value = {"", "/index"})
     public String index(Model model) {
         String pageModern = paramRepository.findByName(NoteBlogV4.Param.PAGE_MODERN).getValue();
-        model.addAttribute("articleCount", articleRepository.count());
+        model.addAttribute("articleCount", articleRepository.countByDraft(false));
         model.addAttribute("cateList", cateRepository.findAll());
         return handleStyle(
                 "frontend/index/index_simple",

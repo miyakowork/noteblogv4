@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -38,6 +39,7 @@ public class NBProject implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "cate_refer_id")
+    @NotNull
     private NBProjectCate projectCate;
 
     @Column(nullable = false)
@@ -45,8 +47,14 @@ public class NBProject implements Serializable {
 
     private LocalDateTime post;
 
+    @NotEmpty(message = "名称不能为空")
+    @Column(nullable = false, length = 11)
+    private String name;
+
+    @NotEmpty(message = "描述不能为空")
     private String description;
 
+    @NotEmpty(message = "主页地址不能为空")
     private String url;
 
 }

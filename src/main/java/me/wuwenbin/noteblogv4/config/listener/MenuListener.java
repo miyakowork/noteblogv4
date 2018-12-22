@@ -71,6 +71,7 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
                     }},
                     {"字典管理", "layui-icon layui-icon-read", new String[][]{
                             {"/management/dictionary/cate", "分类管理", "fa fa-clone"}
+                            ,{"/management/dictionary/projectCate", "项目分类管理", "fa fa-hdd-o"}
                             , {"/management/dictionary/keyword", "关键字管理", "fa fa-dot-circle-o"}
                             , {"/management/dictionary/tag", "标签管理", "fa fa-tags"}
                     }},

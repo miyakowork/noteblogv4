@@ -14,7 +14,7 @@ layui.use(['table', 'element'], function () {
             {type: 'numbers'}
             , {field: 'tab', title: 'tab名称', sort: true}
             , {field: 'name', title: '中文名称', sort: true}
-            , {title: '操作', width: 200, align: 'center', toolbar: '#profileTableBar'}
+            , {title: '操作', width: 300, align: 'center', toolbar: '#profileTableBar'}
         ]]
         , page: true
     });
