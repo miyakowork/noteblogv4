@@ -29,13 +29,12 @@ $(function () {
             '/profile/add': {path: '/profile/add', action: '/profile/profile_post.js'},
             '/profile': {path: '/profile', action: '/profile/profile_list.js'},
             '/profile/edit': {path: '/profile/edit', action: '/profile/profile_edit.js'},
+            '/project': {path: '/project', action: '/project/project_list.js'},
+            '/project/add': {path: '/project/add', action: '/project/project_add.js'},
+            '/project/edit': {path: '/project/edit', action: '/project/project_edit.js'},
             // 'file': {
             //     url: urlPrefix + 'file',
             //     controller: staticPrefix + '/file.js'
-            // },
-            // 'about': {
-            //     url: urlPrefix + 'about',
-            //     controller: staticPrefix + '/about.js'
             // },
             // 'comment': {
             //     url: urlPrefix + 'comment',

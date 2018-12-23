@@ -3,7 +3,6 @@ package me.wuwenbin.noteblogv4.web.management;
 import me.wuwenbin.noteblogv4.config.permission.NBAuth;
 import me.wuwenbin.noteblogv4.dao.repository.ProjectRepository;
 import me.wuwenbin.noteblogv4.exception.NoteFetchFailedException;
-import me.wuwenbin.noteblogv4.model.entity.NBNote;
 import me.wuwenbin.noteblogv4.model.entity.NBProject;
 import me.wuwenbin.noteblogv4.model.pojo.framework.LayuiTable;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
@@ -49,13 +48,13 @@ public class ProjectController extends BaseController {
     @RequestMapping(method = RequestMethod.GET)
     @NBAuth(value = "management:project:list_page", remark = "项目管理页面", type = NAV_LINK, group = ROUTER)
     public String noteList() {
-        return "management/project/list";
+        return "management/project/project_list";
     }
 
-    @RequestMapping("/post")
-    @NBAuth(value = "management:project:post_page", remark = "项目发布页面", type = NAV_LINK, group = ROUTER)
+    @RequestMapping("/add")
+    @NBAuth(value = "management:project:add_page", remark = "项目发布页面", type = NAV_LINK, group = ROUTER)
     public String notePost() {
-        return "management/project/post";
+        return "management/project/project_add";
     }
 
     @RequestMapping("/edit")
@@ -63,7 +62,7 @@ public class ProjectController extends BaseController {
     public String edit(Model model, Long id) {
         Optional<NBProject> project = projectRepository.findById(id);
         model.addAttribute("editProject", project.orElseThrow(NoteFetchFailedException::new));
-        return "management/project/edit";
+        return "management/project/project_edit";
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -77,37 +76,29 @@ public class ProjectController extends BaseController {
     }
 
     @RequestMapping("/create")
-    @NBAuth(value = "management:note:create", remark = "发布一个新的项目", group = AJAX)
+    @NBAuth(value = "management:project:create", remark = "发布一个新的项目", group = AJAX)
     @ResponseBody
-    public NBR noteCreate(@Valid NBProject nbProject, BindingResult result, String tagNames) {
-//        if (result.getErrorCount() == 0) {
-//            nbProject.setClearContent(HtmlUtil.cleanHtmlTag(nbProject.getContent()));
-//            return ajaxDone(
-//                    note -> noteService.createNote(note, tagNames),
-//                    nbNote,
-//                    "创建随笔/笔记成功！",
-//                    "创建随笔/笔记失败！");
-//        } else {
-        return ajaxJsr303(result.getFieldErrors());
-//        }
+    public NBR projectCreate(@Valid NBProject nbProject, BindingResult result) {
+        if (result.getErrorCount() == 0) {
+            return ajaxDone(
+                    () -> projectRepository.save(nbProject) != null
+                    , () -> "分享项目"
+            );
+        } else {
+            return ajaxJsr303(result.getFieldErrors());
+        }
     }
 
 
     @RequestMapping("/update")
-    @NBAuth(value = "management:note:update", remark = "修改一篇项目", group = AJAX)
+    @NBAuth(value = "management:project:update", remark = "修改一篇项目", group = AJAX)
     @ResponseBody
-    public NBR updateNote(@Valid NBNote nbNote, BindingResult result, String tagNames) {
-//        if (result.getErrorCount() == 0) {
-//            nbNote.setModify(LocalDateTime.now());
-//            nbNote.setClearContent(HtmlUtil.cleanHtmlTag(nbNote.getContent()));
-//            return ajaxDone(
-//                    note -> noteService.updateNote(note, tagNames),
-//                    nbNote,
-//                    "修改项目成功！",
-//                    "修改项目失败！");
-//        } else {
-        return ajaxJsr303(result.getFieldErrors());
-//        }
+    public NBR updateNote(@Valid NBProject nbProject, BindingResult result) {
+        if (result.getErrorCount() == 0) {
+            return ajaxDone(() -> projectRepository.updateProjectById(nbProject) == 1, () -> "更新项目信息");
+        } else {
+            return ajaxJsr303(result.getFieldErrors());
+        }
     }
 
     @RequestMapping("/delete/{id}")

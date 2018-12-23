@@ -65,8 +65,10 @@ public class ProfileController extends BaseController {
     @ResponseBody
     @NBAuth(value = "management:profile:list", remark = "关于tab内容管理分页数据", group = AJAX)
     public LayuiTable<NBAbout> aboutList(Pagination<NBAbout> aboutPagination) {
-        Sort sort = getJpaSort(aboutPagination);
-        Pageable pageable = PageRequest.of(aboutPagination.getPage() - 1, aboutPagination.getLimit(), sort);
+        Sort s = getJpaSort(aboutPagination);
+        int pageNo = aboutPagination.getPage() - 1;
+        int pageSize = aboutPagination.getLimit();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, s);
         Page<NBAbout> page = profileRepository.findAll(pageable);
         return layuiTable(page, pageable);
     }
