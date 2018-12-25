@@ -157,7 +157,7 @@ public interface ArticleRepository extends JpaRepository<NBArticle, Long>, JpaSp
      * @param limit
      * @return
      */
-    @Query(nativeQuery = true, value = "select * from nb_article ORDER BY rand() LIMIT ?1")
+    @Query(nativeQuery = true, value = "select * from nb_article WHERE draft != 1 ORDER BY rand() LIMIT ?1 ")
     List<NBArticle> findRandomArticles(int limit);
 
     /**

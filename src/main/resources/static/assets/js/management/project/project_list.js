@@ -15,14 +15,14 @@ layui.use(['table', 'element'], function () {
             , {field: 'name', title: '项目名称', sort: true}
             , {
                 field: "projectCate", title: '分类', sort: true, templet: function (d) {
-                    return "";
+                    return d.projectCate.cnName;
                 }
             }
             , {field: "description", sort: true, title: "描述"}
             , {field: "url", sort: true, title: "项目主页"}
             , {
                 field: "cover", sort: false, title: "封面", templet: function (d) {
-                    return "";
+                    return "<img style='width: 50px;height: 50px;' src='" + d.cover + "'>";
                 }
             }
             , {title: '操作', width: 300, align: 'center', toolbar: '#projectTableBar'}
@@ -33,7 +33,6 @@ layui.use(['table', 'element'], function () {
 
 //监听工具条
     table.on('tool(project)', function (obj) {
-        debugger
         var data = obj.data;
         if (obj.event === 'detail') {
             location.hash = vipspa.stringify("/project/edit", {id: data.id});

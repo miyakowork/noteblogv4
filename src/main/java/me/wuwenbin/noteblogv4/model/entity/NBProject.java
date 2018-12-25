@@ -47,6 +47,8 @@ public class NBProject implements Serializable {
 
     private LocalDateTime post;
 
+    private LocalDateTime modify;
+
     @NotEmpty(message = "名称不能为空")
     @Column(nullable = false, length = 11)
     private String name;

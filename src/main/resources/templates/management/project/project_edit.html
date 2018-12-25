@@ -4,7 +4,7 @@
     <div class="layui-card-header">
         <span class="layui-breadcrumb">
             <a href="/management/index">首页</a>
-            <a><cite>发布新项目</cite></a>
+            <a><cite>编辑项目</cite></a>
         </span>
     </div>
 </div>
@@ -12,13 +12,15 @@
     <div class="layui-row">
         <div id="article-post" class="layui-col-sm12">
             <div class="layui-card">
-                <div class="layui-card-header layui-elip">分享一个新项目</div>
+                <div class="layui-card-header layui-elip">编辑项目</div>
                 <div class="layui-card-body">
                     <div class="layui-form">
+                        <input type="hidden" th:value="${editProject.id}" name="id">
                         <div class="layui-form-item layui-col-sm8">
                             <label class="layui-form-label">项目名</label>
                             <div class="layui-input-block">
                                 <input type="text" name="name" required lay-verify="required" placeholder="请输入项目名"
+                                       th:value="${editProject.name}"
                                        autocomplete="off" class="layui-input">
                             </div>
                         </div>
@@ -29,16 +31,23 @@
                                 <select name="cateId" lay-verify="required" lay-search>
                                     <option value="">请选择</option>
                                     <option th:each="cate,cateStat:${cateList}" th:value="${cate.id}"
-                                            th:text="${cate.cnName}"></option>
+                                            th:text="${cate.cnName}"
+                                            th:selected="${cate.id==editProject.cateId}"></option>
                                 </select>
                             </div>
                         </div>
 
+
                         <div class="layui-form-item">
                             <label class="layui-form-label">封面</label>
                             <div class="layui-upload-drag" id="projectCover">
-                                <i class="layui-icon"></i>
-                                <p>点击上传项目封面，或将封面拖拽到此处</p>
+                                <i th:if="${editProject.cover eq null || #strings.isEmpty(editProject.cover)}"
+                                   class="layui-icon"></i>
+                                <p th:if="${editProject.cover eq null || #strings.isEmpty(editProject.cover)}">
+                                    点击上传博文封面，或将封面拖拽到此处</p>
+                                <p th:if="${editProject.cover ne null && !#strings.isEmpty(editProject.cover)}"><img
+                                        th:src="${editProject.cover}"
+                                        style="width: 144px;height: 90px;"></p>
                             </div>
                         </div>
 
@@ -46,6 +55,7 @@
                             <label class="layui-form-label">项目url</label>
                             <div class="layui-input-block">
                                 <input type="text" name="url" required lay-verify="required" placeholder="请输入项目主页url"
+                                       th:value="${editProject.url}"
                                        autocomplete="off" class="layui-input">
                             </div>
                         </div>
@@ -54,14 +64,15 @@
                         <div class="layui-form-item layui-form-text">
                             <label class="layui-form-label">项目描述</label>
                             <div class="layui-input-block">
-                                <textarea name="description" placeholder="请输入项目描述内容" class="layui-textarea"></textarea>
+                                <textarea name="description" placeholder="请输入项目描述内容" class="layui-textarea" th:text="${editProject.description}"></textarea>
                             </div>
                         </div>
 
 
+
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button class="layui-btn" lay-submit lay-filter="projectSubmit">发布分享</button>
+                                <button class="layui-btn" lay-submit lay-filter="projectSubmit">提交</button>
                             </div>
                         </div>
                     </div>

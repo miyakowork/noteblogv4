@@ -71,7 +71,7 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
                     }},
                     {"字典管理", "layui-icon layui-icon-read", new String[][]{
                             {"/management/dictionary/cate", "分类管理", "fa fa-clone"}
-                            ,{"/management/dictionary/projectCate", "项目分类管理", "fa fa-hdd-o"}
+                            , {"/management/dictionary/projectCate", "项目分类管理", "fa fa-hdd-o"}
                             , {"/management/dictionary/keyword", "关键字管理", "fa fa-dot-circle-o"}
                             , {"/management/dictionary/tag", "标签管理", "fa fa-tags"}
                     }},
@@ -84,7 +84,7 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
                     }},
                     {"个人内容", "layui-icon layui-icon-diamond", new String[][]{
                             {"/management/profile", "关于内容", "fa fa-hdd-o"}
-//                            , {"/management/project", "资源项目分享", "fa fa-laptop"}
+                            , {"/management/project", "资源项目分享", "fa fa-laptop"}
                     }}
 
             };
@@ -137,10 +137,7 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
         long roleId = role.orElseThrow(() -> new RuntimeException("未找到角色「ROLE_MASTER」")).getId();
         long rootId = findRootId();
 
-        NBSysMenu dashboard = fixMenu("layui-icon layui-icon-console", "仪表盘", 0, rootId, roleId, PARENT);
-        NBSysMenu genMenu = menuRepository.save(dashboard);
-        NBSysResource dashboardRes = resourceRepository.findByUrl("/management/dashboard");
-        menuRepository.updateResourceById(genMenu.getId(), dashboardRes.getName(), dashboardRes);
+        saveTopMenu("layui-icon layui-icon-console", "仪表盘", "/management/dashboard", rootId, roleId);
 
         for (int i = 0; i < folderMenus.length; i++) {
             Object[] parent = folderMenus[i];
@@ -158,5 +155,25 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
             }
         }
 
+//        saveTopMenu("layui-icon layui-icon-template-1", "消息管理", "/management/message", rootId, roleId);
+//        saveTopMenu("layui-icon layui-icon-chat", "评论管理", "/management/comment", rootId, roleId);
+
+
+    }
+
+    /**
+     * 新增一个顶级菜单
+     *
+     * @param icon
+     * @param name
+     * @param url
+     * @param rootId
+     * @param roleId
+     */
+    private void saveTopMenu(String icon, String name, String url, long rootId, long roleId) {
+        NBSysMenu menu = fixMenu(icon, name, 0, rootId, roleId, PARENT);
+        NBSysMenu genMenu = menuRepository.save(menu);
+        NBSysResource genMenuRes = resourceRepository.findByUrl(url);
+        menuRepository.updateResourceById(genMenu.getId(), genMenuRes.getName(), genMenuRes);
     }
 }
