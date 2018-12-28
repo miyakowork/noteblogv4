@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import static java.time.LocalDateTime.now;
 
 /**
  * created by Wuwenbin on 2018/7/15 at 11:58
+ *
  * @author wuwenbin
  */
 @Data
@@ -41,12 +43,18 @@ public class NBMessage implements Serializable {
     @Column(nullable = false)
     private String comment;
 
+    private String clearComment;
+
     @Builder.Default
     private LocalDateTime post = now();
 
     private String userAgent;
 
-    @Column(nullable = false, length = 1, columnDefinition = "tinyint(1)")
+    @Column(length = 1, columnDefinition = "tinyint(1)")
     @Builder.Default
     private Boolean enable = TRUE;
+
+    @ManyToOne
+    @JoinColumn(name = "user_refer_id")
+    private NBSysUser user;
 }

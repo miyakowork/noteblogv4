@@ -1133,6 +1133,7 @@ Vue.component('bmy-msg-comment', {
             } else {
                 $.post("/token/msg/sub", {
                     userId: this.su.id,
+                    user: this.su.id,
                     comment: comment
                 }, function (resp) {
                     layer.msg(resp.message);
@@ -1147,7 +1148,7 @@ Vue.component('bmy-msg-comment', {
         , beforeLogin: function () {
             var $btn = $("#beforeLogin");
             $btn.addClass("layui-btn-disabled");
-            $btn.text("请刷新页面..")
+            $btn.text("请刷新页面...")
         }
     }
 });

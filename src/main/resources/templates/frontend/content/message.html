@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta th:replace="frontend/fragment/style"/>
+    <title th:text="${settings.website_title+' - 留言'}"></title>
+</head>
+<body class="layui-anim layui-anim-fadein simple">
+<div id="message-app">
+    <bmy-header-mini :params="params" :st="false" :bodyid="bodyId" :show-small="false"></bmy-header-mini>
+    <hr class="header-hr">
+    <bmy-block :quote="quote"></bmy-block>
+    <bmy-msg-page>
+        <bmy-msg-comment v-show="params.is_open_message == 1" slot="post" :su="su"></bmy-msg-comment>
+        <bmy-comment-list slot="comment" :comments="messages" :tips="params.message_panel_words"
+                          :re="params.is_open_message == 1 && su != null"></bmy-comment-list>
+        <bmy-info slot="info" :utext="params.info_label" :info="showInfoLabel" :qq="params.qq_login"
+                  :su="su"></bmy-info>
+        <bmy-search slot="search"></bmy-search>
+        <bmy-cate :cates="cates" slot="cate"></bmy-cate>
+        <bmy-tab :tabs="tabs" slot="tags"></bmy-tab>
+    </bmy-msg-page>
+    <bmy-footer :words="params.footer_words"></bmy-footer>
+    <bottom-nav :params="params" :layui-element="elem"></bottom-nav>
+</div>
+<div th:replace="frontend/fragment/script"></div>
+<script src="/static/assets/js/frontend/svg.js"></script>
+<script th:inline="javascript">
+    layui.use(['element', 'layedit'], function () {
+        var element = layui.element;
+        BMY.layedit = layui.layedit;
+
+        BMY.messageVm = new Vue({
+            el: "#message-app",
+            data: {
+                bodyId: "msg-body"
+                , cates: [[${cates}]]
+                , tabs: [[${tags}]]
+                , params: [[${settings}]]
+                , showInfoLabel: true
+                , messages: [[${messages}]]
+                , su: [[${su}]]
+                , quote: {
+                    showText: true
+                    , text:
+                        '<span class="layui-breadcrumb">' +
+                        '   <a href="/">网站首页</a>' +
+                        '   <a href="/msg">网友留言</a>' +
+                        '   <a><cite>发表留言</cite></a>' +
+                        '</span>'
+                }
+                , elem: element
+            },
+            mounted: function () {
+                BMY.stickyIt();
+                BMY.affix = new hcSticky("#affix-side", {
+                    stickTo: '#msg-body'
+                    , queries: {980: {disable: true}}
+                    , top: 75
+                    , onStart: function () {
+                        if (!BMY.sticky()) {
+                            BMY.affix.destroy();
+                        }
+                    }
+                });
+
+                BMY.editor = BMY.layedit.build('comment-input', {
+                    tool: ['face', '|', 'left', 'center', 'right', 'link', 'unlink']
+                    , height: 150
+                });
+            }
+        });
+
+
+    });
+</script>
+</body>
+</html>

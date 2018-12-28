@@ -39,11 +39,11 @@ public class CommentServiceImpl implements CommentService {
             if (commentQueryBO.getArticleId() != null) {
                 predicates.add(criteriaBuilder.equal(root.get("articleId"), commentQueryBO.getArticleId()));
             }
-            if (commentQueryBO.getUserId() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("userId"), commentQueryBO.getUserId()));
-            }
             if (commentQueryBO.getClearComment() != null && StrUtil.isNotEmpty(commentQueryBO.getClearComment())) {
                 predicates.add(criteriaBuilder.like(root.get("clearComment"), "%" + commentQueryBO.getClearComment() + "%"));
+            }
+            if (commentQueryBO.getUserId() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("userId"), commentQueryBO.getUserId()));
             }
             if (commentQueryBO.getIpCnAddr() != null && StrUtil.isNotEmpty(commentQueryBO.getIpCnAddr())) {
                 predicates.add(criteriaBuilder.like(root.get("ipCnAddr"), "%" + commentQueryBO.getIpCnAddr() + "%"));
