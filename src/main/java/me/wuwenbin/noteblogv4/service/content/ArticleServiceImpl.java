@@ -138,14 +138,19 @@ public class ArticleServiceImpl implements ArticleService {
             return new PageImpl<>(result, pageable, result.size());
         } else {
             String tag = NBUtils.stripXSS(URLUtil.decode(articleQueryBO.getTagSearch(), "UTF-8"));
-            long tagId = tagRepository.findByName(tag).getId();
-            List<NBTagRefer> tagRefers = tagReferRepository.findByTagIdAndType(tagId, "article");
-            List<Long> articleIds = tagRefers.stream().map(NBTagRefer::getReferId).distinct().collect(toList());
-            if (CollectionUtils.isEmpty(articleIds)) {
+            NBTag t = tagRepository.findByName(tag);
+            if (t == null) {
                 return Page.empty(pageable);
             } else {
-                List<NBArticle> articles = articleRepository.findByIdIn(articleIds, pageable.getPageNumber(), pageable.getPageSize());
-                return new PageImpl<>(articles, pageable, articles.size());
+                long tagId = t.getId();
+                List<NBTagRefer> tagRefers = tagReferRepository.findByTagIdAndType(tagId, "article");
+                List<Long> articleIds = tagRefers.stream().map(NBTagRefer::getReferId).distinct().collect(toList());
+                if (CollectionUtils.isEmpty(articleIds)) {
+                    return Page.empty(pageable);
+                } else {
+                    List<NBArticle> articles = articleRepository.findByIdIn(articleIds, pageable.getPageNumber(), pageable.getPageSize());
+                    return new PageImpl<>(articles, pageable, articles.size());
+                }
             }
         }
     }
