@@ -80,9 +80,9 @@ public class MessageController extends BaseController {
             final String key = "noteblog.develop";
             boolean develop = NBUtils.getBean(Environment.class).getProperty(key, Boolean.class, true);
             if (!develop) {
-                message.setIpCnAddr("本地开发测试");
-            } else {
                 message.setIpCnAddr(NBUtils.getIpCnInfo(NBUtils.getIpInfo(message.getIpAddr())));
+            } else {
+                message.setIpCnAddr("本地/未知");
             }
             message.setComment(NBUtils.stripSqlXSS(message.getComment()));
             message.setClearComment(HtmlUtil.cleanHtmlTag(message.getComment()));

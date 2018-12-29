@@ -38,7 +38,7 @@
 <script th:inline="javascript">
     layui.use(['layedit', 'laypage', 'code', 'element'], function () {
         var element = layui.element;
-        var layedit = layui.layedit;
+        BMY.layedit = layui.layedit;
         BMY.laypage = layui.laypage;
         layui.code({about: false});
 
@@ -100,7 +100,7 @@
                         }
                     }
                 });
-                BMY.editor = layedit.build('comment-input', {
+                BMY.editor = BMY.layedit.build('comment-input', {
                     tool: ['face', '|', 'left', 'center', 'right', 'link', 'unlink']
                     , height: 150
                 });

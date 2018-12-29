@@ -13,6 +13,7 @@ import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import me.wuwenbin.noteblogv4.util.NBUtils;
 import me.wuwenbin.noteblogv4.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,7 +58,12 @@ public class CommentController extends BaseController {
                 () -> {
                     if (!bindingResult.hasErrors()) {
                         comment.setIpAddr(NBUtils.getRemoteAddress(request));
-                        comment.setIpCnAddr(NBUtils.getIpCnInfo(NBUtils.getIpInfo(comment.getIpAddr())));
+                        boolean develop = NBUtils.getBean(Environment.class).getProperty("noteblog.develop", Boolean.class, true);
+                        if (!develop) {
+                            comment.setIpCnAddr(NBUtils.getIpCnInfo(NBUtils.getIpInfo(comment.getIpAddr())));
+                        } else {
+                            comment.setIpCnAddr("本地/未知");
+                        }
                         comment.setUserAgent(request.getHeader("user-agent"));
                         comment.setComment(NBUtils.stripSqlXSS(comment.getComment()));
                         comment.setPost(LocalDateTime.now());

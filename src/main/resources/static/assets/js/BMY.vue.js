@@ -433,11 +433,11 @@ var template = {
         '               <div class="layui-field-box comment">' +
         '                   <p v-if="comments.totalCount == 0" class="text-center">暂无评论</p>' +
         '                   <blockquote class="layui-elem-quote layui-mt20" style="border-left: 5px solid #F44336;color: #FF5722;" v-html="tips"></blockquote>' +
-        '                   <template v-for="c in comments.result">' +
+        '                   <template v-for="c in comments.content">' +
         '                       <div class="layui-row comment-block" v-if="c.enable">' +
         '                           <div class="layui-row">' +
         '                               <div class="layui-col-md1 layui-col-xs1 comment-avatar">' +
-        '                                   <img class="layui-circle" :src="c.avatar">' +
+        '                                   <img class="layui-circle" :src="c.user.avatar">' +
         '                               </div>' +
         '                               <div class="layui-col-md10 layui-col-xs9" style="border-bottom: 1px dotted #dbdbdb;padding-bottom: 10px;">' +
         '                                   <i class="fa fa-user-o"></i> <span class="comment-user" :style="masterColor(c.userId)">{{c.nickname}}&nbsp;<svg v-if="c.userId==1" class="icon" aria-hidden="true"><use xlink:href="#icon-renzhengkaobei"></use></svg>&nbsp;&nbsp;</span><small><i class="fa fa-location-arrow"></i> {{c.ipCnAddr}}网友</small><br/>' +
@@ -447,7 +447,7 @@ var template = {
         '                                   <p  v-html="c.comment"></p>' +
         '                               </div>' +
         '                               <div class="layui-row" style="text-align: right;" v-show="re">' +
-        '                                    <a @click="reback(c.nickname,c.comment);" style="cursor: pointer;"> <i class="fa fa-comment"></i> 回复</a>' +
+        '                                    <a @click="reback(c.user.nickname,c.comment);" style="cursor: pointer;"> <i class="fa fa-comment"></i> 回复</a>' +
         '                               </div>' +
         '                           </div>' +
         '                       </div>' +
