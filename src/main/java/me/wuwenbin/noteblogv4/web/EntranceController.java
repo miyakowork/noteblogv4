@@ -156,9 +156,9 @@ public class EntranceController {
             if (simpleLogin.equals(requestType)) {
                 return simpleLoginService.doLogin(data);
             } else if (qqLogin.equals(requestType)) {
-                return null;
+                return NBR.error("不支持的请求");
             } else if (wechatLogin.equals(requestType)) {
-                return null;
+                return NBR.error("不支持的请求");
             }
         }
         return NBR.error("未知登录类型！");

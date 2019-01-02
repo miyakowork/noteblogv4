@@ -14,6 +14,16 @@ import javax.transaction.Transactional;
  */
 public interface UserRepository extends JpaRepository<NBSysUser, Long> {
 
+
+    /**
+     * 根据openid查找用户
+     *
+     * @param qqOpenId
+     * @param enable
+     * @return
+     */
+    NBSysUser findByQqOpenIdAndEnable(String qqOpenId, boolean enable);
+
     /**
      * 根据用户名和密码查询可用的用户
      *
