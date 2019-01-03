@@ -86,6 +86,11 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
                             {"/management/profile", "关于内容", "fa fa-hdd-o"}
                             , {"/management/project", "资源项目分享", "fa fa-laptop"}
                     }}
+//                    ,
+//                    {"消息管理", "layui-icon layui-icon-username", new String[][]{
+//                            {"/management/comment", "评论管理", "fa fa-dialogue"}
+//                            , {"/management/message", "站内消息管理", "fa fa-chat"}
+//                    }}
 
             };
 

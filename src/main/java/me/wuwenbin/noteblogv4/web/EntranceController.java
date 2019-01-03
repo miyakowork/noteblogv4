@@ -8,7 +8,9 @@ import me.wuwenbin.noteblogv4.config.permission.NBAuth;
 import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
 import me.wuwenbin.noteblogv4.dao.repository.UserRepository;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
+import me.wuwenbin.noteblogv4.model.entity.NBParam;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
+import me.wuwenbin.noteblogv4.model.pojo.business.QqLoginModel;
 import me.wuwenbin.noteblogv4.model.pojo.business.SimpleLoginData;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import me.wuwenbin.noteblogv4.service.authority.AuthorityService;
@@ -34,11 +36,12 @@ import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Session.SESSION_I
  * @author wuwenbin
  */
 @Controller
-public class EntranceController {
+public class EntranceController extends BaseController {
 
     private final UserRepository userRepository;
     private final NBContext blogContext;
     private final LoginService<SimpleLoginData> simpleLoginService;
+    private final LoginService<QqLoginModel> qqLoginService;
     private final ParamRepository paramRepository;
     private final AuthorityService authorityService;
 
@@ -46,13 +49,14 @@ public class EntranceController {
     public EntranceController(UserRepository userRepository,
                               NBContext blogContext,
                               @Qualifier("simpleLogin") LoginService<SimpleLoginData> simpleLoginService,
-                              ParamRepository paramRepository, AuthorityService authorityService) {
+                              ParamRepository paramRepository, AuthorityService authorityService, LoginService<QqLoginModel> qqLoginService) {
 
         this.userRepository = userRepository;
         this.blogContext = blogContext;
         this.simpleLoginService = simpleLoginService;
         this.paramRepository = paramRepository;
         this.authorityService = authorityService;
+        this.qqLoginService = qqLoginService;
     }
 
     /**
@@ -124,8 +128,32 @@ public class EntranceController {
         return "login";
     }
 
+    @RequestMapping("/api/qq")
+    public String qqLogin(HttpServletRequest request) {
+        String callbackDomain = basePath(request).concat("api/qqCallback");
+        NBParam appId = paramRepository.findByName(NoteBlogV4.Param.APP_ID);
+        if (appId == null || StringUtils.isEmpty(appId.getValue())) {
+            return "redirect:/error?errorCode=404";
+        } else {
+            return "redirect:https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=" + appId + "&redirect_uri=" + callbackDomain + "&state=" + System.currentTimeMillis();
+        }
+    }
+
+    @RequestMapping("/api/qqCallback")
+    public String qqCallback(HttpServletRequest request, HttpServletResponse response, String code) {
+        String callbackDomain = basePath(request).concat("api/qqCallback");
+        NBR r = qqLoginService.doLogin(QqLoginModel.builder().callbackDomain(callbackDomain).code(code).build());
+        if (r.get("code").equals(200)) {
+            blogContext.setSessionUser(request, response, (NBSysUser) r.get(NoteBlogV4.Session.LOGIN_USER));
+            return "redirect:" + r.get("data");
+        } else {
+            return "redirect:/error?errorCode=404";
+        }
+    }
+
+
     /**
-     * 登录执行方法
+     * 普通登录执行方法
      *
      * @param request
      * @param response
@@ -156,8 +184,10 @@ public class EntranceController {
             if (simpleLogin.equals(requestType)) {
                 return simpleLoginService.doLogin(data);
             } else if (qqLogin.equals(requestType)) {
+                //以后可能会有此种方式登录
                 return NBR.error("不支持的请求");
             } else if (wechatLogin.equals(requestType)) {
+                //以后可能会有此种方式登录
                 return NBR.error("不支持的请求");
             }
         }

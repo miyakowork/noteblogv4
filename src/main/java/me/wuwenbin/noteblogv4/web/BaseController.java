@@ -44,6 +44,7 @@ public abstract class BaseController {
         String bathPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/";
         log.info("当前域名：[{}]", bathPath);
         return bathPath;
+        //        return "http://wuwenbin.me/";
     }
 
     protected static String handleStyle(String simple, Supplier<String> normalOrOther, ParamRepository paramRepository) {

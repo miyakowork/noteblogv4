@@ -320,6 +320,12 @@ public interface NoteBlogV4 {
          */
         String LOGIN_URL = "/login";
 
+
+        /**
+         * 已登录的用户
+         */
+        String LOGIN_USER = "session_login_user_key";
+
         /**
          * 网站管理员的角色id，通过initListener初始化之后，会全局设置到NBContext对象中
          */

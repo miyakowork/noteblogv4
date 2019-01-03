@@ -5,8 +5,6 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
-import me.wuwenbin.noteblog.v4.common.SessionParam;
-import me.wuwenbin.noteblog.v4.model.User;
 import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
 import me.wuwenbin.noteblogv4.dao.repository.UserRepository;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
@@ -18,11 +16,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
-import static me.wuwenbin.modules.utils.http.R.error;
-import static me.wuwenbin.modules.utils.http.R.ok;
+import static me.wuwenbin.noteblogv4.model.pojo.framework.NBR.error;
+import static me.wuwenbin.noteblogv4.model.pojo.framework.NBR.ok;
 
 /**
  * created by Wuwenbin on 2018/1/23 at 12:33
+ * @author wuwenbin
  */
 @Slf4j
 @Service
@@ -65,16 +64,16 @@ public class QqLoginServiceImpl implements LoginService<QqLoginModel> {
                 if (user != null) {
                     return ok("授权成功！", "/").put(NoteBlogV4.Session.LOGIN_USER, user);
                 } else {
-                    User lockedUser = userRepository.findByOpenIdAndEnable(openId, false);
+                    NBSysUser lockedUser = userRepository.findByQqOpenIdAndEnable(openId, false);
                     if (lockedUser != null) {
                         return error("QQ登录授权失败，原因：用户已被锁定！");
                     }
                     String nickname = json2.getStr("nickname");
                     String avatar = json2.getStr("figureurl_qq_2").replace("http://", "https://");
-                    User registerUser = User.builder().nickname(nickname).avatar(avatar).openId(openId).build();
-                    User afterRegisterUser = userRepository.save(registerUser);
+                    NBSysUser registerUser = NBSysUser.builder().nickname(nickname).avatar(avatar).qqOpenId(openId).build();
+                    NBSysUser afterRegisterUser = userRepository.save(registerUser);
                     if (afterRegisterUser != null) {
-                        return ok("授权成功！", "/").put(SessionParam.LOGIN_USER, afterRegisterUser);
+                        return ok("授权成功！", "/").put(NoteBlogV4.Session.LOGIN_USER, afterRegisterUser);
                     } else {
                         return error("QQ登录授权失败，原因：注册失败！");
                     }

@@ -57,7 +57,7 @@
                 <div class="layui-form-item login-footer">
                     <label>社交账号登入</label>
 
-                    <a th:if="${qqLogin.value} eq 1" href="javascript:" onclick="layer.msg('正在跳转至QQ登录，请稍后...')"><i
+                    <a th:if="${qqLogin.value} eq 1" href="/api/qq" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})"><i
                             class="layui-icon layui-icon-login-qq"></i></a>
                     <a href="javascript:layer.msg('暂未开放');"><i class="layui-icon layui-icon-login-wechat"></i></a>
                     <a href="/registration" style="color:#029789;float: right;">前往注册</a>
