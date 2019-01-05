@@ -5,19 +5,22 @@ layui.use(['form', 'layer', 'table', 'element'], function () {
         , form = layui.form;
     element.render();
 
+
     var commentTable = table.render({
-        elem: '#msg-table'
-        , url: BMY.url.prefix + '/msg/list'
+        elem: '#message-table'
+        , url: BMY.url.prefix + '/message/list'
         , page: true
         , limit: 10
         , height: 'full'
         , method: 'post'
         , cols: [[
-            {field: 'nickname', title: '用户昵称'}
+            {
+                field: 'user', title: '用户昵称', templet: function (d) {
+                    return d.user.nickname;
+                }
+            }
             , {
-                field: 'comment', title: '评论内容', event: 'detail', templet: function (d) {
-                    return d.comment.replace(/<[^<>]+?>/g, '').replace(/(\s| )+/g, ' ');
-                }, width: '40%'
+                field: 'clearComment', title: '评论内容', event: 'detail'
             }
             , {
                 field: 'post', title: '发布时间', sort: true, templet: function (d) {
@@ -33,28 +36,28 @@ layui.use(['form', 'layer', 'table', 'element'], function () {
 
 
     form.on('switch(enable)', function (obj) {
-        BMY.ajax(BMY.url.prefix + "/msg/edit/enable", {id: this.value, enable: obj.elem.checked}, function (json) {
+        BMY.ajax(BMY.url.prefix + "/message/update", {id: this.value, enable: obj.elem.checked}, function (json) {
             BMY.okMsgHandle(json);
             layer.tips('状态：' + ((obj.elem.checked) ? "正常" : "隐藏"), obj.othis);
         });
     });
 
     //监听单元格事件
-    table.on('tool(msg)', function (obj) {
+    table.on('tool(message)', function (obj) {
         var data = obj.data;
         if (obj.event === 'detail') {
             layer.open({
                 type: 1
                 , offset: 'auto'
                 , id: 'layerDemo' + data.id //防止重复弹出
-                , content: '<div style="padding: 20px;">' + data.comment + '</div>'
+                , content: '<div style="padding: 20px;">' + data.comment.replace(/<[^<>]+?>/g, '') + '</div>'
                 , btnAlign: 'c' //按钮居中
                 , shade: 0 //不显示遮罩
             });
         }
     });
 
-    table.on('sort(msg)', function (obj) {
+    table.on('sort(message)', function (obj) {
         commentTable.reload({
             initSort: obj
             , where: {
@@ -66,22 +69,20 @@ layui.use(['form', 'layer', 'table', 'element'], function () {
 
     var $ = layui.$, active = {
         reload: function () {
-            var nickname = $("#nickname-search");
-            var comment = $("#comment-search");
+            var message = $("#message");
             //执行重载
-            table.reload('msg-table', {
+            table.reload('message-table', {
                 page: {
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: {
-                    nickname: nickname.val()
-                    , comment: comment.val()
+                    clearComment: message.val()
                 }
             });
         }
     };
 
-    $('#msg-table-search').find('.layui-btn').on('click', function () {
+    $('#message-table-search').find('.layui-btn').on('click', function () {
         var type = $(this).data('type');
         active[type] ? active[type].call(this) : '';
     });

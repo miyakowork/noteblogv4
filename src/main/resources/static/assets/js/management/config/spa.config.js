@@ -32,22 +32,8 @@ $(function () {
             '/project': {path: '/project', action: '/project/project_list.js'},
             '/project/add': {path: '/project/add', action: '/project/project_add.js'},
             '/project/edit': {path: '/project/edit', action: '/project/project_edit.js'},
-            // 'file': {
-            //     url: urlPrefix + 'file',
-            //     controller: staticPrefix + '/file.js'
-            // },
-            // 'comment': {
-            //     url: urlPrefix + 'comment',
-            //     controller: staticPrefix + '/comment.js'
-            // },
-            // 'message': {
-            //     url: urlPrefix + 'message',
-            //     controller: staticPrefix + '/msg.js'
-            // },
-            // 'noteblog': {
-            //     url: urlPrefix + 'noteblog',
-            //     controller: staticPrefix + '/noteblog.js'
-            // }
+            '/comment': {path: '/comment', action: '/comment.js'},
+            '/message': {path: '/message', action: '/message.js'}
         },
         errorTemplateId: '#error'
     });

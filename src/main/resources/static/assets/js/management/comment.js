@@ -5,6 +5,7 @@ layui.use(['form', 'layer', 'table', 'element'], function () {
         , form = layui.form;
     element.render();
 
+
     var commentTable = table.render({
         elem: '#comment-table'
         , url: BMY.url.prefix + '/comment/list'
@@ -13,12 +14,18 @@ layui.use(['form', 'layer', 'table', 'element'], function () {
         , height: 'full'
         , method: 'post'
         , cols: [[
-            {field: 'nickname', title: '用户昵称'}
-            , {field: 'articleTitle', title: '文章标题', width: '20%'}
+            {
+                field: 'user', title: '用户昵称', templet: function (d) {
+                    return d.user.nickname;
+                }
+            }
             , {
-                field: 'comment', title: '评论内容', event: 'detail', templet: function (d) {
-                    return d.comment.replace(/<[^<>]+?>/g, '').replace(/(\s| )+/g, ' ');
-                }, width: '40%'
+                field: 'articleId', title: '文章标题', templet: function (d) {
+                    return '<a href="/article/' + d.articleId + '" target="_blank" style="color: blue;">查看文章</a>';
+                }
+            }
+            , {
+                field: 'clearComment', title: '评论内容', event: 'detail'
             }
             , {
                 field: 'post', title: '发布时间', sort: true, templet: function (d) {
@@ -34,7 +41,7 @@ layui.use(['form', 'layer', 'table', 'element'], function () {
 
 
     form.on('switch(enable)', function (obj) {
-        BMY.ajax(BMY.url.prefix + "/comment/edit/enable", {id: this.value, enable: obj.elem.checked}, function (json) {
+        BMY.ajax(BMY.url.prefix + "/comment/update", {id: this.value, enable: obj.elem.checked}, function (json) {
             BMY.okMsgHandle(json);
             layer.tips('状态：' + ((obj.elem.checked) ? "正常" : "隐藏"), obj.othis);
         });
@@ -67,8 +74,6 @@ layui.use(['form', 'layer', 'table', 'element'], function () {
 
     var $ = layui.$, active = {
         reload: function () {
-            var titleSearch = $('#article-title-search');
-            var nickname = $("#nickname-search");
             var comment = $("#comment-search");
             //执行重载
             table.reload('comment-table', {
@@ -76,9 +81,7 @@ layui.use(['form', 'layer', 'table', 'element'], function () {
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: {
-                    articleTitle: titleSearch.val()
-                    , nickname: nickname.val()
-                    , comment: comment.val()
+                    clearComment: comment.val()
                 }
             });
         }
