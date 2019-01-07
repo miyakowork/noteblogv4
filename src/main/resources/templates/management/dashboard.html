@@ -134,7 +134,84 @@
                                     </a>
                                 </li>
                                 <li class="layui-col-xs6">
-                                    <a lay-href="" class="layadmin-ba cklog-body">
+                                    <a lay-href="" class="layadmin-backlog-body">
+                                        <h3>今日访问IP</h3>
+                                        <p><cite>5</cite></p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="layui-carousel-ind">
+                            <ul>
+                                <li class="layui-this"></li>
+                                <li class=""></li>
+                            </ul>
+                        </div>
+                        <button class="layui-icon layui-carousel-arrow" lay-type="sub"></button>
+                        <button class="layui-icon layui-carousel-arrow" lay-type="add"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-card" style="min-height: 293px;">
+                <div class="layui-card-header">基础数据统计</div>
+                <div class="layui-card-body">
+                    <div id="sum" class="layui-carousel layadmin-carousel layadmin-backlog" lay-anim=""
+                         lay-indicator="inside"
+                         lay-arrow="none" style="width: 100%; height: 280px;">
+                        <div carousel-item="">
+                            <ul class="layui-row layui-col-space10 layui-this">
+                                <li class="layui-col-xs4">
+                                    <a lay-href="" class="layadmin-backlog-body">
+                                        <h3>博客文章</h3>
+                                        <p><cite>66</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs4">
+                                    <a lay-href="" class="layadmin-backlog-body">
+                                        <h3>随手笔记</h3>
+                                        <p><cite>12</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs4">
+                                    <a lay-href="" class="layadmin-backlog-body">
+                                        <h3>访客留言</h3>
+                                        <p><cite>99</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs4">
+                                    <a lay-href="" class="layadmin-backlog-body">
+                                        <h3>用户总计</h3>
+                                        <p><cite>99</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs4">
+                                    <a lay-href="" class="layadmin-backlog-body">
+                                        <h3>今日评论</h3>
+                                        <p><cite>99</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs4">
+                                    <a lay-href="" class="layadmin-backlog-body">
+                                        <h3>新增用户</h3>
+                                        <p><cite>99</cite></p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="layui-row layui-col-space10">
+                                <li class="layui-col-xs6">
+                                    <a lay-href="" class="layadmin-backlog-body">
+                                        <h3>新增留言</h3>
+                                        <p><cite>5</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs6">
+                                    <a lay-href="" class="layadmin-backlog-body">
+                                        <h3>总计访问IP</h3>
+                                        <p><cite>5</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs6">
+                                    <a lay-href="" class="layadmin-backlog-body">
                                         <h3>今日访问IP</h3>
                                         <p><cite>5</cite></p>
                                     </a>
@@ -157,10 +234,13 @@
             <div class="layui-card">
                 <div class="layui-card-header">访问 IP 数／IP次统计</div>
                 <div class="layui-card-body" style="padding: 0 15px;">
-                    <div id="sum-container" style="height: 250px;width: 100%;"></div>
+                    <div id="sum-container" style="height: 558px;width: 100%;"></div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="/static/plugins/echarts/echarts.simple.min.js"></script>
-    <script src="/static/plugins/echarts/walden.js"></script>
+
+
+</div>
+<script src="/static/plugins/echarts/echarts.min.js"></script>
+<script src="/static/plugins/echarts/walden.js"></script>

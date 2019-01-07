@@ -22,4 +22,6 @@ public interface DashboardService {
      * @return
      */
     LatestComment findLatestComment();
+
+
 }
