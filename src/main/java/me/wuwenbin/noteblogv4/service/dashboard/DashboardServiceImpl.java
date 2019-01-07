@@ -1,9 +1,6 @@
 package me.wuwenbin.noteblogv4.service.dashboard;
 
-import me.wuwenbin.noteblogv4.dao.repository.ArticleRepository;
-import me.wuwenbin.noteblogv4.dao.repository.CommentRepository;
-import me.wuwenbin.noteblogv4.dao.repository.MessageRepository;
-import me.wuwenbin.noteblogv4.dao.repository.UserRepository;
+import me.wuwenbin.noteblogv4.dao.repository.*;
 import me.wuwenbin.noteblogv4.model.pojo.vo.BaseDataStatistics;
 import me.wuwenbin.noteblogv4.model.pojo.vo.LatestComment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +18,7 @@ import javax.transaction.Transactional;
 public class DashboardServiceImpl implements DashboardService {
 
     private final ArticleRepository articleRepository;
+    private final NoteRepository noteRepository;
     private final MessageRepository messageRepository;
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
@@ -28,16 +26,20 @@ public class DashboardServiceImpl implements DashboardService {
     @Autowired
     public DashboardServiceImpl(ArticleRepository articleRepository,
                                 MessageRepository messageRepository, CommentRepository commentRepository,
-                                UserRepository userRepository) {
+                                UserRepository userRepository, NoteRepository noteRepository) {
         this.articleRepository = articleRepository;
         this.messageRepository = messageRepository;
         this.commentRepository = commentRepository;
         this.userRepository = userRepository;
+        this.noteRepository = noteRepository;
     }
 
     @Override
     public BaseDataStatistics calculateData() {
         long articles = articleRepository.countByDraft(false);
+        long notes = noteRepository.count();
+        long users = userRepository.count();
+
         return null;
     }
 
