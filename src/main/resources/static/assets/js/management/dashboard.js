@@ -6,19 +6,6 @@ layui.use(['element', 'layer', 'form', 'carousel'], function () {
     element.render();
     form.render();
 
-    form.on('submit(simpleArticlePost)', function (data) {
-        BMY.ajax(BMY.url.prefix + "/simple/post/article", data.field, function (json) {
-            BMY.okMsgHandle(json, "保存草稿成功！");
-        });
-        return false;
-    });
-
-    form.on('submit(simpleNotePost)', function (data) {
-        BMY.ajax(BMY.url.prefix + "/simple/post/note", data.field, function (json) {
-            BMY.okMsgHandle(json, "发布随笔成功！");
-        });
-        return false;
-    });
 
     //建造实例
     carousel.render({

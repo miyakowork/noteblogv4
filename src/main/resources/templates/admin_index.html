@@ -35,7 +35,7 @@
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item" lay-unselect="">
-                <a lay-href="app/message/" layadmin-event="message">
+                <a lay-href="javascript:" layadmin-event="comment">
                     <i class="layui-icon layui-icon-notice"></i>
                     <span class="layui-badge-dot"></span>
                 </a>
@@ -176,6 +176,9 @@
             }
             if (event === 'refresh') {
                 location.reload();
+            }
+            if (event === "comment") {
+                location.hash = vipspa.stringifyDefault("/comment");
             }
         });
     });
