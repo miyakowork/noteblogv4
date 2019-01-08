@@ -26,7 +26,7 @@ var template = {
         '                <a href="/index" :class="{ active: home }"><i class="layui-icon">&#xe68e;</i> {{params.menu_home}}</a>' +
         '                <a href="/note" :class="{ active: note }"><i class="layui-icon">&#xe609;</i> {{params.menu_note}}</a>' +
         '                <a href="/profile" :class="{ active: mine }"><i class="layui-icon">&#xe6af;</i> {{params.menu_mine}}</a>' +
-        '                <a href="/search" :class="{ active: search }" target="_blank"><i class="layui-icon">&#xe615;</i> {{params.menu_search}}</a>' +
+        '                <a href="javascript:;" :class="{ active: search }" target="_blank"><i class="layui-icon">&#xe615;</i> {{params.menu_search}}</a>' +
         '                <a v-show="params.menu_link_show == 1" :href="params.menu_link_href" target="_blank"><i :class="params.menu_link_icon" style="font-size: 16px;"></i> {{params.menu_link}}</a>' +
         '            </div>' +
         '            <ul class="layui-nav layui-nav-tree layui-nav-side" id="mobile-nav">' +
@@ -40,7 +40,7 @@ var template = {
         '                   <a href="/profile" :class="{ \'layui-this\': mine }"><i class="layui-icon">&#xe715;</i> {{params.menu_mine}}</a>' +
         '                </li>' +
         '                <li class="layui-nav-item">' +
-        '                   <a href="/search" :class="{ \'layui-this\': search }"><i class="layui-icon">&#xe615;</i> {{params.menu_search}}</a>' +
+        '                   <a href="javascript:;" :class="{ \'layui-this\': search }"><i class="layui-icon">&#xe615;</i> {{params.menu_search}}</a>' +
         '                </li>' +
         '                <li class="layui-nav-item" v-if="params.menu_link_show == 1">' +
         '                     <a :href="params.menu_link_href" target="_blank"><i :class="params.menu_link_icon" style="font-size: 15px;"></i> {{params.menu_link}}</a>' +
@@ -99,7 +99,7 @@ var template = {
         '                   <a href="/profile" :class="{ \'layui-this\': mine }"><i class="layui-icon">&#xe715;</i> {{params.menu_mine}}</a>' +
         '                </li>' +
         '                <li class="layui-nav-item">' +
-        '                   <a href="/search" :class="{ \'layui-this\': search }"><i class="layui-icon">&#xe615;</i> {{params.menu_search}}</a>' +
+        '                   <a href="javascript:;" :class="{ \'layui-this\': search }"><i class="layui-icon">&#xe615;</i> {{params.menu_search}}</a>' +
         '                </li>' +
         '                <li class="layui-nav-item" v-if="params.menu_link_show == 1">' +
         '                     <a :href="params.menu_link_href" target="_blank"><i :class="params.menu_link_icon" style="font-size: 15px;"></i> {{params.menu_link}}</a>' +
@@ -564,7 +564,7 @@ var template = {
         '          <a href="/note" v-if="params.menu_note_show == 1">{{params.menu_note}}</a>' +
         '          <a href="/project" v-if="params.menu_project_show == 1">{{params.menu_project}}</a>' +
         '          <a href="/profile" v-if="params.menu_mine_show == 1">{{params.menu_mine}}</a>' +
-        '          <a href="/search" v-if="params.menu_search_show == 1">{{params.menu_search}}</a>' +
+        '          <a href="javascript:;" v-if="params.menu_search_show == 1">{{params.menu_search}}</a>' +
         '          <a href="/link" v-if="params.menu_link_show == 1">{{params.menu_link}}</a>' +
         '        </p>\n' +
         '        <ul class="layui-timeline" style="margin-top: 10px;padding-top: 15px;margin-bottom: 30px;border-top: 1px dotted #EEEEEE;">' +
