@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -39,13 +40,17 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
     private final RoleRepository roleRepository;
     private final ResourceRepository resourceRepository;
     private final ParamRepository paramRepository;
+    private final Environment environment;
 
     @Autowired
-    public MenuListener(MenuRepository menuRepository, RoleRepository roleRepository, ParamRepository paramRepository, ResourceRepository resourceRepository) {
+    public MenuListener(MenuRepository menuRepository, RoleRepository roleRepository,
+                        ParamRepository paramRepository, ResourceRepository resourceRepository,
+                        Environment environment) {
         this.menuRepository = menuRepository;
         this.roleRepository = roleRepository;
         this.paramRepository = paramRepository;
         this.resourceRepository = resourceRepository;
+        this.environment = environment;
     }
 
     @Override
@@ -95,9 +100,10 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
             };
 
             setUpMenuSystem(folderMenus);
-            log.info("笔记博客」App 初始化菜单完毕");
-        }
 
+        }
+        hideAuthMenu();
+        log.info("笔记博客」App 初始化菜单完毕");
     }
 
     /**
@@ -160,11 +166,26 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
             }
         }
 
-//        saveTopMenu("layui-icon layui-icon-template-1", "消息管理", "/management/message", rootId, roleId);
-//        saveTopMenu("layui-icon layui-icon-chat", "评论管理", "/management/comment", rootId, roleId);
-
-
     }
+
+    /**
+     * 更新权限菜单状态
+     */
+    private void hideAuthMenu() {
+        String[] menus = new String[]{
+                "/management/menu",
+                "/management/role",
+                "/management/users"
+        };
+        boolean enable = environment.getProperty("noteblog.menu.auth", Boolean.class, false);
+        for (String menu : menus) {
+            NBSysResource r = resourceRepository.findByUrl(menu);
+            NBSysMenu m = menuRepository.findByResourceId(r.getId());
+            menuRepository.updateEnableById(enable, m.getId());
+        }
+        menuRepository.updateAuthParentMenu(enable);
+    }
+
 
     /**
      * 新增一个顶级菜单

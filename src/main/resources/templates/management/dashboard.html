@@ -56,9 +56,10 @@
             <div class="layui-card" style="height: 253px;">
                 <div class="layui-card-header">最新评论</div>
                 <div class="layui-card-body">
-                    <div class="layui-tab-item layui-show layui-form">
+                    <div class="layui-tab-item layui-show layui-form" th:if="${c.articleId == 0}">暂无内容</div>
+                    <div class="layui-tab-item layui-show layui-form"  th:if="${c.articleId != 0}">
                         <p>
-                           <span style="font-weight: bold;">文章标题：
+                            <span style="font-weight: bold;">文章标题<span th:text="${c.comment}"></span>：
                            </span>
                             <span><a class="layui-text" th:href="${'/article/'+c.articleId}" target="_blank"
                                      th:text="${c.articleTitle}" style="color: #1E9FFF;font-style: italic;"></a></span>

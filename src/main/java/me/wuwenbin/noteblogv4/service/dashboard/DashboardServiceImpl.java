@@ -1,8 +1,5 @@
 package me.wuwenbin.noteblogv4.service.dashboard;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.extra.mail.MailAccount;
-import cn.hutool.extra.mail.MailUtil;
 import me.wuwenbin.noteblogv4.dao.repository.*;
 import me.wuwenbin.noteblogv4.model.entity.NBArticle;
 import me.wuwenbin.noteblogv4.model.entity.NBComment;
@@ -13,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * created by Wuwenbin on 2019-01-08 at 01:24
@@ -50,7 +49,7 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Override
     public List<BaseDataStatistics> calculateData() {
-        long articles = articleRepository.countByDraft(false);
+        long articles = articleRepository.countByDraft(true);
         long notes = noteRepository.count();
         long users = userRepository.count();
         long messages = messageRepository.count();
@@ -84,12 +83,27 @@ public class DashboardServiceImpl implements DashboardService {
     @Override
     public LatestComment findLatestComment() {
         NBComment comment = commentRepository.findLastestComment();
-        NBArticle article = articleRepository.getOne(comment.getArticleId());
+        if (comment != null) {
+            Optional<NBArticle> article = articleRepository.findById(comment.getArticleId());
+            if (!article.isPresent()) {
+                return LatestComment.builder()
+                        .articleId(0L)
+                        .articleTitle("暂无")
+                        .articleDate(LocalDateTime.now())
+                        .comment(comment).build();
+            }
+            return LatestComment.builder()
+                    .articleId(article.get().getId())
+                    .articleTitle(article.get().getTitle())
+                    .articleDate(article.get().getPost())
+                    .comment(comment).build();
+        }
         return LatestComment.builder()
-                .articleId(article.getId())
-                .articleTitle(article.getTitle())
-                .articleDate(article.getPost())
-                .comment(comment).build();
+                .articleId(0L)
+                .articleTitle("暂无")
+                .articleDate(LocalDateTime.now())
+                .comment(null).build();
+
     }
 
     @Override
@@ -97,17 +111,4 @@ public class DashboardServiceImpl implements DashboardService {
         return loggerRepository.findTableData(10);
     }
 
-    public static void main(String[] args) {
-        MailAccount account = new MailAccount();
-        account.setHost("smtp.qq.com");
-        account.setPort(465);
-        account.setAuth(true);
-        account.setSslEnable(true);
-        account.setFrom("876686736@qq.com");
-        account.setUser("876686736");
-        account.setPass("pyzxczhacqqdbccg");
-
-        MailUtil.send(account, CollUtil.newArrayList("876686736@qq.com"), "测试222222", "23333333333333333邮件来自Hutool测试", false);
-
-    }
 }

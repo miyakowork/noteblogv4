@@ -43,18 +43,22 @@ public class MailServiceImpl implements MailService {
         account.setUser(user);
         String pass = paramRepository.findByName(NoteBlogV4.Param.MAIL_SERVER_PASSWORD).getValue();
         account.setPass(pass);
+        if (StrUtil.isNotEmpty(host)
+                && StrUtil.isNotEmpty(port)
+                && StrUtil.isNotEmpty(from)
+                && StrUtil.isNotEmpty(pass)) {
+            NBSysUser u = NBUtils.getSessionUser();
+            String targetMail = u != null ? u.getEmail() : host;
 
-        NBSysUser u = NBUtils.getSessionUser();
-        String targetMail = u != null ? u.getEmail() : host;
-
-        String subject = "你的文章 - 【{}】 有人发表评论了";
-        String content = "<p>您发布的文章{}有人发表了新评论：</p>" +
-                "<p style='font-style:italic;'>{}</p>" +
-                "<p>，请<a href='{}article/{}' target='_blank'>查看</a></p>";
-        MailUtil.send(account,
-                CollUtil.newArrayList(targetMail),
-                StrUtil.format(subject, article.getTitle()),
-                StrUtil.format(content, article.getTitle(), comment, site, article.getId()),
-                true);
+            String subject = "你的文章 - 【{}】 有人发表评论了";
+            String content = "<p>您发布的文章{}有人发表了新评论：</p>" +
+                    "<p style='font-style:italic;'>{}</p>" +
+                    "<p>，请<a href='{}article/{}' target='_blank'>查看</a></p>";
+            MailUtil.send(account,
+                    CollUtil.newArrayList(targetMail),
+                    StrUtil.format(subject, article.getTitle()),
+                    StrUtil.format(content, article.getTitle(), comment, site, article.getId()),
+                    true);
+        }
     }
 }

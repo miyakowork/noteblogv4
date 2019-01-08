@@ -47,7 +47,7 @@ layui.use(['element', 'layer', 'form', 'carousel'], function () {
             {
                 name: '当日访问量',
                 type: 'bar',
-                barWidth: '60%',
+                barWidth: '20%',
                 data: y
             }
         ]

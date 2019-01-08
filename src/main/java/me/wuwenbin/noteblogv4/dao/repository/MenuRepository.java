@@ -85,4 +85,36 @@ public interface MenuRepository extends JpaRepository<NBSysMenu, Long> {
      * @param parentId
      */
     void deleteAllByParentId(Long parentId);
+
+    /**
+     * 根据resource_id查找菜单
+     *
+     * @param id
+     * @return
+     */
+    @Query(nativeQuery = true, value = "select * from sys_menu where resource_id = ?1")
+    NBSysMenu findByResourceId(Long id);
+
+    /**
+     * 更新菜单状态
+     *
+     * @param enable
+     * @param id
+     * @return
+     */
+    @Transactional(rollbackOn = Exception.class)
+    @Query(nativeQuery = true, value = "update sys_menu set enable = ?1 where id = ?2")
+    @Modifying
+    void updateEnableById(boolean enable, Long id);
+
+    /**
+     * 更新权限菜单目录
+     *
+     * @param enable
+     * @return
+     */
+    @Query(nativeQuery = true, value = "update sys_menu set enable = ?1 where name = '权限管理' and type = 'PARENT'")
+    @Transactional(rollbackOn = Exception.class)
+    @Modifying
+    void updateAuthParentMenu(boolean enable);
 }
