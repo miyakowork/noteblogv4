@@ -53,19 +53,29 @@
         </div>
 
         <div class="layui-col-sm4">
-            <div class="layui-card">
+            <div class="layui-card" style="height: 253px;">
+                <div class="layui-card-header">最新评论</div>
                 <div class="layui-card-body">
                     <div class="layui-tab-item layui-show layui-form">
-                        <h4>日记／随笔</h4>
-                        <hr>
-                        <p><input type="text" name="title" required lay-verify="required" placeholder="请输入标题"
-                                  autocomplete="off" class="layui-input"></p>
-                        <p class="layui-admin-mt10"><textarea name="content" required lay-verify="required"
-                                                              placeholder="随笔内容，字数不要超过300"
-                                                              class="layui-textarea"></textarea></p>
-                        <p class="layui-admin-mt10" style="text-align: right;">
-                            <button class="layui-btn layui-btn-sm" lay-submit lay-filter="simpleNotePost">发布日记／随笔
-                            </button>
+                        <p>
+                           <span style="font-weight: bold;">文章标题：
+                           </span>
+                            <span><a class="layui-text" th:href="${'/article/'+c.articleId}" target="_blank"
+                                     th:text="${c.articleTitle}" style="color: #1E9FFF;font-style: italic;"></a></span>
+                        </p>
+                        <p>
+                            <span style="font-weight: bold;">文章日期：</span>
+                            <span style="font-style: italic;"
+                                  th:text="${#temporals.format(c.articleDate, 'yyyy-MM-dd HH:mm')}"></span>
+                        </p>
+                        <p>
+                            <span style="font-weight: bold;">评论日期：</span>
+                            <span style="font-style: italic;"
+                                  th:text="${#temporals.format(c.comment.post, 'yyyy-MM-dd HH:mm')}"></span>
+                        </p>
+                        <p>
+                            <span style="font-weight: bold;">评论内容：</span><br/>
+                            <span style="font-style: italic;" th:text="${c.comment.clearComment}"></span>
                         </p>
                     </div>
                 </div>
@@ -76,165 +86,52 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-sm4">
             <div class="layui-card" style="min-height: 293px;">
-                <div class="layui-card-header">基础数据统计</div>
+                <div class="layui-card-header">全部数据统计</div>
                 <div class="layui-card-body">
-                    <div id="sum" class="layui-carousel layadmin-carousel layadmin-backlog" lay-anim=""
-                         lay-indicator="inside"
-                         lay-arrow="none" style="width: 100%; height: 280px;">
-                        <div carousel-item="">
-                            <ul class="layui-row layui-col-space10 layui-this">
-                                <li class="layui-col-xs4">
-                                    <a lay-href="" class="layadmin-backlog-body">
-                                        <h3>博客文章</h3>
-                                        <p><cite>66</cite></p>
-                                    </a>
-                                </li>
-                                <li class="layui-col-xs4">
-                                    <a lay-href="" class="layadmin-backlog-body">
-                                        <h3>随手笔记</h3>
-                                        <p><cite>12</cite></p>
-                                    </a>
-                                </li>
-                                <li class="layui-col-xs4">
-                                    <a lay-href="" class="layadmin-backlog-body">
-                                        <h3>访客留言</h3>
-                                        <p><cite>99</cite></p>
-                                    </a>
-                                </li>
-                                <li class="layui-col-xs4">
-                                    <a lay-href="" class="layadmin-backlog-body">
-                                        <h3>用户总计</h3>
-                                        <p><cite>99</cite></p>
-                                    </a>
-                                </li>
-                                <li class="layui-col-xs4">
-                                    <a lay-href="" class="layadmin-backlog-body">
-                                        <h3>今日评论</h3>
-                                        <p><cite>99</cite></p>
-                                    </a>
-                                </li>
-                                <li class="layui-col-xs4">
-                                    <a lay-href="" class="layadmin-backlog-body">
-                                        <h3>新增用户</h3>
-                                        <p><cite>99</cite></p>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="layui-row layui-col-space10">
-                                <li class="layui-col-xs6">
-                                    <a lay-href="" class="layadmin-backlog-body">
-                                        <h3>新增留言</h3>
-                                        <p><cite>5</cite></p>
-                                    </a>
-                                </li>
-                                <li class="layui-col-xs6">
-                                    <a lay-href="" class="layadmin-backlog-body">
-                                        <h3>总计访问IP</h3>
-                                        <p><cite>5</cite></p>
-                                    </a>
-                                </li>
-                                <li class="layui-col-xs6">
-                                    <a lay-href="" class="layadmin-backlog-body">
-                                        <h3>今日访问IP</h3>
-                                        <p><cite>5</cite></p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="layui-carousel-ind">
-                            <ul>
-                                <li class="layui-this"></li>
-                                <li class=""></li>
-                            </ul>
-                        </div>
-                        <button class="layui-icon layui-carousel-arrow" lay-type="sub"></button>
-                        <button class="layui-icon layui-carousel-arrow" lay-type="add"></button>
+                    <div class="layui-carousel layadmin-carousel layadmin-backlog">
+                        <ul class="layui-row layui-col-space10 layui-this">
+                            <li th:each="bds,bdsStat:${data}" class="layui-col-xs4" th:if="${bdsStat.index<=5}">
+                                <a th:href="${(bds.url != '' && bds.url != null) ? bds.url : 'javascript:;'}"
+                                   class="layadmin-backlog-body">
+                                    <h3 th:text="${bds.text}"></h3>
+                                    <p><cite th:text="${bds.sum}"></cite></p>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
             <div class="layui-card" style="min-height: 293px;">
-                <div class="layui-card-header">基础数据统计</div>
+                <div class="layui-card-header">今日数据统计</div>
                 <div class="layui-card-body">
-                    <div id="sum" class="layui-carousel layadmin-carousel layadmin-backlog" lay-anim=""
-                         lay-indicator="inside"
-                         lay-arrow="none" style="width: 100%; height: 280px;">
-                        <div carousel-item="">
-                            <ul class="layui-row layui-col-space10 layui-this">
-                                <li class="layui-col-xs4">
-                                    <a lay-href="" class="layadmin-backlog-body">
-                                        <h3>博客文章</h3>
-                                        <p><cite>66</cite></p>
-                                    </a>
-                                </li>
-                                <li class="layui-col-xs4">
-                                    <a lay-href="" class="layadmin-backlog-body">
-                                        <h3>随手笔记</h3>
-                                        <p><cite>12</cite></p>
-                                    </a>
-                                </li>
-                                <li class="layui-col-xs4">
-                                    <a lay-href="" class="layadmin-backlog-body">
-                                        <h3>访客留言</h3>
-                                        <p><cite>99</cite></p>
-                                    </a>
-                                </li>
-                                <li class="layui-col-xs4">
-                                    <a lay-href="" class="layadmin-backlog-body">
-                                        <h3>用户总计</h3>
-                                        <p><cite>99</cite></p>
-                                    </a>
-                                </li>
-                                <li class="layui-col-xs4">
-                                    <a lay-href="" class="layadmin-backlog-body">
-                                        <h3>今日评论</h3>
-                                        <p><cite>99</cite></p>
-                                    </a>
-                                </li>
-                                <li class="layui-col-xs4">
-                                    <a lay-href="" class="layadmin-backlog-body">
-                                        <h3>新增用户</h3>
-                                        <p><cite>99</cite></p>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="layui-row layui-col-space10">
-                                <li class="layui-col-xs6">
-                                    <a lay-href="" class="layadmin-backlog-body">
-                                        <h3>新增留言</h3>
-                                        <p><cite>5</cite></p>
-                                    </a>
-                                </li>
-                                <li class="layui-col-xs6">
-                                    <a lay-href="" class="layadmin-backlog-body">
-                                        <h3>总计访问IP</h3>
-                                        <p><cite>5</cite></p>
-                                    </a>
-                                </li>
-                                <li class="layui-col-xs6">
-                                    <a lay-href="" class="layadmin-backlog-body">
-                                        <h3>今日访问IP</h3>
-                                        <p><cite>5</cite></p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="layui-carousel-ind">
-                            <ul>
-                                <li class="layui-this"></li>
-                                <li class=""></li>
-                            </ul>
-                        </div>
-                        <button class="layui-icon layui-carousel-arrow" lay-type="sub"></button>
-                        <button class="layui-icon layui-carousel-arrow" lay-type="add"></button>
+                    <div class="layui-carousel layadmin-carousel layadmin-backlog">
+                        <ul class="layui-row layui-col-space10 layui-this">
+                            <li th:each="bds,bdsStat:${data}" class="layui-col-xs6" th:if="${bdsStat.index>5}">
+                                <a th:href="${(bds.url != '' && bds.url != null) ? bds.url : 'javascript:;'}"
+                                   class="layadmin-backlog-body">
+                                    <h3 th:text="${bds.text}"></h3>
+                                    <p><cite th:text="${bds.sum}"></cite></p>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
         <div class="layui-col-sm8">
             <div class="layui-card">
-                <div class="layui-card-header">访问 IP 数／IP次统计</div>
+                <div class="layui-card-header">最近5日访问统计</div>
                 <div class="layui-card-body" style="padding: 0 15px;">
-                    <div id="sum-container" style="height: 558px;width: 100%;"></div>
+                    <div>
+                        <label class="layui-form-label">统计类型：</label>
+                        <select name="type" style="margin-top: 8px;">
+                            <option value="url" selected="">url</option>
+                            <option value="username" >用户</option>
+                            <option value="ip_addr">IP地址</option>
+                            <option value="user_agent">访问来源</option>
+                        </select>
+                    </div>
+                    <div id="sum-container" style="height: 527px;width: 100%;"></div>
                 </div>
             </div>
         </div>

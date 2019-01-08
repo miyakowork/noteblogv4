@@ -14,13 +14,8 @@ import java.io.Serializable;
 @Builder
 public class BaseDataStatistics implements Serializable {
 
-    private Integer articles;
-    private Integer notes;
-    private Integer messages;
-    private Integer users;
-    private Integer todayComments;
-    private Integer todayNewUsers;
-    private Integer todayNewComments;
-    private Integer allSumIps;
-    private Integer todaySumIps;
+    private String text;
+    private long sum;
+    @Builder.Default
+    private String url = "";
 }

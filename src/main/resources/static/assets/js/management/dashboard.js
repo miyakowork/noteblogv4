@@ -1,19 +1,12 @@
 layui.use(['element', 'layer', 'form', 'carousel'], function () {
     var element = layui.element;
     var form = layui.form;
-    var carousel = layui.carousel;
     var layer = layui.layer;
 
     element.render();
     form.render();
 
 
-    //建造实例
-    carousel.render({
-        elem: '#sum'
-        , width: '100%' //设置容器宽度
-        , arrow: 'none'
-    });
 
     var dom = document.getElementById("sum-container");
     var myChart = echarts.init(dom, 'walden');
@@ -113,20 +106,7 @@ layui.use(['element', 'layer', 'form', 'carousel'], function () {
             }
         },
         legend: {
-            data: ['Forest', 'Steppe', 'Desert', 'Wetland']
-        },
-        toolbox: {
-            show: true,
-            orient: 'vertical',
-            left: 'right',
-            top: 'center',
-            // feature: {
-            //     mark: {show: true},
-            //     dataView: {show: true, readOnly: false},
-            //     magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
-            //     restore: {show: true},
-            //     saveAsImage: {show: true}
-            // }
+            data: ['http://127.0.0.1:8000/management/dashboard1', 'http://127.0.0.1:8000/management/dashboard2', 'http://127.0.0.1:8000/management/dashboard', '77777']
         },
         calculable: true,
         xAxis: [
@@ -143,26 +123,26 @@ layui.use(['element', 'layer', 'form', 'carousel'], function () {
         ],
         series: [
             {
-                name: 'Forest',
+                name: 'http://127.0.0.1:8000/management/dashboard1',
                 type: 'bar',
                 barGap: 0,
                 label: labelOption,
                 data: [320, 332, 301, 334, 390]
             },
             {
-                name: 'Steppe',
+                name: 'http://127.0.0.1:8000/management/dashboard2',
                 type: 'bar',
                 label: labelOption,
                 data: [220, 182, 191, 234, 290]
             },
             {
-                name: 'Desert',
+                name: 'http://127.0.0.1:8000/management/dashboard',
                 type: 'bar',
                 label: labelOption,
                 data: [150, 232, 201, 154, 190]
             },
             {
-                name: 'Wetland',
+                name: '77777',
                 type: 'bar',
                 label: labelOption,
                 data: [98, 77, 101, 99, 40]

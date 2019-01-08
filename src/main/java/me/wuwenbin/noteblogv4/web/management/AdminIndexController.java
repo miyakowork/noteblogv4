@@ -1,12 +1,12 @@
 package me.wuwenbin.noteblogv4.web.management;
 
 import me.wuwenbin.noteblogv4.config.permission.NBAuth;
-import me.wuwenbin.noteblogv4.dao.repository.ArticleRepository;
 import me.wuwenbin.noteblogv4.dao.repository.MenuRepository;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysMenu;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysResource.ResType;
 import me.wuwenbin.noteblogv4.model.entity.permission.NBSysUser;
 import me.wuwenbin.noteblogv4.model.pojo.business.MenuTree;
+import me.wuwenbin.noteblogv4.service.dashboard.DashboardService;
 import me.wuwenbin.noteblogv4.util.NBUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,13 +27,13 @@ import static me.wuwenbin.noteblogv4.config.permission.NBAuth.Group;
 @RequestMapping("/management")
 public class AdminIndexController {
 
-    private final ArticleRepository articleRepository;
     private final MenuRepository menuRepository;
+    private final DashboardService dashboardService;
 
     @Autowired
-    public AdminIndexController(ArticleRepository articleRepository, MenuRepository menuRepository) {
-        this.articleRepository = articleRepository;
+    public AdminIndexController(MenuRepository menuRepository, DashboardService dashboardService) {
         this.menuRepository = menuRepository;
+        this.dashboardService = dashboardService;
     }
 
     @RequestMapping("/index")
@@ -54,7 +54,8 @@ public class AdminIndexController {
     @RequestMapping("/dashboard")
     @NBAuth(value = "management:index:dashboard", remark = "管理页面仪表盘界面", type = ResType.NAV_LINK, group = Group.ROUTER)
     public String dashboard(Model model) {
-        model.addAttribute("articleCnt", articleRepository.findAll());
+        model.addAttribute("data", dashboardService.calculateData());
+        model.addAttribute("c",dashboardService.findLatestComment());
         return "management/dashboard";
     }
 }

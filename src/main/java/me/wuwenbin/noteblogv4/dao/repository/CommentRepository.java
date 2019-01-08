@@ -26,4 +26,21 @@ public interface CommentRepository extends JpaRepository<NBComment, Long>, JpaSp
     @Transactional(rollbackOn = Exception.class)
     @Query("update NBComment c set c.enable = ?2 where c.id = ?1")
     int updateCommentStatus(Long id, boolean enable);
+
+    /**
+     * 查询今日的评论数量
+     *
+     * @param postDate
+     * @return
+     */
+    @Query(nativeQuery = true, value = "select count(*) from nb_comment where post like ?1")
+    int countByPostLike(String postDate);
+
+    /**
+     * 查询最新的一条评论
+     *
+     * @return
+     */
+    @Query(nativeQuery = true, value = "select * from nb_comment order by post desc limit 1")
+    NBComment findLastestComment();
 }

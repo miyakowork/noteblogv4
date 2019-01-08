@@ -100,5 +100,13 @@ public interface UserRepository extends JpaRepository<NBSysUser, Long> {
     @Transactional(rollbackOn = Exception.class)
     @Query("update NBSysUser u set u.email = ?2 where u.id = ?1")
     void updateUserEmail(long userId, String email);
+
+    /**
+     * 根据创建日期查询用户数量
+     * @param post
+     * @return
+     */
+    @Query(nativeQuery = true,value = "select count(*) from sys_user where `create`like ?1")
+    int countByCreateLike(String post);
 }
 

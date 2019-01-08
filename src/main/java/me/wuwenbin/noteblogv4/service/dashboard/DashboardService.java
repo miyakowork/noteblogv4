@@ -2,9 +2,14 @@ package me.wuwenbin.noteblogv4.service.dashboard;
 
 import me.wuwenbin.noteblogv4.model.pojo.vo.BaseDataStatistics;
 import me.wuwenbin.noteblogv4.model.pojo.vo.LatestComment;
+import me.wuwenbin.noteblogv4.model.pojo.vo.Statistics;
+
+import java.util.List;
 
 /**
  * created by Wuwenbin on 2019/1/7 at 14:03
+ *
+ * @author wuwenbin
  */
 public interface DashboardService {
 
@@ -13,7 +18,7 @@ public interface DashboardService {
      *
      * @return
      */
-    BaseDataStatistics calculateData();
+    List<BaseDataStatistics> calculateData();
 
 
     /**
@@ -22,6 +27,14 @@ public interface DashboardService {
      * @return
      */
     LatestComment findLatestComment();
+
+
+    /**
+     * 统计图的数据
+     *
+     * @return
+     */
+    Statistics findTableStatistics();
 
 
 }
