@@ -55,7 +55,8 @@ public class AdminIndexController {
     @NBAuth(value = "management:index:dashboard", remark = "管理页面仪表盘界面", type = ResType.NAV_LINK, group = Group.ROUTER)
     public String dashboard(Model model) {
         model.addAttribute("data", dashboardService.calculateData());
-        model.addAttribute("c",dashboardService.findLatestComment());
+        model.addAttribute("c", dashboardService.findLatestComment());
+        model.addAttribute("tableData", dashboardService.findTableStatistics());
         return "management/dashboard";
     }
 }

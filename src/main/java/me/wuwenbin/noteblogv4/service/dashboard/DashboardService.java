@@ -2,7 +2,6 @@ package me.wuwenbin.noteblogv4.service.dashboard;
 
 import me.wuwenbin.noteblogv4.model.pojo.vo.BaseDataStatistics;
 import me.wuwenbin.noteblogv4.model.pojo.vo.LatestComment;
-import me.wuwenbin.noteblogv4.model.pojo.vo.Statistics;
 
 import java.util.List;
 
@@ -34,7 +33,7 @@ public interface DashboardService {
      *
      * @return
      */
-    Statistics findTableStatistics();
+    List<Object[]> findTableStatistics();
 
 
 }

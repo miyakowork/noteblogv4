@@ -198,7 +198,7 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
                 {MAIL_SMPT_SERVER_ADDR, StrUtil.EMPTY, "SMTP服务器", "8"},
                 {MAIL_SMPT_SERVER_PORT, StrUtil.EMPTY, "SMTP端口号", "8"},
                 {MAIL_SERVER_ACCOUNT, StrUtil.EMPTY, "发件人邮箱", "8"},
-                {MAIL_SENDER_NAME, StrUtil.EMPTY, "发件人昵称", "8"},
+                {MAIL_SENDER_NAME, StrUtil.EMPTY, "发件人邮箱帐号（一般为@前面部分）", "8"},
                 {MAIL_SERVER_PASSWORD, StrUtil.EMPTY, "邮箱登入密码", "8"}
         };
         saveParam(words);

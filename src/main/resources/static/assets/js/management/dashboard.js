@@ -7,113 +7,35 @@ layui.use(['element', 'layer', 'form', 'carousel'], function () {
     form.render();
 
 
-
     var dom = document.getElementById("sum-container");
     var myChart = echarts.init(dom, 'walden');
-    var posList = [
-        'left', 'right', 'top', 'bottom',
-        'inside',
-        'insideTop', 'insideLeft', 'insideRight', 'insideBottom',
-        'insideTopLeft', 'insideTopRight', 'insideBottomLeft', 'insideBottomRight'
-    ];
-    var app = {};
-    app.configParameters = {
-        rotate: {
-            min: -90,
-            max: 90
-        },
-        align: {
-            options: {
-                left: 'left',
-                center: 'center',
-                right: 'right'
-            }
-        },
-        verticalAlign: {
-            options: {
-                top: 'top',
-                middle: 'middle',
-                bottom: 'bottom'
-            }
-        },
-        position: {
-            options: echarts.util.reduce(posList, function (map, pos) {
-                map[pos] = pos;
-                return map;
-            }, {})
-        },
-        distance: {
-            min: 0,
-            max: 100
-        }
-    };
-
-    app.config = {
-        rotate: 90,
-        align: 'left',
-        verticalAlign: 'middle',
-        position: 'insideBottom',
-        distance: 15,
-        onChange: function () {
-            var labelOption = {
-                normal: {
-                    rotate: app.config.rotate,
-                    align: app.config.align,
-                    verticalAlign: app.config.verticalAlign,
-                    position: app.config.position,
-                    distance: app.config.distance
-                }
-            };
-            myChart.setOption({
-                series: [{
-                    label: labelOption
-                }, {
-                    label: labelOption
-                }, {
-                    label: labelOption
-                }, {
-                    label: labelOption
-                }]
-            });
-        }
-    };
-
-
-    var labelOption = {
-        normal: {
-            show: true,
-            position: app.config.position,
-            distance: app.config.distance,
-            align: app.config.align,
-            verticalAlign: app.config.verticalAlign,
-            rotate: app.config.rotate,
-            formatter: '{c}  {name|{a}}',
-            fontSize: 16,
-            rich: {
-                name: {
-                    textBorderColor: '#fff'
-                }
-            }
-        }
-    };
-
+    var x = [];
+    var y = [];
+    for (var i = 0; i < tableData.length; i++) {
+        x.unshift(tableData[i][0]);
+        y.unshift(tableData[i][1])
+    }
     var option = {
-        color: ['#003366', '#006699', '#4cabce', '#e5323e'],
+        color: ['#3398DB'],
         tooltip: {
             trigger: 'axis',
-            axisPointer: {
-                type: 'shadow'
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
             }
         },
-        legend: {
-            data: ['http://127.0.0.1:8000/management/dashboard1', 'http://127.0.0.1:8000/management/dashboard2', 'http://127.0.0.1:8000/management/dashboard', '77777']
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
         },
-        calculable: true,
         xAxis: [
             {
                 type: 'category',
-                axisTick: {show: false},
-                data: ['2012', '2013', '2014', '2015', '2016']
+                data: x,
+                axisTick: {
+                    alignWithLabel: true
+                }
             }
         ],
         yAxis: [
@@ -123,29 +45,10 @@ layui.use(['element', 'layer', 'form', 'carousel'], function () {
         ],
         series: [
             {
-                name: 'http://127.0.0.1:8000/management/dashboard1',
+                name: '当日访问量',
                 type: 'bar',
-                barGap: 0,
-                label: labelOption,
-                data: [320, 332, 301, 334, 390]
-            },
-            {
-                name: 'http://127.0.0.1:8000/management/dashboard2',
-                type: 'bar',
-                label: labelOption,
-                data: [220, 182, 191, 234, 290]
-            },
-            {
-                name: 'http://127.0.0.1:8000/management/dashboard',
-                type: 'bar',
-                label: labelOption,
-                data: [150, 232, 201, 154, 190]
-            },
-            {
-                name: '77777',
-                type: 'bar',
-                label: labelOption,
-                data: [98, 77, 101, 99, 40]
+                barWidth: '60%',
+                data: y
             }
         ]
     };

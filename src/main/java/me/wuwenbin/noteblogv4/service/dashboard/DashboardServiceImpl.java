@@ -1,11 +1,13 @@
 package me.wuwenbin.noteblogv4.service.dashboard;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.extra.mail.MailAccount;
+import cn.hutool.extra.mail.MailUtil;
 import me.wuwenbin.noteblogv4.dao.repository.*;
 import me.wuwenbin.noteblogv4.model.entity.NBArticle;
 import me.wuwenbin.noteblogv4.model.entity.NBComment;
 import me.wuwenbin.noteblogv4.model.pojo.vo.BaseDataStatistics;
 import me.wuwenbin.noteblogv4.model.pojo.vo.LatestComment;
-import me.wuwenbin.noteblogv4.model.pojo.vo.Statistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -91,8 +93,21 @@ public class DashboardServiceImpl implements DashboardService {
     }
 
     @Override
-    public Statistics findTableStatistics() {
+    public List<Object[]> findTableStatistics() {
+        return loggerRepository.findTableData(10);
+    }
 
-        return null;
+    public static void main(String[] args) {
+        MailAccount account = new MailAccount();
+        account.setHost("smtp.qq.com");
+        account.setPort(465);
+        account.setAuth(true);
+        account.setSslEnable(true);
+        account.setFrom("876686736@qq.com");
+        account.setUser("876686736");
+        account.setPass("pyzxczhacqqdbccg");
+
+        MailUtil.send(account, CollUtil.newArrayList("876686736@qq.com"), "测试222222", "23333333333333333邮件来自Hutool测试", false);
+
     }
 }

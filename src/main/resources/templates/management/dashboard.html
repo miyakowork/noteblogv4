@@ -120,17 +120,8 @@
         </div>
         <div class="layui-col-sm8">
             <div class="layui-card">
-                <div class="layui-card-header">最近5日访问统计</div>
+                <div class="layui-card-header">最近访问统计</div>
                 <div class="layui-card-body" style="padding: 0 15px;">
-                    <div>
-                        <label class="layui-form-label">统计类型：</label>
-                        <select name="type" style="margin-top: 8px;">
-                            <option value="url" selected="">url</option>
-                            <option value="username" >用户</option>
-                            <option value="ip_addr">IP地址</option>
-                            <option value="user_agent">访问来源</option>
-                        </select>
-                    </div>
                     <div id="sum-container" style="height: 527px;width: 100%;"></div>
                 </div>
             </div>
@@ -141,3 +132,6 @@
 </div>
 <script src="/static/plugins/echarts/echarts.min.js"></script>
 <script src="/static/plugins/echarts/walden.js"></script>
+<script th:inline="javascript">
+    var tableData = [[${tableData}]];
+</script>

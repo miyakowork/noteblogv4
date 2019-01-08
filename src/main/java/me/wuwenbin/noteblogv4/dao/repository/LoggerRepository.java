@@ -33,25 +33,12 @@ public interface LoggerRepository extends JpaRepository<NBLogger, Long> {
     /**
      * 找出有记录的最近的5天
      *
+     * @param dayDuring
      * @return
      */
     @Query(nativeQuery = true,
-            value = "select DATE_FORMAT(time,   '%Y-%m-%d') from sys_logger group by DATE_FORMAT(time,   '%Y-%m-%d') order by time desc limit 5")
-    List<NBLogger> findLatest5Dates();
+            value = "select DATE_FORMAT(time, '%Y-%m-%d') ,count(*) as  cnt from sys_logger group by DATE_FORMAT(time, '%Y-%m-%d') order by time desc limit ?1")
+    List<Object[]> findTableData(int dayDuring);
 
-    /**
-     * 查询数量最多的4个项目，连同数量一并查出
-     * 结果类似如下：
-     * http://127.0.0.1:8000/management/dashboard	84
-     * http://127.0.0.1:8000/management/index	74
-     * http://127.0.0.1:8000/login	24
-     * http://127.0.0.1:8000/image/code	14
-     *
-     * @param selectItem
-     * @param dateStr
-     * @return
-     */
-    @Query(nativeQuery = true,
-            value = "select ?1,count(?1) from sys_logger where time like ?2 group by ?1 order by count(?1) desc limit 4")
-    List<Object[]> findXxxData(String selectItem, String dateStr);
+
 }

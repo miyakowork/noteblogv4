@@ -10,6 +10,7 @@ import me.wuwenbin.noteblogv4.dao.repository.ParamRepository;
 import me.wuwenbin.noteblogv4.model.entity.NBComment;
 import me.wuwenbin.noteblogv4.model.entity.NBKeyword;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
+import me.wuwenbin.noteblogv4.service.mail.MailService;
 import me.wuwenbin.noteblogv4.util.NBUtils;
 import me.wuwenbin.noteblogv4.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +41,15 @@ public class CommentController extends BaseController {
     private final KeywordRepository keywordRepository;
     private final ParamRepository paramRepository;
     private final ArticleRepository articleRepository;
+    private final MailService mailService;
 
     @Autowired
-    public CommentController(CommentRepository commentRepository, KeywordRepository keywordRepository, ParamRepository paramRepository, ArticleRepository articleRepository) {
+    public CommentController(CommentRepository commentRepository, KeywordRepository keywordRepository, ParamRepository paramRepository, ArticleRepository articleRepository, MailService mailService) {
         this.commentRepository = commentRepository;
         this.keywordRepository = keywordRepository;
         this.paramRepository = paramRepository;
         this.articleRepository = articleRepository;
+        this.mailService = mailService;
     }
 
     @PostMapping("/sub")
@@ -70,7 +73,12 @@ public class CommentController extends BaseController {
                         comment.setClearComment(HtmlUtil.cleanHtmlTag(comment.getComment()));
                         List<NBKeyword> keywords = keywordRepository.findAll();
                         keywords.forEach(kw -> comment.setComment(comment.getComment().replace(kw.getWords(), StrUtil.repeat("*", kw.getWords().length()))));
-                        return ajaxDone(commentRepository::save, comment, "发表评论成功", "发表评论失败");
+                        if (commentRepository.save(comment) != null) {
+                            mailService.sendNoticeMail(basePath(request), articleRepository.getOne(comment.getArticleId()), comment.getComment());
+                            return NBR.error("发表评论成功");
+                        } else {
+                            return NBR.error("发表评论失败");
+                        }
                     } else {
                         return ajaxJsr303(bindingResult.getFieldErrors());
                     }
