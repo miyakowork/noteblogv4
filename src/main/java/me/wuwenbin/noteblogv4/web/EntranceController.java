@@ -218,4 +218,28 @@ public class EntranceController extends BaseController {
             return "redirect:" + NoteBlogV4.Session.MANAGEMENT_INDEX;
         }
     }
+
+    /**
+     * 注销
+     *
+     * @param request
+     * @param response
+     * @param from
+     * @param uuid
+     * @return
+     */
+    @NBAuth(value = "user:logout:page", remark = "用户注销请求地址", group = NBAuth.Group.PAGE)
+    @RequestMapping(value = "/token/logout", method = RequestMethod.GET)
+    public String logout2(HttpServletRequest request,
+                         HttpServletResponse response, String from,
+                         @CookieValue(SESSION_ID_COOKIE) String uuid) {
+        blogContext.removeSessionUser(uuid);
+        request.getSession().invalidate();
+        CookieUtils.deleteCookie(request, response, NoteBlogV4.Session.REMEMBER_COOKIE_NAME);
+        if (StringUtils.isEmpty(from)) {
+            return "redirect:/";
+        } else {
+            return "redirect:" + NoteBlogV4.Session.FRONTEND_INDEX;
+        }
+    }
 }

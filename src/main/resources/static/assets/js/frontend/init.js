@@ -75,10 +75,12 @@ layui.use('form', function () {
                 if (o === 'upload_type') {
                     obj[o] = $("option[value=" + obj[o] + "]").text();
                     html += '<p>' + labelName + '：' + obj[o] + '</p>';
-                } else if (o === 'statistic_analysis') {
-                    var txt1 = obj[o] === 1 ? "开启" : "关闭";
-                    html += '<p>' + labelName + '：' + txt1 + '</p>';
-                } else if (o === 'page_modern') {
+                }
+                // else if (o === 'statistic_analysis') {
+                //     var txt1 = obj[o] === 1 ? "开启" : "关闭";
+                //     html += '<p>' + labelName + '：' + txt1 + '</p>';
+                // }
+                else if (o === 'page_modern') {
                     var txt2 = obj[o] === 0 ? '流式（自动加载）' : '按钮加载';
                     html += '<p>' + labelName + '：' + txt2 + '</p>';
                 } else {
