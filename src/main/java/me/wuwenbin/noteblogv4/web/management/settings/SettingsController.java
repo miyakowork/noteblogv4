@@ -59,7 +59,7 @@ public class SettingsController extends BaseController {
         List<NBParam> params = paramRepository.findAllByLevelGreaterThanEqual(9);
         Map<String, Object> attributeMap = params.stream().collect(Collectors.toMap(NBParam::getName, NBParam::getValue));
         model.addAllAttributes(attributeMap);
-        return "/management/settings/common";
+        return "management/settings/common";
     }
 
     @RequestMapping("/settings/theme")
@@ -68,7 +68,7 @@ public class SettingsController extends BaseController {
         List<NBParam> params = paramRepository.findAllByLevelGreaterThanEqual(9);
         Map<String, Object> attributeMap = params.stream().collect(Collectors.toMap(NBParam::getName, NBParam::getValue));
         model.addAllAttributes(attributeMap);
-        return "/management/settings/theme";
+        return "management/settings/theme";
     }
 
     @RequestMapping("/settings/mail")
@@ -77,14 +77,14 @@ public class SettingsController extends BaseController {
         List<NBParam> params = paramRepository.findAllByLevel(8);
         Map<String, Object> attributeMap = params.stream().collect(Collectors.toMap(NBParam::getName, NBParam::getValue));
         model.addAllAttributes(attributeMap);
-        return "/management/settings/mail";
+        return "management/settings/mail";
     }
 
     @RequestMapping("/settings/profile")
     @NBAuth(value = "management:settings:profile", remark = "管理员个人信息设置", group = ROUTER, type = NAV_LINK)
     public String settingsProfile(Model model, @CookieValue(SESSION_ID_COOKIE) String uuid) {
         model.addAttribute("loginUser", context.getSessionUser(uuid));
-        return "/management/settings/profile";
+        return "management/settings/profile";
     }
 
     @RequestMapping("/settings/qrcode")
@@ -93,7 +93,7 @@ public class SettingsController extends BaseController {
         List<NBParam> params = paramRepository.findAllByLevel(11);
         Map<String, Object> attributeMap = params.stream().collect(Collectors.toMap(NBParam::getName, NBParam::getValue));
         model.addAllAttributes(attributeMap);
-        return "/management/settings/qrcode";
+        return "management/settings/qrcode";
     }
 
     @RequestMapping("/settings/update")
