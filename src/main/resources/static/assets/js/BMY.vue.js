@@ -267,7 +267,10 @@ var template = {
         '                               </div>' +
         '                           </div>' +
         '                           <hr>' +
-        '                           <div class="content detail" v-html="article.content"></div>' +
+        // '                           <div class="content detail" v-html="article.content"></div>' +
+        '                           <div id="doc-content" class="content detail layui-col-sm12" v-if="!isRichTxt" style="margin-bottom: 20px;"></div>' +
+        '                           <div id="doc-content1" class="content detail layui-col-sm12" v-if="isRichTxt" v-html="article.content" style="margin-bottom: 20px;"></div>' +
+        '                           <div id="custom-toc-container" style="margin-left: 15px;display: none;"></div>' +
         '                       </div>' +
         '                       <div class="layui-row text-center layui-mt20">' +
         '                           <div v-if="article.appreciable" class="layui-btn layui-btn-warm layui-hide layui-show-md-inline-block" @click="money(alipay,wechat)"><i class="fa fa-rmb"></i> 打赏</div>' +
@@ -939,9 +942,26 @@ Vue.component('bmy-article-page', {
         , url: function () {
             return location.href;
         }
+        , isRichTxt: function () {
+            return this.article.mdContent == null || this.article.mdContent === "";
+        }
     }
     , mounted: function () {
-        this.approve = this.article.approveCnt
+        this.approve = this.article.approveCnt;
+        editormd.markdownToHTML("doc-content", {
+            markdown: this.article.mdContent,//+ "\r\n" + $("#append-test").text(),
+            //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
+            htmlDecode: "style,script,iframe",  // you can filter tags decode
+            tocContainer: "#custom-toc-container", // 自定义 ToC 容器层
+            //gfm             : false,
+            //tocDropdown     : true,
+            markdownSourceCode: false, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
+            emoji: false,
+            taskList: true,
+            tex: true,  // 默认不解析
+            flowChart: true,  // 默认不解析
+            sequenceDiagram: true// 默认不解析
+        });
     }
     , methods: {
         money: function (alipay, wechat) {
