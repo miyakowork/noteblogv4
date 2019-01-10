@@ -120,8 +120,12 @@ public class ArticleController extends BaseController {
         if (result.getErrorCount() == 0) {
             NBSysUser user = context.getSessionUser(uuid);
             article.setAuthorId(user.getId());
-            articleService.updateArticle(article, tagNames);
-            return NBR.ok("修改文章成功！");
+            try {
+                articleService.updateArticle(article, tagNames);
+                return NBR.ok("修改文章成功！");
+            } catch (RuntimeException e) {
+                return NBR.error(e.getMessage());
+            }
         } else {
             return ajaxJsr303(result.getFieldErrors());
         }

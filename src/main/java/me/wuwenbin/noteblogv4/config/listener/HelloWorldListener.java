@@ -63,16 +63,25 @@ public class HelloWorldListener implements ApplicationListener<ApplicationReadyE
     }
 
     private void setHelloWorldArticle(long cateId) {
-        final String title = "这个是文章的标题a a aa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊";
-        final String text = "偶遇一个注入，权限还是蛮大的，至少执行cmdshell是没问题的，因为这是一台数据库服务器，和目标站是站库分离，又在内网中，所以没办法拿下shell。我想得到内网环境，继续内网渗透，可是在用sqlmap上传的过程中发现始终无法上传";
+        final String title = "欢迎使用笔记博客（NoteBlogV4）";
+        final String content = "<h2 id=\"h2--noteblogv4-\"><a name=\"欢迎使用笔记博客（NoteBLogV4）\" class=\"reference-link\"></a><span class=\"header-link octicon octicon-link\"></span>欢迎使用笔记博客（NoteBlogV4）</h2><p>笔记博客是基于springboot+layui编写的一款轻博客系统，非常适用于学习的项目，欢迎大家<a href=\"https://github.com/miyakowork/noteblogv4\" title=\"star\">★star</a>,有任何意见或者建议请移步QQ群。</p>\n" +
+                "<p>有任何问题欢迎加QQ群：<a href=\"https://jq.qq.com/?_wv=1027&amp;k=5FgsNj3\" title=\"697053454\">697053454</a>，加入你可以第一时间获取最新信息以及和伙伴们一起交流。</p>\n";
+        final String textContent = "欢迎使用笔记博客（NoteBlogV4）笔记博客是基于springboot+layui编写的一款轻博客系统，非常适用于学习的项目，欢迎大家★star,有任何意见或者建议请移步QQ群。有任何问题欢迎加QQ群：697053454，加入你可以第一时间获取最新信息以及和伙伴们一起交流。";
+        final String mdContent = "##欢迎使用笔记博客（NoteBlogV4）\n\n" +
+                "笔记博客是基于springboot+layui编写的一款轻博客系统，非常适用于学习的项目，欢迎大家[★star](https://github.com/miyakowork/noteblogv4 \"star\"),有任何意见或者建议请移步QQ群。\n\n" +
+                "有任何问题欢迎加QQ群：[697053454](https://jq.qq.com/?_wv=1027&k=5FgsNj3 \"697053454\")，加入你可以第一时间获取最新信息以及和伙伴们一起交流。\n";
+        final String summary = "欢迎使用笔记博客（NoteBLogV4）笔记博客是基于springboot+layui编写的一款轻博客系统，非常适用于学习的项目，欢迎大家★star,有任何意见或者建议请移步QQ群。有";
         NBArticle helloWorldArticle = NBArticle.builder()
                 .authorId(1L)
                 .cateId(cateId)
-                .content(text)
-                .textContent(text)
+                .cover("/static/assets/img/cover.png")
+                .content(content)
+                .textContent(textContent)
                 .cate(cateRepository.getOne(cateId))
-                .summary(text)
+                .summary(summary)
+                .mdContent(mdContent)
                 .post(LocalDateTime.now())
+                .draft(false)
                 .title(title).build();
         articleRepository.save(helloWorldArticle);
     }
