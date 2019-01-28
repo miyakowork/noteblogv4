@@ -49,6 +49,7 @@ public class ArticleController extends BaseController {
     @RequestMapping("/{aId}")
     public String article(@PathVariable("aId") Long aId, Model model, Pagination<NBComment> pagination, CommentQueryBO commentQueryBO) {
         articleRepository.updateViewsById(aId);
+        pagination.setLimit(10);
         Optional<NBArticle> fetchArticle = articleRepository.findById(aId);
         model.addAttribute("article", fetchArticle.orElseThrow(() -> new ArticleFetchFailedException("未找到相关文章！")));
         model.addAttribute("tags", tagRepository.findArticleTags(aId, true));
@@ -65,6 +66,7 @@ public class ArticleController extends BaseController {
     @RequestMapping("/u/{urlSeq}")
     public String articleByUrl(@PathVariable("urlSeq") String urlSeq, Model model, Pagination<NBComment> pagination, CommentQueryBO commentQueryBO) {
         articleRepository.updateViewsBySeq(urlSeq);
+        pagination.setLimit(10);
         Optional<NBArticle> fetchArticle = articleRepository.findNBArticleByUrlSequence(urlSeq);
         NBArticle article = fetchArticle.orElseThrow(() -> new ArticleFetchFailedException("未找到相关文章！"));
         model.addAttribute("article", article);
@@ -83,7 +85,7 @@ public class ArticleController extends BaseController {
         return commentService.findPageInfo(getPageable(pagination), commentQueryBO);
     }
 
-    @PostMapping("/approve")
+    @RequestMapping(value = "/approve", method = RequestMethod.POST)
     @ResponseBody
     public NBR approve(@RequestParam Long articleId) {
         return ajaxDone(

@@ -16,12 +16,14 @@ import me.wuwenbin.noteblogv4.model.constant.LayUploader;
 import me.wuwenbin.noteblogv4.model.constant.NkUploader;
 import me.wuwenbin.noteblogv4.model.constant.NoteBlogV4;
 import me.wuwenbin.noteblogv4.model.constant.Upload;
+import me.wuwenbin.noteblogv4.model.entity.NBUpload;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.function.Consumer;
 
 /**
@@ -84,6 +86,32 @@ public class QiniuUploadServiceImpl implements UploadService<Object> {
         }
     }
 
+    @Override
+    public <S> NBUpload uploadIt(MultipartFile fileObj, Consumer<S> extra, S t) {
+        log.info("上传[" + fileObj.getContentType() + "]类型文件");
+        Response res = doUpload(fileObj, getUpToken());
+        try {
+            if (res != null && res.isOK()) {
+                JSONObject respObj = JSONUtil.parseObj(res.bodyString());
+                String generateFileName = respObj.getStr("key");
+                String qiniuDomain = paramRepository.findByName(NoteBlogV4.Param.QINIU_DOMAIN).getValue();
+                extra.accept(t);
+                String src = qiniuDomain + "/" + generateFileName;
+                log.info("上传至七牛云服务器成功！，文件：[{}]", generateFileName);
+                return NBUpload.builder()
+                        .diskPath("")
+                        .virtualPath(src)
+                        .upload(LocalDateTime.now())
+                        .type(fileObj.getContentType())
+                        .build();
+            } else {
+                throw new RuntimeException("上传文件至七牛云失败" + (res != null ? "，" + res.error : ""));
+            }
+        } catch (QiniuException e) {
+            throw new RuntimeException("上传文件至七牛云失败", e);
+        }
+
+    }
 
     /**
      * 获取uptoken

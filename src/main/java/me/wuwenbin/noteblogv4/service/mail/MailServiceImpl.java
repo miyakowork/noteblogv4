@@ -30,23 +30,23 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public void sendNoticeMail(String site, NBArticle article, String comment) {
-        MailAccount account = new MailAccount();
         String host = paramRepository.findByName(NoteBlogV4.Param.MAIL_SMPT_SERVER_ADDR).getValue();
-        account.setHost(host);
         String port = paramRepository.findByName(NoteBlogV4.Param.MAIL_SMPT_SERVER_PORT).getValue();
-        account.setPort(Integer.valueOf(port));
-        account.setAuth(true);
-        account.setSslEnable(true);
         String from = paramRepository.findByName(NoteBlogV4.Param.MAIL_SERVER_ACCOUNT).getValue();
-        account.setFrom(from);
         String user = paramRepository.findByName(NoteBlogV4.Param.MAIL_SENDER_NAME).getValue();
-        account.setUser(user);
         String pass = paramRepository.findByName(NoteBlogV4.Param.MAIL_SERVER_PASSWORD).getValue();
-        account.setPass(pass);
         if (StrUtil.isNotEmpty(host)
                 && StrUtil.isNotEmpty(port)
                 && StrUtil.isNotEmpty(from)
                 && StrUtil.isNotEmpty(pass)) {
+            MailAccount account = new MailAccount();
+            account.setHost(host);
+            account.setPort(Integer.valueOf(port));
+            account.setAuth(true);
+            account.setSslEnable(true);
+            account.setFrom(from);
+            account.setUser(user);
+            account.setPass(pass);
             NBSysUser u = NBUtils.getSessionUser();
             String targetMail = u != null ? u.getEmail() : host;
 

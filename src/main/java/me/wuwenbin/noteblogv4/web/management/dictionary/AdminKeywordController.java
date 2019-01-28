@@ -9,7 +9,9 @@ import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import me.wuwenbin.noteblogv4.model.pojo.framework.Pagination;
 import me.wuwenbin.noteblogv4.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,8 +49,7 @@ public class AdminKeywordController extends BaseController {
     @ResponseBody
     @NBAuth(value = "management:keyword:list", remark = "关键字管理分页数据", group = AJAX)
     public LayuiTable<NBKeyword> keywordList(Pagination<NBKeyword> keywordPagination) {
-        Sort sort = getJpaSort(keywordPagination);
-        Pageable pageable = PageRequest.of(keywordPagination.getPage() - 1, keywordPagination.getLimit(), sort);
+        Pageable pageable = getPageable(keywordPagination);
         Page<NBKeyword> page = keywordRepository.findAll(pageable);
         return layuiTable(page, pageable);
     }

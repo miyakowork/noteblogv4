@@ -463,7 +463,7 @@ var template = {
         '                       <hr>' +
         '                   </template>' +
         '                   <div class="row">' +
-        '                       <p class="comment-page"></p>' +
+        '                       <p id="comment-page"></p>' +
         '                   </div>' +
         '               </div>' +
         '           </fieldset>' +
@@ -502,7 +502,7 @@ var template = {
         '                       <hr>' +
         '                   </template>' +
         '                   <div class="row">' +
-        '                       <p class="comment-page"></p>' +
+        '                       <p id="comment-page"></p>' +
         '                   </div>' +
         '               </div>' +
         '           </fieldset>' +
@@ -1111,6 +1111,7 @@ Vue.component('bmy-comment', {
     }
     , methods: {
         submit: function (articleId) {
+                        debugger
             var h1 = BMY.tempHtml === undefined ? "" : BMY.tempHtml;
             var h2 = BMY.tempHtml2 === undefined ? "" : BMY.tempHtml2;
             var comment = h1 + "<p>" + BMY.layedit.getContent(BMY.editor).replace(h2, "") + "</p>";

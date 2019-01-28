@@ -40,25 +40,8 @@
     layui.use(['layedit', 'laypage', 'code', 'element'], function () {
         var element = layui.element;
         BMY.layedit = layui.layedit;
-        BMY.laypage = layui.laypage;
+        var laypage = layui.laypage;
         layui.code({about: false});
-
-        BMY.laypage.render({
-            elem: $(".comment-page")
-            , count: [[${comments.totalElements}]]
-            , layout: ['prev', 'next']
-            , jump: function (obj, first) {
-                if (!first) {
-                    layer.msg('第 ' + obj.curr + ' 页');
-                    $.post("/article/comments", {
-                        id: BMY.articleVM.article.id
-                        , pageNo: obj.curr
-                    }, function (cs) {
-                        BMY.articleVM.comments = cs;
-                    })
-                }
-            }
-        });
 
 
         BMY.articleVM = new Vue({
@@ -120,6 +103,24 @@
                 BMY.editor = BMY.layedit.build('comment-input', {
                     tool: ['face', '|', 'left', 'center', 'right', 'link', 'unlink']
                     , height: 150
+                });
+
+                laypage.render({
+                    elem: "comment-page"
+                    , count: [[${comments.totalElements}]]
+                    , layout: ['prev', 'next']
+                    , jump: function (obj, first) {
+                        if (!first) {
+                            layer.msg('第 ' + obj.curr + ' 页');
+                            $.post("/article/comments", {
+                                id: BMY.articleVM.article.id
+                                , page: obj.curr
+                                , limit: 10
+                            }, function (cs) {
+                                BMY.articleVM.comments = cs;
+                            })
+                        }
+                    }
                 });
             }
         });

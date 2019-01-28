@@ -136,7 +136,7 @@
                     <div class="layui-form-item" id="comment-open" v-show="openComment">
                         <div class="layui-inline">
                             <label class="layui-form-label">评论区置顶</label>
-                            <div class="layui-input-inline" style="width: 450px;">
+                            <div class="layui-input-inline" style="width: 650px;">
                                 <input type="text" name="comment_notice" placeholder="请输入评论区置顶公告信息"
                                        th:value="${comment_notice}" autocomplete="off" class="layui-input"></div>
                         </div>
@@ -261,7 +261,7 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">七牛域名</label>
                             <div class="layui-input-inline" style="width: 450px;">
-                                <input type="text" name="qiniu_domain" placeholder="请输入访问域名"
+                                <input type="text" name="qiniu_domain" placeholder="请输入访问域名，以http或https开头"
                                        th:value="${qiniu_domain}" autocomplete="off" class="layui-input"></div>
                         </div>
                         <div class="layui-inline">

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class CommentServiceImpl implements CommentService {
             Join<NBComment, NBSysUser> userJoin = root.join(root.getModel().getSingularAttribute("user", NBSysUser.class), JoinType.LEFT);
             predicates.add(criteriaBuilder.equal(userJoin.get("id").as(Long.class), root.get("userId")));
             Predicate[] pres = new Predicate[predicates.size()];
-            return query.where(predicates.toArray(pres)).getRestriction();
+            return query.where(predicates.toArray(pres)).orderBy(criteriaBuilder.desc(root.get("post").as(LocalDateTime.class))).getRestriction();
         }, pageable);
     }
 }

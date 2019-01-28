@@ -17,8 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,7 +52,7 @@ public class CommentController extends BaseController {
         this.mailService = mailService;
     }
 
-    @PostMapping("/sub")
+    @RequestMapping(value = "/sub",method = RequestMethod.POST)
     @ResponseBody
     public NBR sub(@Valid NBComment comment, BindingResult bindingResult, HttpServletRequest request) {
         final String initSure = "1";
@@ -75,7 +75,7 @@ public class CommentController extends BaseController {
                         keywords.forEach(kw -> comment.setComment(comment.getComment().replace(kw.getWords(), StrUtil.repeat("*", kw.getWords().length()))));
                         if (commentRepository.save(comment) != null) {
                             mailService.sendNoticeMail(basePath(request), articleRepository.getOne(comment.getArticleId()), comment.getComment());
-                            return NBR.error("发表评论成功");
+                            return NBR.ok("发表评论成功");
                         } else {
                             return NBR.error("发表评论失败");
                         }

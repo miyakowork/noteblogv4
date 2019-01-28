@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.wuwenbin.noteblogv4.dao.repository.UploadRepository;
 import me.wuwenbin.noteblogv4.model.constant.LayUploader;
 import me.wuwenbin.noteblogv4.model.constant.NkUploader;
+import me.wuwenbin.noteblogv4.model.constant.Upload;
 import me.wuwenbin.noteblogv4.model.entity.NBUpload;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,11 @@ public class LocalUploadServiceImpl implements UploadService<Object> {
     @Autowired
     public LocalUploadServiceImpl(UploadRepository uploadRepository) {
         this.uploadRepository = uploadRepository;
+    }
+
+    @Override
+    public Upload.Method getUploadMethod() {
+        return Upload.Method.LOCAL;
     }
 
     @Override
