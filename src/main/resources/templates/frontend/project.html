@@ -32,37 +32,36 @@
             </div>
             <div class="layui-tab layui-tab-brief">
                 <ul class="layui-tab-title">
-                    <li class="layui-this"><a href="">本家作品</a></li>
-                    <li><a href="">第三方分享</a></li>
+                    <li :class="{ 'layui-this':isCurrentCateId(pc.id) }" v-for="pc in projectCates">
+                        <a :href="cateHref(pc.id)">{{pc.cnName}}</a>
+                    </li>
                 </ul>
             </div>
 
             <ul class="fly-case-list">
-                <template v-for="n in 20">
+                <template v-for="p in projects">
                     <li>
-                        <a class="fly-case-img" href="http://fly.layui.com/" target="_blank">
-                            <img src="/upfiles/img/2018-11-10/55b0ff73-953b-4d47-91cd-3139dfa0bcfc.jpg" alt="Fly社区">
+                        <a class="fly-case-img" :href="p.url" target="_blank">
+                            <img :src="p.cover" :alt="p.name">
                             <cite class="layui-btn layui-btn-primary layui-btn-small">前往主页</cite>
                         </a>
-                        <h2><a href="http://fly.layui.com/" target="_blank">Fly社区</a></h2>
-                        <p class="fly-case-desc">Fly 社区是 layui 的官方社区，全站的前端层面基于 Layui 风格编写全站的前端层面基于 Layui 风格编写全站的前端层面基于
-                            Layui
-                            风格编写全站的前端层面基于 Layui 风格编写，轻量而简洁，并且模版已经开源，可用于极简社区模板。</p>
+                        <h2><a :href="p.url" target="_blank">{{p.name}}</a></h2>
+                        <p class="fly-case-desc">{{p.description}}</p>
                         <div class="fly-case-info">
-                            <a href="../user/home.html" class="fly-case-user" target="_blank"><img
-                                    src="/upfiles/img/2018-11-10/55b0ff73-953b-4d47-91cd-3139dfa0bcfc.jpg"></a>
+                            <a :href="p.url" class="fly-case-user" target="_blank"><img
+                                    :src="p.cover"></a>
                             <p class="layui-elip" style="font-size: 12px;height: 38px;margin-top: 10px;"><span
-                                    style="color: #666;">发布于</span> 2017-11-30
+                                    style="color: #666;">发布于</span> {{pDate(p.post)}}
                             </p>
                             <button class="layui-btn layui-btn-primary fly-case-active" data-type="praise">详细</button>
-                            <!-- <button class="layui-btn  fly-case-active" data-type="praise">已赞</button> -->
                         </div>
                     </li>
                 </template>
 
             </ul>
 
-            <!-- <blockquote class="layui-elem-quote layui-quote-nm">暂无数据</blockquote> -->
+            <blockquote class="layui-elem-quote layui-quote-nm" v-show="projectEmpty" style="text-align: center;">暂无数据
+            </blockquote>
 
             <div id="project-page" style="text-align: center;"></div>
 
@@ -80,24 +79,48 @@
             data: {
                 params: [[${settings}]]
                 , su: [[${su}]]
-                ,currentPage:[[${projects}]]
+                , currentCateId: [[${currentCateId}]]
+                , projects: [[${projects.content}]]
+                , projectEmpty: [[${projects.totalElements == 0}]]
+                , projectCates: [[${projectCates}]]
                 , current: true
                 , bodyId: "project-body"
                 , elem: layui.element
             }
-            , methods: {},
+            , methods: {
+                isCurrentCateId: function (ccid) {
+                    return this.currentCateId === ccid || this.currentCateId === null;
+                }
+                , cateHref: function (id) {
+                    return "/project?cateId=" + id;
+                }
+                , pDate: function (date) {
+                    return date.split("T")[0];
+                }
+            },
             mounted: function () {
                 bottomNav();
 
                 //完整功能
                 laypage.render({
                     elem: 'project-page'
-                    , count: 100
+                    , count: [[${projects.totalElements}]]
                     , theme: '#F44336'
-                    , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh']
-                    , jump: function (obj) {
-                        console.log(obj)
+                    , limit: 20
+                    , layout: ['count', 'prev', 'page', 'next', 'refresh']
+                    , jump: function (obj, first) {
+                        if (!first) {
+                            layer.msg('第 ' + obj.curr + ' 页');
+                            $.post("/project/next", {
+                                cateId: BMY.projectVm.currentCateId
+                                , page: obj.curr
+                                , limit: 20
+                            }, function (obj) {
+                                BMY.projectVm.projects = obj.data.content;
+                            })
+                        }
                     }
+
                 })
             }
         })

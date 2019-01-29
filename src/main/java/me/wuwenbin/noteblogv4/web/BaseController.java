@@ -18,6 +18,7 @@ import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -139,6 +140,21 @@ public abstract class BaseController {
     }
 
     /**
+     * 额外的排序信息，适用于只有一个排序列信息
+     *
+     * @param page
+     * @param field 排序的字段
+     * @param order desc/asc
+     * @param <T>
+     * @return
+     */
+    protected <T> Sort getJpaSortWithOther(Pagination<T> page, String field, String order) {
+        Map<String, String> orders = new HashMap<>(1);
+        orders.put(field, order);
+        return getJpaSortWithOther(page, orders);
+    }
+
+    /**
      * 除了前台传过来的分页信息，如果需要额外手动添加一些排序信息，则使用此方法
      *
      * @param page
@@ -173,6 +189,20 @@ public abstract class BaseController {
             }
         }
         return orders.size() > 0 ? Sort.by(orders) : Sort.unsorted();
+    }
+
+    /**
+     * 通过封装的Page获取JPA的page，适用于仅包含一个排序字段的的page
+     *
+     * @param page
+     * @param field
+     * @param order
+     * @param <T>
+     * @return
+     */
+    protected <T> Pageable getPageableWithCustomSort(Pagination<T> page, String field, String order) {
+        Sort sort = getJpaSortWithOther(page, field, order);
+        return PageRequest.of(page.getPage() - 1, page.getLimit(), sort);
     }
 
     /**

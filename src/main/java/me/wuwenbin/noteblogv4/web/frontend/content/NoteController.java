@@ -15,8 +15,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
@@ -47,7 +47,7 @@ public class NoteController extends BaseController {
         return "frontend/content/note";
     }
 
-    @PostMapping("/next")
+    @RequestMapping(value = "/next", method = RequestMethod.POST)
     @ResponseBody
     public NBR next(Pagination<NBNote> pagination, String t, String cc) {
         Map<String, String> orders = new HashMap<>(2);
