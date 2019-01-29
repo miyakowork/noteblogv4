@@ -20,8 +20,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -71,7 +71,7 @@ public class MessageController extends BaseController {
     }
 
 
-    @PostMapping("/token/msg/sub")
+    @RequestMapping(value = "/token/msg/sub", method = RequestMethod.POST)
     @ResponseBody
     public NBR sub(@Valid NBMessage message, BindingResult bindingResult, HttpServletRequest request) {
         if (!bindingResult.hasErrors()) {
@@ -98,7 +98,7 @@ public class MessageController extends BaseController {
     }
 
 
-    @PostMapping("/msg/lists")
+    @RequestMapping(value = "/msg/lists", method = RequestMethod.POST)
     @ResponseBody
     public Page<NBMessage> comments(Pagination<NBMessage> messagePagination, MessageQueryBO messageQueryBO) {
         Pageable pageable = messagePageable(messagePagination);
