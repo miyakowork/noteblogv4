@@ -193,6 +193,7 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
                 {WEBSITE_LOGO_WORDS, INIT_WEBSITE_LOGO_WORDS, "网站logo的文字", "10"},
                 {WEBSITE_LOGO_SMALL_WORDS, INIT_WEBSITE_LOGO_SMALL_WORDS, "网站logo的文字旁的小字", "10"},
                 {COMMENT_NOTICE, INIT_COMMENT_WORD, "评论置顶公告", "10"},
+                {PROJECT_TOP_NOTICE, INIT_PROJECT_WORD, "项目置顶公告", "10"},
                 {MESSAGE_PANEL_WORDS, INIT_MESSAGE_PANEL_WORDS, "留言板的提示信息文字", "10"},
                 {QINIU_DOMAIN, StrUtil.EMPTY, "七牛云文件服务器域名", "10"},
                 {MAIL_SMPT_SERVER_ADDR, StrUtil.EMPTY, "SMTP服务器", "8"},

@@ -36,6 +36,7 @@ public interface NoteBlogV4 {
         String INIT_WECHAT_PAY = "/static/assets/img/wechat.png";
         String INIT_INFO_LABEL = "此处填写网站的一些信息";
         String INIT_COMMENT_WORD = "遵守国家法律法规，请勿回复无意义内容，请不要回复嵌套过多的楼层！";
+        String INIT_PROJECT_WORD = "资源分享";
         String INIT_MESSAGE_PANEL_WORDS = "欢迎大家留言，有什么问题、建议、意见或者疑问可随时提出，qq群：<a href=\"https://jq.qq.com/?_wv=1027&k=5ypf8jR\" target=\"_blank\">697053454</a>。<span style=\"color:red;\">请不要回复嵌套过多的楼层！</span>";
 
         /**
@@ -155,6 +156,11 @@ public interface NoteBlogV4 {
          * 评论置顶公告
          */
         String COMMENT_NOTICE = "comment_notice";
+
+        /**
+         * 项目置顶公告
+         */
+        String PROJECT_TOP_NOTICE="project_top_notice";
 
         /**
          * 留言板的提示信息文字
