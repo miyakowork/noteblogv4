@@ -82,6 +82,7 @@ public class HelloWorldListener implements ApplicationListener<ApplicationReadyE
                 .mdContent(mdContent)
                 .post(LocalDateTime.now())
                 .draft(false)
+                .appreciable(true)
                 .title(title).build();
         articleRepository.save(helloWorldArticle);
     }
