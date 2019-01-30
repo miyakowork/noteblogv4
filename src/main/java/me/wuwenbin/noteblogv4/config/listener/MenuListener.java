@@ -103,7 +103,7 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
 
         }
         hideAuthMenu();
-        log.info("笔记博客」App 初始化菜单完毕");
+        log.info("「笔记博客」App 初始化菜单完毕");
     }
 
     /**

@@ -1,6 +1,6 @@
 #服务器配置
 server:
-  port: 8080
+  port: 80
 #项目配置
 spring:
   profiles:
@@ -18,7 +18,7 @@ spring:
     database: mysql
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     database-platform: me.wuwenbin.noteblogv4.config.configuration.LocalMySQL57InnoDBDialect
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
@@ -46,4 +46,4 @@ logging:
       wuwenbin:
         noteblogv4:
           dao:
-            mapper: DEBUG
+            mapper: ERROR
