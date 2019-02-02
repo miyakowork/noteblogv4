@@ -410,7 +410,7 @@ var template = {
         '                       <textarea id="comment-input" style="display: none;"></textarea>' +
         '               </div>' +
         '               <button v-if="su != null" class="layui-btn-danger layui-btn layui-btn-sm" style="float: right;width: 120px;" @click="submit(id)" >发表</button>' +
-        '               <a v-if="su == null" class="layui-btn layui-btn-sm" style="float: right;width: 120px;background-color: #f44336;"  href="/login" target="_blank" @click="beforeLogin();" id="beforeLogin"><i class="fa fa-qq"></i> 请先登录</a>' +
+        '               <a v-if="su == null" class="layui-btn layui-btn-sm" style="float: right;width: 120px;background-color: #f44336;"  href="/api/qq" target="_blank" @click="beforeLogin();" id="beforeLogin"><i class="fa fa-qq"></i> 请先登录</a>' +
         '           </fieldset>' +
         '       </div>' +
         '   </div>' +

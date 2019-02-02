@@ -135,7 +135,7 @@ public class EntranceController extends BaseController {
         if (appId == null || StringUtils.isEmpty(appId.getValue())) {
             return "redirect:/error?errorCode=404";
         } else {
-            return "redirect:https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=" + appId + "&redirect_uri=" + callbackDomain + "&state=" + System.currentTimeMillis();
+            return "redirect:https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=" + appId.getValue() + "&redirect_uri=" + callbackDomain + "&state=" + System.currentTimeMillis();
         }
     }
 
@@ -228,7 +228,7 @@ public class EntranceController extends BaseController {
      * @param uuid
      * @return
      */
-    @NBAuth(value = "user:logout:page", remark = "用户注销请求地址", group = NBAuth.Group.PAGE)
+//    @NBAuth(value = "user:logout:page", remark = "用户注销请求地址", group = NBAuth.Group.PAGE)
     @RequestMapping(value = "/token/logout", method = RequestMethod.GET)
     public String logout2(HttpServletRequest request,
                          HttpServletResponse response, String from,

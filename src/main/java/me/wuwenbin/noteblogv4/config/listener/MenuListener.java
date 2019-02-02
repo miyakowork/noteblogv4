@@ -56,9 +56,10 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         NBParam nbParam = paramRepository.findByName(INIT_STATUS);
+        long cnt = menuRepository.count();
         if (nbParam == null || StringUtils.isEmpty(nbParam.getValue())) {
             throw new RuntimeException("初始化参数有误，未找到 init_status 参数！");
-        } else if (nbParam.getValue().equals(INIT_NOT)) {
+        } else if (nbParam.getValue().equals(INIT_NOT) || cnt == 0) {
             log.info("笔记博客」App 正在初始化菜单，请稍后...");
             Object[][] folderMenus = new Object[][]{
                     {"权限管理", "layui-icon layui-icon-auz", new String[][]{
