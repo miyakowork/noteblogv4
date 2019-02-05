@@ -2,13 +2,17 @@ package me.wuwenbin.noteblogv4.web.frontend.content;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HtmlUtil;
-import me.wuwenbin.noteblogv4.dao.repository.*;
+import me.wuwenbin.noteblogv4.dao.repository.CateRepository;
+import me.wuwenbin.noteblogv4.dao.repository.KeywordRepository;
+import me.wuwenbin.noteblogv4.dao.repository.MessageRepository;
+import me.wuwenbin.noteblogv4.dao.repository.UserRepository;
 import me.wuwenbin.noteblogv4.model.entity.NBKeyword;
 import me.wuwenbin.noteblogv4.model.entity.NBMessage;
 import me.wuwenbin.noteblogv4.model.pojo.bo.MessageQueryBO;
 import me.wuwenbin.noteblogv4.model.pojo.framework.NBR;
 import me.wuwenbin.noteblogv4.model.pojo.framework.Pagination;
 import me.wuwenbin.noteblogv4.service.content.MessageService;
+import me.wuwenbin.noteblogv4.service.content.TagService;
 import me.wuwenbin.noteblogv4.util.NBUtils;
 import me.wuwenbin.noteblogv4.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,18 +49,18 @@ public class MessageController extends BaseController {
     private final MessageRepository messageRepository;
     private final KeywordRepository keywordRepository;
     private final CateRepository cateRepository;
-    private final TagReferRepository tagReferRepository;
+    private final TagService tagService;
     private final MessageService messageService;
     private final UserRepository userRepository;
 
     @Autowired
     public MessageController(MessageRepository messageRepository, KeywordRepository keywordRepository,
-                             CateRepository cateRepository, TagReferRepository tagReferRepository, MessageService messageService,
+                             CateRepository cateRepository, TagService tagService, MessageService messageService,
                              UserRepository userRepository) {
         this.messageRepository = messageRepository;
         this.keywordRepository = keywordRepository;
         this.cateRepository = cateRepository;
-        this.tagReferRepository = tagReferRepository;
+        this.tagService = tagService;
         this.messageService = messageService;
         this.userRepository = userRepository;
     }
@@ -64,7 +68,7 @@ public class MessageController extends BaseController {
     @RequestMapping("/msg")
     public String index(Model model, Pagination<NBMessage> messagePagination, MessageQueryBO messageQueryBO) {
         model.addAttribute("cates", cateRepository.findAll());
-        model.addAttribute("tags", tagReferRepository.findTagsTab());
+        model.addAttribute("tags", tagService.findTagsTab());
         Pageable pageable = messagePageable(messagePagination);
         model.addAttribute("messages", messageService.findPageInfo(pageable, messageQueryBO));
         return "frontend/content/message";
