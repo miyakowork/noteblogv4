@@ -50,6 +50,15 @@ public interface MenuRepository extends JpaRepository<NBSysMenu, Long> {
     long countByParentId(long parentId);
 
     /**
+     * 根据类型查找菜单数量
+     *
+     * @param type
+     * @return
+     */
+    @Query(nativeQuery = true, value = "select count(*) from sys_menu where type = ?1")
+    long countByType(String type);
+
+    /**
      * 查找所有菜单（包含根目录）
      *
      * @param roleId

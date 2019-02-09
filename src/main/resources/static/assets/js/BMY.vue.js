@@ -250,7 +250,7 @@ var template = {
     articlePage:
         '<div id="blog-body" class="layui-container">' +
         '   <div class="layui-row layui-col-space10">' +
-        '       <div id="blog-info" class="layui-col-md9">' +
+        '       <div id="blog-info" class="layui-col-md9 simple animated fadeInUp">' +
         '           <div class="layui-collapse layui-panel layui-article">' +
         '               <div class="layui-colla-item">' +
         '                   <div class="layui-colla-content layui-show layui-article">' +
@@ -1111,7 +1111,7 @@ Vue.component('bmy-comment', {
     }
     , methods: {
         submit: function (articleId) {
-                        debugger
+            debugger
             var h1 = BMY.tempHtml === undefined ? "" : BMY.tempHtml;
             var h2 = BMY.tempHtml2 === undefined ? "" : BMY.tempHtml2;
             var comment = h1 + "<p>" + BMY.layedit.getContent(BMY.editor).replace(h2, "") + "</p>";
