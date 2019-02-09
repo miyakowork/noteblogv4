@@ -4,6 +4,12 @@
     <meta th:replace="frontend/fragment/style"/>
     <title th:text="${article.title}"></title>
     <link href="/static/plugins/editormd/css/editormd.preview.min.css" rel="stylesheet" type="text/css">
+    <style>
+        img:hover{
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .8);
+        }
+    </style>
 </head>
 <body class="simple">
 <div id="article-app">
@@ -78,6 +84,11 @@
                     tool: ['face', '|', 'left', 'center', 'right', 'link', 'unlink']
                     , height: 150
                 });
+
+                $("body").on("click", "img", function () {
+                    var $thisImg = $(this);
+                    window.open($thisImg.attr("src"))
+                })
             }
         });
 
