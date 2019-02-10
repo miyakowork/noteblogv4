@@ -211,6 +211,7 @@ public class NBUtils implements ApplicationContextAware {
             JSONObject jsonObject = JSONUtil.parseObj(resp);
             return jsonObject.toBean(IpInfo.class);
         } catch (Exception e) {
+            log.error("返回结果：" + resp);
             log.error("解析json出错，返回结果有误", e);
             IpInfo.Info info = IpInfo.Info.builder()
                     .area("未解析到有效的地址").areaId("0")
