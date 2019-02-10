@@ -207,8 +207,21 @@ public class NBUtils implements ApplicationContextAware {
         String url = "http://ip.taobao.com/service/getIpInfo.php?ip=" + ip;
         String resp = HttpUtil.get(url);
         log.info("请求 ip.taobao.com，请求参数：{}", ip);
-        JSONObject jsonObject = JSONUtil.parseObj(resp);
-        return jsonObject.toBean(IpInfo.class);
+        try {
+            JSONObject jsonObject = JSONUtil.parseObj(resp);
+            return jsonObject.toBean(IpInfo.class);
+        } catch (Exception e) {
+            log.error("解析json出错，返回结果有误", e);
+            IpInfo.Info info = IpInfo.Info.builder()
+                    .area("未解析到有效的地址").areaId("0")
+                    .city("未解析到有效的地址").cityId("0")
+                    .country("未解析到有效的地址").countryId("0")
+                    .ip("0.0.0.0")
+                    .isp("0.0.0.0")
+                    .region("未解析到有效的地址").regionId("0").build();
+            return IpInfo.builder()
+                    .data(info).code(0).build();
+        }
     }
 
     /**
