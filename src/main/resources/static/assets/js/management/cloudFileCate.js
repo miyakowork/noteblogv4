@@ -10,8 +10,8 @@ layui.use(['table', 'element'], function () {
     element.render();
 
     table.render({
-        elem: '#project-cate-table'
-        , url: BMY.url.prefix + '/dictionary/projectCate/list'
+        elem: '#cloud-file-cate-table'
+        , url: BMY.url.prefix + '/dictionary/cloudFileCate/list'
         , page: true
         , limit: 10
         , height: 'full'
@@ -20,20 +20,20 @@ layui.use(['table', 'element'], function () {
             {field: 'id', width: 80, title: 'ID', sort: true}
             , {field: 'name', title: '分类名称', edit: 'text', sort: true}
             , {field: 'cnName', title: '分类中文名', edit: 'text', sort: true}
-            , {fixed: 'right', title: '操作', width: 178, align: 'center', toolbar: '#projectCateTableBar'}
+            , {fixed: 'right', title: '操作', width: 178, align: 'center', toolbar: '#cloudFileCateTableBar'}
         ]]
     });
 
     //监听单元格编辑
     table.on('edit(cate)', function (obj) {
-        BMY.ajax(BMY.url.prefix + "/dictionary/projectCate/update", obj.data, function (json) {
+        BMY.ajax(BMY.url.prefix + "/dictionary/cloudFileCate/update", obj.data, function (json) {
             if (json.code === BMY.status.ok) {
                 layer.msg('修改成功！')
             } else {
                 layer.msg("修改出错，错误信息：" + json.message);
             }
             setTimeout(function () {
-                location.hash = vipspa.stringifyDefault("/dictionary/projectCate");
+                location.hash = vipspa.stringifyDefault("/dictionary/cloudFileCate");
             }, 500)
         })
     });
@@ -43,7 +43,7 @@ layui.use(['table', 'element'], function () {
         var data = obj.data;
         if (obj.event === 'del') {
             layer.confirm('真的删除么?', function (index) {
-                BMY.ajax(BMY.url.prefix + "/dictionary/projectCate/delete", {cateId: data.id}, function (json) {
+                BMY.ajax(BMY.url.prefix + "/dictionary/cloudFileCate/delete", {cateId: data.id}, function (json) {
                     BMY.okMsgHandle(json, "删除成功");
                     if (json.code === BMY.status.ok) obj.del();
                     layer.close(index);
@@ -52,17 +52,17 @@ layui.use(['table', 'element'], function () {
         }
     });
 
-    $(".layui-btn[data-type=addProjectCate]").on("click", function () {
+    $(".layui-btn[data-type=addCloudFileCate]").on("click", function () {
         var index = layer.confirm($("#addProjectCatePage").html(), {
             title: '新增分类'
             , type: 1
             , area: '480px'
         }, function () {
-            BMY.ajax(BMY.url.prefix + "/dictionary/projectCate/create", {
+            BMY.ajax(BMY.url.prefix + "/dictionary/cloudFileCate/create", {
                 name: $("input.layui-input[name=name]").val()
                 , cnName: $("input.layui-input[name=cnName]").val()
             }, function (json) {
-                BMY.okHandle(json, index, "project-cate-table");
+                BMY.okHandle(json, index, "cloud-file-cate-table");
             })
         });
     });

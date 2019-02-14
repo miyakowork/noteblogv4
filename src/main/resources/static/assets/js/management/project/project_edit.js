@@ -18,7 +18,7 @@ layui.use(['element', 'form', 'layer', 'upload'], function () {
         data.field.projectCate = data.field.cateId;
         $.ajax({
             type: "post"
-            , url: BMY.url.prefix + "/project/create"
+            , url: BMY.url.prefix + "/project/update"
             , dataType: "json"
             , data: data.field
             , success: function (json) {

@@ -12,9 +12,7 @@ import me.wuwenbin.noteblogv4.util.NBUtils;
 import me.wuwenbin.noteblogv4.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -76,8 +74,7 @@ public class ProjectController extends BaseController {
     @NBAuth(value = "management:project:list_data", remark = "项目管理页面中的数据接口", group = AJAX)
     @ResponseBody
     public LayuiTable<NBProject> projectList(Pagination<NBProject> notePagination) {
-        Sort sort = getJpaSort(notePagination);
-        Pageable pageable = PageRequest.of(notePagination.getPage() - 1, notePagination.getLimit(), sort);
+        Pageable pageable = getPageable(notePagination);
         Page<NBProject> jpaPage = projectRepository.findAll(pageable);
         return layuiTable(jpaPage, pageable);
     }
@@ -113,7 +110,7 @@ public class ProjectController extends BaseController {
 
     @RequestMapping("/delete/{id}")
     @ResponseBody
-    @NBAuth(value = "management:note:delete", remark = "删除项目操作", group = AJAX)
+    @NBAuth(value = "management:project:delete", remark = "删除项目操作", group = AJAX)
     public NBR delete(@PathVariable("id") Long id) {
         return ajaxDone(id
                 , projectRepository::deleteById

@@ -1,0 +1,61 @@
+<style>
+    .layui-dialog {
+        padding-top: 25px;
+        padding-right: 20px;
+    }
+</style>
+<div class="layui-card layadmin-tabs-card">
+    <div class="layui-card-header">
+            <span class="layui-breadcrumb">
+                <a href="/management/index">首页</a>
+                <a><cite>字典管理</cite></a>
+                <a><cite>云文件分类管理</cite></a>
+            </span>
+    </div>
+</div>`
+<div class="layui-fluid layadmin-container" id="NB-cloud-file-cate-list-tab">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-sm12">
+            <div class="layui-card">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="cloudFileCateTable">
+                        <button class="layui-btn layui-btn-sm" data-type="addCloudFileCate"><i
+                                class="layui-icon">&#xe654;</i>
+                            新增云文件分类
+                        </button>
+                    </div>
+                </div>
+                <div class="layui-card-body">
+                    <table class="layui-hide" id="cloud-file-cate-table" lay-filter="cate"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="addProjectCatePage">
+    <div class="layui-container layui-dialog" style="width: 420px;">
+        <div class="layui-row">
+            <div class="layui-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">云文件分类名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" required lay-verify="required" placeholder="请输入分类名称"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">云文件分类中文名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="cnName" required lay-verify="required"
+                               placeholder="请输入分类中文名"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="cloudFileCateTableBar">
+    <a class="layui-btn layui-btn-sm" lay-event="del">删除</a>
+</script>

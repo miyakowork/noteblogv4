@@ -3,15 +3,15 @@
     <div class="layui-card-header">
         <span class="layui-breadcrumb">
             <a href="/management/index">首页</a>
-            <a><cite>发布新项目</cite></a>
+            <a><cite>发布新云文件</cite></a>
         </span>
     </div>
 </div>
-<div class="layui-fluid layadmin-container" id="NB-project-post-tab">
+<div class="layui-fluid layadmin-container" id="NB-cloud-file-post-tab">
     <div class="layui-row">
         <div id="article-post" class="layui-col-sm12">
             <div class="layui-card">
-                <div class="layui-card-header layui-elip">分享一个新项目</div>
+                <div class="layui-card-header layui-elip">分享一个新云文件</div>
                 <div class="layui-card-body">
                     <div class="layui-form">
                         <div class="layui-form-item layui-col-sm8">
@@ -30,14 +30,6 @@
                                     <option th:each="cate,cateStat:${cateList}" th:value="${cate.id}"
                                             th:text="${cate.cnName}"></option>
                                 </select>
-                            </div>
-                        </div>
-
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">封面</label>
-                            <div class="layui-upload-drag" id="projectCover">
-                                <i class="layui-icon"></i>
-                                <p>点击上传项目封面，或将封面拖拽到此处</p>
                             </div>
                         </div>
 
@@ -60,7 +52,7 @@
 
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button class="layui-btn" lay-submit lay-filter="projectSubmit">发布分享</button>
+                                <button class="layui-btn" lay-submit lay-filter="cloudFileSubmit">发布分享</button>
                             </div>
                         </div>
                     </div>

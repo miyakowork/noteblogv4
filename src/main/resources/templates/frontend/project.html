@@ -9,26 +9,21 @@
             min-height: 660px;
             margin-top: 100px;
         }
-
-        .layui-btn-primary:hover, .layui-tab-brief > .layui-tab-more li.layui-this:after, .layui-tab-brief > .layui-tab-title .layui-this:after {
-            border-color: #F44336;
-        }
-
         .layui-laypage a, .layui-laypage span {
             background-color: inherit;
         }
     </style>
 </head>
-<body class="layui-anim layui-anim-fade simple">
+<body class="simple">
 <div id="project-app">
     <bmy-header-mini :params="params" :st="false" :bodyid="bodyId" :show-small="false"
                      :project="current"></bmy-header-mini>
     <hr class="header-hr">
-    <div id="project-body" class="layui-container animated fadeInUp">
+    <div id="project-body" class="layui-container simple animated fadeInUp">
 
         <div class="fly-main" style="overflow: hidden;">
             <div class="fly-tab-border fly-case-tab">
-                <blockquote class="layui-elem-quote layui-quote-nm">{{params.project_top_notice}}</blockquote>
+                <blockquote class="layui-elem-quote">{{params.project_top_notice}}</blockquote>
             </div>
             <div class="layui-tab layui-tab-brief">
                 <ul class="layui-tab-title">
@@ -60,7 +55,7 @@
 
             </ul>
 
-            <blockquote class="layui-elem-quote layui-quote-nm" v-show="projectEmpty" style="text-align: center;">暂无数据
+            <blockquote class="layui-elem-quote" v-show="projectEmpty" style="text-align: center;">暂无数据
             </blockquote>
 
             <div id="project-page" style="text-align: center;"></div>

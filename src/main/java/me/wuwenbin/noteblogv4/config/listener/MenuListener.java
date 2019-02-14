@@ -79,6 +79,7 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
                     {"字典管理", "layui-icon layui-icon-read", new String[][]{
                             {"/management/dictionary/cate", "分类管理", "fa fa-clone"}
                             , {"/management/dictionary/projectCate", "项目分类管理", "fa fa-hdd-o"}
+                            , {"/management/dictionary/cloudFileCate", "云文件分类管理", "fa fa-hdd-o"}
                             , {"/management/dictionary/keyword", "关键字管理", "fa fa-dot-circle-o"}
                             , {"/management/dictionary/tag", "标签管理", "fa fa-tags"}
                     }},
@@ -92,6 +93,7 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
                     {"个人内容", "layui-icon layui-icon-diamond", new String[][]{
                             {"/management/profile", "关于内容", "fa fa-hdd-o"}
                             , {"/management/project", "资源项目分享", "fa fa-laptop"}
+                            , {"/management/cloudFile", "云文件分享", "fa fa-file-archive-o"}
                     }}
                     ,
                     {"消息管理", "layui-icon layui-icon-username", new String[][]{

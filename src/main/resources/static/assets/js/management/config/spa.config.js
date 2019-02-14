@@ -27,6 +27,7 @@ $(function () {
             '/settings/qrcode': {path: '/settings/qrcode', action: "/qrcode.js"},
             '/dictionary/cate': {path: '/dictionary/cate', action: '/cate.js'},
             '/dictionary/projectCate': {path: '/dictionary/projectCate', action: '/projectCate.js'},
+            '/dictionary/cloudFileCate': {path: '/dictionary/cloudFileCate', action: '/cloudFileCate.js'},
             '/dictionary/tag': {path: '/dictionary/tag', action: '/tag.js'},
             '/dictionary/keyword': {path: '/dictionary/keyword', action: '/keyword.js'},
             '/note/post': {path: '/note/post', action: '/note/note_post.js'},
@@ -38,6 +39,9 @@ $(function () {
             '/project': {path: '/project', action: '/project/project_list.js'},
             '/project/add': {path: '/project/add', action: '/project/project_add.js'},
             '/project/edit': {path: '/project/edit', action: '/project/project_edit.js'},
+            '/cloudFile': {path: '/cloudFile', action: '/cloud/cloud_file_list.js'},
+            '/cloudFile/add': {path: '/cloudFile/add', action: '/cloud/cloud_file_add.js'},
+            '/cloudFile/edit': {path: '/cloudFile/edit', action: '/cloud/cloud_file_edit.js'},
             '/comment': {path: '/comment', action: '/comment.js'},
             '/message': {path: '/message', action: '/message.js'}
         },

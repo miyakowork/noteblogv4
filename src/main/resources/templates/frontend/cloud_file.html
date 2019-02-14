@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta th:replace="frontend/fragment/style"/>
+    <title th:text="${settings.website_title+' - '+settings.menu_mine}"></title>
+    <style>
+        #cloud-file-body {
+            min-height: 660px;
+            margin-top: 100px;
+        }
+
+    </style>
+</head>
+<body class="simple">
+<div id="cloud-file-app">
+    <bmy-header-mini :params="params" :st="false" :bodyid="bodyId" :show-small="false"
+                     :mine="current"></bmy-header-mini>
+    <hr class="header-hr">
+    <div id="cloud-file-body" class="layui-container simple animated fadeInUp">
+        <blockquote class="layui-elem-quote">
+            <span class="layui-breadcrumb">
+            <a href="/">首页</a>
+            <a href="/file">文件下载</a>
+            </span>
+        </blockquote>
+        <div class="file-search">
+            <div class="layui-form">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">文件名</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">类型</label>
+                        <div class="layui-input-inline">
+                            <select name="cateId" lay-search>
+                                <option value="" th:selected="${currentId eq null || currentId eq 'null'}">全部分类</option>
+                                <option th:each="cate,cateStat:${cates}" th:value="${cate.id}"
+                                        th:text="${cate.cnName}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="filesSearch">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="layui-hide" id="files" lay-filter="files"></table>
+
+
+    </div>
+    <bmy-footer :words="params.footer_words"></bmy-footer>
+    <bottom-nav :params="params" :layui-element="elem"></bottom-nav>
+</div>
+<div th:replace="frontend/fragment/script"></div>
+<script th:inline="javascript">
+    layui.use(['element', 'table', 'form'], function () {
+        var table = layui.table;
+        var form = layui.form;
+        BMY.cloudFileVM = new Vue({
+            el: "#cloud-file-app",
+            data: {
+                params: [[${settings}]]
+                , su: [[${su}]]
+                , current: true
+                , bodyId: "cloud-file-body"
+                , elem: layui.element
+            }
+            , methods: {},
+            mounted: function () {
+                bottomNav();
+                form.render(); //更新全部
+
+                table.render({
+                    elem: '#files'
+                    , skin: "line"
+                    , height: 'full-400'
+                    , url: '/file/list'
+                    , page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                        layout: ['limit', 'count', 'prev', 'page', 'next'] //自定义分页布局
+                        , groups: 3
+                        , first: true
+                        , last: true
+                        , limit: 25
+                        , limits: [10, 15, 20, 25, 30, 35, 40, 45, 50]
+                    }
+                    , initSort: {field: 'modify', type: 'desc'}
+                    , cols: [
+                        [
+                            {field: 'id', width: 80, title: 'ID'}
+                            , {
+                            field: "cloudFileCate", title: '分类', width: 120, templet: function (d) {
+                                return d.cloudFileCate.cnName;
+                            }
+                        }
+                            , {
+                            field: 'name', minWidth: 250, title: '文件名', sort: true, templet: function (d) {
+                                return "<a href='" + d.url + "' target='_blank' style='text-decoration: underline;'>" + d.name + "</a>";
+                            }
+                        }
+                            , {
+                            field: 'post', width: 250, title: '创建日期', sort: true, templet: function (d) {
+                                return BMY.dateFormatter(d.post);
+                            }
+                        }
+                            , {
+                            field: 'url', title: '下载地址', width: 100, templet: function (d) {
+                                return "<a href='" + d.url + "' target='_blank'><i class='layui-icon layui-icon-release'></i></a>";
+                            }
+                        }
+                            , {field: 'description', minWidth: 200, title: '描述'}
+                            , {field: 'modify', hide: true, title: '修改时间'}
+                        ]
+                    ]
+
+                });
+
+                //监听排序事件
+                table.on('sort(files)', function (obj) {
+                    table.reload('files', {
+                        initSort: obj
+                        , where: {
+                            sort: obj.field
+                            , order: obj.type
+                        }
+                    });
+                });
+
+                form.on('submit(filesSearch)', function (data) {
+                    table.reload('files', {
+                        where: { //设定异步数据接口的额外参数，任意设
+                            fileName: data.field.name
+                            , cateId: data.field.cateId
+                        }
+                        , page: {
+                            curr: 1
+                        }
+                    });
+                    return false;
+                });
+
+
+            }
+        })
+    })
+
+</script>
+</body>
+</html>

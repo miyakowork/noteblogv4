@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.transaction.Transactional;
+
 /**
  * created by Wuwenbin on 2018/12/22 at 19:12
  *
@@ -29,7 +31,8 @@ public interface ProjectRepository extends JpaRepository<NBProject, Long> {
      */
     @Modifying
     @Query(nativeQuery = true, value = "update nb_project " +
-            "set cate_id = #{#project.cateId},cover=#{#project.cover},description=#{#project.description},name=#{#name},url=#{#project.url},cate_refer_id=#{#project.cateId} " +
+            "set cate_id = #{#project.cateId},cover=#{#project.cover},description=#{#project.description},name=#{#project.name},url=#{#project.url},cate_refer_id=#{#project.cateId} " +
             "where id=#{#project.id}")
+    @Transactional(rollbackOn = Exception.class)
     int updateProjectById(@Param("project") NBProject project);
 }

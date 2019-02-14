@@ -2,24 +2,24 @@
     <div class="layui-card-header">
             <span class="layui-breadcrumb">
                 <a href="/management/index">首页</a>
-                <a><cite>项目管理</cite></a>
+                <a><cite>云文件管理</cite></a>
             </span>
     </div>
 </div>
-<div class="layui-fluid layadmin-container" id="NB-project-list-tab">
+<div class="layui-fluid layadmin-container" id="NB-cloud-file-list-tab">
     <div class="layui-row layui-col-space10">
         <div class="layui-col-sm12">
             <div class="layui-card">
                 <div class="layui-form layui-card-header layuiadmin-card-header-auto">
                     <div class="profileTable">
-                        <button class="layui-btn layui-btn-sm" data-type="addProject"><i
+                        <button class="layui-btn layui-btn-sm" data-type="addCloudFile"><i
                                 class="layui-icon">&#xe654;</i>
-                            新增项目分享
+                            新增云文件分享
                         </button>
                     </div>
                 </div>
                 <div class="layui-card-body">
-                    <table class="layui-hide" id="project-table" lay-filter="project"></table>
+                    <table class="layui-hide" id="cloud-file-table" lay-filter="cloudFile"></table>
                 </div>
             </div>
         </div>
@@ -27,12 +27,12 @@
 </div>
 
 <script type="text/javascript">
-    $(".layui-btn[data-type=addProject]").on("click", function () {
-        location.hash = vipspa.stringifyDefault("/project/add");
+    $(".layui-btn[data-type=addCloudFile]").on("click", function () {
+        location.hash = vipspa.stringifyDefault("/cloudFile/add");
     });
 </script>
 
-<script type="text/html" id="projectTableBar">
-    <a class="layui-btn layui-bg-blue layui-btn-sm" lay-event="detail"><i class="layui-icon">&#xe642;</i>编辑项目内容</a>
-    <a class="layui-btn layui-bg-red layui-btn-sm" lay-event="del"><i class="layui-icon">&#xe640;</i>删除项目</a>
+<script type="text/html" id="cloudFileTableBar">
+    <a class="layui-btn layui-bg-blue layui-btn-sm" lay-event="detail"><i class="layui-icon">&#xe642;</i>编辑云文件</a>
+    <a class="layui-btn layui-bg-red layui-btn-sm" lay-event="del"><i class="layui-icon">&#xe640;</i>删除云文件</a>
 </script>

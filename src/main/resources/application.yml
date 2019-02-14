@@ -18,7 +18,7 @@ spring:
     database: mysql
     hibernate:
       ddl-auto: update
-    show-sql: false
+    show-sql: true
     database-platform: me.wuwenbin.noteblogv4.config.configuration.LocalMySQL57InnoDBDialect
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
