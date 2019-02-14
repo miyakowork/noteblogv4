@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Init.*;
 import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Init.INIT_STATUS;
+import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Init.*;
 import static me.wuwenbin.noteblogv4.model.constant.NoteBlogV4.Param.*;
 
 /**
@@ -186,6 +186,7 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
                 {MENU_LINK_ICON, INIT_MENU_LINK_ICON, "导航菜单_额外的链接的字体图标logo", "10"},
                 {MENU_LINK_HREF, StrUtil.EMPTY, "导航菜单_额外的链接url", "10"},
                 {MENU_MINE, INIT_MENU_MINE, "导航菜单_关于我", "10"},
+                {MENU_CLOUD_FILE, INIT_MENU_CLOUD_FILE, "导航菜单_云文件", "10"},
                 {WECHAT_PAY, INIT_WECHAT_PAY, "微信付款码", "11"},
                 {ALIPAY, INIT_ALIPAY, "支付宝付款码", "11"},
                 {INFO_LABEL, INIT_INFO_LABEL, "信息板内容", "10"},
@@ -214,6 +215,7 @@ public class InitListener implements ApplicationListener<ApplicationReadyEvent> 
                 {MENU_NOTE_SHOW, INIT_SURE, "导航菜单_笔记是否显示，默认显示", "10"},
                 {MENU_PROJECT_SHOW, INIT_NOT, "导航菜单_我的作品是否显示，默认不显示", "10"},
                 {MENU_MINE_SHOW, INIT_SURE, "导航菜单_关于我是否显示，默认显示", "10"},
+                {MENU_CLOUD_FILE_SHOW, INIT_SURE, "导航菜单_云文件是否显示，默认显示", "10"},
                 {MENU_SEARCH_SHOW, INIT_SURE, "导航菜单_搜索是否显示，默认显示", "10"},
                 {MENU_LINK_SHOW, INIT_NOT, "是否显示额外的导航链接（譬如github）", "10"},
                 {APP_ID, StrUtil.EMPTY, "qq登录API的app_id", "9"},

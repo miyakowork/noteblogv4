@@ -7,7 +7,7 @@
    \. \`-\  \ \\:\_\ \ \  \::\ \   \:\____/\    \::(_)  \ \\:\/___/\\:\_\ \ \\:\_\ \ \
     \__\/ \__\/ \_____\/   \__\/    \_____\/     \_______\/ \_____\/ \_____\/ \_____\/
 
-「NoteBlog Application」 designed & code By wuwenbin on July 2018 v4.0.0
+「NoteBlog Application」ver4 designed & code By wuwenbin on July 2018
 E-mail：wuwenbinwork#163.com(@ instead of #)
 qq群：697053454。
 =================================================================

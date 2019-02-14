@@ -212,6 +212,29 @@
 
                     <div class="layui-form-item">
                         <div class="layui-inline">
+                            <label class="layui-form-label">云文件导航</label>
+                            <div class="layui-input-inline">
+                                <input type="checkbox" name="menu_cloud_file_show" lay-skin="switch" lay-text="开启|关闭"
+                                       lay-filter="switchFilter" th:checked="${menu_cloud_file_show eq '1'}">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">开启则显示云文件的导航按钮链接</div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" id="cloud-file-nav" v-show="aboutShow">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">云文件名称</label>
+                            <div class="layui-input-inline" style="width: 250px;">
+                                <input type="text" name="menu_cloud_file" placeholder="请输入文本"
+                                       th:value="${menu_cloud_file}" autocomplete="off" class="layui-input"></div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn-sm layui-btn" lay-submit lay-filter="settings">提交</button>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
                             <label class="layui-form-label">搜索导航</label>
                             <div class="layui-input-inline">
                                 <input type="checkbox" name="menu_search_show" lay-skin="switch" lay-text="开启|关闭"

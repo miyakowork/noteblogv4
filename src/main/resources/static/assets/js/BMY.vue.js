@@ -77,6 +77,10 @@ var template = {
         '                       <i class="layui-icon layui-icon-form" style="font-size: 19px !important;"></i> ' +
         '                       <span>{{params.menu_note}}</span>' +
         '               </a>' +
+        '                <a v-show="params.menu_cloud_file_show == 1" href="/file" :class="{ active: file }" :data-title="params.menu_cloud_file">' +
+        '                       <i class="layui-icon layui-icon-file-b" style="font-size: 19px !important;"></i> ' +
+        '                       <span>{{params.menu_cloud_file}}</span>' +
+        '               </a>' +
         '                <a v-show="params.menu_project_show == 1" href="/project" :class="{ active: project }" :data-title="params.menu_project">' +
         '                       <i class="layui-icon layui-icon-app"></i> ' +
         '                       <span>{{params.menu_project}}</span>' +
@@ -100,6 +104,9 @@ var template = {
         '                </li>' +
         '                <li class="layui-nav-item">' +
         '                   <a href="/note" :class="{ \'layui-this\': note }"><i class="layui-icon">&#xe609;</i> {{params.menu_note}}</a>' +
+        '                </li>' +
+        '                <li class="layui-nav-item">' +
+        '                   <a href="/file" :class="{ \'layui-this\': file }"><i class="layui-icon">&#xe655;</i> {{params.menu_cloud_file}}</a>' +
         '                </li>' +
         '                <li class="layui-nav-item">' +
         '                   <a href="/profile" :class="{ \'layui-this\': mine }"><i class="layui-icon">&#xe715;</i> {{params.menu_mine}}</a>' +
@@ -640,6 +647,10 @@ Vue.component('bmy-header-mini', {
             , default: false
         }
         , mine: {
+            type: Boolean
+            , default: false
+        }
+        , file: {
             type: Boolean
             , default: false
         }

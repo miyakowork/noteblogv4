@@ -32,6 +32,7 @@ public interface NoteBlogV4 {
         String INIT_MENU_LINK = "代码";
         String INIT_MENU_LINK_ICON = "fa fa-code";
         String INIT_MENU_MINE = "关于";
+        String INIT_MENU_CLOUD_FILE = "文件";
         String INIT_ALIPAY = "/static/assets/img/alipay.png";
         String INIT_WECHAT_PAY = "/static/assets/img/wechat.png";
         String INIT_INFO_LABEL = "此处填写网站的一些信息";
@@ -130,6 +131,12 @@ public interface NoteBlogV4 {
          */
         String MENU_MINE = "menu_mine";
         String MENU_MINE_SHOW = "menu_mine_show";
+
+        /**
+         * 导航菜单_云文件
+         */
+        String MENU_CLOUD_FILE = "menu_cloud_file";
+        String MENU_CLOUD_FILE_SHOW = "menu_cloud_file_show";
 
         /**
          * 导航菜单_搜索
