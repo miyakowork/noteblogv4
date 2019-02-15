@@ -588,25 +588,14 @@ var template = {
         '                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>' +
         '                <div class="layui-timeline-content layui-text">' +
         '                    <h3 class="layui-timeline-title" style="font-size: 16px;">博客信息</h3>' +
-        '                    <p style="padding-bottom: 5px;">笔记博客（NoteLofter）：是专门为 Java 程序员提供的一套开源的笔记/博客平台，同时也可作为初学者的上手学习项目。</p>' +
-        '                    <p style="border-top: 1px solid #f5f5f5;padding-top: 5px;padding-bottom: 5px;">' +
-        '                        交流讨论：<i class="fa fa-qq"></i>' +
-        '                        <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=7bd7c01acf4e6124bfaab5a6d10504b917d5292f029b66887d00006a16a00930">' +
-        '                            697053454' +
-        '                        </a>。' +
-        '                    </p>' +
-        '                    <p style="border-top:1px solid #F5F5F5;padding-top: 5px;">' +
-        '                        项目源码：<i class="fa fa-github-alt"></i>' +
-        '                        <a target="_blank" href="https://github.com/miyakowork/noteblogv4">miyakowork/noteblogv4</a>。' +
-        '                    </p>' +
         '                </div>' +
         '            </li>' +
         '            <li class="layui-timeline-item">' +
         '                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>' +
         '                <div class="layui-timeline-content layui-text">' +
         '                    <h3 class="layui-timeline-title" style="font-size: 16px;">作者</a> </h3>' +
-        '                    <p>电子邮箱：<i class="fa fa-envelope"></i> <a href="#">wuwenbinwork#163.com</p>' +
-        '                    <p>个人网站：<i class="fa fa-link"></i> <a href="https://wuwenbin.me">https://wuwenbin.me</p>' +
+        '                    <p>电子邮箱：<i class="fa fa-envelope"></i> <a href="#"></p>' +
+        '                    <p>个人网站：<i class="fa fa-link"></i> <a href=""></p>' +
         '                </div>' +
         '            </li>' +
         '        </ul>' +

@@ -3,10 +3,10 @@ server:
   port: 80
 #项目配置
 spring:
+  jmx:
+    default-domain: yiblog
   profiles:
-    active: noteblogv4
-  application:
-    name: NoteBlogV4
+    active: dev
   #资源配置
   thymeleaf:
     cache: false
@@ -31,6 +31,11 @@ spring:
     type: simple
     #程序启动时创建的缓存名称
     cache-names: paramCache,authCache
+  # 服务模块
+  devtools:
+    restart:
+      # 热部署开关
+      enabled: true
 mybatis:
   mapper-locations: classpath:mappers/*.xml
   configuration:
