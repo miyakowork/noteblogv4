@@ -37,7 +37,7 @@ public interface LoggerRepository extends JpaRepository<NBLogger, Long> {
      * @return
      */
     @Query(nativeQuery = true,
-            value = "select DATE_FORMAT(time, '%Y-%m-%d') ,count(*) as  cnt from sys_logger group by DATE_FORMAT(time, '%Y-%m-%d') order by time desc limit ?1")
+            value = "select DATE_FORMAT(time, '%Y-%m-%d') as time ,count(*) as  cnt from sys_logger group by time order by time desc limit ?1")
     List<Object[]> findTableData(int dayDuring);
 
 
