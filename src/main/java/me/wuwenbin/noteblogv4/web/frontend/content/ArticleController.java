@@ -88,9 +88,6 @@ public class ArticleController extends BaseController {
     @RequestMapping(value = "/approve", method = RequestMethod.POST)
     @ResponseBody
     public NBR approve(@RequestParam Long articleId) {
-        return ajaxDone(
-                () -> articleRepository.updateApproveCntById(articleId) == 1,
-                () -> "点赞"
-        );
+        return ajaxDone(() -> articleRepository.updateApproveCntById(articleId) == 1, () -> "点赞");
     }
 }
