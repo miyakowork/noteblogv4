@@ -12,7 +12,7 @@ import javax.servlet.MultipartConfigElement;
  * @author wuwenbin
  */
 @Configuration
-public class ApplicationContextConfig {
+public class UploadConfig {
 
     /**
      * 文件上传临时路径
