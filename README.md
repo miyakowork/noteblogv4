@@ -1,3 +1,5 @@
+### ！！本项目已升级成noteblogv5，最新的项目请点此[链接](https://github.com/miyakowork/noteblogv5)
+
 > 获取最新信息/资源，交流讨论请加入qq群：[笔记博客 ~ 交流反馈(697053454)](https://jq.qq.com/?_wv=1027&k=5kkqBrk?_blank)
 
 ### v4.1.0-beta1(2019/02/14)
